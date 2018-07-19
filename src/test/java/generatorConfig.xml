@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <context id="mysqlStepyee" targetRuntime="MyBatis3">	
+		
+
+        <commentGenerator>
+	      <property name="suppressAllComments" value="true" />
+	      <property name="suppressDate" value="true" />
+	    </commentGenerator>
+	    
+	   
+    
+        <!-- db source -->
+       <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/jfshare?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf8"
+                        userId="root"
+                        password="123456">
+        </jdbcConnection> 
+
+        <!-- type reflect setting (type prop implements JavaTypeResolver to special type reflect)-->
+        <!-- <javaTypeResolver type="com.st.util.mybatis.generator.types.JavaTypeResolverImpl"> -->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!-- generator javeBean、example Criteria -->
+        <javaModelGenerator targetPackage="com.jfshare.eUnionPayDirectServer.mapper" targetProject="target">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- generator xml mapper -->
+        <sqlMapGenerator targetPackage="mybatis.sqlmap" targetProject="target">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.jfshare.eUnionPayDirectServer.mapper"  targetProject="target">  
+	    	<property name="enableSubPackages" value="true" />  
+	    </javaClientGenerator>
+
+      	<!--Run As  Maven build... goals mybatis-generator:generate -->
+        <table tableName="tb_direct_pay_coupon_code"
+        	enableCountByExample="true" enableUpdateByExample="true"  
+	        enableDeleteByExample="true" enableSelectByExample="true"  
+	        selectByExampleQueryId="true" >
+        	 <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+      
+    </context>
+</generatorConfiguration>

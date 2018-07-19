@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	
+	<!-- 每一次改动创建一个changeSet
+		id为文件名加序号，整个项目周期中id不可重复
+		author为修改者姓名 -->
+    <changeSet id="18-07-19-master-1" author="fengxiang">
+    	<!-- 创建表 -->
+    	<createTable tableName="demo">
+    		<!-- 创建column 
+    			type：字段类型
+    			autoIncrement：是否自增-->
+    		<column name="id" type="int" autoIncrement="true">
+    			<!-- 限制属性 -->
+            	<constraints primaryKey="true" nullable="false" />
+            </column>
+    	</createTable>
+    </changeSet>
+    
+    <!-- 每一次改动创建一个changeSet
+		id为文件名加序号，整个项目周期中id不可重复
+		author为修改者姓名 -->
+    <changeSet id="18-07-19-master-2" author="fengxiang">
+    	<!-- 新增column -->
+        <addColumn tableName="demo" >
+            <column name="status" type="tinyint(1)" remarks="状态" defaultValue="0">
+            	<constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <!-- 创建index -->
+        <createIndex tableName="demo" indexName="index_status">
+        	<column name="status"></column>
+        </createIndex>
+        <!-- 向表中插入数据 -->
+        <insert tableName="demo">
+        	<column name="status" value="1"></column>
+        </insert>
+        <!-- 修改表中数据 -->
+        <update tableName="demo">
+        	<column name="status" value="2"></column>
+        </update>
+        <!-- 更改column类型 -->
+        <modifyDataType tableName="demo" columnName="status" newDataType="int"/>
+        <!-- 删除column -->
+        <dropColumn tableName="demo" columnName="status"/>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly>
+    <id>all</id>
+    <formats>
+        <format>tar.gz</format>
+    </formats>
+
+    <fileSets>
+        <fileSet>
+            <directory>src/main/resources/scripts</directory>
+            <outputDirectory>.</outputDirectory>
+            <includes>
+                <include>*.sh</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>target/</directory>
+            <outputDirectory>.</outputDirectory>
+            <includes>
+                <include>EUnionPayDirectServer-*.jar</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+
+</assembly>
+
+

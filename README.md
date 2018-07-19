@@ -4,34 +4,67 @@
 聚分享mvp版本 的服务端
 
 #### 软件架构
-软件架构说明
 
+spring boot版本:2.0.3.RELEASE
+
+application-dev.yml 中是开发环境的配置
+
+application-prod.yml 中是正式环境的配置,这里的配置不要更改
 
 #### 安装教程
 
-1. xxxx
-2. xxxx
-3. xxxx
 
 #### 使用说明
 
-1. xxxx
-2. xxxx
+1. liquibase 使用说明
+用于数据库版本管理，启动server时自动执行数据库改动
+使用示例：
+
+	<!-- 每一次改动创建一个changeSet
+		id为文件名加序号，整个项目周期中id不可重复
+		author为修改者姓名 -->
+    <changeSet id="18-07-19-master-1" author="fengxiang">
+    		<!-- 创建表 -->
+    		<createTable tableName="demo">
+    			<!-- 创建column 
+    				type：字段类型
+    				autoIncrement：是否自增-->
+    			<column name="id" type="int" autoIncrement="true">
+    				<!-- 限制属性 -->
+            		<constraints primaryKey="true" nullable="false" />
+            	</column>
+    		</createTable>
+    	</changeSet>
+    	<!-- 每一次改动创建一个changeSet
+		id为文件名加序号，整个项目周期中id不可重复
+		author为修改者姓名 -->
+    <changeSet id="18-07-19-master-2" author="fengxiang">
+    	<!-- 新增column -->
+        <addColumn tableName="demo" >
+            <column name="status" type="tinyint(1)" remarks="状态" defaultValue="0">
+            	<constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <!-- 创建index -->
+        <createIndex tableName="demo" indexName="index_status">
+        		<column name="status"></column>
+        </createIndex>
+        <!-- 向表中插入数据 -->
+        <insert tableName="demo">
+        		<column name="status" value="1"></column>
+        </insert>
+        <!-- 修改表中数据 -->
+        <update tableName="demo">
+        		<column name="status" value="2"></column>
+        </update>
+        <!-- 更改column类型 -->
+        <modifyDataType tableName="demo" columnName="status" newDataType="int"/>
+        <!-- 删除column -->
+        <dropColumn tableName="demo" columnName="status"/>
+    </changeSet>
+2. MyBatis
+	使用MybatisMapperGeneral来生成mapper和实体类
+	自动生成的mapper.xml放在resources/mybatis/mappers中
+	自定义的mapper.xml放在resources/mybatis/mappers/manual中
+	
 3. xxxx
-
-#### 参与贡献
-
-1. Fork 本项目
-2. 新建 Feat_xxx 分支
-3. 提交代码
-4. 新建 Pull Request
-
-
-#### 码云特技
-
-1. 使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2. 码云官方博客 [blog.gitee.com](https://blog.gitee.com)
-3. 你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
-4. [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
-5. 码云官方提供的使用手册 [http://git.mydoc.io/](http://git.mydoc.io/)
-6. 码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
