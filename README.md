@@ -17,8 +17,11 @@ application-prod.yml 中是正式环境的配置,这里的配置不要更改
 #### 使用说明
 
 1. liquibase 使用说明
-用于数据库版本管理，启动server时自动执行数据库改动 </br>
-具体参考http://www.liquibase.org/documentation/ </br>
+
+用于数据库版本管理，启动server时自动执行数据库改动 
+
+具体参考http://www.liquibase.org/documentation/
+
 使用示例：
 
 <!-- 每一次改动创建一个changeSet
@@ -64,8 +67,11 @@ application-prod.yml 中是正式环境的配置,这里的配置不要更改
         <dropColumn tableName="demo" columnName="status"/>
     </changeSet>
 2. MyBatis
-	使用MybatisMapperGeneral来生成mapper和实体类
-	自动生成的mapper.xml放在resources/mybatis/mappers中
-	自定义的mapper.xml放在resources/mybatis/mappers/manual中
+
+使用MybatisMapperGeneral来生成mapper和实体类
+	
+自动生成的mapper.xml放在resources/mybatis/mappers中
+	
+自定义的mapper.xml放在resources/mybatis/mappers/manual中
 	
 3. xxxx

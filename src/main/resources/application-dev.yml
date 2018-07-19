@@ -1,12 +1,8 @@
-server: 
-  port: 18888
-  address: 0.0.0.0
-  servlet:
-    context-path: /charge
-liquibase: 
-  enabled: true 
-  change-log: classpath:/dbChangeLog/changelog-master.xml
+enableApi: true
 spring: 
+  liquibase: 
+    enabled: true 
+    change-log: classpath:/dbChangeLog/changelog-master.xml
   jackson: 
     date-format: "yyyy-MM-dd HH:mm:ss" 
     time-zone: GMT+8
@@ -14,9 +10,9 @@ spring:
     name: EUnionPayDirectServer
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://rm-2zemlbv21u27044s3xo.mysql.rds.aliyuncs.com:3306/jfshare_office_pre?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&autoReconnect=true
-    username: jfshare_off_dev
-    password: Jfshare123
+    url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&autoReconnect=true
+    username: root
+    password: 123456
     type: com.alibaba.druid.pool.DruidDataSource
     filters: stat
     maxActive: 20

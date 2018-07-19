@@ -10,7 +10,7 @@
 	<!-- 每一次改动创建一个changeSet
 		id为文件名加序号，整个项目周期中id不可重复
 		author为修改者姓名 -->
-    <changeSet id="18-07-19-master-1" author="fengxiang">
+    <changeSet id="v1-0-0-master-1" author="fengxiang">
     	<!-- 创建表 -->
     	<createTable tableName="demo">
     		<!-- 创建column 
@@ -26,7 +26,7 @@
     <!-- 每一次改动创建一个changeSet
 		id为文件名加序号，整个项目周期中id不可重复
 		author为修改者姓名 -->
-    <changeSet id="18-07-19-master-2" author="fengxiang">
+    <changeSet id="v1-0-0-master-2" author="fengxiang">
     	<!-- 新增column -->
         <addColumn tableName="demo" >
             <column name="status" type="tinyint(1)" remarks="状态" defaultValue="0">
