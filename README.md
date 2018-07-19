@@ -20,7 +20,7 @@ application-prod.yml 中是正式环境的配置,这里的配置不要更改
 用于数据库版本管理，启动server时自动执行数据库改动
 使用示例：
 
-	<!-- 每一次改动创建一个changeSet
+<!-- 每一次改动创建一个changeSet
 		id为文件名加序号，整个项目周期中id不可重复
 		author为修改者姓名 -->
     <changeSet id="18-07-19-master-1" author="fengxiang">
