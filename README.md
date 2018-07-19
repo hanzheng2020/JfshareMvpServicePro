@@ -17,7 +17,8 @@ application-prod.yml 中是正式环境的配置,这里的配置不要更改
 #### 使用说明
 
 1. liquibase 使用说明
-用于数据库版本管理，启动server时自动执行数据库改动
+用于数据库版本管理，启动server时自动执行数据库改动 </br>
+具体参考http://www.liquibase.org/documentation/ </br>
 使用示例：
 
 <!-- 每一次改动创建一个changeSet
