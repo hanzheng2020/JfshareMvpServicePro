@@ -11,6 +11,8 @@ application-dev.yml 中是开发环境的配置
 
 application-prod.yml 中是正式环境的配置,这里的配置不要更改
 
+API地址:http://{ip}:{port}/swagger-ui.html
+
 #### 安装教程
 
 
