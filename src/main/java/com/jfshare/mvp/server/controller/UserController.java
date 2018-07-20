@@ -18,7 +18,7 @@ import io.swagger.annotations.ApiOperation;
  * @author fengxiang
  * @date 2018-07-19
  */
-@Api(value="api", tags="用户模块相关API")
+@Api(value="api", tags="个人中心模块相关API")
 @RestController
 @RequestMapping("/user")
 public class UserController {

@@ -26,8 +26,9 @@ import org.springframework.util.Assert;
 @EnableCaching
 public class CacheConfig {
 	
+	@SuppressWarnings("rawtypes")
 	@Autowired  
-    private RedisTemplate<String, Object> redisTemplate;
+    private RedisTemplate redisTemplate;
 	
 	//缓存失效时间5分钟
 	private long expireTime = 5;
