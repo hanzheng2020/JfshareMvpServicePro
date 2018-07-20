@@ -1,5 +1,6 @@
 package com.jfshare.mvp.server.config;
 
+import javax.annotation.Resource;
 import javax.jms.Queue;
 
 import org.apache.activemq.command.ActiveMQQueue;

@@ -1,4 +1,7 @@
-enableApi: false
+enableApi: true
+server: 
+  port: 18888
+  address: 0.0.0.0
 spring: 
   liquibase: 
     enabled: true 

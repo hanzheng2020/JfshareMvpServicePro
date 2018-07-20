@@ -50,4 +50,9 @@
         <!-- 删除column -->
         <dropColumn tableName="demo" columnName="status"/>
     </changeSet>
+    <changeSet id="v1-0-0-master-3" author="fengxiang">
+    	<sqlFile path=""/>
+    	<sql>delete from demo;</sql>
+    	<comment>For Test!</comment>
+    </changeSet>
 </databaseChangeLog>
