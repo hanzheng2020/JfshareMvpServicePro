@@ -39,9 +39,8 @@ public class XmlUtils {
 			if (value instanceof Map) {
 				Map<String, Object> valueMap = (Map<String, Object>) value;
 				element = createElement(valueMap, element);
-			}
-			if (value instanceof String) {
-				element.setText(value.toString());
+			} else {
+				element.setText(JSON.toJSONString(value));
 			}
 		}
 		logger.info("mapToXml end: {}", doc.getRootElement().asXML());
@@ -55,9 +54,8 @@ public class XmlUtils {
 			if (value instanceof Map) {
 				Map<String, Object> valueMap = (Map<String, Object>) value;
 				newElement = createElement(valueMap, newElement);
-			}
-			if (value instanceof String) {
-				newElement.setText(value.toString());
+			} else {
+				newElement.setText(JSON.toJSONString(value));
 			}
 		}
 		return element;
