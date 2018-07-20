@@ -6,8 +6,8 @@ source /etc/profile
 
 ## service name
 #########################    change   ######################################
-SERVICE_NAME=EUnionPayDirectServer-1.0.0
-APP_NAME=com.jfshare.EUnionPayDirectServer
+SERVICE_NAME=JfshareMvpServerPro-1.0.0
+APP_NAME=com.jfshare.JfshareMvpServerPro
 
 
 ###################     do not change   ###################
