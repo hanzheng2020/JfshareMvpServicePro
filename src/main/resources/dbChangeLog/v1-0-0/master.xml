@@ -6,53 +6,60 @@
         xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
-	
+	<changeSet id="v1-0-0-master-1" author="fengxiang">
+		<comment>for bug #123</comment>
+		<createTable tableName="tb_user">
+			<column name="id" type="int" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false"/>
+			</column>
+			<column name="name" type="varchar(20)"></column>
+		</createTable>
+	</changeSet>
 	<!-- 每一次改动创建一个changeSet
 		id为文件名加序号，整个项目周期中id不可重复
 		author为修改者姓名 -->
-    <changeSet id="v1-0-0-master-1" author="fengxiang">
-    	<!-- 创建表 -->
+    <!-- <changeSet id="v1-0-0-master-1" author="fengxiang">
+    	创建表
     	<createTable tableName="demo">
-    		<!-- 创建column 
+    		创建column 
     			type：字段类型
-    			autoIncrement：是否自增-->
+    			autoIncrement：是否自增
     		<column name="id" type="int" autoIncrement="true">
-    			<!-- 限制属性 -->
+    			限制属性
             	<constraints primaryKey="true" nullable="false" />
             </column>
+            <column name="name" type="varchar">
+            	<constraints nullable="false" />
+            </column>
     	</createTable>
-    </changeSet>
+    </changeSet> -->
     
     <!-- 每一次改动创建一个changeSet
 		id为文件名加序号，整个项目周期中id不可重复
 		author为修改者姓名 -->
-    <changeSet id="v1-0-0-master-2" author="fengxiang">
-    	<!-- 新增column -->
+    <!-- <changeSet id="v1-0-0-master-2" author="fengxiang">
+    	新增column
         <addColumn tableName="demo" >
             <column name="status" type="tinyint(1)" remarks="状态" defaultValue="0">
             	<constraints nullable="false"/>
             </column>
         </addColumn>
-        <!-- 创建index -->
+        创建index
         <createIndex tableName="demo" indexName="index_status">
         	<column name="status"></column>
         </createIndex>
-        <!-- 向表中插入数据 -->
+        向表中插入数据
         <insert tableName="demo">
         	<column name="status" value="1"></column>
         </insert>
-        <!-- 修改表中数据 -->
+        修改表中数据
         <update tableName="demo">
         	<column name="status" value="2"></column>
         </update>
-        <!-- 更改column类型 -->
+        更改column类型
         <modifyDataType tableName="demo" columnName="status" newDataType="int"/>
-        <!-- 删除column -->
+        删除column
         <dropColumn tableName="demo" columnName="status"/>
-    </changeSet>
-    <changeSet id="v1-0-0-master-3" author="fengxiang">
-    	<sqlFile path=""/>
-    	<sql>delete from demo;</sql>
-    	<comment>For Test!</comment>
-    </changeSet>
+    </changeSet> -->
+    
 </databaseChangeLog>

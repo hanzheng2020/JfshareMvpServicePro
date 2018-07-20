@@ -14,6 +14,7 @@ import com.ctrip.framework.apollo.ConfigService;
  */
 @Component
 public class ConfigManager {
+	
 
     protected static final Logger logger = LoggerFactory
             .getLogger(ConfigManager.class);

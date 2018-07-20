@@ -12,7 +12,6 @@ import com.jfshare.mvp.server.constants.ResultConstant;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 
 /**
  * 用户管理
@@ -26,20 +25,22 @@ public class UserController {
 	
 	@ApiOperation(value="查询用户", notes="用id来查询用户")
 	@GetMapping
-	public ResultConstant getUser(
-								  @ApiParam(value="用户id")
-								  @RequestParam(value="id", required=true) 
-	 							  Integer id) {
+	public ResultConstant getUser(@RequestParam(value="id", required=true) 
+	 							  String id) {
+		id.split(",");
 		return ResultConstant.ofSuccess();
 	}
+	
 	@PostMapping
 	public void postUser() {
 		
 	}
+	
 	@PutMapping
 	public void putUser() {
 		
 	}
+	
 	@DeleteMapping
 	public void deleteUser() {
 		
