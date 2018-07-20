@@ -1,0 +1,28 @@
+package com.jfshare.mvp.server.mapper;
+
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+
+public interface TbJvjindouRuleMapper {
+    long countByExample(TbJvjindouRuleExample example);
+
+    int deleteByExample(TbJvjindouRuleExample example);
+
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(TbJvjindouRule record);
+
+    int insertSelective(TbJvjindouRule record);
+
+    List<TbJvjindouRule> selectByExample(TbJvjindouRuleExample example);
+
+    TbJvjindouRule selectByPrimaryKey(Integer id);
+
+    int updateByExampleSelective(@Param("record") TbJvjindouRule record, @Param("example") TbJvjindouRuleExample example);
+
+    int updateByExample(@Param("record") TbJvjindouRule record, @Param("example") TbJvjindouRuleExample example);
+
+    int updateByPrimaryKeySelective(TbJvjindouRule record);
+
+    int updateByPrimaryKey(TbJvjindouRule record);
+}

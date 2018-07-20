@@ -16,9 +16,9 @@
     
         <!-- db source -->
        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/jfshare?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf8"
-                        userId="root"
-                        password="123456">
+                        connectionURL="jdbc:mysql://localhost:3306/dbgirl?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf8"
+                        userId="sa"
+                        password="1234">
         </jdbcConnection> 
 
         <!-- type reflect setting (type prop implements JavaTypeResolver to special type reflect)-->
@@ -43,7 +43,14 @@
 	    </javaClientGenerator>
 
       	<!--Run As  Maven build... goals mybatis-generator:generate -->
-        <table tableName="tb_direct_pay_coupon_code"
+        <table tableName="tb_jvjindou_rule"
+        	enableCountByExample="true" enableUpdateByExample="true"  
+	        enableDeleteByExample="true" enableSelectByExample="true"  
+	        selectByExampleQueryId="true" >
+        	 <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        
+        <table tableName="tb_level_info"
         	enableCountByExample="true" enableUpdateByExample="true"  
 	        enableDeleteByExample="true" enableSelectByExample="true"  
 	        selectByExampleQueryId="true" >
