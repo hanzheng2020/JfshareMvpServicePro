@@ -12,7 +12,6 @@ import org.springframework.cache.annotation.EnableCaching;
  */
 @SpringBootApplication
 @MapperScan("com.jfshare.mvp.server.mapper")
-@EnableCaching
 public class JfshareMvpServer implements CommandLineRunner{
     public static void main( String[] args ) {
         SpringApplication.run(JfshareMvpServer.class, args);

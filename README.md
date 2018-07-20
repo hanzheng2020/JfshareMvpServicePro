@@ -76,4 +76,10 @@ API地址:http://{ip}:{port}/swagger-ui.html
 	
 自定义的mapper.xml放在resources/mybatis/mappers/manual中
 	
-3. xxxx
+3. Spring Cache
+
+@Cacheable(cacheNames = "demo") 设置缓存，用于获取资源的方法上
+
+@CacheEvict(cacheNames = "demo") 删除缓存，用于删除资源的方法上
+
+@CachePut(cacheNames = "demo", key = "#id") 更新缓存，用于更新资源的方法上
