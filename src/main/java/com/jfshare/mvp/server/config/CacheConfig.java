@@ -37,20 +37,10 @@ public class CacheConfig {
 	
 	@Bean
 	public CacheManager cacheManager() {
-		DefaultFormattingConversionService conversionService = new DefaultFormattingConversionService();
-		registerDefaultConverters(conversionService);
 	    RedisCacheManager cacheManager= new RedisCacheManager(
 	    		RedisCacheWriter.nonLockingRedisCacheWriter(redisTemplate.getConnectionFactory()), 
 	    		RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMillis(expireTime)).prefixKeysWith(prefix));
 	    
 	    return cacheManager;
-	}
-	
-	private static void registerDefaultConverters(ConverterRegistry registry) {
-
-		Assert.notNull(registry, "ConverterRegistry must not be null!");
-
-		registry.addConverter(String.class, byte[].class, source -> source.getBytes(StandardCharsets.UTF_8));
-		registry.addConverter(SimpleKey.class, String.class, SimpleKey::toString);
 	}
 }
