@@ -13,6 +13,12 @@ application-prod.yml 中是正式环境的配置,这里的配置不要更改
 
 API地址:http://{ip}:{port}/swagger-ui.html
 
+AdminController：后台管理模块
+
+ShopController：商城模块
+
+UserController：个人中心模块
+
 #### 安装教程
 
 
