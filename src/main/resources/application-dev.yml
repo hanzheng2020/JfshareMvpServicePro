@@ -45,6 +45,11 @@ spring:
     port: 5672
     username: admin
     password: admin
+  data:
+    elasticsearch:
+      cluster-nodes: 39.106.208.144:9300
+      repositories:
+        enabled: true
 logging:
   config:
    classpath:logback-boot.xml
