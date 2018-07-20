@@ -18,13 +18,11 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/admin")
 public class AdminController {
 	
-	/**
-	 * 
-	 * @return
-	 */
-	@ApiOperation(value="", notes="")
-	@GetMapping("/promotion")
-	public ResultConstant promotion() {
+	@ApiOperation(value="更新推广商品", 
+			notes="根据传入的推广编号，重新配置推广商品")
+	@GetMapping("/promotionProducts")
+	public ResultConstant updatePromotionProducts() {
 		return null;
 	}
+	
 }
