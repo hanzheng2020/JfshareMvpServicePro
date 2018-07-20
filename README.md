@@ -82,4 +82,6 @@ API地址:http://{ip}:{port}/swagger-ui.html
 
 @CacheEvict(cacheNames = "demo") 删除缓存，用于删除资源的方法上
 
-@CachePut(cacheNames = "demo", key = "#id") 更新缓存，用于更新资源的方法上
+@CachePut(cacheNames = "demo") 更新缓存，用于更新资源的方法上
+
+详细使用说明可参考https://www.cnblogs.com/fashflying/p/6908028.html
