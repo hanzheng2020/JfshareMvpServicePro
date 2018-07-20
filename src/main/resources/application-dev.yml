@@ -7,12 +7,12 @@ spring:
     date-format: "yyyy-MM-dd HH:mm:ss" 
     time-zone: GMT+8
   application: 
-    name: EUnionPayDirectServer
+    name: JfshareMvpServerPro
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&autoReconnect=true
-    username: root
-    password: 123456
+    url: jdbc:mysql://rm-2zemlbv21u27044s3xo.mysql.rds.aliyuncs.com:3306/db_jfshare_mvp_dev?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&autoReconnect=true
+    username: jfshare_off_dev
+    password: Jfshare123
     type: com.alibaba.druid.pool.DruidDataSource
     filters: stat
     maxActive: 20
@@ -26,7 +26,17 @@ spring:
     testOnBorrow: false
     testOnReturn: false
     poolPreparedStatements: true
-    maxOpenPreparedStatements: 20 
+    maxOpenPreparedStatements: 20
+  redis:
+    host: 120.24.153.155
+    port: 26379
+    database: 0
+    password: Jfshare888
+    pool:
+      max-idle:  8
+      min-idle:  0
+      max-active:  8
+      max-wait:  -1
 logging:
   config:
    classpath:logback-boot.xml

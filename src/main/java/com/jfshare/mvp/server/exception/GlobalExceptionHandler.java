@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -28,8 +29,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResultConstant runtimeExceptionHandler(HttpServletRequest request,  
             Exception exception) {
-    	exception.printStackTrace();
-    	logger.error(exception.getMessage(), exception);
-        return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, ResultConstant.FAIL_CODE_SYSTEM_ERROR_DESC);
+    	if (exception instanceof MissingServletRequestParameterException) {
+    		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, ResultConstant.FAIL_CODE_PARAM_ERROR_DESC);
+    	} else {
+    		exception.printStackTrace();
+        	logger.error(exception.getMessage(), exception);
+    		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, ResultConstant.FAIL_CODE_SYSTEM_ERROR_DESC);
+    	}
     }
 }
