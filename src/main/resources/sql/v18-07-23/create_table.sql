@@ -20,16 +20,16 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_level_info`;
 CREATE TABLE `tb_level_info` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '����',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '锟斤拷锟斤拷',
   `userId` int(10) DEFAULT NULL COMMENT 'userId',
-  `create_time` datetime DEFAULT NULL COMMENT '����ʱ��',
-  `update_time` datetime DEFAULT NULL COMMENT '�޸�ʱ��',
-  `score` int(11) DEFAULT NULL COMMENT '�ɳ���',
-  `levle` char(1) DEFAULT NULL COMMENT '�ȼ�',
-  `jvjindou` int(11) DEFAULT NULL COMMENT '�۽�',
-  `levle_beyond` int(11) DEFAULT NULL COMMENT '������ǰ�ȼ��ɳ���',
-  `real_jvjindou` int(11) DEFAULT NULL COMMENT '��Ч�۽�',
-  `remark` varchar(200) DEFAULT NULL COMMENT '�����ֶ�',
+  `create_time` datetime DEFAULT NULL COMMENT '锟斤拷锟斤拷时锟斤拷',
+  `update_time` datetime DEFAULT NULL COMMENT '锟睫革拷时锟斤拷',
+  `score` int(11) DEFAULT NULL COMMENT '锟缴筹拷锟斤拷',
+  `levle` char(1) DEFAULT NULL COMMENT '锟饺硷拷',
+  `jvjindou` int(11) DEFAULT NULL COMMENT '锟桔斤拷',
+  `levle_beyond` int(11) DEFAULT NULL COMMENT '锟斤拷锟斤拷锟斤拷前锟饺硷拷锟缴筹拷锟斤拷',
+  `real_jvjindou` int(11) DEFAULT NULL COMMENT '锟斤拷效锟桔斤拷',
+  `remark` varchar(200) DEFAULT NULL COMMENT '锟斤拷锟斤拷锟街讹拷',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -39,13 +39,13 @@ CREATE TABLE `tb_level_info` (
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_jvjindou_rule`;
 CREATE TABLE `tb_jvjindou_rule` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '����',
-  `create_time` datetime DEFAULT NULL COMMENT '����ʱ��',
-  `giving_rule` char(255) DEFAULT NULL COMMENT '���͹���',
-  `random_giving_min` int(11) DEFAULT NULL COMMENT '���������С��',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '锟斤拷锟斤拷',
+  `create_time` datetime DEFAULT NULL COMMENT '锟斤拷锟斤拷时锟斤拷',
+  `giving_rule` char(255) DEFAULT NULL COMMENT '锟斤拷锟酵癸拷锟斤拷',
+  `random_giving_min` int(11) DEFAULT NULL COMMENT '锟斤拷锟斤拷锟斤拷锟斤拷锟叫★拷锟�',
   `random_giving_max` int(11) DEFAULT NULL,
-  `fixed_giving` int(11) DEFAULT NULL COMMENT '�̶�����ֵ',
-  `update_time` datetime DEFAULT NULL COMMENT '�޸�ʱ��',
+  `fixed_giving` int(11) DEFAULT NULL COMMENT '锟教讹拷锟斤拷锟斤拷值',
+  `update_time` datetime DEFAULT NULL COMMENT '锟睫革拷时锟斤拷',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -80,3 +80,22 @@ CREATE TABLE `tb_product_promotion` (
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for tb_jf_raiders
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_jf_raiders`;
+CREATE TABLE `tb_jf_raiders` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(300) NOT NULL COMMENT '标题',
+  `content` blob NOT NULL COMMENT '内容',
+  `create_ime` datetime NOT NULL COMMENT '创建时间',
+  `img_url` varchar(300) DEFAULT NULL COMMENT '图片路径',
+  `release_time` datetime DEFAULT NULL COMMENT '发布时间',
+  `create_user` varchar(255) DEFAULT NULL COMMENT '创建用户',
+  `status` int(2) NOT NULL COMMENT '状态(1:新建，2:发布)',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='积分攻略表';
