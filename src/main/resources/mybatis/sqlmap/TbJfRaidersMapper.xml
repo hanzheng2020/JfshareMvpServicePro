@@ -4,6 +4,912 @@
   <resultMap id="BaseResultMap" type="com.jfshare.mvp.server.mapper.TbJfRaiders">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="img_url" jdbcType="VARCHAR" property="imgUrl" />
+    <result column="release_time" jdbcType="TIMESTAMP" property="releaseTime" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.jfshare.mvp.server.mapper.TbJfRaiders">
+    <result column="content" jdbcType="LONGVARBINARY" property="content" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, title, create_time, img_url, release_time, create_user, status
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.jfshare.mvp.server.mapper.TbJfRaidersExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_jf_raiders
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.jfshare.mvp.server.mapper.TbJfRaidersExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from tb_jf_raiders
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_jf_raiders
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_jf_raiders
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.jfshare.mvp.server.mapper.TbJfRaidersExample">
+    delete from tb_jf_raiders
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.jfshare.mvp.server.mapper.TbJfRaiders">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_jf_raiders (title, create_time, img_url, 
+      release_time, create_user, status, 
+      content)
+    values (#{title,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{imgUrl,jdbcType=VARCHAR}, 
+      #{releaseTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{content,jdbcType=LONGVARBINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jfshare.mvp.server.mapper.TbJfRaiders">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_jf_raiders
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        title,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="imgUrl != null">
+        img_url,
+      </if>
+      <if test="releaseTime != null">
+        release_time,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="imgUrl != null">
+        #{imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseTime != null">
+        #{releaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.jfshare.mvp.server.mapper.TbJfRaidersExample" resultType="java.lang.Long">
+    select count(*) from tb_jf_raiders
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_jf_raiders
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.imgUrl != null">
+        img_url = #{record.imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.releaseTime != null">
+        release_time = #{record.releaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update tb_jf_raiders
+    set id = #{record.id,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      img_url = #{record.imgUrl,jdbcType=VARCHAR},
+      release_time = #{record.releaseTime,jdbcType=TIMESTAMP},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      content = #{record.content,jdbcType=LONGVARBINARY}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_jf_raiders
+    set id = #{record.id,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      img_url = #{record.imgUrl,jdbcType=VARCHAR},
+      release_time = #{record.releaseTime,jdbcType=TIMESTAMP},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jfshare.mvp.server.mapper.TbJfRaiders">
+    update tb_jf_raiders
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="imgUrl != null">
+        img_url = #{imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseTime != null">
+        release_time = #{releaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.jfshare.mvp.server.mapper.TbJfRaiders">
+    update tb_jf_raiders
+    set title = #{title,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      img_url = #{imgUrl,jdbcType=VARCHAR},
+      release_time = #{releaseTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARBINARY}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jfshare.mvp.server.mapper.TbJfRaiders">
+    update tb_jf_raiders
+    set title = #{title,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      img_url = #{imgUrl,jdbcType=VARCHAR},
+      release_time = #{releaseTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.jfshare.mvp.server.mapper.TbJfRaiders">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="create_ime" jdbcType="TIMESTAMP" property="createIme" />
+    <result column="img_url" jdbcType="VARCHAR" property="imgUrl" />
+    <result column="release_time" jdbcType="TIMESTAMP" property="releaseTime" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.jfshare.mvp.server.mapper.TbJfRaiders">
+    <result column="content" jdbcType="LONGVARBINARY" property="content" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, title, create_ime, img_url, release_time, create_user, status
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.jfshare.mvp.server.mapper.TbJfRaidersExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_jf_raiders
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.jfshare.mvp.server.mapper.TbJfRaidersExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from tb_jf_raiders
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_jf_raiders
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_jf_raiders
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.jfshare.mvp.server.mapper.TbJfRaidersExample">
+    delete from tb_jf_raiders
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.jfshare.mvp.server.mapper.TbJfRaiders">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_jf_raiders (title, create_ime, img_url, 
+      release_time, create_user, status, 
+      content)
+    values (#{title,jdbcType=VARCHAR}, #{createIme,jdbcType=TIMESTAMP}, #{imgUrl,jdbcType=VARCHAR}, 
+      #{releaseTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{content,jdbcType=LONGVARBINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jfshare.mvp.server.mapper.TbJfRaiders">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_jf_raiders
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        title,
+      </if>
+      <if test="createIme != null">
+        create_ime,
+      </if>
+      <if test="imgUrl != null">
+        img_url,
+      </if>
+      <if test="releaseTime != null">
+        release_time,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="createIme != null">
+        #{createIme,jdbcType=TIMESTAMP},
+      </if>
+      <if test="imgUrl != null">
+        #{imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseTime != null">
+        #{releaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.jfshare.mvp.server.mapper.TbJfRaidersExample" resultType="java.lang.Long">
+    select count(*) from tb_jf_raiders
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_jf_raiders
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createIme != null">
+        create_ime = #{record.createIme,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.imgUrl != null">
+        img_url = #{record.imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.releaseTime != null">
+        release_time = #{record.releaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update tb_jf_raiders
+    set id = #{record.id,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      create_ime = #{record.createIme,jdbcType=TIMESTAMP},
+      img_url = #{record.imgUrl,jdbcType=VARCHAR},
+      release_time = #{record.releaseTime,jdbcType=TIMESTAMP},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      content = #{record.content,jdbcType=LONGVARBINARY}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_jf_raiders
+    set id = #{record.id,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      create_ime = #{record.createIme,jdbcType=TIMESTAMP},
+      img_url = #{record.imgUrl,jdbcType=VARCHAR},
+      release_time = #{record.releaseTime,jdbcType=TIMESTAMP},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jfshare.mvp.server.mapper.TbJfRaiders">
+    update tb_jf_raiders
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="createIme != null">
+        create_ime = #{createIme,jdbcType=TIMESTAMP},
+      </if>
+      <if test="imgUrl != null">
+        img_url = #{imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseTime != null">
+        release_time = #{releaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.jfshare.mvp.server.mapper.TbJfRaiders">
+    update tb_jf_raiders
+    set title = #{title,jdbcType=VARCHAR},
+      create_ime = #{createIme,jdbcType=TIMESTAMP},
+      img_url = #{imgUrl,jdbcType=VARCHAR},
+      release_time = #{releaseTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARBINARY}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jfshare.mvp.server.mapper.TbJfRaiders">
+    update tb_jf_raiders
+    set title = #{title,jdbcType=VARCHAR},
+      create_ime = #{createIme,jdbcType=TIMESTAMP},
+      img_url = #{imgUrl,jdbcType=VARCHAR},
+      release_time = #{releaseTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.jfshare.mvp.server.mapper.TbJfRaiders">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="create_ime" jdbcType="TIMESTAMP" property="createIme" />
+    <result column="img_url" jdbcType="VARCHAR" property="imgUrl" />
+    <result column="release_time" jdbcType="TIMESTAMP" property="releaseTime" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.jfshare.mvp.server.mapper.TbJfRaiders">
+    <result column="content" jdbcType="LONGVARBINARY" property="content" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, title, create_ime, img_url, release_time, create_user, status
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.jfshare.mvp.server.mapper.TbJfRaidersExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_jf_raiders
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.jfshare.mvp.server.mapper.TbJfRaidersExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from tb_jf_raiders
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_jf_raiders
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_jf_raiders
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.jfshare.mvp.server.mapper.TbJfRaidersExample">
+    delete from tb_jf_raiders
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.jfshare.mvp.server.mapper.TbJfRaiders">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_jf_raiders (title, create_ime, img_url, 
+      release_time, create_user, status, 
+      content)
+    values (#{title,jdbcType=VARCHAR}, #{createIme,jdbcType=TIMESTAMP}, #{imgUrl,jdbcType=VARCHAR}, 
+      #{releaseTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{content,jdbcType=LONGVARBINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jfshare.mvp.server.mapper.TbJfRaiders">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_jf_raiders
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        title,
+      </if>
+      <if test="createIme != null">
+        create_ime,
+      </if>
+      <if test="imgUrl != null">
+        img_url,
+      </if>
+      <if test="releaseTime != null">
+        release_time,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="createIme != null">
+        #{createIme,jdbcType=TIMESTAMP},
+      </if>
+      <if test="imgUrl != null">
+        #{imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseTime != null">
+        #{releaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.jfshare.mvp.server.mapper.TbJfRaidersExample" resultType="java.lang.Long">
+    select count(*) from tb_jf_raiders
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_jf_raiders
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createIme != null">
+        create_ime = #{record.createIme,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.imgUrl != null">
+        img_url = #{record.imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.releaseTime != null">
+        release_time = #{record.releaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update tb_jf_raiders
+    set id = #{record.id,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      create_ime = #{record.createIme,jdbcType=TIMESTAMP},
+      img_url = #{record.imgUrl,jdbcType=VARCHAR},
+      release_time = #{record.releaseTime,jdbcType=TIMESTAMP},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      content = #{record.content,jdbcType=LONGVARBINARY}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_jf_raiders
+    set id = #{record.id,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      create_ime = #{record.createIme,jdbcType=TIMESTAMP},
+      img_url = #{record.imgUrl,jdbcType=VARCHAR},
+      release_time = #{record.releaseTime,jdbcType=TIMESTAMP},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jfshare.mvp.server.mapper.TbJfRaiders">
+    update tb_jf_raiders
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="createIme != null">
+        create_ime = #{createIme,jdbcType=TIMESTAMP},
+      </if>
+      <if test="imgUrl != null">
+        img_url = #{imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseTime != null">
+        release_time = #{releaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.jfshare.mvp.server.mapper.TbJfRaiders">
+    update tb_jf_raiders
+    set title = #{title,jdbcType=VARCHAR},
+      create_ime = #{createIme,jdbcType=TIMESTAMP},
+      img_url = #{imgUrl,jdbcType=VARCHAR},
+      release_time = #{releaseTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARBINARY}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jfshare.mvp.server.mapper.TbJfRaiders">
+    update tb_jf_raiders
+    set title = #{title,jdbcType=VARCHAR},
+      create_ime = #{createIme,jdbcType=TIMESTAMP},
+      img_url = #{imgUrl,jdbcType=VARCHAR},
+      release_time = #{releaseTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.jfshare.mvp.server.mapper.TbJfRaiders">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="create_ime" jdbcType="TIMESTAMP" property="createIme" />
     <result column="img_url" jdbcType="VARCHAR" property="imgUrl" />
     <result column="release_time" jdbcType="TIMESTAMP" property="releaseTime" />
