@@ -1,5 +1,7 @@
 package com.jfshare.mvp.server.mapper;
 
+import com.jfshare.mvp.server.mapper.TbLevelInfo;
+import com.jfshare.mvp.server.mapper.TbLevelInfoExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 

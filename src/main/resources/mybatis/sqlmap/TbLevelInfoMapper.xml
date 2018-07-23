@@ -6,7 +6,7 @@
     <result column="userId" jdbcType="INTEGER" property="userid" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="score" jdbcType="INTEGER" property="score" />
+    <result column="growth_point" jdbcType="INTEGER" property="growthPoint" />
     <result column="levle" jdbcType="CHAR" property="levle" />
     <result column="jvjindou" jdbcType="INTEGER" property="jvjindou" />
     <result column="levle_beyond" jdbcType="INTEGER" property="levleBeyond" />
@@ -72,8 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, userId, create_time, update_time, score, levle, jvjindou, levle_beyond, real_jvjindou, 
-    remark
+    id, userId, create_time, update_time, growth_point, levle, jvjindou, levle_beyond, 
+    real_jvjindou, remark
   </sql>
   <select id="selectByExample" parameterType="com.jfshare.mvp.server.mapper.TbLevelInfoExample" resultMap="BaseResultMap">
     select
@@ -111,11 +111,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into tb_level_info (userId, create_time, update_time, 
-      score, levle, jvjindou, 
+      growth_point, levle, jvjindou, 
       levle_beyond, real_jvjindou, remark
       )
     values (#{userid,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{score,jdbcType=INTEGER}, #{levle,jdbcType=CHAR}, #{jvjindou,jdbcType=INTEGER}, 
+      #{growthPoint,jdbcType=INTEGER}, #{levle,jdbcType=CHAR}, #{jvjindou,jdbcType=INTEGER}, 
       #{levleBeyond,jdbcType=INTEGER}, #{realJvjindou,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
       )
   </insert>
@@ -134,8 +134,8 @@
       <if test="updateTime != null">
         update_time,
       </if>
-      <if test="score != null">
-        score,
+      <if test="growthPoint != null">
+        growth_point,
       </if>
       <if test="levle != null">
         levle,
@@ -163,8 +163,8 @@
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="score != null">
-        #{score,jdbcType=INTEGER},
+      <if test="growthPoint != null">
+        #{growthPoint,jdbcType=INTEGER},
       </if>
       <if test="levle != null">
         #{levle,jdbcType=CHAR},
@@ -204,8 +204,8 @@
       <if test="record.updateTime != null">
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.score != null">
-        score = #{record.score,jdbcType=INTEGER},
+      <if test="record.growthPoint != null">
+        growth_point = #{record.growthPoint,jdbcType=INTEGER},
       </if>
       <if test="record.levle != null">
         levle = #{record.levle,jdbcType=CHAR},
@@ -233,7 +233,7 @@
       userId = #{record.userid,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      score = #{record.score,jdbcType=INTEGER},
+      growth_point = #{record.growthPoint,jdbcType=INTEGER},
       levle = #{record.levle,jdbcType=CHAR},
       jvjindou = #{record.jvjindou,jdbcType=INTEGER},
       levle_beyond = #{record.levleBeyond,jdbcType=INTEGER},
@@ -255,8 +255,8 @@
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="score != null">
-        score = #{score,jdbcType=INTEGER},
+      <if test="growthPoint != null">
+        growth_point = #{growthPoint,jdbcType=INTEGER},
       </if>
       <if test="levle != null">
         levle = #{levle,jdbcType=CHAR},
@@ -281,7 +281,7 @@
     set userId = #{userid,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      score = #{score,jdbcType=INTEGER},
+      growth_point = #{growthPoint,jdbcType=INTEGER},
       levle = #{levle,jdbcType=CHAR},
       jvjindou = #{jvjindou,jdbcType=INTEGER},
       levle_beyond = #{levleBeyond,jdbcType=INTEGER},

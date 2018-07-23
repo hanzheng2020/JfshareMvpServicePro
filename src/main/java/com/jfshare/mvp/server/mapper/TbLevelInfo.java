@@ -1,4 +1,5 @@
 package com.jfshare.mvp.server.mapper;
+
 import java.util.Date;
 
 public class TbLevelInfo {
@@ -10,7 +11,7 @@ public class TbLevelInfo {
 
     private Date updateTime;
 
-    private Integer score;
+    private Integer growthPoint;
 
     private String levle;
 
@@ -54,12 +55,12 @@ public class TbLevelInfo {
         this.updateTime = updateTime;
     }
 
-    public Integer getScore() {
-        return score;
+    public Integer getGrowthPoint() {
+        return growthPoint;
     }
 
-    public void setScore(Integer score) {
-        this.score = score;
+    public void setGrowthPoint(Integer growthPoint) {
+        this.growthPoint = growthPoint;
     }
 
     public String getLevle() {
@@ -101,13 +102,4 @@ public class TbLevelInfo {
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
     }
-
-	@Override
-	public String toString() {
-		return "TbLevelInfo [id=" + id + ", userid=" + userid + ", createTime="
-				+ createTime + ", updateTime=" + updateTime + ", score="
-				+ score + ", levle=" + levle + ", jvjindou=" + jvjindou
-				+ ", levleBeyond=" + levleBeyond + ", realJvjindou="
-				+ realJvjindou + ", remark=" + remark + "]";
-	}
 }

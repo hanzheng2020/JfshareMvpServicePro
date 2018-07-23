@@ -345,63 +345,63 @@ public class TbLevelInfoExample {
             return (Criteria) this;
         }
 
-        public Criteria andScoreIsNull() {
-            addCriterion("score is null");
+        public Criteria andGrowthPointIsNull() {
+            addCriterion("growth_point is null");
             return (Criteria) this;
         }
 
-        public Criteria andScoreIsNotNull() {
-            addCriterion("score is not null");
+        public Criteria andGrowthPointIsNotNull() {
+            addCriterion("growth_point is not null");
             return (Criteria) this;
         }
 
-        public Criteria andScoreEqualTo(Integer value) {
-            addCriterion("score =", value, "score");
+        public Criteria andGrowthPointEqualTo(Integer value) {
+            addCriterion("growth_point =", value, "growthPoint");
             return (Criteria) this;
         }
 
-        public Criteria andScoreNotEqualTo(Integer value) {
-            addCriterion("score <>", value, "score");
+        public Criteria andGrowthPointNotEqualTo(Integer value) {
+            addCriterion("growth_point <>", value, "growthPoint");
             return (Criteria) this;
         }
 
-        public Criteria andScoreGreaterThan(Integer value) {
-            addCriterion("score >", value, "score");
+        public Criteria andGrowthPointGreaterThan(Integer value) {
+            addCriterion("growth_point >", value, "growthPoint");
             return (Criteria) this;
         }
 
-        public Criteria andScoreGreaterThanOrEqualTo(Integer value) {
-            addCriterion("score >=", value, "score");
+        public Criteria andGrowthPointGreaterThanOrEqualTo(Integer value) {
+            addCriterion("growth_point >=", value, "growthPoint");
             return (Criteria) this;
         }
 
-        public Criteria andScoreLessThan(Integer value) {
-            addCriterion("score <", value, "score");
+        public Criteria andGrowthPointLessThan(Integer value) {
+            addCriterion("growth_point <", value, "growthPoint");
             return (Criteria) this;
         }
 
-        public Criteria andScoreLessThanOrEqualTo(Integer value) {
-            addCriterion("score <=", value, "score");
+        public Criteria andGrowthPointLessThanOrEqualTo(Integer value) {
+            addCriterion("growth_point <=", value, "growthPoint");
             return (Criteria) this;
         }
 
-        public Criteria andScoreIn(List<Integer> values) {
-            addCriterion("score in", values, "score");
+        public Criteria andGrowthPointIn(List<Integer> values) {
+            addCriterion("growth_point in", values, "growthPoint");
             return (Criteria) this;
         }
 
-        public Criteria andScoreNotIn(List<Integer> values) {
-            addCriterion("score not in", values, "score");
+        public Criteria andGrowthPointNotIn(List<Integer> values) {
+            addCriterion("growth_point not in", values, "growthPoint");
             return (Criteria) this;
         }
 
-        public Criteria andScoreBetween(Integer value1, Integer value2) {
-            addCriterion("score between", value1, value2, "score");
+        public Criteria andGrowthPointBetween(Integer value1, Integer value2) {
+            addCriterion("growth_point between", value1, value2, "growthPoint");
             return (Criteria) this;
         }
 
-        public Criteria andScoreNotBetween(Integer value1, Integer value2) {
-            addCriterion("score not between", value1, value2, "score");
+        public Criteria andGrowthPointNotBetween(Integer value1, Integer value2) {
+            addCriterion("growth_point not between", value1, value2, "growthPoint");
             return (Criteria) this;
         }
 
