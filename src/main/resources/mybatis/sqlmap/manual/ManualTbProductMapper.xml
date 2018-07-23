@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jfshare.mvp.server.mapper.manual.ManualTbProductMapper">
+<!-- BaseResultOtherMap -->
+	<resultMap id="BaseResultOtherMap"
+		type="com.jfshare.finagle.thrift.product.ProductSurvey">
+		<id column="product_id" property="productId" jdbcType="VARCHAR" />
+		<result column="product_name" property="productName" jdbcType="VARCHAR" />
+		<result column="subject_name" property="subjectName" jdbcType="VARCHAR" />
+		<result column="cur_price" property="curPrice" jdbcType="INTEGER" />
+		<result column="org_price" property="orgPrice" jdbcType="INTEGER" />
+		<result column="presentexp" property="presentExp" jdbcType="INTEGER" />
+		<result column="img_key" property="imgUrl" jdbcType="VARCHAR" />
+		<result column="active_state" property="activeState" jdbcType="INTEGER" />
+		<result column="seller_name" property="sellerName" jdbcType="VARCHAR" />
+		<result column="vice_name" property="viceName" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" />
+	</resultMap>
+	
+		<!-- 查询条件 product_id product_name -->
+	<select id="productSurveyQueryPage"
+		parameterType="com.jfshare.mvp.server.mapper.manual.ProductSurveyQueryParam"
+		resultMap="BaseResultOtherMap">
+		SELECT
+		product_id,
+		product_name,
+		subject_id,
+		cur_price,
+		org_price,
+		presentexp,
+		img_key,
+		active_state,
+		create_time
+		FROM tb_product
+		<where>
+			<if test=" productId != null and productId != ''">
+				AND product_id like CONCAT('%',#{productId},'%')
+			</if>
+			<if test=" productName != null and productName != ''">
+				AND product_name like CONCAT('%',#{productName},'%')
+			</if>
+		</where>
+		<if test=" sort == 'create_time DESC'">
+			ORDER BY create_time DESC
+		</if>
+		<if test=" sort == 'cur_price DESC'">
+			ORDER BY cur_price DESC
+		</if>
+		<if test=" sort == 'cur_price ASC'">
+			ORDER BY cur_price ASC
+		</if>
+	</select>
+</mapper>
