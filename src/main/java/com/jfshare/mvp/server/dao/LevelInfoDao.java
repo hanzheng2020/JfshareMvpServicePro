@@ -23,6 +23,7 @@ public class LevelInfoDao {
 	public List<TbLevelInfo> selectJvjindouRuleByUserId(int userId, int jvjindou){
 		TbLevelInfoExample example=new TbLevelInfoExample();
 		Criteria criteria = example.createCriteria();
+		criteria.andUseridEqualTo(userId);
 		return levelInfoMapper.selectByExample(example);
 	}
 }

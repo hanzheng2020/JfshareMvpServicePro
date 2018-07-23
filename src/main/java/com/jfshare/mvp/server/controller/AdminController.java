@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jfshare.mvp.server.constants.Constant;
 import com.jfshare.mvp.server.constants.ResultConstant;
+import com.jfshare.mvp.server.mapper.TbProductItemShow;
 import com.jfshare.mvp.server.mapper.TbProductPromotion;
 import com.jfshare.mvp.server.service.JvjindouRuleService;
 import com.jfshare.mvp.server.service.LevelInfoService;
-import com.jfshare.mvp.server.service.ProductPromotionService;
+import com.jfshare.mvp.server.service.PromotionSettingService;
+
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -31,7 +33,7 @@ import io.swagger.annotations.ApiOperation;
 public class AdminController {
 	
 	@Autowired
-	private ProductPromotionService productPromotionService;
+	private PromotionSettingService promotionSettingService;
 	
 	@Autowired
 	private LevelInfoService levelInfoService;
@@ -40,11 +42,22 @@ public class AdminController {
 			notes="根据传入的推广配置信息，重新配置推广商品")
 	@PostMapping("/promotionProducts")
 	public ResultConstant updateProductPromotion(List<TbProductPromotion> tbProductPromotions) {
-		boolean result = productPromotionService.updateProductPromotion(tbProductPromotions);
+		boolean result = promotionSettingService.updateProductPromotion(tbProductPromotions);
 		if (result) {
 			return ResultConstant.ofSuccess();
 		}
-		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "更新失败！");
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "更新商品推广设置失败！");
+	}
+	
+	@ApiOperation(value="更新类目商品展示设置", 
+			notes="根据传入的类目商品展示信息，重新配置类目商品展示")
+	@PostMapping("/productItemShows")
+	public ResultConstant updateProductItemShow(List<TbProductItemShow> tbProductItemShows) {
+		boolean result = promotionSettingService.updateProductItemShow(tbProductItemShows);
+		if (result) {
+			return ResultConstant.ofSuccess();
+		}
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "更新类目商品展示设置失败！");
 	}
 	
 	@ApiOperation(value="订单消费聚金豆", notes="根据传入的使用类型，进行扣减聚金豆")

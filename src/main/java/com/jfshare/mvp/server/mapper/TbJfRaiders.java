@@ -7,7 +7,7 @@ public class TbJfRaiders {
 
     private String title;
 
-    private Date createIme;
+    private Date createTime;
 
     private String imgUrl;
 
@@ -35,12 +35,12 @@ public class TbJfRaiders {
         this.title = title == null ? null : title.trim();
     }
 
-    public Date getCreateIme() {
-        return createIme;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setCreateIme(Date createIme) {
-        this.createIme = createIme;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public String getImgUrl() {

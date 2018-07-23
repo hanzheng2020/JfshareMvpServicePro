@@ -1,22 +1,20 @@
-/**
- * 
- */
 package com.jfshare.mvp.server.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jfshare.mvp.server.dao.JvjindouRuleDao;
+import com.jfshare.mvp.server.dao.LevelInfoDao;
 
 /**
  * 等级信息
  */
 public class LevelInfoService {
 	@Autowired
-	private JvjindouRuleDao jvjindouRuleDao;
+	private LevelInfoDao levelInfoDao;
 	@Transactional
 	public int openOrdisableJvjindou(int userId, int jvjindou){
-		jvjindouRuleDao.selectJvjindouRuleByUserId(userId,jvjindou);
+		levelInfoDao.selectJvjindouRuleByUserId(userId,jvjindou);
 		return 0;
 	}
 

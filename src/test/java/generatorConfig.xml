@@ -43,7 +43,7 @@
 	    </javaClientGenerator>
 
       	<!--这里设置需要生成的表 -->
-        <table tableName="tb_jf_raiders"
+        <table tableName="tb_product_item_show"
         	enableCountByExample="true" enableUpdateByExample="true"  
 	        enableDeleteByExample="true" enableSelectByExample="true"  
 	        selectByExampleQueryId="true" >
