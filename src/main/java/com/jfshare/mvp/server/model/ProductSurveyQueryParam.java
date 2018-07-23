@@ -1,4 +1,4 @@
-package com.jfshare.mvp.server.mapper.manual;
+package com.jfshare.mvp.server.model;
 
 public class ProductSurveyQueryParam {
 	private String productId;
