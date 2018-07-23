@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,8 +26,10 @@ public class PromotionSettingService {
 	
 	private final static Logger logger = LoggerFactory.getLogger(PromotionSettingService.class);
 	
+	@Autowired
 	private TbProductPromotionDao tbProductPromotionDao;
 	
+	@Autowired
 	private TbProductItemShowDao tbProductItemShowDao;
 	
 	@Transactional
@@ -58,6 +61,7 @@ public class PromotionSettingService {
 		return tbProductPromotions;
 	}
 	
+	@Transactional
 	public boolean updateProductItemShow(List<TbProductItemShow> tbProductItemShows) {
 		try {
 			TbProductItemShowExample tbProductItemShowExample = new TbProductItemShowExample();
