@@ -3,6 +3,7 @@ package com.jfshare.mvp.server.controller;
 
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ public class AdminController {
 	@ApiOperation(value="更新商品推广设置", 
 			notes="根据传入的推广配置信息，重新配置推广商品")
 	@PostMapping("/promotionProducts")
-	public ResultConstant updateProductPromotion(List<TbProductPromotion> tbProductPromotions) {
+	public ResultConstant updateProductPromotion(ArrayList<TbProductPromotion> tbProductPromotions) {
 		boolean result = promotionSettingService.updateProductPromotion(tbProductPromotions);
 		if (result) {
 			return ResultConstant.ofSuccess();
@@ -52,7 +53,7 @@ public class AdminController {
 	@ApiOperation(value="更新类目商品展示设置", 
 			notes="根据传入的类目商品展示信息，重新配置类目商品展示")
 	@PostMapping("/productItemShows")
-	public ResultConstant updateProductItemShow(List<TbProductItemShow> tbProductItemShows) {
+	public ResultConstant updateProductItemShow(ArrayList<TbProductItemShow> tbProductItemShows) {
 		boolean result = promotionSettingService.updateProductItemShow(tbProductItemShows);
 		if (result) {
 			return ResultConstant.ofSuccess();
