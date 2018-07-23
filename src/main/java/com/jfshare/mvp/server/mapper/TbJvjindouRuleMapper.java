@@ -3,6 +3,9 @@ package com.jfshare.mvp.server.mapper;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
+import com.jfshare.mvp.server.model.TbJvjindouRule;
+import com.jfshare.mvp.server.model.TbJvjindouRuleExample;
+
 public interface TbJvjindouRuleMapper {
     long countByExample(TbJvjindouRuleExample example);
 

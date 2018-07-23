@@ -3,6 +3,9 @@ package com.jfshare.mvp.server.mapper;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
+import com.jfshare.mvp.server.model.TbLevelInfo;
+import com.jfshare.mvp.server.model.TbLevelInfoExample;
+
 public interface TbLevelInfoMapper {
     long countByExample(TbLevelInfoExample example);
 
