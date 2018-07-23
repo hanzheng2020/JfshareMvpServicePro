@@ -22,18 +22,15 @@ public class TbProductPromotionDao {
 	@Autowired
 	private TbProductPromotionMapper tbProductPromotionMapper;
 	
-	@Cacheable(cacheNames = "productPromotions")
 	public List<TbProductPromotion> selectByExample(TbProductPromotionExample example) {
 		return tbProductPromotionMapper.selectByExample(example);
 	}
 	
-	@CachePut(cacheNames = "productPromotions")
 	public int updateByPrimaryKey(TbProductPromotion record) {
 		record.setUpdateTime(new Date());
 		return tbProductPromotionMapper.updateByPrimaryKey(record);
 	}
 	
-	@CacheEvict(cacheNames = "productPromotions")
 	public int deleteByExample(TbProductPromotionExample example) {
 		return tbProductPromotionMapper.deleteByExample(example);
 	}
