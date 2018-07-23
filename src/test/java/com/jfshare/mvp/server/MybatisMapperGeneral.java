@@ -1,18 +1,18 @@
 package com.jfshare.mvp.server;
 
 import java.io.File;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.Configuration;
 import org.mybatis.generator.config.xml.ConfigurationParser;
-import org.mybatis.generator.exception.InvalidConfigurationException;
-import org.mybatis.generator.exception.XMLParserException;
 import org.mybatis.generator.internal.DefaultShellCallback;
-
+/**
+ * 用于生成mapper，生成的文件会放在target目录下
+ * @author fengxiang
+ * @date 2018-07-23
+ */
 public class MybatisMapperGeneral {
 	public static void main(String[] args) throws Exception{
 		   List<String> warnings = new ArrayList<String>();
