@@ -50,7 +50,10 @@ spring:
       cluster-nodes: 39.107.230.91:9300
       repositories:
         enabled: true
-
+mybatis:
+  typeAliasesPackage: com.jfshare.mvp.server.mapper
+  mapperLocations: classpath:/mybatis/sqlmap/**/*.xml 
+  configLocation: classpath:/mybatis/mybatis-config.xml 
 logging:
   config:
    classpath:logback-boot.xml

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jfshare.eUnionPayDirectServer.mapper.TbLevelInfoMapper">
-  <resultMap id="BaseResultMap" type="com.jfshare.eUnionPayDirectServer.mapper.TbLevelInfo">
+<mapper namespace="com.jfshare.mvp.server.mapper.TbLevelInfoMapper">
+  <resultMap id="BaseResultMap" type="com.jfshare.mvp.server.mapper.TbLevelInfo">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="userId" jdbcType="INTEGER" property="userid" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -75,7 +75,7 @@
     id, userId, create_time, update_time, score, levle, jvjindou, levle_beyond, real_jvjindou, 
     remark
   </sql>
-  <select id="selectByExample" parameterType="com.jfshare.eUnionPayDirectServer.mapper.TbLevelInfoExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.jfshare.mvp.server.mapper.TbLevelInfoExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -100,13 +100,13 @@
     delete from tb_level_info
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.jfshare.eUnionPayDirectServer.mapper.TbLevelInfoExample">
+  <delete id="deleteByExample" parameterType="com.jfshare.mvp.server.mapper.TbLevelInfoExample">
     delete from tb_level_info
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.jfshare.eUnionPayDirectServer.mapper.TbLevelInfo">
+  <insert id="insert" parameterType="com.jfshare.mvp.server.mapper.TbLevelInfo">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -119,7 +119,7 @@
       #{levleBeyond,jdbcType=INTEGER}, #{realJvjindou,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.jfshare.eUnionPayDirectServer.mapper.TbLevelInfo">
+  <insert id="insertSelective" parameterType="com.jfshare.mvp.server.mapper.TbLevelInfo">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -183,7 +183,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.jfshare.eUnionPayDirectServer.mapper.TbLevelInfoExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.jfshare.mvp.server.mapper.TbLevelInfoExample" resultType="java.lang.Long">
     select count(*) from tb_level_info
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -243,7 +243,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.jfshare.eUnionPayDirectServer.mapper.TbLevelInfo">
+  <update id="updateByPrimaryKeySelective" parameterType="com.jfshare.mvp.server.mapper.TbLevelInfo">
     update tb_level_info
     <set>
       <if test="userid != null">
@@ -276,7 +276,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.jfshare.eUnionPayDirectServer.mapper.TbLevelInfo">
+  <update id="updateByPrimaryKey" parameterType="com.jfshare.mvp.server.mapper.TbLevelInfo">
     update tb_level_info
     set userId = #{userid,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},

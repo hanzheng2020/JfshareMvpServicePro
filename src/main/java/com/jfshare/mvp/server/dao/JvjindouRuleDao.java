@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.jfshare.mvp.server.mapper.TbJvjindouRule;
 import com.jfshare.mvp.server.mapper.TbJvjindouRuleExample;
+import com.jfshare.mvp.server.mapper.TbJvjindouRuleExample.Criteria;
 import com.jfshare.mvp.server.mapper.TbJvjindouRuleMapper;
 
 /**
@@ -19,8 +20,9 @@ public class JvjindouRuleDao {
 	private TbJvjindouRuleMapper JvjindouRuleMapper;
     
 	@Cacheable(cacheNames="jvjindouRules")
-	public List<TbJvjindouRule> selectJvjindouRuleByUserId(){
+	public List<TbJvjindouRule> selectJvjindouRuleByUserId(int userId, int jvjindou){
 		TbJvjindouRuleExample example=new TbJvjindouRuleExample();
+		Criteria criteria = example.createCriteria();
 		return JvjindouRuleMapper.selectByExample(example);
 	}
 }
