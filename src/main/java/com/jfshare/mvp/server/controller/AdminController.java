@@ -3,6 +3,7 @@ package com.jfshare.mvp.server.controller;
 
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jfshare.mvp.server.constants.Constant;
 import com.jfshare.mvp.server.constants.ResultConstant;
-import com.jfshare.mvp.server.mapper.TbProductItemShow;
-import com.jfshare.mvp.server.mapper.TbProductPromotion;
+import com.jfshare.mvp.server.model.TbProductItemShow;
+import com.jfshare.mvp.server.model.TbProductPromotion;
 import com.jfshare.mvp.server.service.JvjindouRuleService;
+import com.jfshare.mvp.server.service.LevelInfoService;
 import com.jfshare.mvp.server.service.PromotionSettingService;
+
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,12 +37,12 @@ public class AdminController {
 	private PromotionSettingService promotionSettingService;
 	
 	@Autowired
-	private JvjindouRuleService jvjindouRuleService;
+	private LevelInfoService levelInfoService;
 	
 	@ApiOperation(value="更新商品推广设置", 
 			notes="根据传入的推广配置信息，重新配置推广商品")
 	@PostMapping("/promotionProducts")
-	public ResultConstant updateProductPromotion(List<TbProductPromotion> tbProductPromotions) {
+	public ResultConstant updateProductPromotion(ArrayList<TbProductPromotion> tbProductPromotions) {
 		boolean result = promotionSettingService.updateProductPromotion(tbProductPromotions);
 		if (result) {
 			return ResultConstant.ofSuccess();
@@ -50,7 +53,7 @@ public class AdminController {
 	@ApiOperation(value="更新类目商品展示设置", 
 			notes="根据传入的类目商品展示信息，重新配置类目商品展示")
 	@PostMapping("/productItemShows")
-	public ResultConstant updateProductItemShow(List<TbProductItemShow> tbProductItemShows) {
+	public ResultConstant updateProductItemShow(ArrayList<TbProductItemShow> tbProductItemShows) {
 		boolean result = promotionSettingService.updateProductItemShow(tbProductItemShows);
 		if (result) {
 			return ResultConstant.ofSuccess();
@@ -73,7 +76,7 @@ public class AdminController {
 				}else{
 					//走抵扣聚金豆的逻辑
 					try {
-						jvjindouRuleService.openOrdisableJvjindou(userId, jvjindou);
+						levelInfoService.openOrdisableJvjindou(userId, jvjindou);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

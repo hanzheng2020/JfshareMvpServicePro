@@ -20,6 +20,7 @@ public class JvjindouRuleService {
 	private JvjindouRuleDao jvjindouRuleDao;
 	@Transactional
 	public int openOrdisableJvjindou(int userId, int jvjindou){
+		jvjindouRuleDao.selectJvjindouRuleByUserId(userId,jvjindou);
 		return 0;
 	}
 
