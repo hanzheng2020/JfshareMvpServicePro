@@ -2,7 +2,9 @@ package com.jfshare.mvp.server.controller;
 
 
 import org.springframework.util.StringUtils;
+
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jfshare.mvp.server.constants.Constant;
 import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.mapper.TbProductPromotion;
+import com.jfshare.mvp.server.service.JvjindouRuleService;
 import com.jfshare.mvp.server.service.ProductPromotionService;
 
 import io.swagger.annotations.Api;
@@ -28,6 +31,9 @@ public class AdminController {
 	
 	@Autowired
 	private ProductPromotionService productPromotionService;
+	
+	@Autowired
+	private JvjindouRuleService jvjindouRuleService;
 	
 	@ApiOperation(value="更新商品推广设置", 
 			notes="根据传入的推广配置信息，重新配置推广商品")
@@ -56,7 +62,11 @@ public class AdminController {
 					return resultConstant.ofSuccess();
 				}else{
 					//走抵扣聚金豆的逻辑
-					
+					try {
+						jvjindouRuleService.openOrdisableJvjindou(userId, jvjindou);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			}else if(useStatus==Constant.DISABLED_JVJINDOU){
 				resultConstant.setCode(0);
