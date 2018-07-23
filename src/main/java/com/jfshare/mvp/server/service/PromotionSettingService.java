@@ -17,7 +17,7 @@ import com.jfshare.mvp.server.mapper.TbProductPromotion;
 import com.jfshare.mvp.server.mapper.TbProductPromotionExample;
 
 /**
- * 商品推广
+ * 推广微页面设置
  * @author fengxiang
  * @date 2018-07-23
  */
