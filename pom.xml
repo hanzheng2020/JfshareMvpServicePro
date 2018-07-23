@@ -168,7 +168,7 @@
 			<id>releases</id>
 			<name>nexus</name>
 			<layout>default</layout>
-			<url>http://101.201.39.38:8048/nexus/content/groups/public/</url>
+			<url>http://nexus.jfshare.com/nexus/content/groups/public/</url>
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
@@ -180,7 +180,7 @@
 			<id>thirdparty</id>
 			<name>nexus thirdparty</name>
 			<layout>default</layout>
-			<url>http://101.201.39.38:8048/nexus/content/repositories/thirdparty/</url>
+			<url>http://nexus.jfshare.com/nexus/content/repositories/thirdparty/</url>
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
