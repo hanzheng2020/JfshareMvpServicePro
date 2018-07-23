@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,9 +30,9 @@ public class ProductController {
 	private ProductService productService;
 
 	@ApiOperation(value = "根据商品id name 获取商品信息", notes = "根据商品id name 获取商品信息")
-	@GetMapping("/productSurveyQuery")
-	public ResultConstant productSurveyQuery(@RequestParam(value = "productId", required = true) String productId,
-			@RequestParam(value = "productName", required = true) String productName) {
+	@PostMapping("/productSurveyQuery")
+	public ResultConstant productSurveyQuery(@RequestParam(value = "productId", required=false) String productId,
+			@RequestParam(value = "productName", required=false) String productName) {
 		List<TbProductSurvey> productList = productService.productSurveyQuery(productId, productName);
 		if(!CollectionUtils.isEmpty(productList)) {
 			return ResultConstant.ofSuccess(ConvertBeanToMapUtils.convertBeanToMap(productList));
