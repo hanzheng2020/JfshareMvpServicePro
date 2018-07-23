@@ -17,7 +17,9 @@ import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.mapper.TbProductItemShow;
 import com.jfshare.mvp.server.mapper.TbProductPromotion;
 import com.jfshare.mvp.server.service.JvjindouRuleService;
+import com.jfshare.mvp.server.service.LevelInfoService;
 import com.jfshare.mvp.server.service.PromotionSettingService;
+
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,7 +37,7 @@ public class AdminController {
 	private PromotionSettingService promotionSettingService;
 	
 	@Autowired
-	private JvjindouRuleService jvjindouRuleService;
+	private LevelInfoService levelInfoService;
 	
 	@ApiOperation(value="更新商品推广设置", 
 			notes="根据传入的推广配置信息，重新配置推广商品")
@@ -74,7 +76,7 @@ public class AdminController {
 				}else{
 					//走抵扣聚金豆的逻辑
 					try {
-						jvjindouRuleService.openOrdisableJvjindou(userId, jvjindou);
+						levelInfoService.openOrdisableJvjindou(userId, jvjindou);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
