@@ -1,6 +1,6 @@
 package com.jfshare.mvp.server.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,9 +20,8 @@ public class AdminController {
 	
 	@ApiOperation(value="更新推广商品", 
 			notes="根据传入的推广编号，重新配置推广商品")
-	@GetMapping("/promotionProducts")
+	@PostMapping("/promotionProducts")
 	public ResultConstant updatePromotionProducts() {
 		return null;
 	}
-	
 }
