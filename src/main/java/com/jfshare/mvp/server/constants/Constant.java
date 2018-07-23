@@ -8,5 +8,7 @@ public class Constant {
    public static final int  USE_JVJINDOU=1;
    //不使用聚金豆
    public static final int  DISABLED_JVJINDOU=2;
+   //不使用聚金豆
+   public static final int  JVJINDOU_NUM=1;
 
 }

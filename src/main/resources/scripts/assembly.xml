@@ -17,7 +17,7 @@
             <directory>target/</directory>
             <outputDirectory>.</outputDirectory>
             <includes>
-                <include>EUnionPayDirectServer-*.jar</include>
+                <include>JfshareMvpServerPro-*.jar</include>
             </includes>
         </fileSet>
     </fileSets>
