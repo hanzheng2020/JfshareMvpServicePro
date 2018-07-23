@@ -13,9 +13,9 @@ spring:
     name: JfshareMvpServerPro
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&autoReconnect=true
-    username: root
-    password: 123456
+    url: jdbc:mysql://rm-2zemlbv21u27044s3xo.mysql.rds.aliyuncs.com:3306/db_jfshare_mvp_dev?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&autoReconnect=true
+    username: jfshare_off_dev
+    password: Jfshare123
     type: com.alibaba.druid.pool.DruidDataSource
     filters: stat
     maxActive: 20

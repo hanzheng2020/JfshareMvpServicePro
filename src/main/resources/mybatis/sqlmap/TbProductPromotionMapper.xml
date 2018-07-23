@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jfshare.mvp.server.mapper.TbProductPromotionMapper">
+  <resultMap id="BaseResultMap" type="com.jfshare.mvp.server.mapper.TbProductPromotion">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="promotion_no" jdbcType="INTEGER" property="promotionNo" />
+    <result column="promotion_pic_url" jdbcType="VARCHAR" property="promotionPicUrl" />
+    <result column="promotion_url" jdbcType="VARCHAR" property="promotionUrl" />
+    <result column="product_one_id" jdbcType="VARCHAR" property="productOneId" />
+    <result column="product_one_desc" jdbcType="VARCHAR" property="productOneDesc" />
+    <result column="product_one_pic_url" jdbcType="VARCHAR" property="productOnePicUrl" />
+    <result column="product_two_id" jdbcType="VARCHAR" property="productTwoId" />
+    <result column="product_two_desc" jdbcType="VARCHAR" property="productTwoDesc" />
+    <result column="product_two_pic_url" jdbcType="VARCHAR" property="productTwoPicUrl" />
+    <result column="product_three_id" jdbcType="VARCHAR" property="productThreeId" />
+    <result column="product_three_desc" jdbcType="VARCHAR" property="productThreeDesc" />
+    <result column="product_three_pic_url" jdbcType="VARCHAR" property="productThreePicUrl" />
+    <result column="product_four_id" jdbcType="VARCHAR" property="productFourId" />
+    <result column="product_four_desc" jdbcType="VARCHAR" property="productFourDesc" />
+    <result column="product_four_pic_url" jdbcType="VARCHAR" property="productFourPicUrl" />
+    <result column="product_five_id" jdbcType="VARCHAR" property="productFiveId" />
+    <result column="product_five_desc" jdbcType="VARCHAR" property="productFiveDesc" />
+    <result column="product_five_pic_url" jdbcType="VARCHAR" property="productFivePicUrl" />
+    <result column="product_six_id" jdbcType="VARCHAR" property="productSixId" />
+    <result column="product_six_desc" jdbcType="VARCHAR" property="productSixDesc" />
+    <result column="product_six_pic_url" jdbcType="VARCHAR" property="productSixPicUrl" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, promotion_no, promotion_pic_url, promotion_url, product_one_id, product_one_desc, 
+    product_one_pic_url, product_two_id, product_two_desc, product_two_pic_url, product_three_id, 
+    product_three_desc, product_three_pic_url, product_four_id, product_four_desc, product_four_pic_url, 
+    product_five_id, product_five_desc, product_five_pic_url, product_six_id, product_six_desc, 
+    product_six_pic_url, create_time, update_time
+  </sql>
+  <select id="selectByExample" parameterType="com.jfshare.mvp.server.mapper.TbProductPromotionExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from tb_product_promotion
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_product_promotion
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_product_promotion
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.jfshare.mvp.server.mapper.TbProductPromotionExample">
+    delete from tb_product_promotion
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.jfshare.mvp.server.mapper.TbProductPromotion">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_product_promotion (promotion_no, promotion_pic_url, promotion_url, 
+      product_one_id, product_one_desc, product_one_pic_url, 
+      product_two_id, product_two_desc, product_two_pic_url, 
+      product_three_id, product_three_desc, product_three_pic_url, 
+      product_four_id, product_four_desc, product_four_pic_url, 
+      product_five_id, product_five_desc, product_five_pic_url, 
+      product_six_id, product_six_desc, product_six_pic_url, 
+      create_time, update_time)
+    values (#{promotionNo,jdbcType=INTEGER}, #{promotionPicUrl,jdbcType=VARCHAR}, #{promotionUrl,jdbcType=VARCHAR}, 
+      #{productOneId,jdbcType=VARCHAR}, #{productOneDesc,jdbcType=VARCHAR}, #{productOnePicUrl,jdbcType=VARCHAR}, 
+      #{productTwoId,jdbcType=VARCHAR}, #{productTwoDesc,jdbcType=VARCHAR}, #{productTwoPicUrl,jdbcType=VARCHAR}, 
+      #{productThreeId,jdbcType=VARCHAR}, #{productThreeDesc,jdbcType=VARCHAR}, #{productThreePicUrl,jdbcType=VARCHAR}, 
+      #{productFourId,jdbcType=VARCHAR}, #{productFourDesc,jdbcType=VARCHAR}, #{productFourPicUrl,jdbcType=VARCHAR}, 
+      #{productFiveId,jdbcType=VARCHAR}, #{productFiveDesc,jdbcType=VARCHAR}, #{productFivePicUrl,jdbcType=VARCHAR}, 
+      #{productSixId,jdbcType=VARCHAR}, #{productSixDesc,jdbcType=VARCHAR}, #{productSixPicUrl,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jfshare.mvp.server.mapper.TbProductPromotion">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_product_promotion
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="promotionNo != null">
+        promotion_no,
+      </if>
+      <if test="promotionPicUrl != null">
+        promotion_pic_url,
+      </if>
+      <if test="promotionUrl != null">
+        promotion_url,
+      </if>
+      <if test="productOneId != null">
+        product_one_id,
+      </if>
+      <if test="productOneDesc != null">
+        product_one_desc,
+      </if>
+      <if test="productOnePicUrl != null">
+        product_one_pic_url,
+      </if>
+      <if test="productTwoId != null">
+        product_two_id,
+      </if>
+      <if test="productTwoDesc != null">
+        product_two_desc,
+      </if>
+      <if test="productTwoPicUrl != null">
+        product_two_pic_url,
+      </if>
+      <if test="productThreeId != null">
+        product_three_id,
+      </if>
+      <if test="productThreeDesc != null">
+        product_three_desc,
+      </if>
+      <if test="productThreePicUrl != null">
+        product_three_pic_url,
+      </if>
+      <if test="productFourId != null">
+        product_four_id,
+      </if>
+      <if test="productFourDesc != null">
+        product_four_desc,
+      </if>
+      <if test="productFourPicUrl != null">
+        product_four_pic_url,
+      </if>
+      <if test="productFiveId != null">
+        product_five_id,
+      </if>
+      <if test="productFiveDesc != null">
+        product_five_desc,
+      </if>
+      <if test="productFivePicUrl != null">
+        product_five_pic_url,
+      </if>
+      <if test="productSixId != null">
+        product_six_id,
+      </if>
+      <if test="productSixDesc != null">
+        product_six_desc,
+      </if>
+      <if test="productSixPicUrl != null">
+        product_six_pic_url,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="promotionNo != null">
+        #{promotionNo,jdbcType=INTEGER},
+      </if>
+      <if test="promotionPicUrl != null">
+        #{promotionPicUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="promotionUrl != null">
+        #{promotionUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="productOneId != null">
+        #{productOneId,jdbcType=VARCHAR},
+      </if>
+      <if test="productOneDesc != null">
+        #{productOneDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="productOnePicUrl != null">
+        #{productOnePicUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="productTwoId != null">
+        #{productTwoId,jdbcType=VARCHAR},
+      </if>
+      <if test="productTwoDesc != null">
+        #{productTwoDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="productTwoPicUrl != null">
+        #{productTwoPicUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="productThreeId != null">
+        #{productThreeId,jdbcType=VARCHAR},
+      </if>
+      <if test="productThreeDesc != null">
+        #{productThreeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="productThreePicUrl != null">
+        #{productThreePicUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="productFourId != null">
+        #{productFourId,jdbcType=VARCHAR},
+      </if>
+      <if test="productFourDesc != null">
+        #{productFourDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="productFourPicUrl != null">
+        #{productFourPicUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="productFiveId != null">
+        #{productFiveId,jdbcType=VARCHAR},
+      </if>
+      <if test="productFiveDesc != null">
+        #{productFiveDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="productFivePicUrl != null">
+        #{productFivePicUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="productSixId != null">
+        #{productSixId,jdbcType=VARCHAR},
+      </if>
+      <if test="productSixDesc != null">
+        #{productSixDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="productSixPicUrl != null">
+        #{productSixPicUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.jfshare.mvp.server.mapper.TbProductPromotionExample" resultType="java.lang.Long">
+    select count(*) from tb_product_promotion
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_product_promotion
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.promotionNo != null">
+        promotion_no = #{record.promotionNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.promotionPicUrl != null">
+        promotion_pic_url = #{record.promotionPicUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.promotionUrl != null">
+        promotion_url = #{record.promotionUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productOneId != null">
+        product_one_id = #{record.productOneId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productOneDesc != null">
+        product_one_desc = #{record.productOneDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productOnePicUrl != null">
+        product_one_pic_url = #{record.productOnePicUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productTwoId != null">
+        product_two_id = #{record.productTwoId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productTwoDesc != null">
+        product_two_desc = #{record.productTwoDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productTwoPicUrl != null">
+        product_two_pic_url = #{record.productTwoPicUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productThreeId != null">
+        product_three_id = #{record.productThreeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productThreeDesc != null">
+        product_three_desc = #{record.productThreeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productThreePicUrl != null">
+        product_three_pic_url = #{record.productThreePicUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productFourId != null">
+        product_four_id = #{record.productFourId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productFourDesc != null">
+        product_four_desc = #{record.productFourDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productFourPicUrl != null">
+        product_four_pic_url = #{record.productFourPicUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productFiveId != null">
+        product_five_id = #{record.productFiveId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productFiveDesc != null">
+        product_five_desc = #{record.productFiveDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productFivePicUrl != null">
+        product_five_pic_url = #{record.productFivePicUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productSixId != null">
+        product_six_id = #{record.productSixId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productSixDesc != null">
+        product_six_desc = #{record.productSixDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productSixPicUrl != null">
+        product_six_pic_url = #{record.productSixPicUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_product_promotion
+    set id = #{record.id,jdbcType=INTEGER},
+      promotion_no = #{record.promotionNo,jdbcType=INTEGER},
+      promotion_pic_url = #{record.promotionPicUrl,jdbcType=VARCHAR},
+      promotion_url = #{record.promotionUrl,jdbcType=VARCHAR},
+      product_one_id = #{record.productOneId,jdbcType=VARCHAR},
+      product_one_desc = #{record.productOneDesc,jdbcType=VARCHAR},
+      product_one_pic_url = #{record.productOnePicUrl,jdbcType=VARCHAR},
+      product_two_id = #{record.productTwoId,jdbcType=VARCHAR},
+      product_two_desc = #{record.productTwoDesc,jdbcType=VARCHAR},
+      product_two_pic_url = #{record.productTwoPicUrl,jdbcType=VARCHAR},
+      product_three_id = #{record.productThreeId,jdbcType=VARCHAR},
+      product_three_desc = #{record.productThreeDesc,jdbcType=VARCHAR},
+      product_three_pic_url = #{record.productThreePicUrl,jdbcType=VARCHAR},
+      product_four_id = #{record.productFourId,jdbcType=VARCHAR},
+      product_four_desc = #{record.productFourDesc,jdbcType=VARCHAR},
+      product_four_pic_url = #{record.productFourPicUrl,jdbcType=VARCHAR},
+      product_five_id = #{record.productFiveId,jdbcType=VARCHAR},
+      product_five_desc = #{record.productFiveDesc,jdbcType=VARCHAR},
+      product_five_pic_url = #{record.productFivePicUrl,jdbcType=VARCHAR},
+      product_six_id = #{record.productSixId,jdbcType=VARCHAR},
+      product_six_desc = #{record.productSixDesc,jdbcType=VARCHAR},
+      product_six_pic_url = #{record.productSixPicUrl,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jfshare.mvp.server.mapper.TbProductPromotion">
+    update tb_product_promotion
+    <set>
+      <if test="promotionNo != null">
+        promotion_no = #{promotionNo,jdbcType=INTEGER},
+      </if>
+      <if test="promotionPicUrl != null">
+        promotion_pic_url = #{promotionPicUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="promotionUrl != null">
+        promotion_url = #{promotionUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="productOneId != null">
+        product_one_id = #{productOneId,jdbcType=VARCHAR},
+      </if>
+      <if test="productOneDesc != null">
+        product_one_desc = #{productOneDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="productOnePicUrl != null">
+        product_one_pic_url = #{productOnePicUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="productTwoId != null">
+        product_two_id = #{productTwoId,jdbcType=VARCHAR},
+      </if>
+      <if test="productTwoDesc != null">
+        product_two_desc = #{productTwoDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="productTwoPicUrl != null">
+        product_two_pic_url = #{productTwoPicUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="productThreeId != null">
+        product_three_id = #{productThreeId,jdbcType=VARCHAR},
+      </if>
+      <if test="productThreeDesc != null">
+        product_three_desc = #{productThreeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="productThreePicUrl != null">
+        product_three_pic_url = #{productThreePicUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="productFourId != null">
+        product_four_id = #{productFourId,jdbcType=VARCHAR},
+      </if>
+      <if test="productFourDesc != null">
+        product_four_desc = #{productFourDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="productFourPicUrl != null">
+        product_four_pic_url = #{productFourPicUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="productFiveId != null">
+        product_five_id = #{productFiveId,jdbcType=VARCHAR},
+      </if>
+      <if test="productFiveDesc != null">
+        product_five_desc = #{productFiveDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="productFivePicUrl != null">
+        product_five_pic_url = #{productFivePicUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="productSixId != null">
+        product_six_id = #{productSixId,jdbcType=VARCHAR},
+      </if>
+      <if test="productSixDesc != null">
+        product_six_desc = #{productSixDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="productSixPicUrl != null">
+        product_six_pic_url = #{productSixPicUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jfshare.mvp.server.mapper.TbProductPromotion">
+    update tb_product_promotion
+    set promotion_no = #{promotionNo,jdbcType=INTEGER},
+      promotion_pic_url = #{promotionPicUrl,jdbcType=VARCHAR},
+      promotion_url = #{promotionUrl,jdbcType=VARCHAR},
+      product_one_id = #{productOneId,jdbcType=VARCHAR},
+      product_one_desc = #{productOneDesc,jdbcType=VARCHAR},
+      product_one_pic_url = #{productOnePicUrl,jdbcType=VARCHAR},
+      product_two_id = #{productTwoId,jdbcType=VARCHAR},
+      product_two_desc = #{productTwoDesc,jdbcType=VARCHAR},
+      product_two_pic_url = #{productTwoPicUrl,jdbcType=VARCHAR},
+      product_three_id = #{productThreeId,jdbcType=VARCHAR},
+      product_three_desc = #{productThreeDesc,jdbcType=VARCHAR},
+      product_three_pic_url = #{productThreePicUrl,jdbcType=VARCHAR},
+      product_four_id = #{productFourId,jdbcType=VARCHAR},
+      product_four_desc = #{productFourDesc,jdbcType=VARCHAR},
+      product_four_pic_url = #{productFourPicUrl,jdbcType=VARCHAR},
+      product_five_id = #{productFiveId,jdbcType=VARCHAR},
+      product_five_desc = #{productFiveDesc,jdbcType=VARCHAR},
+      product_five_pic_url = #{productFivePicUrl,jdbcType=VARCHAR},
+      product_six_id = #{productSixId,jdbcType=VARCHAR},
+      product_six_desc = #{productSixDesc,jdbcType=VARCHAR},
+      product_six_pic_url = #{productSixPicUrl,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
