@@ -13,9 +13,9 @@ spring:
     name: JfshareMvpServerPro
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/dbgirl?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&autoReconnect=true
-    username: sa
-    password: 1234
+    url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&autoReconnect=true
+    username: root
+    password: 123456
     type: com.alibaba.druid.pool.DruidDataSource
     filters: stat
     maxActive: 20
@@ -45,6 +45,12 @@ spring:
     port: 5672
     username: admin
     password: admin
+  data:
+    elasticsearch:
+      cluster-nodes: 39.107.230.91:9300
+      repositories:
+        enabled: true
+
 logging:
   config:
    classpath:logback-boot.xml

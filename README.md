@@ -91,3 +91,11 @@ UserController：个人中心模块
 @CachePut(cacheNames = "demo") 更新缓存，用于更新资源的方法上
 
 详细使用说明可参考https://www.cnblogs.com/fashflying/p/6908028.html
+
+
+Elastisearch 查看header 数据步骤
+
+#head plugin :
+http://39.107.230.91:9100/
+打开head地址，输入
+http://39.107.230.91:9200

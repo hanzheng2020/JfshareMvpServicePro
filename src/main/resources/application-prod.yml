@@ -37,6 +37,11 @@ spring:
       min-idle:  0
       max-active:  8
       max-wait:  -1
+  data:
+    elasticsearch:
+      cluster-nodes: 39.106.208.144:9300
+      repositories:
+        enabled: true
 logging:
   config:
    classpath:logback-boot.xml
