@@ -99,3 +99,17 @@ CREATE TABLE `tb_jf_raiders` (
   `status` int(2) NOT NULL COMMENT '状态(1:新建，2:发布)',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='积分攻略表';
+
+-- ----------------------------
+-- Table structure for `tb_product_item_show`
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_product_item_show`;
+CREATE TABLE `tb_product_item_show` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `item_no` int(11) NOT NULL,
+  `item_desc` varchar(255) DEFAULT NULL,
+  `products` varchar(500) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
