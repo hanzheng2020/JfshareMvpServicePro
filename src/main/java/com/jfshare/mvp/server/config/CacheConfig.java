@@ -25,16 +25,30 @@ public class CacheConfig {
 	@Autowired  
     private RedisTemplate redisTemplate;
 	
-	//缓存失效时间5分钟
-	private long expireTime = 30;
 	//设置缓存key前缀
 	private String prefix = "cache-";
 	
-	@Bean
+	/**
+	 * 默认cacheManager 失效时间30分钟
+	 * @return
+	 */
+	@Bean(name="cacheManager")
 	public CacheManager cacheManager() {
 	    RedisCacheManager cacheManager= new RedisCacheManager(
 	    		RedisCacheWriter.nonLockingRedisCacheWriter(redisTemplate.getConnectionFactory()), 
-	    		RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMillis(expireTime)).prefixKeysWith(prefix));
+	    		RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMillis(30)).prefixKeysWith(prefix));
+	    
+	    return cacheManager;
+	}
+	/**
+	 * 失效时间60分钟
+	 * @return
+	 */
+	@Bean(name="cacheManager60")
+	public CacheManager cacheManager60() {
+	    RedisCacheManager cacheManager= new RedisCacheManager(
+	    		RedisCacheWriter.nonLockingRedisCacheWriter(redisTemplate.getConnectionFactory()), 
+	    		RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMillis(60)).prefixKeysWith(prefix));
 	    
 	    return cacheManager;
 	}

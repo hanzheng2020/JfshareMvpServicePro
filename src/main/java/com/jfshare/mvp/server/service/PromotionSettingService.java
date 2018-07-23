@@ -50,7 +50,7 @@ public class PromotionSettingService {
 	}
 	
 
-	@Cacheable(cacheNames = "productPromotions")
+	@Cacheable(cacheNames = "productPromotions",cacheManager="cacheManager60")
 	public List<TbProductPromotion> getProductPromotions() {
 		TbProductPromotionExample tbProductPromotionExample = new TbProductPromotionExample();
 		List<TbProductPromotion> tbProductPromotions = null;
