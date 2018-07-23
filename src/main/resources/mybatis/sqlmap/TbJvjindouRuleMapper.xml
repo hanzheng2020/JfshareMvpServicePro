@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jfshare.eUnionPayDirectServer.mapper.TbJvjindouRuleMapper">
-  <resultMap id="BaseResultMap" type="com.jfshare.eUnionPayDirectServer.mapper.TbJvjindouRule">
+<mapper namespace="com.jfshare.mvp.server.mapper.TbJvjindouRuleMapper">
+  <resultMap id="BaseResultMap" type="com.jfshare.mvp.server.mapper.TbJvjindouRule">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="giving_rule" jdbcType="CHAR" property="givingRule" />
@@ -70,7 +70,7 @@
   <sql id="Base_Column_List">
     id, create_time, giving_rule, random_giving_min, random_giving_max, fixed_giving
   </sql>
-  <select id="selectByExample" parameterType="com.jfshare.eUnionPayDirectServer.mapper.TbJvjindouRuleExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.jfshare.mvp.server.mapper.TbJvjindouRuleExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -95,13 +95,13 @@
     delete from tb_jvjindou_rule
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.jfshare.eUnionPayDirectServer.mapper.TbJvjindouRuleExample">
+  <delete id="deleteByExample" parameterType="com.jfshare.mvp.server.mapper.TbJvjindouRuleExample">
     delete from tb_jvjindou_rule
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.jfshare.eUnionPayDirectServer.mapper.TbJvjindouRule">
+  <insert id="insert" parameterType="com.jfshare.mvp.server.mapper.TbJvjindouRule">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -110,7 +110,7 @@
     values (#{createTime,jdbcType=TIMESTAMP}, #{givingRule,jdbcType=CHAR}, #{randomGivingMin,jdbcType=INTEGER}, 
       #{randomGivingMax,jdbcType=INTEGER}, #{fixedGiving,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.jfshare.eUnionPayDirectServer.mapper.TbJvjindouRule">
+  <insert id="insertSelective" parameterType="com.jfshare.mvp.server.mapper.TbJvjindouRule">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -150,7 +150,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.jfshare.eUnionPayDirectServer.mapper.TbJvjindouRuleExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.jfshare.mvp.server.mapper.TbJvjindouRuleExample" resultType="java.lang.Long">
     select count(*) from tb_jvjindou_rule
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -194,7 +194,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.jfshare.eUnionPayDirectServer.mapper.TbJvjindouRule">
+  <update id="updateByPrimaryKeySelective" parameterType="com.jfshare.mvp.server.mapper.TbJvjindouRule">
     update tb_jvjindou_rule
     <set>
       <if test="createTime != null">
@@ -215,7 +215,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.jfshare.eUnionPayDirectServer.mapper.TbJvjindouRule">
+  <update id="updateByPrimaryKey" parameterType="com.jfshare.mvp.server.mapper.TbJvjindouRule">
     update tb_jvjindou_rule
     set create_time = #{createTime,jdbcType=TIMESTAMP},
       giving_rule = #{givingRule,jdbcType=CHAR},
