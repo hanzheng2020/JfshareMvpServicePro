@@ -26,7 +26,7 @@ public class CacheConfig {
     private RedisTemplate redisTemplate;
 	
 	//缓存失效时间5分钟
-	private long expireTime = 5;
+	private long expireTime = 30;
 	//设置缓存key前缀
 	private String prefix = "cache-";
 	
