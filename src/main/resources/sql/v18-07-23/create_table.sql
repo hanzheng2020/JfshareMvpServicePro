@@ -20,33 +20,63 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_level_info`;
 CREATE TABLE `tb_level_info` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Ö÷¼ü',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ï¿½ï¿½ï¿½ï¿½',
   `userId` int(10) DEFAULT NULL COMMENT 'userId',
-  `create_time` datetime DEFAULT NULL COMMENT '´´½¨Ê±¼ä',
-  `update_time` datetime DEFAULT NULL COMMENT 'ÐÞ¸ÄÊ±¼ä',
-  `score` int(11) DEFAULT NULL COMMENT '³É³¤µã',
-  `levle` char(1) DEFAULT NULL COMMENT 'µÈ¼¶',
-  `jvjindou` int(11) DEFAULT NULL COMMENT '¾Û½ð¶¹',
-  `levle_beyond` int(11) DEFAULT NULL COMMENT '³¬³öµ±Ç°µÈ¼¶³É³¤µã',
-  `real_jvjindou` int(11) DEFAULT NULL COMMENT 'ÓÐÐ§¾Û½ð¶¹',
-  `remark` varchar(200) DEFAULT NULL COMMENT '±¸ÓÃ×Ö¶Î',
+  `create_time` datetime DEFAULT NULL COMMENT 'ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½',
+  `update_time` datetime DEFAULT NULL COMMENT 'ï¿½Þ¸ï¿½Ê±ï¿½ï¿½',
+  `score` int(11) DEFAULT NULL COMMENT 'ï¿½É³ï¿½ï¿½ï¿½',
+  `levle` char(1) DEFAULT NULL COMMENT 'ï¿½È¼ï¿½',
+  `jvjindou` int(11) DEFAULT NULL COMMENT 'ï¿½Û½ï¿½',
+  `levle_beyond` int(11) DEFAULT NULL COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½È¼ï¿½ï¿½É³ï¿½ï¿½ï¿½',
+  `real_jvjindou` int(11) DEFAULT NULL COMMENT 'ï¿½ï¿½Ð§ï¿½Û½ï¿½',
+  `remark` varchar(200) DEFAULT NULL COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½Ö¶ï¿½',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
-SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
 -- Table structure for tb_jvjindou_rule
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_jvjindou_rule`;
 CREATE TABLE `tb_jvjindou_rule` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Ö÷¼ü',
-  `create_time` datetime DEFAULT NULL COMMENT '´´½¨Ê±¼ä',
-  `giving_rule` char(255) DEFAULT NULL COMMENT 'ÔùËÍ¹æÔò',
-  `random_giving_min` int(11) DEFAULT NULL COMMENT 'Ëæ»úÔùËÍ×îÐ¡Êý',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ï¿½ï¿½ï¿½ï¿½',
+  `create_time` datetime DEFAULT NULL COMMENT 'ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½',
+  `giving_rule` char(255) DEFAULT NULL COMMENT 'ï¿½ï¿½ï¿½Í¹ï¿½ï¿½ï¿½',
+  `random_giving_min` int(11) DEFAULT NULL COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½',
   `random_giving_max` int(11) DEFAULT NULL,
-  `fixed_giving` int(11) DEFAULT NULL COMMENT '¹Ì¶¨ÔùËÍÖµ',
-  `update_time` datetime DEFAULT NULL COMMENT 'ÐÞ¸ÄÊ±¼ä',
+  `fixed_giving` int(11) DEFAULT NULL COMMENT 'ï¿½Ì¶ï¿½ï¿½ï¿½ï¿½ï¿½Öµ',
+  `update_time` datetime DEFAULT NULL COMMENT 'ï¿½Þ¸ï¿½Ê±ï¿½ï¿½',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for `tb_product_promotion`
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_product_promotion`;
+CREATE TABLE `tb_product_promotion` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `promotion_no` int(11) NOT NULL,
+  `promotion_pic_url` varchar(255) NOT NULL,
+  `promotion_url` varchar(255) DEFAULT NULL,
+  `product_one_id` varchar(255) NOT NULL,
+  `product_one_desc` varchar(255) NOT NULL,
+  `product_one_pic_url` varchar(255) NOT NULL,
+  `product_two_id` varchar(255) NOT NULL,
+  `product_two_desc` varchar(255) NOT NULL,
+  `product_two_pic_url` varchar(255) NOT NULL,
+  `product_three_id` varchar(255) NOT NULL,
+  `product_three_desc` varchar(255) NOT NULL,
+  `product_three_pic_url` varchar(255) NOT NULL,
+  `product_four_id` varchar(255) NOT NULL,
+  `product_four_desc` varchar(255) NOT NULL,
+  `product_four_pic_url` varchar(255) NOT NULL,
+  `product_five_id` varchar(255) NOT NULL,
+  `product_five_desc` varchar(255) NOT NULL,
+  `product_five_pic_url` varchar(255) NOT NULL,
+  `product_six_id` varchar(255) NOT NULL,
+  `product_six_desc` varchar(255) NOT NULL,
+  `product_six_pic_url` varchar(255) NOT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
