@@ -6,7 +6,7 @@
     <result column="product_id" jdbcType="VARCHAR" property="productId" />
     <result column="seller_id" jdbcType="INTEGER" property="sellerId" />
     <result column="product_name" jdbcType="VARCHAR" property="productName" />
-    <result column="subject_name" jdbcType="VARCHAR" property="subjectName" />
+    <result column="subject_id" jdbcType="INTEGER" property="subjectId" />
     <result column="cur_price" jdbcType="INTEGER" property="curPrice" />
     <result column="org_price" jdbcType="INTEGER" property="orgPrice" />
     <result column="presentexp" jdbcType="INTEGER" property="presentexp" />
@@ -90,7 +90,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, product_id, seller_id, product_name, subject_name, cur_price, org_price, presentexp, 
+    id, product_id, seller_id, product_name, subject_id, cur_price, org_price, presentexp, 
     img_key, detail_key, active_state, type, remark, create_time, create_user_id, last_soldout_time, 
     last_putaway_time, last_update_id, state, third_party_identify, third_party_product_id, 
     storehouse_ids, ext1, ext2
@@ -148,7 +148,7 @@
   </delete>
   <insert id="insert" parameterType="com.jfshare.mvp.server.model.TbProductWithBLOBs">
     insert into tb_product (id, product_id, seller_id, 
-      product_name, subject_name, cur_price, 
+      product_name, subject_id, cur_price, 
       org_price, presentexp, img_key, 
       detail_key, active_state, type, 
       remark, create_time, create_user_id, 
@@ -157,7 +157,7 @@
       storehouse_ids, ext1, ext2, 
       sku_template, attribute)
     values (#{id,jdbcType=INTEGER}, #{productId,jdbcType=VARCHAR}, #{sellerId,jdbcType=INTEGER}, 
-      #{productName,jdbcType=VARCHAR}, #{subjectName,jdbcType=VARCHAR}, #{curPrice,jdbcType=INTEGER}, 
+      #{productName,jdbcType=VARCHAR}, #{subjectId,jdbcType=INTEGER}, #{curPrice,jdbcType=INTEGER}, 
       #{orgPrice,jdbcType=INTEGER}, #{presentexp,jdbcType=INTEGER}, #{imgKey,jdbcType=VARCHAR}, 
       #{detailKey,jdbcType=VARCHAR}, #{activeState,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
       #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, 
@@ -181,8 +181,8 @@
       <if test="productName != null">
         product_name,
       </if>
-      <if test="subjectName != null">
-        subject_name,
+      <if test="subjectId != null">
+        subject_id,
       </if>
       <if test="curPrice != null">
         cur_price,
@@ -261,8 +261,8 @@
       <if test="productName != null">
         #{productName,jdbcType=VARCHAR},
       </if>
-      <if test="subjectName != null">
-        #{subjectName,jdbcType=VARCHAR},
+      <if test="subjectId != null">
+        #{subjectId,jdbcType=INTEGER},
       </if>
       <if test="curPrice != null">
         #{curPrice,jdbcType=INTEGER},
@@ -350,8 +350,8 @@
       <if test="record.productName != null">
         product_name = #{record.productName,jdbcType=VARCHAR},
       </if>
-      <if test="record.subjectName != null">
-        subject_name = #{record.subjectName,jdbcType=VARCHAR},
+      <if test="record.subjectId != null">
+        subject_id = #{record.subjectId,jdbcType=INTEGER},
       </if>
       <if test="record.curPrice != null">
         cur_price = #{record.curPrice,jdbcType=INTEGER},
@@ -427,7 +427,7 @@
       product_id = #{record.productId,jdbcType=VARCHAR},
       seller_id = #{record.sellerId,jdbcType=INTEGER},
       product_name = #{record.productName,jdbcType=VARCHAR},
-      subject_name = #{record.subjectName,jdbcType=VARCHAR},
+      subject_id = #{record.subjectId,jdbcType=INTEGER},
       cur_price = #{record.curPrice,jdbcType=INTEGER},
       org_price = #{record.orgPrice,jdbcType=INTEGER},
       presentexp = #{record.presentexp,jdbcType=INTEGER},
@@ -459,7 +459,7 @@
       product_id = #{record.productId,jdbcType=VARCHAR},
       seller_id = #{record.sellerId,jdbcType=INTEGER},
       product_name = #{record.productName,jdbcType=VARCHAR},
-      subject_name = #{record.subjectName,jdbcType=VARCHAR},
+      subject_id = #{record.subjectId,jdbcType=INTEGER},
       cur_price = #{record.curPrice,jdbcType=INTEGER},
       org_price = #{record.orgPrice,jdbcType=INTEGER},
       presentexp = #{record.presentexp,jdbcType=INTEGER},
@@ -495,8 +495,8 @@
       <if test="productName != null">
         product_name = #{productName,jdbcType=VARCHAR},
       </if>
-      <if test="subjectName != null">
-        subject_name = #{subjectName,jdbcType=VARCHAR},
+      <if test="subjectId != null">
+        subject_id = #{subjectId,jdbcType=INTEGER},
       </if>
       <if test="curPrice != null">
         cur_price = #{curPrice,jdbcType=INTEGER},
@@ -569,7 +569,7 @@
     set product_id = #{productId,jdbcType=VARCHAR},
       seller_id = #{sellerId,jdbcType=INTEGER},
       product_name = #{productName,jdbcType=VARCHAR},
-      subject_name = #{subjectName,jdbcType=VARCHAR},
+      subject_id = #{subjectId,jdbcType=INTEGER},
       cur_price = #{curPrice,jdbcType=INTEGER},
       org_price = #{orgPrice,jdbcType=INTEGER},
       presentexp = #{presentexp,jdbcType=INTEGER},
@@ -598,7 +598,7 @@
     set product_id = #{productId,jdbcType=VARCHAR},
       seller_id = #{sellerId,jdbcType=INTEGER},
       product_name = #{productName,jdbcType=VARCHAR},
-      subject_name = #{subjectName,jdbcType=VARCHAR},
+      subject_id = #{subjectId,jdbcType=INTEGER},
       cur_price = #{curPrice,jdbcType=INTEGER},
       org_price = #{orgPrice,jdbcType=INTEGER},
       presentexp = #{presentexp,jdbcType=INTEGER},

@@ -11,7 +11,7 @@ public class TbProduct {
 
     private String productName;
 
-    private String subjectName;
+    private Integer subjectId;
 
     private Integer curPrice;
 
@@ -83,12 +83,12 @@ public class TbProduct {
         this.productName = productName == null ? null : productName.trim();
     }
 
-    public String getSubjectName() {
-        return subjectName;
+    public Integer getSubjectId() {
+        return subjectId;
     }
 
-    public void setSubjectName(String subjectName) {
-        this.subjectName = subjectName == null ? null : subjectName.trim();
+    public void setSubjectId(Integer subjectId) {
+        this.subjectId = subjectId;
     }
 
     public Integer getCurPrice() {
