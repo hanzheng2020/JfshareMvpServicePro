@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jfshare.mvp.server.mapper.TbProductPromotionMapper">
-  <resultMap id="BaseResultMap" type="com.jfshare.mvp.server.mapper.TbProductPromotion">
+  <resultMap id="BaseResultMap" type="com.jfshare.mvp.server.model.TbProductPromotion">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="promotion_no" jdbcType="INTEGER" property="promotionNo" />
     <result column="promotion_pic_url" jdbcType="VARCHAR" property="promotionPicUrl" />
@@ -92,12 +92,11 @@
     product_five_id, product_five_desc, product_five_pic_url, product_six_id, product_six_desc, 
     product_six_pic_url, create_time, update_time
   </sql>
-  <select id="selectByExample" parameterType="com.jfshare.mvp.server.mapper.TbProductPromotionExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.jfshare.mvp.server.model.TbProductPromotionExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
-    'true' as QUERYID,
     <include refid="Base_Column_List" />
     from tb_product_promotion
     <if test="_parameter != null">
@@ -117,39 +116,38 @@
     delete from tb_product_promotion
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.jfshare.mvp.server.mapper.TbProductPromotionExample">
+  <delete id="deleteByExample" parameterType="com.jfshare.mvp.server.model.TbProductPromotionExample">
     delete from tb_product_promotion
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.jfshare.mvp.server.mapper.TbProductPromotion">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into tb_product_promotion (promotion_no, promotion_pic_url, promotion_url, 
-      product_one_id, product_one_desc, product_one_pic_url, 
-      product_two_id, product_two_desc, product_two_pic_url, 
-      product_three_id, product_three_desc, product_three_pic_url, 
-      product_four_id, product_four_desc, product_four_pic_url, 
-      product_five_id, product_five_desc, product_five_pic_url, 
-      product_six_id, product_six_desc, product_six_pic_url, 
-      create_time, update_time)
-    values (#{promotionNo,jdbcType=INTEGER}, #{promotionPicUrl,jdbcType=VARCHAR}, #{promotionUrl,jdbcType=VARCHAR}, 
-      #{productOneId,jdbcType=VARCHAR}, #{productOneDesc,jdbcType=VARCHAR}, #{productOnePicUrl,jdbcType=VARCHAR}, 
-      #{productTwoId,jdbcType=VARCHAR}, #{productTwoDesc,jdbcType=VARCHAR}, #{productTwoPicUrl,jdbcType=VARCHAR}, 
-      #{productThreeId,jdbcType=VARCHAR}, #{productThreeDesc,jdbcType=VARCHAR}, #{productThreePicUrl,jdbcType=VARCHAR}, 
-      #{productFourId,jdbcType=VARCHAR}, #{productFourDesc,jdbcType=VARCHAR}, #{productFourPicUrl,jdbcType=VARCHAR}, 
-      #{productFiveId,jdbcType=VARCHAR}, #{productFiveDesc,jdbcType=VARCHAR}, #{productFivePicUrl,jdbcType=VARCHAR}, 
-      #{productSixId,jdbcType=VARCHAR}, #{productSixDesc,jdbcType=VARCHAR}, #{productSixPicUrl,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  <insert id="insert" parameterType="com.jfshare.mvp.server.model.TbProductPromotion">
+    insert into tb_product_promotion (id, promotion_no, promotion_pic_url, 
+      promotion_url, product_one_id, product_one_desc, 
+      product_one_pic_url, product_two_id, product_two_desc, 
+      product_two_pic_url, product_three_id, product_three_desc, 
+      product_three_pic_url, product_four_id, product_four_desc, 
+      product_four_pic_url, product_five_id, product_five_desc, 
+      product_five_pic_url, product_six_id, product_six_desc, 
+      product_six_pic_url, create_time, update_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{promotionNo,jdbcType=INTEGER}, #{promotionPicUrl,jdbcType=VARCHAR}, 
+      #{promotionUrl,jdbcType=VARCHAR}, #{productOneId,jdbcType=VARCHAR}, #{productOneDesc,jdbcType=VARCHAR}, 
+      #{productOnePicUrl,jdbcType=VARCHAR}, #{productTwoId,jdbcType=VARCHAR}, #{productTwoDesc,jdbcType=VARCHAR}, 
+      #{productTwoPicUrl,jdbcType=VARCHAR}, #{productThreeId,jdbcType=VARCHAR}, #{productThreeDesc,jdbcType=VARCHAR}, 
+      #{productThreePicUrl,jdbcType=VARCHAR}, #{productFourId,jdbcType=VARCHAR}, #{productFourDesc,jdbcType=VARCHAR}, 
+      #{productFourPicUrl,jdbcType=VARCHAR}, #{productFiveId,jdbcType=VARCHAR}, #{productFiveDesc,jdbcType=VARCHAR}, 
+      #{productFivePicUrl,jdbcType=VARCHAR}, #{productSixId,jdbcType=VARCHAR}, #{productSixDesc,jdbcType=VARCHAR}, 
+      #{productSixPicUrl,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.jfshare.mvp.server.mapper.TbProductPromotion">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
+  <insert id="insertSelective" parameterType="com.jfshare.mvp.server.model.TbProductPromotion">
     insert into tb_product_promotion
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
       <if test="promotionNo != null">
         promotion_no,
       </if>
@@ -221,6 +219,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
       <if test="promotionNo != null">
         #{promotionNo,jdbcType=INTEGER},
       </if>
@@ -292,7 +293,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.jfshare.mvp.server.mapper.TbProductPromotionExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.jfshare.mvp.server.model.TbProductPromotionExample" resultType="java.lang.Integer">
     select count(*) from tb_product_promotion
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -408,7 +409,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.jfshare.mvp.server.mapper.TbProductPromotion">
+  <update id="updateByPrimaryKeySelective" parameterType="com.jfshare.mvp.server.model.TbProductPromotion">
     update tb_product_promotion
     <set>
       <if test="promotionNo != null">
@@ -483,7 +484,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.jfshare.mvp.server.mapper.TbProductPromotion">
+  <update id="updateByPrimaryKey" parameterType="com.jfshare.mvp.server.model.TbProductPromotion">
     update tb_product_promotion
     set promotion_no = #{promotionNo,jdbcType=INTEGER},
       promotion_pic_url = #{promotionPicUrl,jdbcType=VARCHAR},

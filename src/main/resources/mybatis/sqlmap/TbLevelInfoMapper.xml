@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jfshare.mvp.server.mapper.TbLevelInfoMapper">
-  <resultMap id="BaseResultMap" type="com.jfshare.mvp.server.mapper.TbLevelInfo">
+  <resultMap id="BaseResultMap" type="com.jfshare.mvp.server.model.TbLevelInfo">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="userId" jdbcType="INTEGER" property="userid" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="score" jdbcType="INTEGER" property="score" />
+    <result column="growth_point" jdbcType="INTEGER" property="growthPoint" />
     <result column="levle" jdbcType="CHAR" property="levle" />
     <result column="jvjindou" jdbcType="INTEGER" property="jvjindou" />
     <result column="levle_beyond" jdbcType="INTEGER" property="levleBeyond" />
@@ -72,15 +72,14 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, userId, create_time, update_time, score, levle, jvjindou, levle_beyond, real_jvjindou, 
-    remark
+    id, userId, create_time, update_time, growth_point, levle, jvjindou, levle_beyond, 
+    real_jvjindou, remark
   </sql>
-  <select id="selectByExample" parameterType="com.jfshare.mvp.server.mapper.TbLevelInfoExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.jfshare.mvp.server.model.TbLevelInfoExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
-    'true' as QUERYID,
     <include refid="Base_Column_List" />
     from tb_level_info
     <if test="_parameter != null">
@@ -100,31 +99,28 @@
     delete from tb_level_info
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.jfshare.mvp.server.mapper.TbLevelInfoExample">
+  <delete id="deleteByExample" parameterType="com.jfshare.mvp.server.model.TbLevelInfoExample">
     delete from tb_level_info
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.jfshare.mvp.server.mapper.TbLevelInfo">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into tb_level_info (userId, create_time, update_time, 
-      score, levle, jvjindou, 
-      levle_beyond, real_jvjindou, remark
-      )
-    values (#{userid,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{score,jdbcType=INTEGER}, #{levle,jdbcType=CHAR}, #{jvjindou,jdbcType=INTEGER}, 
-      #{levleBeyond,jdbcType=INTEGER}, #{realJvjindou,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
-      )
+  <insert id="insert" parameterType="com.jfshare.mvp.server.model.TbLevelInfo">
+    insert into tb_level_info (id, userId, create_time, 
+      update_time, growth_point, levle, 
+      jvjindou, levle_beyond, real_jvjindou, 
+      remark)
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{growthPoint,jdbcType=INTEGER}, #{levle,jdbcType=CHAR}, 
+      #{jvjindou,jdbcType=INTEGER}, #{levleBeyond,jdbcType=INTEGER}, #{realJvjindou,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.jfshare.mvp.server.mapper.TbLevelInfo">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
+  <insert id="insertSelective" parameterType="com.jfshare.mvp.server.model.TbLevelInfo">
     insert into tb_level_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
       <if test="userid != null">
         userId,
       </if>
@@ -134,8 +130,8 @@
       <if test="updateTime != null">
         update_time,
       </if>
-      <if test="score != null">
-        score,
+      <if test="growthPoint != null">
+        growth_point,
       </if>
       <if test="levle != null">
         levle,
@@ -154,6 +150,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
       <if test="userid != null">
         #{userid,jdbcType=INTEGER},
       </if>
@@ -163,8 +162,8 @@
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="score != null">
-        #{score,jdbcType=INTEGER},
+      <if test="growthPoint != null">
+        #{growthPoint,jdbcType=INTEGER},
       </if>
       <if test="levle != null">
         #{levle,jdbcType=CHAR},
@@ -183,7 +182,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.jfshare.mvp.server.mapper.TbLevelInfoExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.jfshare.mvp.server.model.TbLevelInfoExample" resultType="java.lang.Integer">
     select count(*) from tb_level_info
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -204,8 +203,8 @@
       <if test="record.updateTime != null">
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.score != null">
-        score = #{record.score,jdbcType=INTEGER},
+      <if test="record.growthPoint != null">
+        growth_point = #{record.growthPoint,jdbcType=INTEGER},
       </if>
       <if test="record.levle != null">
         levle = #{record.levle,jdbcType=CHAR},
@@ -233,7 +232,7 @@
       userId = #{record.userid,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      score = #{record.score,jdbcType=INTEGER},
+      growth_point = #{record.growthPoint,jdbcType=INTEGER},
       levle = #{record.levle,jdbcType=CHAR},
       jvjindou = #{record.jvjindou,jdbcType=INTEGER},
       levle_beyond = #{record.levleBeyond,jdbcType=INTEGER},
@@ -243,7 +242,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.jfshare.mvp.server.mapper.TbLevelInfo">
+  <update id="updateByPrimaryKeySelective" parameterType="com.jfshare.mvp.server.model.TbLevelInfo">
     update tb_level_info
     <set>
       <if test="userid != null">
@@ -255,8 +254,8 @@
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="score != null">
-        score = #{score,jdbcType=INTEGER},
+      <if test="growthPoint != null">
+        growth_point = #{growthPoint,jdbcType=INTEGER},
       </if>
       <if test="levle != null">
         levle = #{levle,jdbcType=CHAR},
@@ -276,12 +275,12 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.jfshare.mvp.server.mapper.TbLevelInfo">
+  <update id="updateByPrimaryKey" parameterType="com.jfshare.mvp.server.model.TbLevelInfo">
     update tb_level_info
     set userId = #{userid,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      score = #{score,jdbcType=INTEGER},
+      growth_point = #{growthPoint,jdbcType=INTEGER},
       levle = #{levle,jdbcType=CHAR},
       jvjindou = #{jvjindou,jdbcType=INTEGER},
       levle_beyond = #{levleBeyond,jdbcType=INTEGER},

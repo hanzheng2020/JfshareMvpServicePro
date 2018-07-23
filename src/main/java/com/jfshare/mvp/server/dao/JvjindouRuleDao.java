@@ -6,10 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
-import com.jfshare.mvp.server.mapper.TbJvjindouRule;
-import com.jfshare.mvp.server.mapper.TbJvjindouRuleExample;
-import com.jfshare.mvp.server.mapper.TbJvjindouRuleExample.Criteria;
+
 import com.jfshare.mvp.server.mapper.TbJvjindouRuleMapper;
+import com.jfshare.mvp.server.model.TbJvjindouRule;
+import com.jfshare.mvp.server.model.TbJvjindouRuleExample;
+import com.jfshare.mvp.server.model.TbJvjindouRuleExample.Criteria;
 
 /**
  *聚金豆消费

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jfshare.mvp.server.mapper.TbJvjindouRuleMapper">
-  <resultMap id="BaseResultMap" type="com.jfshare.mvp.server.mapper.TbJvjindouRule">
+  <resultMap id="BaseResultMap" type="com.jfshare.mvp.server.model.TbJvjindouRule">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="giving_rule" jdbcType="CHAR" property="givingRule" />
     <result column="random_giving_min" jdbcType="INTEGER" property="randomGivingMin" />
     <result column="random_giving_max" jdbcType="INTEGER" property="randomGivingMax" />
     <result column="fixed_giving" jdbcType="INTEGER" property="fixedGiving" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -68,14 +69,14 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, create_time, giving_rule, random_giving_min, random_giving_max, fixed_giving
+    id, create_time, giving_rule, random_giving_min, random_giving_max, fixed_giving, 
+    update_time
   </sql>
-  <select id="selectByExample" parameterType="com.jfshare.mvp.server.mapper.TbJvjindouRuleExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.jfshare.mvp.server.model.TbJvjindouRuleExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
-    'true' as QUERYID,
     <include refid="Base_Column_List" />
     from tb_jvjindou_rule
     <if test="_parameter != null">
@@ -95,27 +96,26 @@
     delete from tb_jvjindou_rule
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.jfshare.mvp.server.mapper.TbJvjindouRuleExample">
+  <delete id="deleteByExample" parameterType="com.jfshare.mvp.server.model.TbJvjindouRuleExample">
     delete from tb_jvjindou_rule
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.jfshare.mvp.server.mapper.TbJvjindouRule">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into tb_jvjindou_rule (create_time, giving_rule, random_giving_min, 
-      random_giving_max, fixed_giving)
-    values (#{createTime,jdbcType=TIMESTAMP}, #{givingRule,jdbcType=CHAR}, #{randomGivingMin,jdbcType=INTEGER}, 
-      #{randomGivingMax,jdbcType=INTEGER}, #{fixedGiving,jdbcType=INTEGER})
+  <insert id="insert" parameterType="com.jfshare.mvp.server.model.TbJvjindouRule">
+    insert into tb_jvjindou_rule (id, create_time, giving_rule, 
+      random_giving_min, random_giving_max, fixed_giving, 
+      update_time)
+    values (#{id,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{givingRule,jdbcType=CHAR}, 
+      #{randomGivingMin,jdbcType=INTEGER}, #{randomGivingMax,jdbcType=INTEGER}, #{fixedGiving,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.jfshare.mvp.server.mapper.TbJvjindouRule">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
+  <insert id="insertSelective" parameterType="com.jfshare.mvp.server.model.TbJvjindouRule">
     insert into tb_jvjindou_rule
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
       <if test="createTime != null">
         create_time,
       </if>
@@ -131,8 +131,14 @@
       <if test="fixedGiving != null">
         fixed_giving,
       </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -148,9 +154,12 @@
       <if test="fixedGiving != null">
         #{fixedGiving,jdbcType=INTEGER},
       </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.jfshare.mvp.server.mapper.TbJvjindouRuleExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.jfshare.mvp.server.model.TbJvjindouRuleExample" resultType="java.lang.Integer">
     select count(*) from tb_jvjindou_rule
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -177,6 +186,9 @@
       <if test="record.fixedGiving != null">
         fixed_giving = #{record.fixedGiving,jdbcType=INTEGER},
       </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -189,12 +201,13 @@
       giving_rule = #{record.givingRule,jdbcType=CHAR},
       random_giving_min = #{record.randomGivingMin,jdbcType=INTEGER},
       random_giving_max = #{record.randomGivingMax,jdbcType=INTEGER},
-      fixed_giving = #{record.fixedGiving,jdbcType=INTEGER}
+      fixed_giving = #{record.fixedGiving,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.jfshare.mvp.server.mapper.TbJvjindouRule">
+  <update id="updateByPrimaryKeySelective" parameterType="com.jfshare.mvp.server.model.TbJvjindouRule">
     update tb_jvjindou_rule
     <set>
       <if test="createTime != null">
@@ -212,16 +225,20 @@
       <if test="fixedGiving != null">
         fixed_giving = #{fixedGiving,jdbcType=INTEGER},
       </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.jfshare.mvp.server.mapper.TbJvjindouRule">
+  <update id="updateByPrimaryKey" parameterType="com.jfshare.mvp.server.model.TbJvjindouRule">
     update tb_jvjindou_rule
     set create_time = #{createTime,jdbcType=TIMESTAMP},
       giving_rule = #{givingRule,jdbcType=CHAR},
       random_giving_min = #{randomGivingMin,jdbcType=INTEGER},
       random_giving_max = #{randomGivingMax,jdbcType=INTEGER},
-      fixed_giving = #{fixedGiving,jdbcType=INTEGER}
+      fixed_giving = #{fixedGiving,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

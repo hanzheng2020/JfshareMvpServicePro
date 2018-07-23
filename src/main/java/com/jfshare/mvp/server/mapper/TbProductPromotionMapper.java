@@ -1,12 +1,12 @@
 package com.jfshare.mvp.server.mapper;
 
-import com.jfshare.mvp.server.mapper.TbProductPromotion;
-import com.jfshare.mvp.server.mapper.TbProductPromotionExample;
+import com.jfshare.mvp.server.model.TbProductPromotion;
+import com.jfshare.mvp.server.model.TbProductPromotionExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 public interface TbProductPromotionMapper {
-    long countByExample(TbProductPromotionExample example);
+    int countByExample(TbProductPromotionExample example);
 
     int deleteByExample(TbProductPromotionExample example);
 

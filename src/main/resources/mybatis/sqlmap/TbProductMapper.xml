@@ -1,0 +1,623 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jfshare.mvp.server.mapper.TbProductMapper">
+  <resultMap id="BaseResultMap" type="com.jfshare.mvp.server.model.TbProduct">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="product_id" jdbcType="VARCHAR" property="productId" />
+    <result column="seller_id" jdbcType="INTEGER" property="sellerId" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="subject_id" jdbcType="INTEGER" property="subjectId" />
+    <result column="cur_price" jdbcType="INTEGER" property="curPrice" />
+    <result column="org_price" jdbcType="INTEGER" property="orgPrice" />
+    <result column="presentexp" jdbcType="INTEGER" property="presentexp" />
+    <result column="img_key" jdbcType="VARCHAR" property="imgKey" />
+    <result column="detail_key" jdbcType="VARCHAR" property="detailKey" />
+    <result column="active_state" jdbcType="INTEGER" property="activeState" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
+    <result column="last_soldout_time" jdbcType="TIMESTAMP" property="lastSoldoutTime" />
+    <result column="last_putaway_time" jdbcType="TIMESTAMP" property="lastPutawayTime" />
+    <result column="last_update_id" jdbcType="INTEGER" property="lastUpdateId" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="third_party_identify" jdbcType="INTEGER" property="thirdPartyIdentify" />
+    <result column="third_party_product_id" jdbcType="VARCHAR" property="thirdPartyProductId" />
+    <result column="storehouse_ids" jdbcType="VARCHAR" property="storehouseIds" />
+    <result column="ext1" jdbcType="VARCHAR" property="ext1" />
+    <result column="ext2" jdbcType="VARCHAR" property="ext2" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.jfshare.mvp.server.model.TbProductWithBLOBs">
+    <result column="sku_template" jdbcType="LONGVARCHAR" property="skuTemplate" />
+    <result column="attribute" jdbcType="LONGVARCHAR" property="attribute" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, product_id, seller_id, product_name, subject_id, cur_price, org_price, presentexp, 
+    img_key, detail_key, active_state, type, remark, create_time, create_user_id, last_soldout_time, 
+    last_putaway_time, last_update_id, state, third_party_identify, third_party_product_id, 
+    storehouse_ids, ext1, ext2
+  </sql>
+  <sql id="Blob_Column_List">
+    sku_template, attribute
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.jfshare.mvp.server.model.TbProductExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_product
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.jfshare.mvp.server.model.TbProductExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_product
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_product
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_product
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.jfshare.mvp.server.model.TbProductExample">
+    delete from tb_product
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.jfshare.mvp.server.model.TbProductWithBLOBs">
+    insert into tb_product (id, product_id, seller_id, 
+      product_name, subject_id, cur_price, 
+      org_price, presentexp, img_key, 
+      detail_key, active_state, type, 
+      remark, create_time, create_user_id, 
+      last_soldout_time, last_putaway_time, last_update_id, 
+      state, third_party_identify, third_party_product_id, 
+      storehouse_ids, ext1, ext2, 
+      sku_template, attribute)
+    values (#{id,jdbcType=INTEGER}, #{productId,jdbcType=VARCHAR}, #{sellerId,jdbcType=INTEGER}, 
+      #{productName,jdbcType=VARCHAR}, #{subjectId,jdbcType=INTEGER}, #{curPrice,jdbcType=INTEGER}, 
+      #{orgPrice,jdbcType=INTEGER}, #{presentexp,jdbcType=INTEGER}, #{imgKey,jdbcType=VARCHAR}, 
+      #{detailKey,jdbcType=VARCHAR}, #{activeState,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, 
+      #{lastSoldoutTime,jdbcType=TIMESTAMP}, #{lastPutawayTime,jdbcType=TIMESTAMP}, #{lastUpdateId,jdbcType=INTEGER}, 
+      #{state,jdbcType=INTEGER}, #{thirdPartyIdentify,jdbcType=INTEGER}, #{thirdPartyProductId,jdbcType=VARCHAR}, 
+      #{storehouseIds,jdbcType=VARCHAR}, #{ext1,jdbcType=VARCHAR}, #{ext2,jdbcType=VARCHAR}, 
+      #{skuTemplate,jdbcType=LONGVARCHAR}, #{attribute,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jfshare.mvp.server.model.TbProductWithBLOBs">
+    insert into tb_product
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="productId != null">
+        product_id,
+      </if>
+      <if test="sellerId != null">
+        seller_id,
+      </if>
+      <if test="productName != null">
+        product_name,
+      </if>
+      <if test="subjectId != null">
+        subject_id,
+      </if>
+      <if test="curPrice != null">
+        cur_price,
+      </if>
+      <if test="orgPrice != null">
+        org_price,
+      </if>
+      <if test="presentexp != null">
+        presentexp,
+      </if>
+      <if test="imgKey != null">
+        img_key,
+      </if>
+      <if test="detailKey != null">
+        detail_key,
+      </if>
+      <if test="activeState != null">
+        active_state,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="lastSoldoutTime != null">
+        last_soldout_time,
+      </if>
+      <if test="lastPutawayTime != null">
+        last_putaway_time,
+      </if>
+      <if test="lastUpdateId != null">
+        last_update_id,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="thirdPartyIdentify != null">
+        third_party_identify,
+      </if>
+      <if test="thirdPartyProductId != null">
+        third_party_product_id,
+      </if>
+      <if test="storehouseIds != null">
+        storehouse_ids,
+      </if>
+      <if test="ext1 != null">
+        ext1,
+      </if>
+      <if test="ext2 != null">
+        ext2,
+      </if>
+      <if test="skuTemplate != null">
+        sku_template,
+      </if>
+      <if test="attribute != null">
+        attribute,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null">
+        #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerId != null">
+        #{sellerId,jdbcType=INTEGER},
+      </if>
+      <if test="productName != null">
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectId != null">
+        #{subjectId,jdbcType=INTEGER},
+      </if>
+      <if test="curPrice != null">
+        #{curPrice,jdbcType=INTEGER},
+      </if>
+      <if test="orgPrice != null">
+        #{orgPrice,jdbcType=INTEGER},
+      </if>
+      <if test="presentexp != null">
+        #{presentexp,jdbcType=INTEGER},
+      </if>
+      <if test="imgKey != null">
+        #{imgKey,jdbcType=VARCHAR},
+      </if>
+      <if test="detailKey != null">
+        #{detailKey,jdbcType=VARCHAR},
+      </if>
+      <if test="activeState != null">
+        #{activeState,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="lastSoldoutTime != null">
+        #{lastSoldoutTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastPutawayTime != null">
+        #{lastPutawayTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateId != null">
+        #{lastUpdateId,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="thirdPartyIdentify != null">
+        #{thirdPartyIdentify,jdbcType=INTEGER},
+      </if>
+      <if test="thirdPartyProductId != null">
+        #{thirdPartyProductId,jdbcType=VARCHAR},
+      </if>
+      <if test="storehouseIds != null">
+        #{storehouseIds,jdbcType=VARCHAR},
+      </if>
+      <if test="ext1 != null">
+        #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null">
+        #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="skuTemplate != null">
+        #{skuTemplate,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="attribute != null">
+        #{attribute,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.jfshare.mvp.server.model.TbProductExample" resultType="java.lang.Integer">
+    select count(*) from tb_product
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_product
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.productId != null">
+        product_id = #{record.productId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sellerId != null">
+        seller_id = #{record.sellerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.productName != null">
+        product_name = #{record.productName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.subjectId != null">
+        subject_id = #{record.subjectId,jdbcType=INTEGER},
+      </if>
+      <if test="record.curPrice != null">
+        cur_price = #{record.curPrice,jdbcType=INTEGER},
+      </if>
+      <if test="record.orgPrice != null">
+        org_price = #{record.orgPrice,jdbcType=INTEGER},
+      </if>
+      <if test="record.presentexp != null">
+        presentexp = #{record.presentexp,jdbcType=INTEGER},
+      </if>
+      <if test="record.imgKey != null">
+        img_key = #{record.imgKey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.detailKey != null">
+        detail_key = #{record.detailKey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.activeState != null">
+        active_state = #{record.activeState,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUserId != null">
+        create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.lastSoldoutTime != null">
+        last_soldout_time = #{record.lastSoldoutTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lastPutawayTime != null">
+        last_putaway_time = #{record.lastPutawayTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lastUpdateId != null">
+        last_update_id = #{record.lastUpdateId,jdbcType=INTEGER},
+      </if>
+      <if test="record.state != null">
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+      <if test="record.thirdPartyIdentify != null">
+        third_party_identify = #{record.thirdPartyIdentify,jdbcType=INTEGER},
+      </if>
+      <if test="record.thirdPartyProductId != null">
+        third_party_product_id = #{record.thirdPartyProductId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.storehouseIds != null">
+        storehouse_ids = #{record.storehouseIds,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext1 != null">
+        ext1 = #{record.ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext2 != null">
+        ext2 = #{record.ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.skuTemplate != null">
+        sku_template = #{record.skuTemplate,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.attribute != null">
+        attribute = #{record.attribute,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update tb_product
+    set id = #{record.id,jdbcType=INTEGER},
+      product_id = #{record.productId,jdbcType=VARCHAR},
+      seller_id = #{record.sellerId,jdbcType=INTEGER},
+      product_name = #{record.productName,jdbcType=VARCHAR},
+      subject_id = #{record.subjectId,jdbcType=INTEGER},
+      cur_price = #{record.curPrice,jdbcType=INTEGER},
+      org_price = #{record.orgPrice,jdbcType=INTEGER},
+      presentexp = #{record.presentexp,jdbcType=INTEGER},
+      img_key = #{record.imgKey,jdbcType=VARCHAR},
+      detail_key = #{record.detailKey,jdbcType=VARCHAR},
+      active_state = #{record.activeState,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      last_soldout_time = #{record.lastSoldoutTime,jdbcType=TIMESTAMP},
+      last_putaway_time = #{record.lastPutawayTime,jdbcType=TIMESTAMP},
+      last_update_id = #{record.lastUpdateId,jdbcType=INTEGER},
+      state = #{record.state,jdbcType=INTEGER},
+      third_party_identify = #{record.thirdPartyIdentify,jdbcType=INTEGER},
+      third_party_product_id = #{record.thirdPartyProductId,jdbcType=VARCHAR},
+      storehouse_ids = #{record.storehouseIds,jdbcType=VARCHAR},
+      ext1 = #{record.ext1,jdbcType=VARCHAR},
+      ext2 = #{record.ext2,jdbcType=VARCHAR},
+      sku_template = #{record.skuTemplate,jdbcType=LONGVARCHAR},
+      attribute = #{record.attribute,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_product
+    set id = #{record.id,jdbcType=INTEGER},
+      product_id = #{record.productId,jdbcType=VARCHAR},
+      seller_id = #{record.sellerId,jdbcType=INTEGER},
+      product_name = #{record.productName,jdbcType=VARCHAR},
+      subject_id = #{record.subjectId,jdbcType=INTEGER},
+      cur_price = #{record.curPrice,jdbcType=INTEGER},
+      org_price = #{record.orgPrice,jdbcType=INTEGER},
+      presentexp = #{record.presentexp,jdbcType=INTEGER},
+      img_key = #{record.imgKey,jdbcType=VARCHAR},
+      detail_key = #{record.detailKey,jdbcType=VARCHAR},
+      active_state = #{record.activeState,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      last_soldout_time = #{record.lastSoldoutTime,jdbcType=TIMESTAMP},
+      last_putaway_time = #{record.lastPutawayTime,jdbcType=TIMESTAMP},
+      last_update_id = #{record.lastUpdateId,jdbcType=INTEGER},
+      state = #{record.state,jdbcType=INTEGER},
+      third_party_identify = #{record.thirdPartyIdentify,jdbcType=INTEGER},
+      third_party_product_id = #{record.thirdPartyProductId,jdbcType=VARCHAR},
+      storehouse_ids = #{record.storehouseIds,jdbcType=VARCHAR},
+      ext1 = #{record.ext1,jdbcType=VARCHAR},
+      ext2 = #{record.ext2,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jfshare.mvp.server.model.TbProductWithBLOBs">
+    update tb_product
+    <set>
+      <if test="productId != null">
+        product_id = #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerId != null">
+        seller_id = #{sellerId,jdbcType=INTEGER},
+      </if>
+      <if test="productName != null">
+        product_name = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectId != null">
+        subject_id = #{subjectId,jdbcType=INTEGER},
+      </if>
+      <if test="curPrice != null">
+        cur_price = #{curPrice,jdbcType=INTEGER},
+      </if>
+      <if test="orgPrice != null">
+        org_price = #{orgPrice,jdbcType=INTEGER},
+      </if>
+      <if test="presentexp != null">
+        presentexp = #{presentexp,jdbcType=INTEGER},
+      </if>
+      <if test="imgKey != null">
+        img_key = #{imgKey,jdbcType=VARCHAR},
+      </if>
+      <if test="detailKey != null">
+        detail_key = #{detailKey,jdbcType=VARCHAR},
+      </if>
+      <if test="activeState != null">
+        active_state = #{activeState,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="lastSoldoutTime != null">
+        last_soldout_time = #{lastSoldoutTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastPutawayTime != null">
+        last_putaway_time = #{lastPutawayTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateId != null">
+        last_update_id = #{lastUpdateId,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="thirdPartyIdentify != null">
+        third_party_identify = #{thirdPartyIdentify,jdbcType=INTEGER},
+      </if>
+      <if test="thirdPartyProductId != null">
+        third_party_product_id = #{thirdPartyProductId,jdbcType=VARCHAR},
+      </if>
+      <if test="storehouseIds != null">
+        storehouse_ids = #{storehouseIds,jdbcType=VARCHAR},
+      </if>
+      <if test="ext1 != null">
+        ext1 = #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null">
+        ext2 = #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="skuTemplate != null">
+        sku_template = #{skuTemplate,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="attribute != null">
+        attribute = #{attribute,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.jfshare.mvp.server.model.TbProductWithBLOBs">
+    update tb_product
+    set product_id = #{productId,jdbcType=VARCHAR},
+      seller_id = #{sellerId,jdbcType=INTEGER},
+      product_name = #{productName,jdbcType=VARCHAR},
+      subject_id = #{subjectId,jdbcType=INTEGER},
+      cur_price = #{curPrice,jdbcType=INTEGER},
+      org_price = #{orgPrice,jdbcType=INTEGER},
+      presentexp = #{presentexp,jdbcType=INTEGER},
+      img_key = #{imgKey,jdbcType=VARCHAR},
+      detail_key = #{detailKey,jdbcType=VARCHAR},
+      active_state = #{activeState,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      last_soldout_time = #{lastSoldoutTime,jdbcType=TIMESTAMP},
+      last_putaway_time = #{lastPutawayTime,jdbcType=TIMESTAMP},
+      last_update_id = #{lastUpdateId,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER},
+      third_party_identify = #{thirdPartyIdentify,jdbcType=INTEGER},
+      third_party_product_id = #{thirdPartyProductId,jdbcType=VARCHAR},
+      storehouse_ids = #{storehouseIds,jdbcType=VARCHAR},
+      ext1 = #{ext1,jdbcType=VARCHAR},
+      ext2 = #{ext2,jdbcType=VARCHAR},
+      sku_template = #{skuTemplate,jdbcType=LONGVARCHAR},
+      attribute = #{attribute,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jfshare.mvp.server.model.TbProduct">
+    update tb_product
+    set product_id = #{productId,jdbcType=VARCHAR},
+      seller_id = #{sellerId,jdbcType=INTEGER},
+      product_name = #{productName,jdbcType=VARCHAR},
+      subject_id = #{subjectId,jdbcType=INTEGER},
+      cur_price = #{curPrice,jdbcType=INTEGER},
+      org_price = #{orgPrice,jdbcType=INTEGER},
+      presentexp = #{presentexp,jdbcType=INTEGER},
+      img_key = #{imgKey,jdbcType=VARCHAR},
+      detail_key = #{detailKey,jdbcType=VARCHAR},
+      active_state = #{activeState,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      last_soldout_time = #{lastSoldoutTime,jdbcType=TIMESTAMP},
+      last_putaway_time = #{lastPutawayTime,jdbcType=TIMESTAMP},
+      last_update_id = #{lastUpdateId,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER},
+      third_party_identify = #{thirdPartyIdentify,jdbcType=INTEGER},
+      third_party_product_id = #{thirdPartyProductId,jdbcType=VARCHAR},
+      storehouse_ids = #{storehouseIds,jdbcType=VARCHAR},
+      ext1 = #{ext1,jdbcType=VARCHAR},
+      ext2 = #{ext2,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

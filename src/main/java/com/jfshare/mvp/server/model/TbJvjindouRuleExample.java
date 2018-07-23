@@ -1,17 +1,17 @@
-package com.jfshare.mvp.server.mapper;
+package com.jfshare.mvp.server.model;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class TbJfRaidersExample {
+public class TbJvjindouRuleExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public TbJfRaidersExample() {
+    public TbJvjindouRuleExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -165,76 +165,6 @@ public class TbJfRaidersExample {
             return (Criteria) this;
         }
 
-        public Criteria andTitleIsNull() {
-            addCriterion("title is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTitleIsNotNull() {
-            addCriterion("title is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTitleEqualTo(String value) {
-            addCriterion("title =", value, "title");
-            return (Criteria) this;
-        }
-
-        public Criteria andTitleNotEqualTo(String value) {
-            addCriterion("title <>", value, "title");
-            return (Criteria) this;
-        }
-
-        public Criteria andTitleGreaterThan(String value) {
-            addCriterion("title >", value, "title");
-            return (Criteria) this;
-        }
-
-        public Criteria andTitleGreaterThanOrEqualTo(String value) {
-            addCriterion("title >=", value, "title");
-            return (Criteria) this;
-        }
-
-        public Criteria andTitleLessThan(String value) {
-            addCriterion("title <", value, "title");
-            return (Criteria) this;
-        }
-
-        public Criteria andTitleLessThanOrEqualTo(String value) {
-            addCriterion("title <=", value, "title");
-            return (Criteria) this;
-        }
-
-        public Criteria andTitleLike(String value) {
-            addCriterion("title like", value, "title");
-            return (Criteria) this;
-        }
-
-        public Criteria andTitleNotLike(String value) {
-            addCriterion("title not like", value, "title");
-            return (Criteria) this;
-        }
-
-        public Criteria andTitleIn(List<String> values) {
-            addCriterion("title in", values, "title");
-            return (Criteria) this;
-        }
-
-        public Criteria andTitleNotIn(List<String> values) {
-            addCriterion("title not in", values, "title");
-            return (Criteria) this;
-        }
-
-        public Criteria andTitleBetween(String value1, String value2) {
-            addCriterion("title between", value1, value2, "title");
-            return (Criteria) this;
-        }
-
-        public Criteria andTitleNotBetween(String value1, String value2) {
-            addCriterion("title not between", value1, value2, "title");
-            return (Criteria) this;
-        }
-
         public Criteria andCreateTimeIsNull() {
             addCriterion("create_time is null");
             return (Criteria) this;
@@ -295,263 +225,313 @@ public class TbJfRaidersExample {
             return (Criteria) this;
         }
 
-        public Criteria andImgUrlIsNull() {
-            addCriterion("img_url is null");
+        public Criteria andGivingRuleIsNull() {
+            addCriterion("giving_rule is null");
             return (Criteria) this;
         }
 
-        public Criteria andImgUrlIsNotNull() {
-            addCriterion("img_url is not null");
+        public Criteria andGivingRuleIsNotNull() {
+            addCriterion("giving_rule is not null");
             return (Criteria) this;
         }
 
-        public Criteria andImgUrlEqualTo(String value) {
-            addCriterion("img_url =", value, "imgUrl");
+        public Criteria andGivingRuleEqualTo(String value) {
+            addCriterion("giving_rule =", value, "givingRule");
             return (Criteria) this;
         }
 
-        public Criteria andImgUrlNotEqualTo(String value) {
-            addCriterion("img_url <>", value, "imgUrl");
+        public Criteria andGivingRuleNotEqualTo(String value) {
+            addCriterion("giving_rule <>", value, "givingRule");
             return (Criteria) this;
         }
 
-        public Criteria andImgUrlGreaterThan(String value) {
-            addCriterion("img_url >", value, "imgUrl");
+        public Criteria andGivingRuleGreaterThan(String value) {
+            addCriterion("giving_rule >", value, "givingRule");
             return (Criteria) this;
         }
 
-        public Criteria andImgUrlGreaterThanOrEqualTo(String value) {
-            addCriterion("img_url >=", value, "imgUrl");
+        public Criteria andGivingRuleGreaterThanOrEqualTo(String value) {
+            addCriterion("giving_rule >=", value, "givingRule");
             return (Criteria) this;
         }
 
-        public Criteria andImgUrlLessThan(String value) {
-            addCriterion("img_url <", value, "imgUrl");
+        public Criteria andGivingRuleLessThan(String value) {
+            addCriterion("giving_rule <", value, "givingRule");
             return (Criteria) this;
         }
 
-        public Criteria andImgUrlLessThanOrEqualTo(String value) {
-            addCriterion("img_url <=", value, "imgUrl");
+        public Criteria andGivingRuleLessThanOrEqualTo(String value) {
+            addCriterion("giving_rule <=", value, "givingRule");
             return (Criteria) this;
         }
 
-        public Criteria andImgUrlLike(String value) {
-            addCriterion("img_url like", value, "imgUrl");
+        public Criteria andGivingRuleLike(String value) {
+            addCriterion("giving_rule like", value, "givingRule");
             return (Criteria) this;
         }
 
-        public Criteria andImgUrlNotLike(String value) {
-            addCriterion("img_url not like", value, "imgUrl");
+        public Criteria andGivingRuleNotLike(String value) {
+            addCriterion("giving_rule not like", value, "givingRule");
             return (Criteria) this;
         }
 
-        public Criteria andImgUrlIn(List<String> values) {
-            addCriterion("img_url in", values, "imgUrl");
+        public Criteria andGivingRuleIn(List<String> values) {
+            addCriterion("giving_rule in", values, "givingRule");
             return (Criteria) this;
         }
 
-        public Criteria andImgUrlNotIn(List<String> values) {
-            addCriterion("img_url not in", values, "imgUrl");
+        public Criteria andGivingRuleNotIn(List<String> values) {
+            addCriterion("giving_rule not in", values, "givingRule");
             return (Criteria) this;
         }
 
-        public Criteria andImgUrlBetween(String value1, String value2) {
-            addCriterion("img_url between", value1, value2, "imgUrl");
+        public Criteria andGivingRuleBetween(String value1, String value2) {
+            addCriterion("giving_rule between", value1, value2, "givingRule");
             return (Criteria) this;
         }
 
-        public Criteria andImgUrlNotBetween(String value1, String value2) {
-            addCriterion("img_url not between", value1, value2, "imgUrl");
+        public Criteria andGivingRuleNotBetween(String value1, String value2) {
+            addCriterion("giving_rule not between", value1, value2, "givingRule");
             return (Criteria) this;
         }
 
-        public Criteria andReleaseTimeIsNull() {
-            addCriterion("release_time is null");
+        public Criteria andRandomGivingMinIsNull() {
+            addCriterion("random_giving_min is null");
             return (Criteria) this;
         }
 
-        public Criteria andReleaseTimeIsNotNull() {
-            addCriterion("release_time is not null");
+        public Criteria andRandomGivingMinIsNotNull() {
+            addCriterion("random_giving_min is not null");
             return (Criteria) this;
         }
 
-        public Criteria andReleaseTimeEqualTo(Date value) {
-            addCriterion("release_time =", value, "releaseTime");
+        public Criteria andRandomGivingMinEqualTo(Integer value) {
+            addCriterion("random_giving_min =", value, "randomGivingMin");
             return (Criteria) this;
         }
 
-        public Criteria andReleaseTimeNotEqualTo(Date value) {
-            addCriterion("release_time <>", value, "releaseTime");
+        public Criteria andRandomGivingMinNotEqualTo(Integer value) {
+            addCriterion("random_giving_min <>", value, "randomGivingMin");
             return (Criteria) this;
         }
 
-        public Criteria andReleaseTimeGreaterThan(Date value) {
-            addCriterion("release_time >", value, "releaseTime");
+        public Criteria andRandomGivingMinGreaterThan(Integer value) {
+            addCriterion("random_giving_min >", value, "randomGivingMin");
             return (Criteria) this;
         }
 
-        public Criteria andReleaseTimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("release_time >=", value, "releaseTime");
+        public Criteria andRandomGivingMinGreaterThanOrEqualTo(Integer value) {
+            addCriterion("random_giving_min >=", value, "randomGivingMin");
             return (Criteria) this;
         }
 
-        public Criteria andReleaseTimeLessThan(Date value) {
-            addCriterion("release_time <", value, "releaseTime");
+        public Criteria andRandomGivingMinLessThan(Integer value) {
+            addCriterion("random_giving_min <", value, "randomGivingMin");
             return (Criteria) this;
         }
 
-        public Criteria andReleaseTimeLessThanOrEqualTo(Date value) {
-            addCriterion("release_time <=", value, "releaseTime");
+        public Criteria andRandomGivingMinLessThanOrEqualTo(Integer value) {
+            addCriterion("random_giving_min <=", value, "randomGivingMin");
             return (Criteria) this;
         }
 
-        public Criteria andReleaseTimeIn(List<Date> values) {
-            addCriterion("release_time in", values, "releaseTime");
+        public Criteria andRandomGivingMinIn(List<Integer> values) {
+            addCriterion("random_giving_min in", values, "randomGivingMin");
             return (Criteria) this;
         }
 
-        public Criteria andReleaseTimeNotIn(List<Date> values) {
-            addCriterion("release_time not in", values, "releaseTime");
+        public Criteria andRandomGivingMinNotIn(List<Integer> values) {
+            addCriterion("random_giving_min not in", values, "randomGivingMin");
             return (Criteria) this;
         }
 
-        public Criteria andReleaseTimeBetween(Date value1, Date value2) {
-            addCriterion("release_time between", value1, value2, "releaseTime");
+        public Criteria andRandomGivingMinBetween(Integer value1, Integer value2) {
+            addCriterion("random_giving_min between", value1, value2, "randomGivingMin");
             return (Criteria) this;
         }
 
-        public Criteria andReleaseTimeNotBetween(Date value1, Date value2) {
-            addCriterion("release_time not between", value1, value2, "releaseTime");
+        public Criteria andRandomGivingMinNotBetween(Integer value1, Integer value2) {
+            addCriterion("random_giving_min not between", value1, value2, "randomGivingMin");
             return (Criteria) this;
         }
 
-        public Criteria andCreateUserIsNull() {
-            addCriterion("create_user is null");
+        public Criteria andRandomGivingMaxIsNull() {
+            addCriterion("random_giving_max is null");
             return (Criteria) this;
         }
 
-        public Criteria andCreateUserIsNotNull() {
-            addCriterion("create_user is not null");
+        public Criteria andRandomGivingMaxIsNotNull() {
+            addCriterion("random_giving_max is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCreateUserEqualTo(String value) {
-            addCriterion("create_user =", value, "createUser");
+        public Criteria andRandomGivingMaxEqualTo(Integer value) {
+            addCriterion("random_giving_max =", value, "randomGivingMax");
             return (Criteria) this;
         }
 
-        public Criteria andCreateUserNotEqualTo(String value) {
-            addCriterion("create_user <>", value, "createUser");
+        public Criteria andRandomGivingMaxNotEqualTo(Integer value) {
+            addCriterion("random_giving_max <>", value, "randomGivingMax");
             return (Criteria) this;
         }
 
-        public Criteria andCreateUserGreaterThan(String value) {
-            addCriterion("create_user >", value, "createUser");
+        public Criteria andRandomGivingMaxGreaterThan(Integer value) {
+            addCriterion("random_giving_max >", value, "randomGivingMax");
             return (Criteria) this;
         }
 
-        public Criteria andCreateUserGreaterThanOrEqualTo(String value) {
-            addCriterion("create_user >=", value, "createUser");
+        public Criteria andRandomGivingMaxGreaterThanOrEqualTo(Integer value) {
+            addCriterion("random_giving_max >=", value, "randomGivingMax");
             return (Criteria) this;
         }
 
-        public Criteria andCreateUserLessThan(String value) {
-            addCriterion("create_user <", value, "createUser");
+        public Criteria andRandomGivingMaxLessThan(Integer value) {
+            addCriterion("random_giving_max <", value, "randomGivingMax");
             return (Criteria) this;
         }
 
-        public Criteria andCreateUserLessThanOrEqualTo(String value) {
-            addCriterion("create_user <=", value, "createUser");
+        public Criteria andRandomGivingMaxLessThanOrEqualTo(Integer value) {
+            addCriterion("random_giving_max <=", value, "randomGivingMax");
             return (Criteria) this;
         }
 
-        public Criteria andCreateUserLike(String value) {
-            addCriterion("create_user like", value, "createUser");
+        public Criteria andRandomGivingMaxIn(List<Integer> values) {
+            addCriterion("random_giving_max in", values, "randomGivingMax");
             return (Criteria) this;
         }
 
-        public Criteria andCreateUserNotLike(String value) {
-            addCriterion("create_user not like", value, "createUser");
+        public Criteria andRandomGivingMaxNotIn(List<Integer> values) {
+            addCriterion("random_giving_max not in", values, "randomGivingMax");
             return (Criteria) this;
         }
 
-        public Criteria andCreateUserIn(List<String> values) {
-            addCriterion("create_user in", values, "createUser");
+        public Criteria andRandomGivingMaxBetween(Integer value1, Integer value2) {
+            addCriterion("random_giving_max between", value1, value2, "randomGivingMax");
             return (Criteria) this;
         }
 
-        public Criteria andCreateUserNotIn(List<String> values) {
-            addCriterion("create_user not in", values, "createUser");
+        public Criteria andRandomGivingMaxNotBetween(Integer value1, Integer value2) {
+            addCriterion("random_giving_max not between", value1, value2, "randomGivingMax");
             return (Criteria) this;
         }
 
-        public Criteria andCreateUserBetween(String value1, String value2) {
-            addCriterion("create_user between", value1, value2, "createUser");
+        public Criteria andFixedGivingIsNull() {
+            addCriterion("fixed_giving is null");
             return (Criteria) this;
         }
 
-        public Criteria andCreateUserNotBetween(String value1, String value2) {
-            addCriterion("create_user not between", value1, value2, "createUser");
+        public Criteria andFixedGivingIsNotNull() {
+            addCriterion("fixed_giving is not null");
             return (Criteria) this;
         }
 
-        public Criteria andStatusIsNull() {
-            addCriterion("status is null");
+        public Criteria andFixedGivingEqualTo(Integer value) {
+            addCriterion("fixed_giving =", value, "fixedGiving");
             return (Criteria) this;
         }
 
-        public Criteria andStatusIsNotNull() {
-            addCriterion("status is not null");
+        public Criteria andFixedGivingNotEqualTo(Integer value) {
+            addCriterion("fixed_giving <>", value, "fixedGiving");
             return (Criteria) this;
         }
 
-        public Criteria andStatusEqualTo(Integer value) {
-            addCriterion("status =", value, "status");
+        public Criteria andFixedGivingGreaterThan(Integer value) {
+            addCriterion("fixed_giving >", value, "fixedGiving");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotEqualTo(Integer value) {
-            addCriterion("status <>", value, "status");
+        public Criteria andFixedGivingGreaterThanOrEqualTo(Integer value) {
+            addCriterion("fixed_giving >=", value, "fixedGiving");
             return (Criteria) this;
         }
 
-        public Criteria andStatusGreaterThan(Integer value) {
-            addCriterion("status >", value, "status");
+        public Criteria andFixedGivingLessThan(Integer value) {
+            addCriterion("fixed_giving <", value, "fixedGiving");
             return (Criteria) this;
         }
 
-        public Criteria andStatusGreaterThanOrEqualTo(Integer value) {
-            addCriterion("status >=", value, "status");
+        public Criteria andFixedGivingLessThanOrEqualTo(Integer value) {
+            addCriterion("fixed_giving <=", value, "fixedGiving");
             return (Criteria) this;
         }
 
-        public Criteria andStatusLessThan(Integer value) {
-            addCriterion("status <", value, "status");
+        public Criteria andFixedGivingIn(List<Integer> values) {
+            addCriterion("fixed_giving in", values, "fixedGiving");
             return (Criteria) this;
         }
 
-        public Criteria andStatusLessThanOrEqualTo(Integer value) {
-            addCriterion("status <=", value, "status");
+        public Criteria andFixedGivingNotIn(List<Integer> values) {
+            addCriterion("fixed_giving not in", values, "fixedGiving");
             return (Criteria) this;
         }
 
-        public Criteria andStatusIn(List<Integer> values) {
-            addCriterion("status in", values, "status");
+        public Criteria andFixedGivingBetween(Integer value1, Integer value2) {
+            addCriterion("fixed_giving between", value1, value2, "fixedGiving");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotIn(List<Integer> values) {
-            addCriterion("status not in", values, "status");
+        public Criteria andFixedGivingNotBetween(Integer value1, Integer value2) {
+            addCriterion("fixed_giving not between", value1, value2, "fixedGiving");
             return (Criteria) this;
         }
 
-        public Criteria andStatusBetween(Integer value1, Integer value2) {
-            addCriterion("status between", value1, value2, "status");
+        public Criteria andUpdateTimeIsNull() {
+            addCriterion("update_time is null");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotBetween(Integer value1, Integer value2) {
-            addCriterion("status not between", value1, value2, "status");
+        public Criteria andUpdateTimeIsNotNull() {
+            addCriterion("update_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeEqualTo(Date value) {
+            addCriterion("update_time =", value, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeNotEqualTo(Date value) {
+            addCriterion("update_time <>", value, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeGreaterThan(Date value) {
+            addCriterion("update_time >", value, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("update_time >=", value, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeLessThan(Date value) {
+            addCriterion("update_time <", value, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeLessThanOrEqualTo(Date value) {
+            addCriterion("update_time <=", value, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeIn(List<Date> values) {
+            addCriterion("update_time in", values, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeNotIn(List<Date> values) {
+            addCriterion("update_time not in", values, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeBetween(Date value1, Date value2) {
+            addCriterion("update_time between", value1, value2, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeNotBetween(Date value1, Date value2) {
+            addCriterion("update_time not between", value1, value2, "updateTime");
             return (Criteria) this;
         }
     }

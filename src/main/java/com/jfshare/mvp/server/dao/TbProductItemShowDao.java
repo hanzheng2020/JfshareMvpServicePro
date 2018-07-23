@@ -9,9 +9,9 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
-import com.jfshare.mvp.server.mapper.TbProductItemShow;
-import com.jfshare.mvp.server.mapper.TbProductItemShowExample;
 import com.jfshare.mvp.server.mapper.TbProductItemShowMapper;
+import com.jfshare.mvp.server.model.TbProductItemShow;
+import com.jfshare.mvp.server.model.TbProductItemShowExample;
 
 /**
  * @author fengxiang

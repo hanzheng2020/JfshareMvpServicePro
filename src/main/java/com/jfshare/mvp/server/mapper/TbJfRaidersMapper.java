@@ -1,12 +1,12 @@
 package com.jfshare.mvp.server.mapper;
 
-import com.jfshare.mvp.server.mapper.TbJfRaiders;
-import com.jfshare.mvp.server.mapper.TbJfRaidersExample;
+import com.jfshare.mvp.server.model.TbJfRaiders;
+import com.jfshare.mvp.server.model.TbJfRaidersExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 public interface TbJfRaidersMapper {
-    long countByExample(TbJfRaidersExample example);
+    int countByExample(TbJfRaidersExample example);
 
     int deleteByExample(TbJfRaidersExample example);
 

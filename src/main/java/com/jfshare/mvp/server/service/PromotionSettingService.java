@@ -12,10 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.jfshare.mvp.server.dao.TbProductItemShowDao;
 import com.jfshare.mvp.server.dao.TbProductPromotionDao;
-import com.jfshare.mvp.server.mapper.TbProductItemShow;
-import com.jfshare.mvp.server.mapper.TbProductItemShowExample;
-import com.jfshare.mvp.server.mapper.TbProductPromotion;
-import com.jfshare.mvp.server.mapper.TbProductPromotionExample;
+import com.jfshare.mvp.server.model.TbProductItemShow;
+import com.jfshare.mvp.server.model.TbProductItemShowExample;
+import com.jfshare.mvp.server.model.TbProductPromotion;
+import com.jfshare.mvp.server.model.TbProductPromotionExample;
 
 /**
  * 推广微页面设置

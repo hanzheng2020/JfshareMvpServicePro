@@ -1,4 +1,4 @@
-package com.jfshare.mvp.server.mapper;
+package com.jfshare.mvp.server.model;
 
 import java.util.Date;
 
