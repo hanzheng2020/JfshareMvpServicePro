@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.jfshare.mvp.server.constants.Constant;
 import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.model.TbJfRaiders;
+import com.jfshare.mvp.server.model.TbProductItem;
 import com.jfshare.mvp.server.model.TbProductItemShow;
 import com.jfshare.mvp.server.model.TbProductPromotion;
 import com.jfshare.mvp.server.service.JfRaidersService;
@@ -29,6 +31,7 @@ import com.jfshare.mvp.server.service.JvjindouRuleService;
 import com.jfshare.mvp.server.service.LevelInfoService;
 import com.jfshare.mvp.server.service.ProductItemService;
 import com.jfshare.mvp.server.service.PromotionSettingService;
+import com.jfshare.mvp.server.utils.ConvertBeanToMapUtils;
 import com.jfshare.mvp.server.utils.OSSUtils;
 
 import io.swagger.annotations.Api;
@@ -48,6 +51,7 @@ public class AdminController {
 	
 	@Autowired
 	private ProductItemService productItemService;
+	
 	@Autowired
 	private LevelInfoService levelInfoService;
 	
@@ -76,47 +80,50 @@ public class AdminController {
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "更新类目商品展示设置失败！");
 	}
 	
-	@ApiOperation(value="更新商品类目树", 
-			notes="根据传入的商品类目，重新配置商品类目树")
+	@ApiOperation(value="更新商品类目", 
+			notes="根据传入的商品类目配置，重新配置商品类目")
 	@PutMapping("/productItem")
-	public ResultConstant updateProductItem(String itemNo,
-			   @RequestParam(required=false) String itemName,
-			   @RequestParam(required=false) String itemDesc) {
+	public ResultConstant updateProductItem(@RequestParam(required=true) String itemNo,
+			   								@RequestParam(required=false) String itemName,
+			   								@RequestParam(required=false) String itemDesc) {
 		boolean result = productItemService.updateProductItem(itemNo, itemName, itemDesc);
 		if (result) {
 			return ResultConstant.ofSuccess();
 		}
-		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "更新商品类目树失败！");
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "更新商品类目失败！");
 	}
 	
-	@ApiOperation(value="获取商品类目树", 
-			notes="根据传入的类目编号，获取类目以及当前类目的所有子节点")
+	@ApiOperation(value="获取商品类目", 
+			notes="根据传入的类目编号，获取类目以及当前类目的所有子节点, 如果itemNo为空，则获取全部的类目树")
 	@GetMapping("/productItem")
 	public ResultConstant getProductItem(@RequestParam(required=false) String itemNo) {
-		
-		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "更新类目商品展示设置失败！");
+		List<TbProductItem> tbProductItems = productItemService.getProductItem(itemNo);
+		if (CollectionUtils.isEmpty(tbProductItems)) {
+			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取商品类目失败！");
+		}
+		return ResultConstant.ofSuccess(ConvertBeanToMapUtils.convertBeanListToMap(tbProductItems));
 	}
 	
-	@ApiOperation(value="更新商品类目树", 
-			notes="根据传入的商品类目，重新配置商品类目树")
+	@ApiOperation(value="新增商品类目", 
+			notes="根据传入的商品类目，新增配置商品类目")
 	@PostMapping("/productItem")
-	public ResultConstant addProductItem(ArrayList<TbProductItemShow> tbProductItemShow) {
-		boolean result = promotionSettingService.updateProductItemShow(tbProductItemShow);
+	public ResultConstant addProductItem(TbProductItem tbProductItem) {
+		boolean result = productItemService.addProductItem();
 		if (result) {
 			return ResultConstant.ofSuccess();
 		}
-		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "更新类目商品展示设置失败！");
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "新增商品类目失败！");
 	}
 	
-	@ApiOperation(value="更新商品类目树", 
-			notes="根据传入的商品类目，重新配置商品类目树")
+	@ApiOperation(value="删除商品类目", 
+			notes="根据传入的商品类目编号，删除商品类目")
 	@DeleteMapping("/productItem")
 	public ResultConstant deleteProductItem(ArrayList<TbProductItemShow> tbProductItemShow) {
-		boolean result = promotionSettingService.updateProductItemShow(tbProductItemShow);
+		boolean result = productItemService.deleteProductItem();
 		if (result) {
 			return ResultConstant.ofSuccess();
 		}
-		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "更新类目商品展示设置失败！");
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "删除商品类目失败！");
 	}
 	
 	@ApiOperation(value="订单消费聚金豆", notes="根据传入的使用类型，进行扣减聚金豆")

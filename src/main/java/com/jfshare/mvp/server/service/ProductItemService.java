@@ -44,19 +44,15 @@ public class ProductItemService {
 		return false;
 	}
 	
-	public boolean getProductItem(String itemNo) {
-		
+	public List<TbProductItem> getProductItem(String itemNo) {
 		TbProductItemExample tbProductItemExample = new TbProductItemExample();
-		if (StringUtils.isEmpty(itemNo)) {
-			tbProductItemExample.createCriteria()
-								.andItemNoIsNull();
-		} else {
+		if (!StringUtils.isEmpty(itemNo)) {
 			tbProductItemExample.createCriteria()
 								.andItemNoEqualTo(itemNo);
 		}
 		List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
 		
-		return false;
+		return tbProductItems;
 	}
 	
 	public boolean deleteProductItem() {
