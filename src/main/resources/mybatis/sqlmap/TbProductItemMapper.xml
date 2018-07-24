@@ -3,8 +3,8 @@
 <mapper namespace="com.jfshare.mvp.server.mapper.TbProductItemMapper">
   <resultMap id="BaseResultMap" type="com.jfshare.mvp.server.model.TbProductItem">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="item_no" jdbcType="VARCHAR" property="itemNo" />
-    <result column="parent_item_no" jdbcType="VARCHAR" property="parentItemNo" />
+    <result column="item_no" jdbcType="INTEGER" property="itemNo" />
+    <result column="parent_item_no" jdbcType="INTEGER" property="parentItemNo" />
     <result column="item_name" jdbcType="VARCHAR" property="itemName" />
     <result column="item_desc" jdbcType="VARCHAR" property="itemDesc" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -109,7 +109,7 @@
     insert into tb_product_item (item_no, parent_item_no, item_name, 
       item_desc, create_time, update_time
       )
-    values (#{itemNo,jdbcType=VARCHAR}, #{parentItemNo,jdbcType=VARCHAR}, #{itemName,jdbcType=VARCHAR}, 
+    values (#{itemNo,jdbcType=INTEGER}, #{parentItemNo,jdbcType=INTEGER}, #{itemName,jdbcType=VARCHAR}, 
       #{itemDesc,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -140,10 +140,10 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="itemNo != null">
-        #{itemNo,jdbcType=VARCHAR},
+        #{itemNo,jdbcType=INTEGER},
       </if>
       <if test="parentItemNo != null">
-        #{parentItemNo,jdbcType=VARCHAR},
+        #{parentItemNo,jdbcType=INTEGER},
       </if>
       <if test="itemName != null">
         #{itemName,jdbcType=VARCHAR},
@@ -172,10 +172,10 @@
         id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.itemNo != null">
-        item_no = #{record.itemNo,jdbcType=VARCHAR},
+        item_no = #{record.itemNo,jdbcType=INTEGER},
       </if>
       <if test="record.parentItemNo != null">
-        parent_item_no = #{record.parentItemNo,jdbcType=VARCHAR},
+        parent_item_no = #{record.parentItemNo,jdbcType=INTEGER},
       </if>
       <if test="record.itemName != null">
         item_name = #{record.itemName,jdbcType=VARCHAR},
@@ -197,8 +197,8 @@
   <update id="updateByExample" parameterType="map">
     update tb_product_item
     set id = #{record.id,jdbcType=INTEGER},
-      item_no = #{record.itemNo,jdbcType=VARCHAR},
-      parent_item_no = #{record.parentItemNo,jdbcType=VARCHAR},
+      item_no = #{record.itemNo,jdbcType=INTEGER},
+      parent_item_no = #{record.parentItemNo,jdbcType=INTEGER},
       item_name = #{record.itemName,jdbcType=VARCHAR},
       item_desc = #{record.itemDesc,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -211,10 +211,10 @@
     update tb_product_item
     <set>
       <if test="itemNo != null">
-        item_no = #{itemNo,jdbcType=VARCHAR},
+        item_no = #{itemNo,jdbcType=INTEGER},
       </if>
       <if test="parentItemNo != null">
-        parent_item_no = #{parentItemNo,jdbcType=VARCHAR},
+        parent_item_no = #{parentItemNo,jdbcType=INTEGER},
       </if>
       <if test="itemName != null">
         item_name = #{itemName,jdbcType=VARCHAR},
@@ -233,8 +233,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.jfshare.mvp.server.model.TbProductItem">
     update tb_product_item
-    set item_no = #{itemNo,jdbcType=VARCHAR},
-      parent_item_no = #{parentItemNo,jdbcType=VARCHAR},
+    set item_no = #{itemNo,jdbcType=INTEGER},
+      parent_item_no = #{parentItemNo,jdbcType=INTEGER},
       item_name = #{itemName,jdbcType=VARCHAR},
       item_desc = #{itemDesc,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},

@@ -83,7 +83,7 @@ public class AdminController {
 
 	@ApiOperation(value = "更新商品类目", notes = "根据传入的商品类目配置，重新配置商品类目")
 	@PutMapping("/productItem")
-	public ResultConstant updateProductItem(@RequestParam(required = true) String itemNo,
+	public ResultConstant updateProductItem(@RequestParam(required = true) Integer itemNo,
 			@RequestParam(required = false) String itemName, @RequestParam(required = false) String itemDesc) {
 		boolean result = productItemService.updateProductItem(itemNo, itemName, itemDesc);
 		if (result) {
@@ -104,8 +104,9 @@ public class AdminController {
 
 	@ApiOperation(value = "新增商品类目", notes = "根据传入的商品类目，新增配置商品类目")
 	@PostMapping("/productItem")
-	public ResultConstant addProductItem(TbProductItem tbProductItem) {
-		boolean result = productItemService.addProductItem(tbProductItem);
+	public ResultConstant addProductItem(@RequestParam(required = false) Integer parentItemNo,
+											String itemName,String itemDesc) {
+		boolean result = productItemService.addProductItem(parentItemNo, itemName, itemDesc);
 		if (result) {
 			return ResultConstant.ofSuccess();
 		}
@@ -114,7 +115,7 @@ public class AdminController {
 
 	@ApiOperation(value = "删除商品类目", notes = "根据传入的商品类目编号，删除商品类目")
 	@DeleteMapping("/productItem")
-	public ResultConstant deleteProductItem(@RequestParam(required=false) String itemNo) {
+	public ResultConstant deleteProductItem(@RequestParam(required=false) Integer itemNo) {
 		ResultConstant result = productItemService.deleteProductItem(itemNo);
 		return result;
 	}
