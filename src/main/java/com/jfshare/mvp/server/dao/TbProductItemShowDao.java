@@ -9,9 +9,9 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
-import com.jfshare.mvp.server.mapper.TbProductItemShow;
-import com.jfshare.mvp.server.mapper.TbProductItemShowExample;
 import com.jfshare.mvp.server.mapper.TbProductItemShowMapper;
+import com.jfshare.mvp.server.model.TbProductItemShow;
+import com.jfshare.mvp.server.model.TbProductItemShowExample;
 
 /**
  * @author fengxiang
@@ -22,18 +22,15 @@ public class TbProductItemShowDao {
 	@Autowired
 	private TbProductItemShowMapper tbProductItemShowMapper;
 	
-	@Cacheable(cacheNames = "productItemShows")
 	public List<TbProductItemShow> selectByExample(TbProductItemShowExample example) {
 		return tbProductItemShowMapper.selectByExample(example);
 	}
 	
-	@CachePut(cacheNames = "productItemShows")
 	public int updateByPrimaryKey(TbProductItemShow record) {
 		record.setUpdateTime(new Date());
 		return tbProductItemShowMapper.updateByPrimaryKey(record);
 	}
 	
-	@CacheEvict(cacheNames = "productItemShows")
 	public int deleteByExample(TbProductItemShowExample example) {
 		return tbProductItemShowMapper.deleteByExample(example);
 	}

@@ -9,9 +9,9 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
-import com.jfshare.mvp.server.mapper.TbProductPromotion;
-import com.jfshare.mvp.server.mapper.TbProductPromotionExample;
 import com.jfshare.mvp.server.mapper.TbProductPromotionMapper;
+import com.jfshare.mvp.server.model.TbProductPromotion;
+import com.jfshare.mvp.server.model.TbProductPromotionExample;
 
 /**
  * @author fengxiang
@@ -22,18 +22,15 @@ public class TbProductPromotionDao {
 	@Autowired
 	private TbProductPromotionMapper tbProductPromotionMapper;
 	
-	@Cacheable(cacheNames = "productPromotions")
 	public List<TbProductPromotion> selectByExample(TbProductPromotionExample example) {
 		return tbProductPromotionMapper.selectByExample(example);
 	}
 	
-	@CachePut(cacheNames = "productPromotions")
 	public int updateByPrimaryKey(TbProductPromotion record) {
 		record.setUpdateTime(new Date());
 		return tbProductPromotionMapper.updateByPrimaryKey(record);
 	}
 	
-	@CacheEvict(cacheNames = "productPromotions")
 	public int deleteByExample(TbProductPromotionExample example) {
 		return tbProductPromotionMapper.deleteByExample(example);
 	}

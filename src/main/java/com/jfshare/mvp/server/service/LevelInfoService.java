@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.jfshare.mvp.server.dao.JvjindouRuleDao;
 import com.jfshare.mvp.server.dao.LevelInfoDao;
-import com.jfshare.mvp.server.mapper.TbLevelInfo;
+import com.jfshare.mvp.server.model.TbLevelInfo;
 
 /**
  * 等级信息

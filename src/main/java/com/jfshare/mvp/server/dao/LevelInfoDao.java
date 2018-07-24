@@ -8,10 +8,10 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
-import com.jfshare.mvp.server.mapper.TbLevelInfo;
-import com.jfshare.mvp.server.mapper.TbLevelInfoExample;
-import com.jfshare.mvp.server.mapper.TbLevelInfoExample.Criteria;
 import com.jfshare.mvp.server.mapper.TbLevelInfoMapper;
+import com.jfshare.mvp.server.model.TbLevelInfo;
+import com.jfshare.mvp.server.model.TbLevelInfoExample;
+import com.jfshare.mvp.server.model.TbLevelInfoExample.Criteria;
 
 /**
  *等级信息

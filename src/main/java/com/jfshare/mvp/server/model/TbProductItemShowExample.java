@@ -1,17 +1,17 @@
-package com.jfshare.mvp.server.mapper;
+package com.jfshare.mvp.server.model;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class TbJvjindouRuleExample {
+public class TbProductItemShowExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public TbJvjindouRuleExample() {
+    public TbProductItemShowExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -165,6 +165,206 @@ public class TbJvjindouRuleExample {
             return (Criteria) this;
         }
 
+        public Criteria andItemNoIsNull() {
+            addCriterion("item_no is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNoIsNotNull() {
+            addCriterion("item_no is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNoEqualTo(Integer value) {
+            addCriterion("item_no =", value, "itemNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNoNotEqualTo(Integer value) {
+            addCriterion("item_no <>", value, "itemNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNoGreaterThan(Integer value) {
+            addCriterion("item_no >", value, "itemNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNoGreaterThanOrEqualTo(Integer value) {
+            addCriterion("item_no >=", value, "itemNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNoLessThan(Integer value) {
+            addCriterion("item_no <", value, "itemNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNoLessThanOrEqualTo(Integer value) {
+            addCriterion("item_no <=", value, "itemNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNoIn(List<Integer> values) {
+            addCriterion("item_no in", values, "itemNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNoNotIn(List<Integer> values) {
+            addCriterion("item_no not in", values, "itemNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNoBetween(Integer value1, Integer value2) {
+            addCriterion("item_no between", value1, value2, "itemNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNoNotBetween(Integer value1, Integer value2) {
+            addCriterion("item_no not between", value1, value2, "itemNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemDescIsNull() {
+            addCriterion("item_desc is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemDescIsNotNull() {
+            addCriterion("item_desc is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemDescEqualTo(String value) {
+            addCriterion("item_desc =", value, "itemDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemDescNotEqualTo(String value) {
+            addCriterion("item_desc <>", value, "itemDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemDescGreaterThan(String value) {
+            addCriterion("item_desc >", value, "itemDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemDescGreaterThanOrEqualTo(String value) {
+            addCriterion("item_desc >=", value, "itemDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemDescLessThan(String value) {
+            addCriterion("item_desc <", value, "itemDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemDescLessThanOrEqualTo(String value) {
+            addCriterion("item_desc <=", value, "itemDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemDescLike(String value) {
+            addCriterion("item_desc like", value, "itemDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemDescNotLike(String value) {
+            addCriterion("item_desc not like", value, "itemDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemDescIn(List<String> values) {
+            addCriterion("item_desc in", values, "itemDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemDescNotIn(List<String> values) {
+            addCriterion("item_desc not in", values, "itemDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemDescBetween(String value1, String value2) {
+            addCriterion("item_desc between", value1, value2, "itemDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemDescNotBetween(String value1, String value2) {
+            addCriterion("item_desc not between", value1, value2, "itemDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductsIsNull() {
+            addCriterion("products is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductsIsNotNull() {
+            addCriterion("products is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductsEqualTo(String value) {
+            addCriterion("products =", value, "products");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductsNotEqualTo(String value) {
+            addCriterion("products <>", value, "products");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductsGreaterThan(String value) {
+            addCriterion("products >", value, "products");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductsGreaterThanOrEqualTo(String value) {
+            addCriterion("products >=", value, "products");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductsLessThan(String value) {
+            addCriterion("products <", value, "products");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductsLessThanOrEqualTo(String value) {
+            addCriterion("products <=", value, "products");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductsLike(String value) {
+            addCriterion("products like", value, "products");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductsNotLike(String value) {
+            addCriterion("products not like", value, "products");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductsIn(List<String> values) {
+            addCriterion("products in", values, "products");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductsNotIn(List<String> values) {
+            addCriterion("products not in", values, "products");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductsBetween(String value1, String value2) {
+            addCriterion("products between", value1, value2, "products");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductsNotBetween(String value1, String value2) {
+            addCriterion("products not between", value1, value2, "products");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateTimeIsNull() {
             addCriterion("create_time is null");
             return (Criteria) this;
@@ -225,253 +425,63 @@ public class TbJvjindouRuleExample {
             return (Criteria) this;
         }
 
-        public Criteria andGivingRuleIsNull() {
-            addCriterion("giving_rule is null");
+        public Criteria andUpdateTimeIsNull() {
+            addCriterion("update_time is null");
             return (Criteria) this;
         }
 
-        public Criteria andGivingRuleIsNotNull() {
-            addCriterion("giving_rule is not null");
+        public Criteria andUpdateTimeIsNotNull() {
+            addCriterion("update_time is not null");
             return (Criteria) this;
         }
 
-        public Criteria andGivingRuleEqualTo(String value) {
-            addCriterion("giving_rule =", value, "givingRule");
+        public Criteria andUpdateTimeEqualTo(Date value) {
+            addCriterion("update_time =", value, "updateTime");
             return (Criteria) this;
         }
 
-        public Criteria andGivingRuleNotEqualTo(String value) {
-            addCriterion("giving_rule <>", value, "givingRule");
+        public Criteria andUpdateTimeNotEqualTo(Date value) {
+            addCriterion("update_time <>", value, "updateTime");
             return (Criteria) this;
         }
 
-        public Criteria andGivingRuleGreaterThan(String value) {
-            addCriterion("giving_rule >", value, "givingRule");
+        public Criteria andUpdateTimeGreaterThan(Date value) {
+            addCriterion("update_time >", value, "updateTime");
             return (Criteria) this;
         }
 
-        public Criteria andGivingRuleGreaterThanOrEqualTo(String value) {
-            addCriterion("giving_rule >=", value, "givingRule");
+        public Criteria andUpdateTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("update_time >=", value, "updateTime");
             return (Criteria) this;
         }
 
-        public Criteria andGivingRuleLessThan(String value) {
-            addCriterion("giving_rule <", value, "givingRule");
+        public Criteria andUpdateTimeLessThan(Date value) {
+            addCriterion("update_time <", value, "updateTime");
             return (Criteria) this;
         }
 
-        public Criteria andGivingRuleLessThanOrEqualTo(String value) {
-            addCriterion("giving_rule <=", value, "givingRule");
+        public Criteria andUpdateTimeLessThanOrEqualTo(Date value) {
+            addCriterion("update_time <=", value, "updateTime");
             return (Criteria) this;
         }
 
-        public Criteria andGivingRuleLike(String value) {
-            addCriterion("giving_rule like", value, "givingRule");
+        public Criteria andUpdateTimeIn(List<Date> values) {
+            addCriterion("update_time in", values, "updateTime");
             return (Criteria) this;
         }
 
-        public Criteria andGivingRuleNotLike(String value) {
-            addCriterion("giving_rule not like", value, "givingRule");
+        public Criteria andUpdateTimeNotIn(List<Date> values) {
+            addCriterion("update_time not in", values, "updateTime");
             return (Criteria) this;
         }
 
-        public Criteria andGivingRuleIn(List<String> values) {
-            addCriterion("giving_rule in", values, "givingRule");
+        public Criteria andUpdateTimeBetween(Date value1, Date value2) {
+            addCriterion("update_time between", value1, value2, "updateTime");
             return (Criteria) this;
         }
 
-        public Criteria andGivingRuleNotIn(List<String> values) {
-            addCriterion("giving_rule not in", values, "givingRule");
-            return (Criteria) this;
-        }
-
-        public Criteria andGivingRuleBetween(String value1, String value2) {
-            addCriterion("giving_rule between", value1, value2, "givingRule");
-            return (Criteria) this;
-        }
-
-        public Criteria andGivingRuleNotBetween(String value1, String value2) {
-            addCriterion("giving_rule not between", value1, value2, "givingRule");
-            return (Criteria) this;
-        }
-
-        public Criteria andRandomGivingMinIsNull() {
-            addCriterion("random_giving_min is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRandomGivingMinIsNotNull() {
-            addCriterion("random_giving_min is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRandomGivingMinEqualTo(Integer value) {
-            addCriterion("random_giving_min =", value, "randomGivingMin");
-            return (Criteria) this;
-        }
-
-        public Criteria andRandomGivingMinNotEqualTo(Integer value) {
-            addCriterion("random_giving_min <>", value, "randomGivingMin");
-            return (Criteria) this;
-        }
-
-        public Criteria andRandomGivingMinGreaterThan(Integer value) {
-            addCriterion("random_giving_min >", value, "randomGivingMin");
-            return (Criteria) this;
-        }
-
-        public Criteria andRandomGivingMinGreaterThanOrEqualTo(Integer value) {
-            addCriterion("random_giving_min >=", value, "randomGivingMin");
-            return (Criteria) this;
-        }
-
-        public Criteria andRandomGivingMinLessThan(Integer value) {
-            addCriterion("random_giving_min <", value, "randomGivingMin");
-            return (Criteria) this;
-        }
-
-        public Criteria andRandomGivingMinLessThanOrEqualTo(Integer value) {
-            addCriterion("random_giving_min <=", value, "randomGivingMin");
-            return (Criteria) this;
-        }
-
-        public Criteria andRandomGivingMinIn(List<Integer> values) {
-            addCriterion("random_giving_min in", values, "randomGivingMin");
-            return (Criteria) this;
-        }
-
-        public Criteria andRandomGivingMinNotIn(List<Integer> values) {
-            addCriterion("random_giving_min not in", values, "randomGivingMin");
-            return (Criteria) this;
-        }
-
-        public Criteria andRandomGivingMinBetween(Integer value1, Integer value2) {
-            addCriterion("random_giving_min between", value1, value2, "randomGivingMin");
-            return (Criteria) this;
-        }
-
-        public Criteria andRandomGivingMinNotBetween(Integer value1, Integer value2) {
-            addCriterion("random_giving_min not between", value1, value2, "randomGivingMin");
-            return (Criteria) this;
-        }
-
-        public Criteria andRandomGivingMaxIsNull() {
-            addCriterion("random_giving_max is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRandomGivingMaxIsNotNull() {
-            addCriterion("random_giving_max is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRandomGivingMaxEqualTo(Integer value) {
-            addCriterion("random_giving_max =", value, "randomGivingMax");
-            return (Criteria) this;
-        }
-
-        public Criteria andRandomGivingMaxNotEqualTo(Integer value) {
-            addCriterion("random_giving_max <>", value, "randomGivingMax");
-            return (Criteria) this;
-        }
-
-        public Criteria andRandomGivingMaxGreaterThan(Integer value) {
-            addCriterion("random_giving_max >", value, "randomGivingMax");
-            return (Criteria) this;
-        }
-
-        public Criteria andRandomGivingMaxGreaterThanOrEqualTo(Integer value) {
-            addCriterion("random_giving_max >=", value, "randomGivingMax");
-            return (Criteria) this;
-        }
-
-        public Criteria andRandomGivingMaxLessThan(Integer value) {
-            addCriterion("random_giving_max <", value, "randomGivingMax");
-            return (Criteria) this;
-        }
-
-        public Criteria andRandomGivingMaxLessThanOrEqualTo(Integer value) {
-            addCriterion("random_giving_max <=", value, "randomGivingMax");
-            return (Criteria) this;
-        }
-
-        public Criteria andRandomGivingMaxIn(List<Integer> values) {
-            addCriterion("random_giving_max in", values, "randomGivingMax");
-            return (Criteria) this;
-        }
-
-        public Criteria andRandomGivingMaxNotIn(List<Integer> values) {
-            addCriterion("random_giving_max not in", values, "randomGivingMax");
-            return (Criteria) this;
-        }
-
-        public Criteria andRandomGivingMaxBetween(Integer value1, Integer value2) {
-            addCriterion("random_giving_max between", value1, value2, "randomGivingMax");
-            return (Criteria) this;
-        }
-
-        public Criteria andRandomGivingMaxNotBetween(Integer value1, Integer value2) {
-            addCriterion("random_giving_max not between", value1, value2, "randomGivingMax");
-            return (Criteria) this;
-        }
-
-        public Criteria andFixedGivingIsNull() {
-            addCriterion("fixed_giving is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andFixedGivingIsNotNull() {
-            addCriterion("fixed_giving is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andFixedGivingEqualTo(Integer value) {
-            addCriterion("fixed_giving =", value, "fixedGiving");
-            return (Criteria) this;
-        }
-
-        public Criteria andFixedGivingNotEqualTo(Integer value) {
-            addCriterion("fixed_giving <>", value, "fixedGiving");
-            return (Criteria) this;
-        }
-
-        public Criteria andFixedGivingGreaterThan(Integer value) {
-            addCriterion("fixed_giving >", value, "fixedGiving");
-            return (Criteria) this;
-        }
-
-        public Criteria andFixedGivingGreaterThanOrEqualTo(Integer value) {
-            addCriterion("fixed_giving >=", value, "fixedGiving");
-            return (Criteria) this;
-        }
-
-        public Criteria andFixedGivingLessThan(Integer value) {
-            addCriterion("fixed_giving <", value, "fixedGiving");
-            return (Criteria) this;
-        }
-
-        public Criteria andFixedGivingLessThanOrEqualTo(Integer value) {
-            addCriterion("fixed_giving <=", value, "fixedGiving");
-            return (Criteria) this;
-        }
-
-        public Criteria andFixedGivingIn(List<Integer> values) {
-            addCriterion("fixed_giving in", values, "fixedGiving");
-            return (Criteria) this;
-        }
-
-        public Criteria andFixedGivingNotIn(List<Integer> values) {
-            addCriterion("fixed_giving not in", values, "fixedGiving");
-            return (Criteria) this;
-        }
-
-        public Criteria andFixedGivingBetween(Integer value1, Integer value2) {
-            addCriterion("fixed_giving between", value1, value2, "fixedGiving");
-            return (Criteria) this;
-        }
-
-        public Criteria andFixedGivingNotBetween(Integer value1, Integer value2) {
-            addCriterion("fixed_giving not between", value1, value2, "fixedGiving");
+        public Criteria andUpdateTimeNotBetween(Date value1, Date value2) {
+            addCriterion("update_time not between", value1, value2, "updateTime");
             return (Criteria) this;
         }
     }
