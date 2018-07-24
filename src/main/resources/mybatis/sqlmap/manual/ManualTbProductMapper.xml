@@ -30,7 +30,7 @@
 		p.active_state,
 		p.create_time
 		FROM tb_product p LEFT JOIN tb_product_item s
-		ON p.subject_id = s.item_no
+		ON p.item_no = s.item_no
 		<where>
 			<if test=" productId != null and productId != ''">
 				AND product_id like CONCAT('%',#{productId},'%')
