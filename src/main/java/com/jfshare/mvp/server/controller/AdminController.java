@@ -239,7 +239,7 @@ public class AdminController {
 			return ResultConstant.ofSuccess();
 		}
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "修改失败");
-	}
+	} 
 
 	@ApiOperation(value="积分攻略文章发布", notes="发布积分攻略文章")
 	@PutMapping("/jfRaiderRelease")
