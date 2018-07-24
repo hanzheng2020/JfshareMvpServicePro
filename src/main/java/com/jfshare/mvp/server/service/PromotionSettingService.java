@@ -2,10 +2,10 @@ package com.jfshare.mvp.server.service;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +37,13 @@ public class PromotionSettingService {
 	public boolean updateProductPromotion(List<TbProductPromotion> tbProductPromotions) {
 		try {
 			TbProductPromotionExample tbProductPromotionExample = new TbProductPromotionExample();
+			if (StringUtils.isEmpty(tbProductPromotions.get(0).getAppVersion())) {
+				tbProductPromotionExample.createCriteria()
+										 .andAppVersionIsNull();
+			} else {
+				tbProductPromotionExample.createCriteria()
+				 						 .andAppVersionIsNotNull();
+			} 
 			tbProductPromotionDao.deleteByExample(tbProductPromotionExample);
 			for (TbProductPromotion tbProductPromotion : tbProductPromotions) {
 				tbProductPromotionDao.insert(tbProductPromotion);
@@ -51,8 +58,15 @@ public class PromotionSettingService {
 	
 
 	@Cacheable(cacheNames = "productPromotions",cacheManager="cacheManager60")
-	public List<TbProductPromotion> getProductPromotions() {
+	public List<TbProductPromotion> getProductPromotions(String appVersion) {
 		TbProductPromotionExample tbProductPromotionExample = new TbProductPromotionExample();
+		if (StringUtils.isEmpty(appVersion)) {
+			tbProductPromotionExample.createCriteria()
+									 .andAppVersionIsNull();
+		} else {
+			tbProductPromotionExample.createCriteria()
+			 						.andAppVersionEqualTo(appVersion);
+		}
 		List<TbProductPromotion> tbProductPromotions = null;
 		try {
 			tbProductPromotions = tbProductPromotionDao.selectByExample(tbProductPromotionExample);
@@ -67,6 +81,13 @@ public class PromotionSettingService {
 	public boolean updateProductItemShow(List<TbProductItemShow> tbProductItemShows) {
 		try {
 			TbProductItemShowExample tbProductItemShowExample = new TbProductItemShowExample();
+			if (StringUtils.isEmpty(tbProductItemShows.get(0).getAppVersion())) {
+				tbProductItemShowExample.createCriteria()
+										 .andAppVersionIsNull();
+			} else {
+				tbProductItemShowExample.createCriteria()
+				 						 .andAppVersionIsNotNull();
+			} 
 			tbProductItemShowDao.deleteByExample(tbProductItemShowExample);
 			for (TbProductItemShow tbProductItemShow : tbProductItemShows) {
 				tbProductItemShowDao.insert(tbProductItemShow);
@@ -80,8 +101,15 @@ public class PromotionSettingService {
 	}
 	
 	@Cacheable(cacheNames = "productItemShows")
-	public List<TbProductItemShow> getProductItemShows() {
+	public List<TbProductItemShow> getProductItemShows(String appVersion) {
 		TbProductItemShowExample tbProductItemShowExample = new TbProductItemShowExample();
+		if (StringUtils.isEmpty(appVersion)) {
+			tbProductItemShowExample.createCriteria()
+									 .andAppVersionIsNull();
+		} else {
+			tbProductItemShowExample.createCriteria()
+			 						.andAppVersionEqualTo(appVersion);
+		}
 		List<TbProductItemShow> tbProductItemShows = null;
 		try {
 			tbProductItemShows = tbProductItemShowDao.selectByExample(tbProductItemShowExample);
