@@ -2,9 +2,6 @@ package com.jfshare.mvp.server.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,7 +32,6 @@ import com.jfshare.mvp.server.service.LevelInfoService;
 import com.jfshare.mvp.server.service.ProductItemService;
 import com.jfshare.mvp.server.service.PromotionSettingService;
 import com.jfshare.mvp.server.utils.ConvertBeanToMapUtils;
-import com.jfshare.mvp.server.utils.OSSUtils;
 
 /**
  * @author fengxiang
