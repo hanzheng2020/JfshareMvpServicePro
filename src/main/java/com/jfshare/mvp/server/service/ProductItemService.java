@@ -45,12 +45,8 @@ public class ProductItemService {
 	}
 	
 	public List<TbProductItem> getProductItem(String itemNo) {
-		
 		TbProductItemExample tbProductItemExample = new TbProductItemExample();
-		if (StringUtils.isEmpty(itemNo)) {
-			tbProductItemExample.createCriteria()
-								.andItemNoIsNull();
-		} else {
+		if (!StringUtils.isEmpty(itemNo)) {
 			tbProductItemExample.createCriteria()
 								.andItemNoEqualTo(itemNo);
 		}
