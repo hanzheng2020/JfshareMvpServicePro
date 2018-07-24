@@ -143,6 +143,8 @@ public class AdminController {
 			}else if(useStatus==Constant.DISABLED_JVJINDOU){
 				//不使用聚金豆
 				return ResultConstant.ofSuccess();
+			}else{
+				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "参数有误");
 			}
 		}else{
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "参数有误");
@@ -152,7 +154,7 @@ public class AdminController {
 	
 
 	@ApiOperation(value="查询用户聚金豆", notes="根据传入的userId，返回聚金豆")
-	@PostMapping("/selectJvjindou")
+	@GetMapping("/selectJvjindou")
 	public ResultConstant selectJvjindou(@RequestParam(value="userId", required=true)  Integer userId) {
 		if(!StringUtils.isEmpty(userId)){
 			 TbLevelInfo levelInfo=levelInfoService.selectByuserid(userId);
@@ -192,7 +194,6 @@ public class AdminController {
 	    	  resultConstant.setDesc("添加失败");
 	      }
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return resultConstant.ofSuccess();
