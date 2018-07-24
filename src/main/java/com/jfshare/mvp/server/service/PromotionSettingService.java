@@ -37,6 +37,13 @@ public class PromotionSettingService {
 	public boolean updateProductPromotion(List<TbProductPromotion> tbProductPromotions) {
 		try {
 			TbProductPromotionExample tbProductPromotionExample = new TbProductPromotionExample();
+			if (StringUtils.isEmpty(tbProductPromotions.get(0).getAppVersion())) {
+				tbProductPromotionExample.createCriteria()
+										 .andAppVersionIsNull();
+			} else {
+				tbProductPromotionExample.createCriteria()
+				 						 .andAppVersionIsNotNull();
+			} 
 			tbProductPromotionDao.deleteByExample(tbProductPromotionExample);
 			for (TbProductPromotion tbProductPromotion : tbProductPromotions) {
 				tbProductPromotionDao.insert(tbProductPromotion);
@@ -74,6 +81,13 @@ public class PromotionSettingService {
 	public boolean updateProductItemShow(List<TbProductItemShow> tbProductItemShows) {
 		try {
 			TbProductItemShowExample tbProductItemShowExample = new TbProductItemShowExample();
+			if (StringUtils.isEmpty(tbProductItemShows.get(0).getAppVersion())) {
+				tbProductItemShowExample.createCriteria()
+										 .andAppVersionIsNull();
+			} else {
+				tbProductItemShowExample.createCriteria()
+				 						 .andAppVersionIsNotNull();
+			} 
 			tbProductItemShowDao.deleteByExample(tbProductItemShowExample);
 			for (TbProductItemShow tbProductItemShow : tbProductItemShows) {
 				tbProductItemShowDao.insert(tbProductItemShow);
