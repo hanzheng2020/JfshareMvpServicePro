@@ -1,8 +1,9 @@
 package com.jfshare.mvp.server.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class TbLevelInfo {
+public class TbLevelInfo implements Serializable{
     private Integer id;
 
     private Integer userid;
@@ -102,4 +103,13 @@ public class TbLevelInfo {
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
     }
+
+	@Override
+	public String toString() {
+		return "TbLevelInfo [id=" + id + ", userid=" + userid + ", createTime="
+				+ createTime + ", updateTime=" + updateTime + ", growthPoint="
+				+ growthPoint + ", levle=" + levle + ", jvjindou=" + jvjindou
+				+ ", levleBeyond=" + levleBeyond + ", realJvjindou="
+				+ realJvjindou + ", remark=" + remark + "]";
+	}
 }

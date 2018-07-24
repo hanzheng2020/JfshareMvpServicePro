@@ -39,7 +39,7 @@ public class ConvertBeanToMapUtils {
 		return map;
 	}
 	
-	public static List<Map<String, Object>> convertBeanListToMap(List<Object> beanList, String... excludeFields) {
+	public static List<Map<String, Object>> convertBeanListToMap(List<?> beanList, String... excludeFields) {
 		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
 		for (Object bean : beanList) {
 			list.add(convertBeanToMap(bean, excludeFields));

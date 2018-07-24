@@ -1,7 +1,7 @@
 package com.jfshare.mvp.server.controller;
 
-
-import org.springframework.util.StringUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,8 +9,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,23 +20,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.github.pagehelper.PageInfo;
 import com.jfshare.mvp.server.constants.Constant;
 import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.model.TbJfRaiders;
+import com.jfshare.mvp.server.model.TbLevelInfo;
+import com.jfshare.mvp.server.model.TbProductItem;
 import com.jfshare.mvp.server.model.TbProductItemShow;
 import com.jfshare.mvp.server.model.TbProductPromotion;
 import com.jfshare.mvp.server.service.JfRaidersService;
-import com.jfshare.mvp.server.service.JvjindouRuleService;
 import com.jfshare.mvp.server.service.LevelInfoService;
 import com.jfshare.mvp.server.service.ProductItemService;
 import com.jfshare.mvp.server.service.PromotionSettingService;
+import com.jfshare.mvp.server.utils.ConvertBeanToMapUtils;
 import com.jfshare.mvp.server.utils.OSSUtils;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-
 /**
  * @author fengxiang
  * @date 2018-07-20
@@ -50,6 +48,7 @@ public class AdminController {
 	
 	@Autowired
 	private ProductItemService productItemService;
+	
 	@Autowired
 	private LevelInfoService levelInfoService;
 	
@@ -78,61 +77,59 @@ public class AdminController {
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "更新类目商品展示设置失败！");
 	}
 	
-	@ApiOperation(value="更新商品类目树", 
-			notes="根据传入的商品类目，重新配置商品类目树")
+	@ApiOperation(value="更新商品类目", 
+			notes="根据传入的商品类目配置，重新配置商品类目")
 	@PutMapping("/productItem")
-	public ResultConstant updateProductItem(String itemNo,
-			   @RequestParam(required=false) String itemName,
-			   @RequestParam(required=false) String itemDesc) {
+	public ResultConstant updateProductItem(@RequestParam(required=true) String itemNo,
+			   								@RequestParam(required=false) String itemName,
+			   								@RequestParam(required=false) String itemDesc) {
 		boolean result = productItemService.updateProductItem(itemNo, itemName, itemDesc);
 		if (result) {
 			return ResultConstant.ofSuccess();
 		}
-		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "更新商品类目树失败！");
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "更新商品类目失败！");
 	}
 	
-	@ApiOperation(value="获取商品类目树", 
-			notes="根据传入的类目编号，获取类目以及当前类目的所有子节点")
+	@ApiOperation(value="获取商品类目", 
+			notes="根据传入的类目编号，获取类目以及当前类目的所有子节点, 如果itemNo为空，则获取全部的类目树")
 	@GetMapping("/productItem")
 	public ResultConstant getProductItem(@RequestParam(required=false) String itemNo) {
-		
-		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "更新类目商品展示设置失败！");
+		List<TbProductItem> tbProductItems = productItemService.getProductItem(itemNo);
+		if (CollectionUtils.isEmpty(tbProductItems)) {
+			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取商品类目失败！");
+		}
+		return ResultConstant.ofSuccess(ConvertBeanToMapUtils.convertBeanListToMap(tbProductItems));
 	}
 	
-	@ApiOperation(value="更新商品类目树", 
-			notes="根据传入的商品类目，重新配置商品类目树")
+	@ApiOperation(value="新增商品类目", 
+			notes="根据传入的商品类目，新增配置商品类目")
 	@PostMapping("/productItem")
-	public ResultConstant addProductItem(ArrayList<TbProductItemShow> tbProductItemShow) {
-		boolean result = promotionSettingService.updateProductItemShow(tbProductItemShow);
+	public ResultConstant addProductItem(TbProductItem tbProductItem) {
+		boolean result = productItemService.addProductItem();
 		if (result) {
 			return ResultConstant.ofSuccess();
 		}
-		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "更新类目商品展示设置失败！");
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "新增商品类目失败！");
 	}
 	
-	@ApiOperation(value="更新商品类目树", 
-			notes="根据传入的商品类目，重新配置商品类目树")
+	@ApiOperation(value="删除商品类目", 
+			notes="根据传入的商品类目编号，删除商品类目")
 	@DeleteMapping("/productItem")
 	public ResultConstant deleteProductItem(ArrayList<TbProductItemShow> tbProductItemShow) {
-		boolean result = promotionSettingService.updateProductItemShow(tbProductItemShow);
+		boolean result = productItemService.deleteProductItem();
 		if (result) {
 			return ResultConstant.ofSuccess();
 		}
-		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "更新类目商品展示设置失败！");
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "删除商品类目失败！");
 	}
 	
 	@ApiOperation(value="订单消费聚金豆", notes="根据传入的使用类型，进行扣减聚金豆")
 	@PostMapping("/openOrDisabledJvjindou")
 	public ResultConstant openOrDisabledJvjindou(@RequestParam(value="userId", required=true)  Integer userId
-			,@RequestParam(value="useStatus", required=true) Integer useStatus
 			,@RequestParam(value="jvjindou", required=true) Integer jvjindou) {
-		ResultConstant resultConstant=new ResultConstant();
-		resultConstant.setCode(0);
-		resultConstant.setDesc("成功");
 		if(!StringUtils.isEmpty(userId)){
-			if(useStatus==Constant.USE_JVJINDOU){
 				if(jvjindou<Constant.JVJINDOU_NUM){
-					return resultConstant.ofFail(Constant.JVJINDOU_PARR_ERROR, "使用聚金豆的数量大于0");
+					return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "使用聚金豆的数量大于0");
 				}else{
 					//走抵扣聚金豆的逻辑
 					try {
@@ -141,16 +138,24 @@ public class AdminController {
 						e.printStackTrace();
 					}
 				}
-			}else if(useStatus==Constant.DISABLED_JVJINDOU){
-				//不使用聚金豆
-				return resultConstant.ofSuccess();
-			}
 		}else{
-			return resultConstant.ofFail(Constant.JVJINDOU_PARR_ERROR, "参数有误");
+			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "参数有误");
 		}
-		return resultConstant.ofSuccess();
+		return ResultConstant.ofSuccess();
 	}
 	
+
+	@ApiOperation(value="查询用户聚金豆", notes="根据传入的userId，返回聚金豆")
+	@GetMapping("/selectJvjindou")
+	public ResultConstant selectJvjindou(@RequestParam(value="userId", required=true)  Integer userId) {
+		if(!StringUtils.isEmpty(userId)){
+			 TbLevelInfo levelInfo=levelInfoService.selectByuserid(userId);
+			 return ResultConstant.ofSuccess(ConvertBeanToMapUtils.convertBeanToMap(levelInfo));
+		}else{
+			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "参数有误");
+		}
+	}
+
 
 	@ApiOperation(value="积分攻略文章添加", notes="根据传入的类型，添加积分攻略文章")
 	@PostMapping("/addjfRaider")
@@ -181,7 +186,6 @@ public class AdminController {
 	    	  resultConstant.setDesc("添加失败");
 	      }
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return resultConstant.ofSuccess();
@@ -189,7 +193,7 @@ public class AdminController {
 	}
 
 	@ApiOperation(value="积分攻略文章查询", notes="根据传入的类型，查询积分攻略文章")
-	@PostMapping("/queryjfRaider")
+	@GetMapping("/queryjfRaider")
 	public ResultConstant queryjfRaiders(TbJfRaiders jfRaiders,
 			@RequestParam(value="page", required=true)Integer page,
 			@RequestParam(value="pageSize", required=true)Integer pageSize) {
@@ -197,8 +201,9 @@ public class AdminController {
 		return ResultConstant.ofSuccess(pageInfo);
 	}
 	
+
 	@ApiOperation(value="积分攻略文章更新", notes="根据传入的类型，更新积分攻略文章")
-	@PostMapping("/updatejfRaider")
+	@PutMapping("/updatejfRaider")
 	public ResultConstant updatejfRaiders(TbJfRaiders jfRaider,
 			@RequestParam(value="jfRaiderId", required=true)Integer jfRaiderId,
 			@RequestParam(value="jfRaidersImg", required=false) MultipartFile jfRaidersImg
@@ -235,9 +240,9 @@ public class AdminController {
 		}
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "修改失败");
 	}
-	
+
 	@ApiOperation(value="积分攻略文章发布", notes="发布积分攻略文章")
-	@PostMapping("/jfRaiderRelease")
+	@PutMapping("/jfRaiderRelease")
 	public ResultConstant updatejfRaiders(
 			@RequestParam(value="id", required=true)Integer id) {
 		TbJfRaiders jfRaiders =jfRaidersService.queryJfRaidersOne(id);
@@ -253,7 +258,7 @@ public class AdminController {
 	
 	
 	@ApiOperation(value="积分攻略文章删除", notes="根据传入的文章id，删除文章")
-	@PostMapping("/deletejfRaider")
+	@DeleteMapping("/deletejfRaider")
 	public ResultConstant deletejfRaiders(@RequestParam(value="id",required=true) Integer id) {
 		int result = jfRaidersService.deletejfRaiders(id);
 		if(result>0) {
