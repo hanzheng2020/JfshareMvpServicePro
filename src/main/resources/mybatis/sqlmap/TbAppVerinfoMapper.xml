@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jfshare.mvp.server.mapper.TbProductItemMapper">
-  <resultMap id="BaseResultMap" type="com.jfshare.mvp.server.model.TbProductItem">
+<mapper namespace="com.jfshare.mvp.server.mapper.TbAppVerinfoMapper">
+  <resultMap id="BaseResultMap" type="com.jfshare.mvp.server.model.TbAppVerinfo">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="item_no" jdbcType="VARCHAR" property="itemNo" />
-    <result column="parent_item_no" jdbcType="VARCHAR" property="parentItemNo" />
-    <result column="item_name" jdbcType="VARCHAR" property="itemName" />
-    <result column="item_desc" jdbcType="VARCHAR" property="itemDesc" />
+    <result column="app_type" jdbcType="INTEGER" property="appType" />
+    <result column="version" jdbcType="VARCHAR" property="version" />
+    <result column="min_version" jdbcType="VARCHAR" property="minVersion" />
+    <result column="max_version" jdbcType="VARCHAR" property="maxVersion" />
+    <result column="upgrade_type" jdbcType="INTEGER" property="upgradeType" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="upgrade_desc" jdbcType="VARCHAR" property="upgradeDesc" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
@@ -69,16 +72,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, item_no, parent_item_no, item_name, item_desc, create_time, update_time
+    id, app_type, version, min_version, max_version, upgrade_type, url, upgrade_desc, 
+    create_time, update_time
   </sql>
-  <select id="selectByExample" parameterType="com.jfshare.mvp.server.model.TbProductItemExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.jfshare.mvp.server.model.TbAppVerinfoExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
-    'true' as QUERYID,
     <include refid="Base_Column_List" />
-    from tb_product_item
+    from tb_app_verinfo
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -89,47 +92,55 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from tb_product_item
+    from tb_app_verinfo
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from tb_product_item
+    delete from tb_app_verinfo
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.jfshare.mvp.server.model.TbProductItemExample">
-    delete from tb_product_item
+  <delete id="deleteByExample" parameterType="com.jfshare.mvp.server.model.TbAppVerinfoExample">
+    delete from tb_app_verinfo
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.jfshare.mvp.server.model.TbProductItem">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into tb_product_item (item_no, parent_item_no, item_name, 
-      item_desc, create_time, update_time
-      )
-    values (#{itemNo,jdbcType=VARCHAR}, #{parentItemNo,jdbcType=VARCHAR}, #{itemName,jdbcType=VARCHAR}, 
-      #{itemDesc,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
-      )
+  <insert id="insert" parameterType="com.jfshare.mvp.server.model.TbAppVerinfo">
+    insert into tb_app_verinfo (id, app_type, version, 
+      min_version, max_version, upgrade_type, 
+      url, upgrade_desc, create_time, 
+      update_time)
+    values (#{id,jdbcType=INTEGER}, #{appType,jdbcType=INTEGER}, #{version,jdbcType=VARCHAR}, 
+      #{minVersion,jdbcType=VARCHAR}, #{maxVersion,jdbcType=VARCHAR}, #{upgradeType,jdbcType=INTEGER}, 
+      #{url,jdbcType=VARCHAR}, #{upgradeDesc,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.jfshare.mvp.server.model.TbProductItem">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into tb_product_item
+  <insert id="insertSelective" parameterType="com.jfshare.mvp.server.model.TbAppVerinfo">
+    insert into tb_app_verinfo
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="itemNo != null">
-        item_no,
+      <if test="id != null">
+        id,
       </if>
-      <if test="parentItemNo != null">
-        parent_item_no,
+      <if test="appType != null">
+        app_type,
       </if>
-      <if test="itemName != null">
-        item_name,
+      <if test="version != null">
+        version,
       </if>
-      <if test="itemDesc != null">
-        item_desc,
+      <if test="minVersion != null">
+        min_version,
+      </if>
+      <if test="maxVersion != null">
+        max_version,
+      </if>
+      <if test="upgradeType != null">
+        upgrade_type,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="upgradeDesc != null">
+        upgrade_desc,
       </if>
       <if test="createTime != null">
         create_time,
@@ -139,17 +150,29 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="itemNo != null">
-        #{itemNo,jdbcType=VARCHAR},
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
       </if>
-      <if test="parentItemNo != null">
-        #{parentItemNo,jdbcType=VARCHAR},
+      <if test="appType != null">
+        #{appType,jdbcType=INTEGER},
       </if>
-      <if test="itemName != null">
-        #{itemName,jdbcType=VARCHAR},
+      <if test="version != null">
+        #{version,jdbcType=VARCHAR},
       </if>
-      <if test="itemDesc != null">
-        #{itemDesc,jdbcType=VARCHAR},
+      <if test="minVersion != null">
+        #{minVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="maxVersion != null">
+        #{maxVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="upgradeType != null">
+        #{upgradeType,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="upgradeDesc != null">
+        #{upgradeDesc,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -159,29 +182,38 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.jfshare.mvp.server.model.TbProductItemExample" resultType="java.lang.Long">
-    select count(*) from tb_product_item
+  <select id="countByExample" parameterType="com.jfshare.mvp.server.model.TbAppVerinfoExample" resultType="java.lang.Integer">
+    select count(*) from tb_app_verinfo
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update tb_product_item
+    update tb_app_verinfo
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.itemNo != null">
-        item_no = #{record.itemNo,jdbcType=VARCHAR},
+      <if test="record.appType != null">
+        app_type = #{record.appType,jdbcType=INTEGER},
       </if>
-      <if test="record.parentItemNo != null">
-        parent_item_no = #{record.parentItemNo,jdbcType=VARCHAR},
+      <if test="record.version != null">
+        version = #{record.version,jdbcType=VARCHAR},
       </if>
-      <if test="record.itemName != null">
-        item_name = #{record.itemName,jdbcType=VARCHAR},
+      <if test="record.minVersion != null">
+        min_version = #{record.minVersion,jdbcType=VARCHAR},
       </if>
-      <if test="record.itemDesc != null">
-        item_desc = #{record.itemDesc,jdbcType=VARCHAR},
+      <if test="record.maxVersion != null">
+        max_version = #{record.maxVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.upgradeType != null">
+        upgrade_type = #{record.upgradeType,jdbcType=INTEGER},
+      </if>
+      <if test="record.url != null">
+        url = #{record.url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.upgradeDesc != null">
+        upgrade_desc = #{record.upgradeDesc,jdbcType=VARCHAR},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -195,32 +227,44 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update tb_product_item
+    update tb_app_verinfo
     set id = #{record.id,jdbcType=INTEGER},
-      item_no = #{record.itemNo,jdbcType=VARCHAR},
-      parent_item_no = #{record.parentItemNo,jdbcType=VARCHAR},
-      item_name = #{record.itemName,jdbcType=VARCHAR},
-      item_desc = #{record.itemDesc,jdbcType=VARCHAR},
+      app_type = #{record.appType,jdbcType=INTEGER},
+      version = #{record.version,jdbcType=VARCHAR},
+      min_version = #{record.minVersion,jdbcType=VARCHAR},
+      max_version = #{record.maxVersion,jdbcType=VARCHAR},
+      upgrade_type = #{record.upgradeType,jdbcType=INTEGER},
+      url = #{record.url,jdbcType=VARCHAR},
+      upgrade_desc = #{record.upgradeDesc,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.jfshare.mvp.server.model.TbProductItem">
-    update tb_product_item
+  <update id="updateByPrimaryKeySelective" parameterType="com.jfshare.mvp.server.model.TbAppVerinfo">
+    update tb_app_verinfo
     <set>
-      <if test="itemNo != null">
-        item_no = #{itemNo,jdbcType=VARCHAR},
+      <if test="appType != null">
+        app_type = #{appType,jdbcType=INTEGER},
       </if>
-      <if test="parentItemNo != null">
-        parent_item_no = #{parentItemNo,jdbcType=VARCHAR},
+      <if test="version != null">
+        version = #{version,jdbcType=VARCHAR},
       </if>
-      <if test="itemName != null">
-        item_name = #{itemName,jdbcType=VARCHAR},
+      <if test="minVersion != null">
+        min_version = #{minVersion,jdbcType=VARCHAR},
       </if>
-      <if test="itemDesc != null">
-        item_desc = #{itemDesc,jdbcType=VARCHAR},
+      <if test="maxVersion != null">
+        max_version = #{maxVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="upgradeType != null">
+        upgrade_type = #{upgradeType,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="upgradeDesc != null">
+        upgrade_desc = #{upgradeDesc,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -231,12 +275,15 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.jfshare.mvp.server.model.TbProductItem">
-    update tb_product_item
-    set item_no = #{itemNo,jdbcType=VARCHAR},
-      parent_item_no = #{parentItemNo,jdbcType=VARCHAR},
-      item_name = #{itemName,jdbcType=VARCHAR},
-      item_desc = #{itemDesc,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.jfshare.mvp.server.model.TbAppVerinfo">
+    update tb_app_verinfo
+    set app_type = #{appType,jdbcType=INTEGER},
+      version = #{version,jdbcType=VARCHAR},
+      min_version = #{minVersion,jdbcType=VARCHAR},
+      max_version = #{maxVersion,jdbcType=VARCHAR},
+      upgrade_type = #{upgradeType,jdbcType=INTEGER},
+      url = #{url,jdbcType=VARCHAR},
+      upgrade_desc = #{upgradeDesc,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}

@@ -17,6 +17,8 @@ public class TbJfRaiders {
 
     private Integer status;
 
+    private Date updateTime;
+
     private byte[] content;
 
     public Integer getId() {
@@ -73,6 +75,14 @@ public class TbJfRaiders {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
     public byte[] getContent() {

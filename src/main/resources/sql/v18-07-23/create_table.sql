@@ -113,3 +113,48 @@ CREATE TABLE `tb_product_item_show` (
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+=====================================================================
+删除 jvjindou 超出等级成长点字段 
+Date: 2018-07-24 17:50:34
+*/
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for tb_level_info
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_level_info`;
+CREATE TABLE `tb_level_info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `userId` int(10) DEFAULT NULL COMMENT 'userId',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `growth_point` int(11) DEFAULT NULL COMMENT '成长点',
+  `levle` char(1) DEFAULT NULL COMMENT '等级',
+  `real_jvjindou` int(11) DEFAULT NULL COMMENT '有效聚金豆',
+  `remark` varchar(200) DEFAULT NULL COMMENT '备用字段',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `userId` (`userId`) USING BTREE COMMENT 'userId 唯一键'
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+=============================================================================================
+增加修改时间字段
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for tb_jvjindou_rule
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_jvjindou_rule`;
+CREATE TABLE `tb_jvjindou_rule` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `giving_rule` char(1) DEFAULT NULL COMMENT '赠送规则 1固定 2随机',
+  `random_giving_min` int(11) DEFAULT NULL COMMENT '随机赠送最小数',
+  `random_giving_max` int(11) DEFAULT NULL COMMENT '最大数',
+  `fixed_giving` int(11) DEFAULT NULL COMMENT '固定赠送值',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+=============================================================================================
+
