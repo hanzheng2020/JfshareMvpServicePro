@@ -10,7 +10,10 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +27,7 @@ import com.jfshare.mvp.server.model.TbProductPromotion;
 import com.jfshare.mvp.server.service.JfRaidersService;
 import com.jfshare.mvp.server.service.JvjindouRuleService;
 import com.jfshare.mvp.server.service.LevelInfoService;
+import com.jfshare.mvp.server.service.ProductItemService;
 import com.jfshare.mvp.server.service.PromotionSettingService;
 import com.jfshare.mvp.server.utils.OSSUtils;
 
@@ -42,6 +46,8 @@ public class AdminController {
 	@Autowired
 	private PromotionSettingService promotionSettingService;
 	
+	@Autowired
+	private ProductItemService productItemService;
 	@Autowired
 	private LevelInfoService levelInfoService;
 	
@@ -64,6 +70,49 @@ public class AdminController {
 	@PostMapping("/productItemShows")
 	public ResultConstant updateProductItemShow(ArrayList<TbProductItemShow> tbProductItemShows) {
 		boolean result = promotionSettingService.updateProductItemShow(tbProductItemShows);
+		if (result) {
+			return ResultConstant.ofSuccess();
+		}
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "更新类目商品展示设置失败！");
+	}
+	
+	@ApiOperation(value="更新商品类目树", 
+			notes="根据传入的商品类目，重新配置商品类目树")
+	@PutMapping("/productItem")
+	public ResultConstant updateProductItem(String itemNo,
+			   @RequestParam(required=false) String itemName,
+			   @RequestParam(required=false) String itemDesc) {
+		boolean result = productItemService.updateProductItem(itemNo, itemName, itemDesc);
+		if (result) {
+			return ResultConstant.ofSuccess();
+		}
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "更新商品类目树失败！");
+	}
+	
+	@ApiOperation(value="获取商品类目树", 
+			notes="根据传入的类目编号，获取类目以及当前类目的所有子节点")
+	@GetMapping("/productItem")
+	public ResultConstant getProductItem(@RequestParam(required=false) String itemNo) {
+		
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "更新类目商品展示设置失败！");
+	}
+	
+	@ApiOperation(value="更新商品类目树", 
+			notes="根据传入的商品类目，重新配置商品类目树")
+	@PostMapping("/productItem")
+	public ResultConstant addProductItem(ArrayList<TbProductItemShow> tbProductItemShow) {
+		boolean result = promotionSettingService.updateProductItemShow(tbProductItemShow);
+		if (result) {
+			return ResultConstant.ofSuccess();
+		}
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "更新类目商品展示设置失败！");
+	}
+	
+	@ApiOperation(value="更新商品类目树", 
+			notes="根据传入的商品类目，重新配置商品类目树")
+	@DeleteMapping("/productItem")
+	public ResultConstant deleteProductItem(ArrayList<TbProductItemShow> tbProductItemShow) {
+		boolean result = promotionSettingService.updateProductItemShow(tbProductItemShow);
 		if (result) {
 			return ResultConstant.ofSuccess();
 		}
