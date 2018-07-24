@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.jfshare.mvp.server.dao.JvjindouRuleDao;
 import com.jfshare.mvp.server.model.TbJvjindouRule;
-import com.jfshare.mvp.server.model.TbLevelInfo;
 
 /**
  * 聚金豆service

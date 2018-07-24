@@ -1,6 +1,7 @@
 package com.jfshare.mvp.server.controller;
 
-import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,12 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.model.TbJvjindouRule;
-import com.jfshare.mvp.server.model.TbLevelInfo;
 import com.jfshare.mvp.server.service.JvjindouRuleService;
-import com.jfshare.mvp.server.service.LevelInfoService;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 
 /**
  * 用户管理

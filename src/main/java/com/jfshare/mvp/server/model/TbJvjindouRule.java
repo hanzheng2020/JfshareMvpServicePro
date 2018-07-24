@@ -1,9 +1,8 @@
 package com.jfshare.mvp.server.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class TbJvjindouRule implements Serializable{
+public class TbJvjindouRule{
     private Integer id;
 
     private Date createTime;
