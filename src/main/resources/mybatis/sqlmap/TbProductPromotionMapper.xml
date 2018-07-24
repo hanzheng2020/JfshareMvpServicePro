@@ -24,6 +24,7 @@
     <result column="product_six_id" jdbcType="VARCHAR" property="productSixId" />
     <result column="product_six_desc" jdbcType="VARCHAR" property="productSixDesc" />
     <result column="product_six_pic_url" jdbcType="VARCHAR" property="productSixPicUrl" />
+    <result column="app_version" jdbcType="VARCHAR" property="appVersion" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
@@ -90,13 +91,14 @@
     product_one_pic_url, product_two_id, product_two_desc, product_two_pic_url, product_three_id, 
     product_three_desc, product_three_pic_url, product_four_id, product_four_desc, product_four_pic_url, 
     product_five_id, product_five_desc, product_five_pic_url, product_six_id, product_six_desc, 
-    product_six_pic_url, create_time, update_time
+    product_six_pic_url, app_version, create_time, update_time
   </sql>
   <select id="selectByExample" parameterType="com.jfshare.mvp.server.model.TbProductPromotionExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
+    'true' as QUERYID,
     <include refid="Base_Column_List" />
     from tb_product_promotion
     <if test="_parameter != null">
@@ -123,31 +125,34 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.jfshare.mvp.server.model.TbProductPromotion">
-    insert into tb_product_promotion (id, promotion_no, promotion_pic_url, 
-      promotion_url, product_one_id, product_one_desc, 
-      product_one_pic_url, product_two_id, product_two_desc, 
-      product_two_pic_url, product_three_id, product_three_desc, 
-      product_three_pic_url, product_four_id, product_four_desc, 
-      product_four_pic_url, product_five_id, product_five_desc, 
-      product_five_pic_url, product_six_id, product_six_desc, 
-      product_six_pic_url, create_time, update_time
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_product_promotion (promotion_no, promotion_pic_url, promotion_url, 
+      product_one_id, product_one_desc, product_one_pic_url, 
+      product_two_id, product_two_desc, product_two_pic_url, 
+      product_three_id, product_three_desc, product_three_pic_url, 
+      product_four_id, product_four_desc, product_four_pic_url, 
+      product_five_id, product_five_desc, product_five_pic_url, 
+      product_six_id, product_six_desc, product_six_pic_url, 
+      app_version, create_time, update_time
       )
-    values (#{id,jdbcType=INTEGER}, #{promotionNo,jdbcType=INTEGER}, #{promotionPicUrl,jdbcType=VARCHAR}, 
-      #{promotionUrl,jdbcType=VARCHAR}, #{productOneId,jdbcType=VARCHAR}, #{productOneDesc,jdbcType=VARCHAR}, 
-      #{productOnePicUrl,jdbcType=VARCHAR}, #{productTwoId,jdbcType=VARCHAR}, #{productTwoDesc,jdbcType=VARCHAR}, 
-      #{productTwoPicUrl,jdbcType=VARCHAR}, #{productThreeId,jdbcType=VARCHAR}, #{productThreeDesc,jdbcType=VARCHAR}, 
-      #{productThreePicUrl,jdbcType=VARCHAR}, #{productFourId,jdbcType=VARCHAR}, #{productFourDesc,jdbcType=VARCHAR}, 
-      #{productFourPicUrl,jdbcType=VARCHAR}, #{productFiveId,jdbcType=VARCHAR}, #{productFiveDesc,jdbcType=VARCHAR}, 
-      #{productFivePicUrl,jdbcType=VARCHAR}, #{productSixId,jdbcType=VARCHAR}, #{productSixDesc,jdbcType=VARCHAR}, 
-      #{productSixPicUrl,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+    values (#{promotionNo,jdbcType=INTEGER}, #{promotionPicUrl,jdbcType=VARCHAR}, #{promotionUrl,jdbcType=VARCHAR}, 
+      #{productOneId,jdbcType=VARCHAR}, #{productOneDesc,jdbcType=VARCHAR}, #{productOnePicUrl,jdbcType=VARCHAR}, 
+      #{productTwoId,jdbcType=VARCHAR}, #{productTwoDesc,jdbcType=VARCHAR}, #{productTwoPicUrl,jdbcType=VARCHAR}, 
+      #{productThreeId,jdbcType=VARCHAR}, #{productThreeDesc,jdbcType=VARCHAR}, #{productThreePicUrl,jdbcType=VARCHAR}, 
+      #{productFourId,jdbcType=VARCHAR}, #{productFourDesc,jdbcType=VARCHAR}, #{productFourPicUrl,jdbcType=VARCHAR}, 
+      #{productFiveId,jdbcType=VARCHAR}, #{productFiveDesc,jdbcType=VARCHAR}, #{productFivePicUrl,jdbcType=VARCHAR}, 
+      #{productSixId,jdbcType=VARCHAR}, #{productSixDesc,jdbcType=VARCHAR}, #{productSixPicUrl,jdbcType=VARCHAR}, 
+      #{appVersion,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.jfshare.mvp.server.model.TbProductPromotion">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into tb_product_promotion
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="promotionNo != null">
         promotion_no,
       </if>
@@ -211,6 +216,9 @@
       <if test="productSixPicUrl != null">
         product_six_pic_url,
       </if>
+      <if test="appVersion != null">
+        app_version,
+      </if>
       <if test="createTime != null">
         create_time,
       </if>
@@ -219,9 +227,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="promotionNo != null">
         #{promotionNo,jdbcType=INTEGER},
       </if>
@@ -285,6 +290,9 @@
       <if test="productSixPicUrl != null">
         #{productSixPicUrl,jdbcType=VARCHAR},
       </if>
+      <if test="appVersion != null">
+        #{appVersion,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -293,7 +301,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.jfshare.mvp.server.model.TbProductPromotionExample" resultType="java.lang.Integer">
+  <select id="countByExample" parameterType="com.jfshare.mvp.server.model.TbProductPromotionExample" resultType="java.lang.Long">
     select count(*) from tb_product_promotion
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -368,6 +376,9 @@
       <if test="record.productSixPicUrl != null">
         product_six_pic_url = #{record.productSixPicUrl,jdbcType=VARCHAR},
       </if>
+      <if test="record.appVersion != null">
+        app_version = #{record.appVersion,jdbcType=VARCHAR},
+      </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
@@ -403,6 +414,7 @@
       product_six_id = #{record.productSixId,jdbcType=VARCHAR},
       product_six_desc = #{record.productSixDesc,jdbcType=VARCHAR},
       product_six_pic_url = #{record.productSixPicUrl,jdbcType=VARCHAR},
+      app_version = #{record.appVersion,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
@@ -475,6 +487,9 @@
       <if test="productSixPicUrl != null">
         product_six_pic_url = #{productSixPicUrl,jdbcType=VARCHAR},
       </if>
+      <if test="appVersion != null">
+        app_version = #{appVersion,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -507,6 +522,7 @@
       product_six_id = #{productSixId,jdbcType=VARCHAR},
       product_six_desc = #{productSixDesc,jdbcType=VARCHAR},
       product_six_pic_url = #{productSixPicUrl,jdbcType=VARCHAR},
+      app_version = #{appVersion,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
