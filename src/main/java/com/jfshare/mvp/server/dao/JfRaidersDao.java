@@ -34,4 +34,8 @@ public class JfRaidersDao {
 	public List<TbJfRaiders> selectJfRaiders(TbJfRaidersExample example){
 		return  tbJfRaidersMapper.selectByExampleWithBLOBs(example);
 	}
+	
+	public TbJfRaiders selectJfRaidersOne(Integer id) {
+		return tbJfRaidersMapper.selectByPrimaryKey(id);
+	}
 }

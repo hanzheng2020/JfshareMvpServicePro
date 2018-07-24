@@ -38,6 +38,7 @@ public class JfRaidersService {
 		if(jfRaiders.getStatus()!=null&&!"".equals(jfRaiders.getStatus())) {
 			criteria.andStatusEqualTo(jfRaiders.getStatus());
 		}
+		jfRaidersExample.setOrderByClause("create_time DESC");
 		PageHelper.startPage(page, pageSize);
 		List<TbJfRaiders> JfRaiders =  jfRaidersDao.selectJfRaiders(jfRaidersExample);
 		Map<String, Object> map;
@@ -53,4 +54,16 @@ public class JfRaidersService {
 		return new PageInfo(JfRaiderss);
 	}
 	
+	public int updateJfRaiders(TbJfRaiders jfRaiders) {
+		return jfRaidersDao.updateJfRaiders(jfRaiders);
+	}
+	
+	
+	public int deletejfRaiders(int id) {
+		return jfRaidersDao.delete(id);
+	}
+	
+	public TbJfRaiders queryJfRaidersOne(Integer id) {
+		 return jfRaidersDao.selectJfRaidersOne(id);
+	}
 }

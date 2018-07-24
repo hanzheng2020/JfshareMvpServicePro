@@ -197,5 +197,68 @@ public class AdminController {
 		return ResultConstant.ofSuccess(pageInfo);
 	}
 	
+	@ApiOperation(value="积分攻略文章更新", notes="根据传入的类型，更新积分攻略文章")
+	@PostMapping("/updatejfRaider")
+	public ResultConstant updatejfRaiders(TbJfRaiders jfRaider,
+			@RequestParam(value="jfRaiderId", required=true)Integer jfRaiderId,
+			@RequestParam(value="jfRaidersImg", required=false) MultipartFile jfRaidersImg
+			) {
+		TbJfRaiders jfRaiders =jfRaidersService.queryJfRaidersOne(jfRaiderId);
+		if(!StringUtils.isEmpty(jfRaider.getTitle())) {
+			jfRaiders.setTitle(jfRaider.getTitle());
+		}
+		if(!StringUtils.isEmpty(jfRaider.getContent())) {
+			jfRaiders.setContent(jfRaider.getContent());
+		}
+		try {
+        if (!StringUtils.isEmpty(jfRaidersImg)) {
+        	Date date = new Date();
+        	StringBuffer sb = new StringBuffer();
+        	sb.append("jfRaider");
+			InputStream inputStream = jfRaidersImg.getInputStream();
+			String imgName = jfRaidersImg.getOriginalFilename();
+			String[] imgNames =  imgName.split("\\.");
+			long time = date.getTime();
+			sb.append(time);
+			sb.append(".");
+			sb.append(imgNames[(imgNames.length-1)]);
+			String imgUrl = OSSUtils.uploadFile2OssForTemp(inputStream,sb.toString());
+			 jfRaiders.setImgUrl(imgUrl);
+        }
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		int result = jfRaidersService.updateJfRaiders(jfRaiders);
+		if(result>0) {
+			return ResultConstant.ofSuccess();
+		}
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "修改失败");
+	}
 	
+	@ApiOperation(value="积分攻略文章发布", notes="发布积分攻略文章")
+	@PostMapping("/jfRaiderRelease")
+	public ResultConstant updatejfRaiders(
+			@RequestParam(value="id", required=true)Integer id) {
+		TbJfRaiders jfRaiders =jfRaidersService.queryJfRaidersOne(id);
+		jfRaiders.setStatus(2);
+		jfRaiders.setReleaseTime(new Date());
+		int result = jfRaidersService.updateJfRaiders(jfRaiders);
+		if(result>0) {
+			return ResultConstant.ofSuccess();
+		}
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "发布失败");
+	}
+	
+	
+	
+	@ApiOperation(value="积分攻略文章删除", notes="根据传入的文章id，删除文章")
+	@PostMapping("/deletejfRaider")
+	public ResultConstant deletejfRaiders(@RequestParam(value="id",required=true) Integer id) {
+		int result = jfRaidersService.deletejfRaiders(id);
+		if(result>0) {
+			return ResultConstant.ofSuccess();
+		}
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "修改失败");
+	}
 }
