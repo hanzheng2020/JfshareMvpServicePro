@@ -29,11 +29,15 @@ public class LevelInfoDao {
 		return levelInfoMapper.selectByExample(example);
 	}
 	
+	public int insertLevelInfo(TbLevelInfo record){
+		return levelInfoMapper.insertSelective(record);
+	}
+	
 	@Cacheable(cacheNames="levelInfos")
 	public TbLevelInfo selectLevelInfoById(int id){
 		return levelInfoMapper.selectByPrimaryKey(id);
 	}
-   //	@CacheEvict(删除)
+    //	@CacheEvict(删除)
 	@CachePut(cacheNames="levelInfos")
 	public int updateLevelInfoById(TbLevelInfo record){
 		return levelInfoMapper.updateByPrimaryKeySelective(record);
