@@ -126,10 +126,8 @@ public class AdminController {
 	@ApiOperation(value="订单消费聚金豆", notes="根据传入的使用类型，进行扣减聚金豆")
 	@PostMapping("/openOrDisabledJvjindou")
 	public ResultConstant openOrDisabledJvjindou(@RequestParam(value="userId", required=true)  Integer userId
-			,@RequestParam(value="useStatus", required=true) Integer useStatus
 			,@RequestParam(value="jvjindou", required=true) Integer jvjindou) {
 		if(!StringUtils.isEmpty(userId)){
-			if(useStatus==Constant.USE_JVJINDOU){
 				if(jvjindou<Constant.JVJINDOU_NUM){
 					return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "使用聚金豆的数量大于0");
 				}else{
@@ -140,12 +138,6 @@ public class AdminController {
 						e.printStackTrace();
 					}
 				}
-			}else if(useStatus==Constant.DISABLED_JVJINDOU){
-				//不使用聚金豆
-				return ResultConstant.ofSuccess();
-			}else{
-				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "参数有误");
-			}
 		}else{
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "参数有误");
 		}
@@ -158,7 +150,7 @@ public class AdminController {
 	public ResultConstant selectJvjindou(@RequestParam(value="userId", required=true)  Integer userId) {
 		if(!StringUtils.isEmpty(userId)){
 			 TbLevelInfo levelInfo=levelInfoService.selectByuserid(userId);
-			 return ResultConstant.ofSuccess(levelInfo);
+			 return ResultConstant.ofSuccess(ConvertBeanToMapUtils.convertBeanToMap(levelInfo));
 		}else{
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "参数有误");
 		}
