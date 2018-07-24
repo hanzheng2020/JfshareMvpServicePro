@@ -116,11 +116,9 @@ public class AdminController {
 			notes="根据传入的商品类目编号，删除商品类目")
 	@DeleteMapping("/productItem")
 	public ResultConstant deleteProductItem(@RequestParam(required=false) String itemNo) {
-		boolean result = productItemService.deleteProductItem(itemNo);
-		if (result) {
-			return ResultConstant.ofSuccess();
-		}
-		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "删除商品类目失败！");
+		ResultConstant result = productItemService.deleteProductItem(itemNo);
+		
+		return result;
 	}
 	
 	@ApiOperation(value="订单消费聚金豆", notes="根据传入的使用类型，进行扣减聚金豆")

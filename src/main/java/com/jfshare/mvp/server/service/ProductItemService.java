@@ -7,7 +7,11 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.jfshare.mvp.server.constants.ResultConstant;
+import com.jfshare.mvp.server.dao.TbProductDao;
 import com.jfshare.mvp.server.dao.TbProductItemDao;
+import com.jfshare.mvp.server.model.TbProduct;
+import com.jfshare.mvp.server.model.TbProductExample;
 import com.jfshare.mvp.server.model.TbProductItem;
 import com.jfshare.mvp.server.model.TbProductItemExample;
 
@@ -19,6 +23,9 @@ import com.jfshare.mvp.server.model.TbProductItemExample;
 public class ProductItemService {
 	@Autowired
 	private TbProductItemDao tbProductItemDao;
+	
+	@Autowired
+	private TbProductDao tbProductDao;
 	
 	public boolean updateProductItem(String itemNo, String itemName, String itemDesc) {
 		TbProductItemExample tbProductItemExample = new TbProductItemExample();
@@ -49,27 +56,36 @@ public class ProductItemService {
 		TbProductItemExample tbProductItemExample = new TbProductItemExample();
 		if (!StringUtils.isEmpty(itemName)) {
 			tbProductItemExample.createCriteria()
-								.andItemNameEqualTo(itemName);
+								.andItemNameLike("%"+itemName+"%");
 		}
 		List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
 		return tbProductItems;
 	}
 	
-	public boolean deleteProductItem(String itemNo) {
+	public ResultConstant deleteProductItem(String itemNo) {
 		TbProductItemExample tbProductItemExample = new TbProductItemExample();
 		if (!StringUtils.isEmpty(itemNo)) {
 			tbProductItemExample.createCriteria()
-								.andItemNoEqualTo(itemNo);
+								.andParentItemNoEqualTo(itemNo);
 		}
-		try {
-			int i = tbProductItemDao.deleteByExample(tbProductItemExample);
-			if (i > 0) {
-				return true;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		List<TbProductItem> sonProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
+		if (!CollectionUtils.isEmpty(sonProductItems)) {
+			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "存在子节点，请先删除子节点！");
 		}
-		return false;
+		TbProductExample tbProductExample = new TbProductExample();
+		tbProductExample.createCriteria()
+						.andItemNoEqualTo(0);
+		List<TbProduct> tbProducts = tbProductDao.selectByExample(tbProductExample);
+		if (!CollectionUtils.isEmpty(tbProducts)) {
+			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "该类目中存在商品！");
+		}
+		tbProductItemExample.clear();
+		if (!StringUtils.isEmpty(itemNo)) {
+			tbProductItemExample.createCriteria()
+								.andParentItemNoEqualTo(itemNo);
+		}
+		tbProductItemDao.deleteByExample(tbProductItemExample);
+		return ResultConstant.ofSuccess();
 	}
 	
 	private List<TbProductItem> getSonNode(String itemNo) {
