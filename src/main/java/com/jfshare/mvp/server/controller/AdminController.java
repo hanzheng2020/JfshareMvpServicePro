@@ -285,7 +285,7 @@ public class AdminController {
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "更新app版本失败！");
 	}
 
-	@ApiOperation(value = "更新app版本", notes = "根据传入的app信息更新app版本号")
+	@ApiOperation(value = "获取app信息", notes = "根据app类型获取对应的app信息")
 	@PostMapping("/getAppVerinfo")
 	public ResultConstant getAppVerinfo(@RequestParam(value = "appType", required = true) Integer appType) {
 		TbAppVerinfo appVerinfo = appInfoServer.getAppVerinfo(appType);
