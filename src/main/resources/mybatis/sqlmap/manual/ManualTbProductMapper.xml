@@ -10,13 +10,13 @@
 		<result column="cur_price" property="curPrice" jdbcType="INTEGER" />
 		<result column="org_price" property="orgPrice" jdbcType="INTEGER" />
 		<result column="presentexp" property="presentExp" jdbcType="INTEGER" />
-		<result column="img_key" property="imgUrl" jdbcType="VARCHAR" />
+		<result column="img_key" property="imgKey" jdbcType="VARCHAR" />
 		<result column="active_state" property="activeState" jdbcType="INTEGER" />
 		<result column="create_time" property="createTime" />
 	</resultMap>
 	
 		<!-- 查询条件 product_id product_name -->
-	<select id="productSurveyQueryPage"
+	<select id="productSurveyQuery"
 		parameterType="com.jfshare.mvp.server.model.ProductSurveyQueryParam"
 		resultMap="BaseResultOtherMap">
 		SELECT
@@ -39,14 +39,11 @@
 				AND product_name like CONCAT('%',#{productName},'%')
 			</if>
 		</where>
-		<if test=" sort == 'create_time DESC'">
+		<if test="sort == null or sort == ''">
 			ORDER BY create_time DESC
 		</if>
-		<if test=" sort == 'cur_price DESC'">
+		<if test="sort == 'cur_price DESC'">
 			ORDER BY cur_price DESC
-		</if>
-		<if test=" sort == 'cur_price ASC'">
-			ORDER BY cur_price ASC
 		</if>
 	</select>
 </mapper>

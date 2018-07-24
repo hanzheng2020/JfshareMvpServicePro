@@ -3,6 +3,13 @@ package com.jfshare.mvp.server.model;
 public class ProductSurveyQueryParam {
 	private String productId;
 	private String productName;
+	private String sort;
+	public String getSort() {
+		return sort;
+	}
+	public void setSort(String sort) {
+		this.sort = sort;
+	}
 	public String getProductId() {
 		return productId;
 	}
