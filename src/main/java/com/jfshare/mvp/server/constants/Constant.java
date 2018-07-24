@@ -18,5 +18,9 @@ public class Constant {
    public static final int  RANDOUM_PATTERN=1;
    //固定模式
    public static final int  FIXED_PATTERN=0;
+   //app普通升级
+   public static final int  UPGRADE_TYPE_PT=1;
+   //app强制升级
+   public static final int  UPGRADE_TYPE_QZ=2;
 
 }
