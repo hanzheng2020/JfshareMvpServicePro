@@ -44,7 +44,7 @@ public class ProductItemService {
 		return false;
 	}
 	
-	public boolean getProductItem(String itemNo) {
+	public List<TbProductItem> getProductItem(String itemNo) {
 		
 		TbProductItemExample tbProductItemExample = new TbProductItemExample();
 		if (StringUtils.isEmpty(itemNo)) {
@@ -56,7 +56,7 @@ public class ProductItemService {
 		}
 		List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
 		
-		return false;
+		return tbProductItems;
 	}
 	
 	public boolean deleteProductItem() {
