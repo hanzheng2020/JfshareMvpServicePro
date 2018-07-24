@@ -175,62 +175,52 @@ public class TbProductItemExample {
             return (Criteria) this;
         }
 
-        public Criteria andItemNoEqualTo(String value) {
+        public Criteria andItemNoEqualTo(Integer value) {
             addCriterion("item_no =", value, "itemNo");
             return (Criteria) this;
         }
 
-        public Criteria andItemNoNotEqualTo(String value) {
+        public Criteria andItemNoNotEqualTo(Integer value) {
             addCriterion("item_no <>", value, "itemNo");
             return (Criteria) this;
         }
 
-        public Criteria andItemNoGreaterThan(String value) {
+        public Criteria andItemNoGreaterThan(Integer value) {
             addCriterion("item_no >", value, "itemNo");
             return (Criteria) this;
         }
 
-        public Criteria andItemNoGreaterThanOrEqualTo(String value) {
+        public Criteria andItemNoGreaterThanOrEqualTo(Integer value) {
             addCriterion("item_no >=", value, "itemNo");
             return (Criteria) this;
         }
 
-        public Criteria andItemNoLessThan(String value) {
+        public Criteria andItemNoLessThan(Integer value) {
             addCriterion("item_no <", value, "itemNo");
             return (Criteria) this;
         }
 
-        public Criteria andItemNoLessThanOrEqualTo(String value) {
+        public Criteria andItemNoLessThanOrEqualTo(Integer value) {
             addCriterion("item_no <=", value, "itemNo");
             return (Criteria) this;
         }
 
-        public Criteria andItemNoLike(String value) {
-            addCriterion("item_no like", value, "itemNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andItemNoNotLike(String value) {
-            addCriterion("item_no not like", value, "itemNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andItemNoIn(List<String> values) {
+        public Criteria andItemNoIn(List<Integer> values) {
             addCriterion("item_no in", values, "itemNo");
             return (Criteria) this;
         }
 
-        public Criteria andItemNoNotIn(List<String> values) {
+        public Criteria andItemNoNotIn(List<Integer> values) {
             addCriterion("item_no not in", values, "itemNo");
             return (Criteria) this;
         }
 
-        public Criteria andItemNoBetween(String value1, String value2) {
+        public Criteria andItemNoBetween(Integer value1, Integer value2) {
             addCriterion("item_no between", value1, value2, "itemNo");
             return (Criteria) this;
         }
 
-        public Criteria andItemNoNotBetween(String value1, String value2) {
+        public Criteria andItemNoNotBetween(Integer value1, Integer value2) {
             addCriterion("item_no not between", value1, value2, "itemNo");
             return (Criteria) this;
         }
@@ -245,62 +235,52 @@ public class TbProductItemExample {
             return (Criteria) this;
         }
 
-        public Criteria andParentItemNoEqualTo(String value) {
+        public Criteria andParentItemNoEqualTo(Integer value) {
             addCriterion("parent_item_no =", value, "parentItemNo");
             return (Criteria) this;
         }
 
-        public Criteria andParentItemNoNotEqualTo(String value) {
+        public Criteria andParentItemNoNotEqualTo(Integer value) {
             addCriterion("parent_item_no <>", value, "parentItemNo");
             return (Criteria) this;
         }
 
-        public Criteria andParentItemNoGreaterThan(String value) {
+        public Criteria andParentItemNoGreaterThan(Integer value) {
             addCriterion("parent_item_no >", value, "parentItemNo");
             return (Criteria) this;
         }
 
-        public Criteria andParentItemNoGreaterThanOrEqualTo(String value) {
+        public Criteria andParentItemNoGreaterThanOrEqualTo(Integer value) {
             addCriterion("parent_item_no >=", value, "parentItemNo");
             return (Criteria) this;
         }
 
-        public Criteria andParentItemNoLessThan(String value) {
+        public Criteria andParentItemNoLessThan(Integer value) {
             addCriterion("parent_item_no <", value, "parentItemNo");
             return (Criteria) this;
         }
 
-        public Criteria andParentItemNoLessThanOrEqualTo(String value) {
+        public Criteria andParentItemNoLessThanOrEqualTo(Integer value) {
             addCriterion("parent_item_no <=", value, "parentItemNo");
             return (Criteria) this;
         }
 
-        public Criteria andParentItemNoLike(String value) {
-            addCriterion("parent_item_no like", value, "parentItemNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andParentItemNoNotLike(String value) {
-            addCriterion("parent_item_no not like", value, "parentItemNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andParentItemNoIn(List<String> values) {
+        public Criteria andParentItemNoIn(List<Integer> values) {
             addCriterion("parent_item_no in", values, "parentItemNo");
             return (Criteria) this;
         }
 
-        public Criteria andParentItemNoNotIn(List<String> values) {
+        public Criteria andParentItemNoNotIn(List<Integer> values) {
             addCriterion("parent_item_no not in", values, "parentItemNo");
             return (Criteria) this;
         }
 
-        public Criteria andParentItemNoBetween(String value1, String value2) {
+        public Criteria andParentItemNoBetween(Integer value1, Integer value2) {
             addCriterion("parent_item_no between", value1, value2, "parentItemNo");
             return (Criteria) this;
         }
 
-        public Criteria andParentItemNoNotBetween(String value1, String value2) {
+        public Criteria andParentItemNoNotBetween(Integer value1, Integer value2) {
             addCriterion("parent_item_no not between", value1, value2, "parentItemNo");
             return (Criteria) this;
         }
@@ -658,4 +638,5 @@ public class TbProductItemExample {
             this(condition, value, secondValue, null);
         }
     }
+
 }
