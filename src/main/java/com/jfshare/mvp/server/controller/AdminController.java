@@ -128,13 +128,10 @@ public class AdminController {
 	public ResultConstant openOrDisabledJvjindou(@RequestParam(value="userId", required=true)  Integer userId
 			,@RequestParam(value="useStatus", required=true) Integer useStatus
 			,@RequestParam(value="jvjindou", required=true) Integer jvjindou) {
-		ResultConstant resultConstant=new ResultConstant();
-		resultConstant.setCode(0);
-		resultConstant.setDesc("成功");
 		if(!StringUtils.isEmpty(userId)){
 			if(useStatus==Constant.USE_JVJINDOU){
 				if(jvjindou<Constant.JVJINDOU_NUM){
-					return resultConstant.ofFail(resultConstant.FAIL_CODE_SYSTEM_ERROR, "使用聚金豆的数量大于0");
+					return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "使用聚金豆的数量大于0");
 				}else{
 					//走抵扣聚金豆的逻辑
 					try {
@@ -145,26 +142,23 @@ public class AdminController {
 				}
 			}else if(useStatus==Constant.DISABLED_JVJINDOU){
 				//不使用聚金豆
-				return resultConstant.ofSuccess();
+				return ResultConstant.ofSuccess();
 			}
 		}else{
-			return resultConstant.ofFail(resultConstant.FAIL_CODE_SYSTEM_ERROR, "参数有误");
+			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "参数有误");
 		}
-		return resultConstant.ofSuccess();
+		return ResultConstant.ofSuccess();
 	}
 	
 
 	@ApiOperation(value="查询用户聚金豆", notes="根据传入的userId，返回聚金豆")
 	@PostMapping("/selectJvjindou")
 	public ResultConstant selectJvjindou(@RequestParam(value="userId", required=true)  Integer userId) {
-		ResultConstant resultConstant=new ResultConstant();
-		resultConstant.setCode(0);
-		resultConstant.setDesc("成功");
 		if(!StringUtils.isEmpty(userId)){
 			 TbLevelInfo levelInfo=levelInfoService.selectByuserid(userId);
-			 return resultConstant.ofSuccess(levelInfo);
+			 return ResultConstant.ofSuccess(levelInfo);
 		}else{
-			return resultConstant.ofFail(resultConstant.FAIL_CODE_SYSTEM_ERROR, "参数有误");
+			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "参数有误");
 		}
 	}
 
