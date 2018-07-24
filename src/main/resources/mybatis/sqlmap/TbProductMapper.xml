@@ -6,24 +6,23 @@
     <result column="product_id" jdbcType="VARCHAR" property="productId" />
     <result column="seller_id" jdbcType="INTEGER" property="sellerId" />
     <result column="product_name" jdbcType="VARCHAR" property="productName" />
-    <result column="subject_id" jdbcType="INTEGER" property="subjectId" />
-    <result column="cur_price" jdbcType="INTEGER" property="curPrice" />
-    <result column="org_price" jdbcType="INTEGER" property="orgPrice" />
+    <result column="product_header" jdbcType="VARCHAR" property="productHeader" />
+    <result column="item_no" jdbcType="INTEGER" property="itemNo" />
+    <result column="cur_price" jdbcType="VARCHAR" property="curPrice" />
+    <result column="org_price" jdbcType="VARCHAR" property="orgPrice" />
     <result column="presentexp" jdbcType="INTEGER" property="presentexp" />
     <result column="img_key" jdbcType="VARCHAR" property="imgKey" />
     <result column="detail_key" jdbcType="VARCHAR" property="detailKey" />
     <result column="active_state" jdbcType="INTEGER" property="activeState" />
-    <result column="type" jdbcType="INTEGER" property="type" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
     <result column="last_soldout_time" jdbcType="TIMESTAMP" property="lastSoldoutTime" />
     <result column="last_putaway_time" jdbcType="TIMESTAMP" property="lastPutawayTime" />
     <result column="last_update_id" jdbcType="INTEGER" property="lastUpdateId" />
-    <result column="state" jdbcType="INTEGER" property="state" />
     <result column="third_party_identify" jdbcType="INTEGER" property="thirdPartyIdentify" />
     <result column="third_party_product_id" jdbcType="VARCHAR" property="thirdPartyProductId" />
-    <result column="storehouse_ids" jdbcType="VARCHAR" property="storehouseIds" />
+    <result column="product_stock" jdbcType="INTEGER" property="productStock" />
     <result column="ext1" jdbcType="VARCHAR" property="ext1" />
     <result column="ext2" jdbcType="VARCHAR" property="ext2" />
   </resultMap>
@@ -90,10 +89,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, product_id, seller_id, product_name, subject_id, cur_price, org_price, presentexp, 
-    img_key, detail_key, active_state, type, remark, create_time, create_user_id, last_soldout_time, 
-    last_putaway_time, last_update_id, state, third_party_identify, third_party_product_id, 
-    storehouse_ids, ext1, ext2
+    id, product_id, seller_id, product_name, product_header, item_no, cur_price, org_price, 
+    presentexp, img_key, detail_key, active_state, remark, create_time, create_user_id, 
+    last_soldout_time, last_putaway_time, last_update_id, third_party_identify, third_party_product_id, 
+    product_stock, ext1, ext2
   </sql>
   <sql id="Blob_Column_List">
     sku_template, attribute
@@ -148,22 +147,22 @@
   </delete>
   <insert id="insert" parameterType="com.jfshare.mvp.server.model.TbProductWithBLOBs">
     insert into tb_product (id, product_id, seller_id, 
-      product_name, subject_id, cur_price, 
-      org_price, presentexp, img_key, 
-      detail_key, active_state, type, 
+      product_name, product_header, item_no, 
+      cur_price, org_price, presentexp, 
+      img_key, detail_key, active_state, 
       remark, create_time, create_user_id, 
       last_soldout_time, last_putaway_time, last_update_id, 
-      state, third_party_identify, third_party_product_id, 
-      storehouse_ids, ext1, ext2, 
+      third_party_identify, third_party_product_id, 
+      product_stock, ext1, ext2, 
       sku_template, attribute)
     values (#{id,jdbcType=INTEGER}, #{productId,jdbcType=VARCHAR}, #{sellerId,jdbcType=INTEGER}, 
-      #{productName,jdbcType=VARCHAR}, #{subjectId,jdbcType=INTEGER}, #{curPrice,jdbcType=INTEGER}, 
-      #{orgPrice,jdbcType=INTEGER}, #{presentexp,jdbcType=INTEGER}, #{imgKey,jdbcType=VARCHAR}, 
-      #{detailKey,jdbcType=VARCHAR}, #{activeState,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
+      #{productName,jdbcType=VARCHAR}, #{productHeader,jdbcType=VARCHAR}, #{itemNo,jdbcType=INTEGER}, 
+      #{curPrice,jdbcType=VARCHAR}, #{orgPrice,jdbcType=VARCHAR}, #{presentexp,jdbcType=INTEGER}, 
+      #{imgKey,jdbcType=VARCHAR}, #{detailKey,jdbcType=VARCHAR}, #{activeState,jdbcType=INTEGER}, 
       #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, 
       #{lastSoldoutTime,jdbcType=TIMESTAMP}, #{lastPutawayTime,jdbcType=TIMESTAMP}, #{lastUpdateId,jdbcType=INTEGER}, 
-      #{state,jdbcType=INTEGER}, #{thirdPartyIdentify,jdbcType=INTEGER}, #{thirdPartyProductId,jdbcType=VARCHAR}, 
-      #{storehouseIds,jdbcType=VARCHAR}, #{ext1,jdbcType=VARCHAR}, #{ext2,jdbcType=VARCHAR}, 
+      #{thirdPartyIdentify,jdbcType=INTEGER}, #{thirdPartyProductId,jdbcType=VARCHAR}, 
+      #{productStock,jdbcType=INTEGER}, #{ext1,jdbcType=VARCHAR}, #{ext2,jdbcType=VARCHAR}, 
       #{skuTemplate,jdbcType=LONGVARCHAR}, #{attribute,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.jfshare.mvp.server.model.TbProductWithBLOBs">
@@ -181,8 +180,11 @@
       <if test="productName != null">
         product_name,
       </if>
-      <if test="subjectId != null">
-        subject_id,
+      <if test="productHeader != null">
+        product_header,
+      </if>
+      <if test="itemNo != null">
+        item_no,
       </if>
       <if test="curPrice != null">
         cur_price,
@@ -202,9 +204,6 @@
       <if test="activeState != null">
         active_state,
       </if>
-      <if test="type != null">
-        type,
-      </if>
       <if test="remark != null">
         remark,
       </if>
@@ -223,17 +222,14 @@
       <if test="lastUpdateId != null">
         last_update_id,
       </if>
-      <if test="state != null">
-        state,
-      </if>
       <if test="thirdPartyIdentify != null">
         third_party_identify,
       </if>
       <if test="thirdPartyProductId != null">
         third_party_product_id,
       </if>
-      <if test="storehouseIds != null">
-        storehouse_ids,
+      <if test="productStock != null">
+        product_stock,
       </if>
       <if test="ext1 != null">
         ext1,
@@ -261,14 +257,17 @@
       <if test="productName != null">
         #{productName,jdbcType=VARCHAR},
       </if>
-      <if test="subjectId != null">
-        #{subjectId,jdbcType=INTEGER},
+      <if test="productHeader != null">
+        #{productHeader,jdbcType=VARCHAR},
+      </if>
+      <if test="itemNo != null">
+        #{itemNo,jdbcType=INTEGER},
       </if>
       <if test="curPrice != null">
-        #{curPrice,jdbcType=INTEGER},
+        #{curPrice,jdbcType=VARCHAR},
       </if>
       <if test="orgPrice != null">
-        #{orgPrice,jdbcType=INTEGER},
+        #{orgPrice,jdbcType=VARCHAR},
       </if>
       <if test="presentexp != null">
         #{presentexp,jdbcType=INTEGER},
@@ -281,9 +280,6 @@
       </if>
       <if test="activeState != null">
         #{activeState,jdbcType=INTEGER},
-      </if>
-      <if test="type != null">
-        #{type,jdbcType=INTEGER},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -303,17 +299,14 @@
       <if test="lastUpdateId != null">
         #{lastUpdateId,jdbcType=INTEGER},
       </if>
-      <if test="state != null">
-        #{state,jdbcType=INTEGER},
-      </if>
       <if test="thirdPartyIdentify != null">
         #{thirdPartyIdentify,jdbcType=INTEGER},
       </if>
       <if test="thirdPartyProductId != null">
         #{thirdPartyProductId,jdbcType=VARCHAR},
       </if>
-      <if test="storehouseIds != null">
-        #{storehouseIds,jdbcType=VARCHAR},
+      <if test="productStock != null">
+        #{productStock,jdbcType=INTEGER},
       </if>
       <if test="ext1 != null">
         #{ext1,jdbcType=VARCHAR},
@@ -350,14 +343,17 @@
       <if test="record.productName != null">
         product_name = #{record.productName,jdbcType=VARCHAR},
       </if>
-      <if test="record.subjectId != null">
-        subject_id = #{record.subjectId,jdbcType=INTEGER},
+      <if test="record.productHeader != null">
+        product_header = #{record.productHeader,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemNo != null">
+        item_no = #{record.itemNo,jdbcType=INTEGER},
       </if>
       <if test="record.curPrice != null">
-        cur_price = #{record.curPrice,jdbcType=INTEGER},
+        cur_price = #{record.curPrice,jdbcType=VARCHAR},
       </if>
       <if test="record.orgPrice != null">
-        org_price = #{record.orgPrice,jdbcType=INTEGER},
+        org_price = #{record.orgPrice,jdbcType=VARCHAR},
       </if>
       <if test="record.presentexp != null">
         presentexp = #{record.presentexp,jdbcType=INTEGER},
@@ -370,9 +366,6 @@
       </if>
       <if test="record.activeState != null">
         active_state = #{record.activeState,jdbcType=INTEGER},
-      </if>
-      <if test="record.type != null">
-        type = #{record.type,jdbcType=INTEGER},
       </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
@@ -392,17 +385,14 @@
       <if test="record.lastUpdateId != null">
         last_update_id = #{record.lastUpdateId,jdbcType=INTEGER},
       </if>
-      <if test="record.state != null">
-        state = #{record.state,jdbcType=INTEGER},
-      </if>
       <if test="record.thirdPartyIdentify != null">
         third_party_identify = #{record.thirdPartyIdentify,jdbcType=INTEGER},
       </if>
       <if test="record.thirdPartyProductId != null">
         third_party_product_id = #{record.thirdPartyProductId,jdbcType=VARCHAR},
       </if>
-      <if test="record.storehouseIds != null">
-        storehouse_ids = #{record.storehouseIds,jdbcType=VARCHAR},
+      <if test="record.productStock != null">
+        product_stock = #{record.productStock,jdbcType=INTEGER},
       </if>
       <if test="record.ext1 != null">
         ext1 = #{record.ext1,jdbcType=VARCHAR},
@@ -427,24 +417,23 @@
       product_id = #{record.productId,jdbcType=VARCHAR},
       seller_id = #{record.sellerId,jdbcType=INTEGER},
       product_name = #{record.productName,jdbcType=VARCHAR},
-      subject_id = #{record.subjectId,jdbcType=INTEGER},
-      cur_price = #{record.curPrice,jdbcType=INTEGER},
-      org_price = #{record.orgPrice,jdbcType=INTEGER},
+      product_header = #{record.productHeader,jdbcType=VARCHAR},
+      item_no = #{record.itemNo,jdbcType=INTEGER},
+      cur_price = #{record.curPrice,jdbcType=VARCHAR},
+      org_price = #{record.orgPrice,jdbcType=VARCHAR},
       presentexp = #{record.presentexp,jdbcType=INTEGER},
       img_key = #{record.imgKey,jdbcType=VARCHAR},
       detail_key = #{record.detailKey,jdbcType=VARCHAR},
       active_state = #{record.activeState,jdbcType=INTEGER},
-      type = #{record.type,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
       last_soldout_time = #{record.lastSoldoutTime,jdbcType=TIMESTAMP},
       last_putaway_time = #{record.lastPutawayTime,jdbcType=TIMESTAMP},
       last_update_id = #{record.lastUpdateId,jdbcType=INTEGER},
-      state = #{record.state,jdbcType=INTEGER},
       third_party_identify = #{record.thirdPartyIdentify,jdbcType=INTEGER},
       third_party_product_id = #{record.thirdPartyProductId,jdbcType=VARCHAR},
-      storehouse_ids = #{record.storehouseIds,jdbcType=VARCHAR},
+      product_stock = #{record.productStock,jdbcType=INTEGER},
       ext1 = #{record.ext1,jdbcType=VARCHAR},
       ext2 = #{record.ext2,jdbcType=VARCHAR},
       sku_template = #{record.skuTemplate,jdbcType=LONGVARCHAR},
@@ -459,24 +448,23 @@
       product_id = #{record.productId,jdbcType=VARCHAR},
       seller_id = #{record.sellerId,jdbcType=INTEGER},
       product_name = #{record.productName,jdbcType=VARCHAR},
-      subject_id = #{record.subjectId,jdbcType=INTEGER},
-      cur_price = #{record.curPrice,jdbcType=INTEGER},
-      org_price = #{record.orgPrice,jdbcType=INTEGER},
+      product_header = #{record.productHeader,jdbcType=VARCHAR},
+      item_no = #{record.itemNo,jdbcType=INTEGER},
+      cur_price = #{record.curPrice,jdbcType=VARCHAR},
+      org_price = #{record.orgPrice,jdbcType=VARCHAR},
       presentexp = #{record.presentexp,jdbcType=INTEGER},
       img_key = #{record.imgKey,jdbcType=VARCHAR},
       detail_key = #{record.detailKey,jdbcType=VARCHAR},
       active_state = #{record.activeState,jdbcType=INTEGER},
-      type = #{record.type,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
       last_soldout_time = #{record.lastSoldoutTime,jdbcType=TIMESTAMP},
       last_putaway_time = #{record.lastPutawayTime,jdbcType=TIMESTAMP},
       last_update_id = #{record.lastUpdateId,jdbcType=INTEGER},
-      state = #{record.state,jdbcType=INTEGER},
       third_party_identify = #{record.thirdPartyIdentify,jdbcType=INTEGER},
       third_party_product_id = #{record.thirdPartyProductId,jdbcType=VARCHAR},
-      storehouse_ids = #{record.storehouseIds,jdbcType=VARCHAR},
+      product_stock = #{record.productStock,jdbcType=INTEGER},
       ext1 = #{record.ext1,jdbcType=VARCHAR},
       ext2 = #{record.ext2,jdbcType=VARCHAR}
     <if test="_parameter != null">
@@ -495,14 +483,17 @@
       <if test="productName != null">
         product_name = #{productName,jdbcType=VARCHAR},
       </if>
-      <if test="subjectId != null">
-        subject_id = #{subjectId,jdbcType=INTEGER},
+      <if test="productHeader != null">
+        product_header = #{productHeader,jdbcType=VARCHAR},
+      </if>
+      <if test="itemNo != null">
+        item_no = #{itemNo,jdbcType=INTEGER},
       </if>
       <if test="curPrice != null">
-        cur_price = #{curPrice,jdbcType=INTEGER},
+        cur_price = #{curPrice,jdbcType=VARCHAR},
       </if>
       <if test="orgPrice != null">
-        org_price = #{orgPrice,jdbcType=INTEGER},
+        org_price = #{orgPrice,jdbcType=VARCHAR},
       </if>
       <if test="presentexp != null">
         presentexp = #{presentexp,jdbcType=INTEGER},
@@ -515,9 +506,6 @@
       </if>
       <if test="activeState != null">
         active_state = #{activeState,jdbcType=INTEGER},
-      </if>
-      <if test="type != null">
-        type = #{type,jdbcType=INTEGER},
       </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
@@ -537,17 +525,14 @@
       <if test="lastUpdateId != null">
         last_update_id = #{lastUpdateId,jdbcType=INTEGER},
       </if>
-      <if test="state != null">
-        state = #{state,jdbcType=INTEGER},
-      </if>
       <if test="thirdPartyIdentify != null">
         third_party_identify = #{thirdPartyIdentify,jdbcType=INTEGER},
       </if>
       <if test="thirdPartyProductId != null">
         third_party_product_id = #{thirdPartyProductId,jdbcType=VARCHAR},
       </if>
-      <if test="storehouseIds != null">
-        storehouse_ids = #{storehouseIds,jdbcType=VARCHAR},
+      <if test="productStock != null">
+        product_stock = #{productStock,jdbcType=INTEGER},
       </if>
       <if test="ext1 != null">
         ext1 = #{ext1,jdbcType=VARCHAR},
@@ -569,24 +554,23 @@
     set product_id = #{productId,jdbcType=VARCHAR},
       seller_id = #{sellerId,jdbcType=INTEGER},
       product_name = #{productName,jdbcType=VARCHAR},
-      subject_id = #{subjectId,jdbcType=INTEGER},
-      cur_price = #{curPrice,jdbcType=INTEGER},
-      org_price = #{orgPrice,jdbcType=INTEGER},
+      product_header = #{productHeader,jdbcType=VARCHAR},
+      item_no = #{itemNo,jdbcType=INTEGER},
+      cur_price = #{curPrice,jdbcType=VARCHAR},
+      org_price = #{orgPrice,jdbcType=VARCHAR},
       presentexp = #{presentexp,jdbcType=INTEGER},
       img_key = #{imgKey,jdbcType=VARCHAR},
       detail_key = #{detailKey,jdbcType=VARCHAR},
       active_state = #{activeState,jdbcType=INTEGER},
-      type = #{type,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=INTEGER},
       last_soldout_time = #{lastSoldoutTime,jdbcType=TIMESTAMP},
       last_putaway_time = #{lastPutawayTime,jdbcType=TIMESTAMP},
       last_update_id = #{lastUpdateId,jdbcType=INTEGER},
-      state = #{state,jdbcType=INTEGER},
       third_party_identify = #{thirdPartyIdentify,jdbcType=INTEGER},
       third_party_product_id = #{thirdPartyProductId,jdbcType=VARCHAR},
-      storehouse_ids = #{storehouseIds,jdbcType=VARCHAR},
+      product_stock = #{productStock,jdbcType=INTEGER},
       ext1 = #{ext1,jdbcType=VARCHAR},
       ext2 = #{ext2,jdbcType=VARCHAR},
       sku_template = #{skuTemplate,jdbcType=LONGVARCHAR},
@@ -598,24 +582,23 @@
     set product_id = #{productId,jdbcType=VARCHAR},
       seller_id = #{sellerId,jdbcType=INTEGER},
       product_name = #{productName,jdbcType=VARCHAR},
-      subject_id = #{subjectId,jdbcType=INTEGER},
-      cur_price = #{curPrice,jdbcType=INTEGER},
-      org_price = #{orgPrice,jdbcType=INTEGER},
+      product_header = #{productHeader,jdbcType=VARCHAR},
+      item_no = #{itemNo,jdbcType=INTEGER},
+      cur_price = #{curPrice,jdbcType=VARCHAR},
+      org_price = #{orgPrice,jdbcType=VARCHAR},
       presentexp = #{presentexp,jdbcType=INTEGER},
       img_key = #{imgKey,jdbcType=VARCHAR},
       detail_key = #{detailKey,jdbcType=VARCHAR},
       active_state = #{activeState,jdbcType=INTEGER},
-      type = #{type,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=INTEGER},
       last_soldout_time = #{lastSoldoutTime,jdbcType=TIMESTAMP},
       last_putaway_time = #{lastPutawayTime,jdbcType=TIMESTAMP},
       last_update_id = #{lastUpdateId,jdbcType=INTEGER},
-      state = #{state,jdbcType=INTEGER},
       third_party_identify = #{thirdPartyIdentify,jdbcType=INTEGER},
       third_party_product_id = #{thirdPartyProductId,jdbcType=VARCHAR},
-      storehouse_ids = #{storehouseIds,jdbcType=VARCHAR},
+      product_stock = #{productStock,jdbcType=INTEGER},
       ext1 = #{ext1,jdbcType=VARCHAR},
       ext2 = #{ext2,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
