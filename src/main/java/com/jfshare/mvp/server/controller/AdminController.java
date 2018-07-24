@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jfshare.mvp.server.constants.Constant;
 import com.jfshare.mvp.server.constants.ResultConstant;
+import com.jfshare.mvp.server.mapper.TbLevelInfo;
 import com.jfshare.mvp.server.mapper.TbProductItemShow;
 import com.jfshare.mvp.server.mapper.TbProductPromotion;
 import com.jfshare.mvp.server.service.JvjindouRuleService;
 import com.jfshare.mvp.server.service.LevelInfoService;
 import com.jfshare.mvp.server.service.PromotionSettingService;
+
 
 
 import io.swagger.annotations.Api;
@@ -85,6 +87,20 @@ public class AdminController {
 				//不使用聚金豆
 				return resultConstant.ofSuccess();
 			}
+		}else{
+			return resultConstant.ofFail(Constant.JVJINDOU_PARR_ERROR, "参数有误");
+		}
+		return resultConstant.ofSuccess();
+	}
+	
+	@ApiOperation(value="查询用户聚金豆", notes="根据传入的userId，返回聚金豆")
+	@PostMapping("/selectJvjindou")
+	public ResultConstant selectJvjindou(@RequestParam(value="userId", required=true)  Integer userId) {
+		ResultConstant resultConstant=new ResultConstant();
+		resultConstant.setCode(0);
+		resultConstant.setDesc("成功");
+		if(!StringUtils.isEmpty(userId)){
+			 TbLevelInfo levelInfo=levelInfoService.selectByuserid(userId);
 		}else{
 			return resultConstant.ofFail(Constant.JVJINDOU_PARR_ERROR, "参数有误");
 		}

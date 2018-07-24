@@ -14,5 +14,11 @@ public class Constant {
    public static final int  JVJINDOU_PARR_ERROR=500;
    //使用聚金豆成功
    public static final int  JVJINDOU_SUCCESS=0;
+   //随机模式
+   public static final int  SUIJI_MODE=0;
+   //随机模式
+   public static final int  RANDOUM_PATTERN=1;
+   //固定模式
+   public static final int  FIXED_PATTERN=0;
 
 }

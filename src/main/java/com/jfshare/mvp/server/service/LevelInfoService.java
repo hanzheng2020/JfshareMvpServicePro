@@ -18,6 +18,7 @@ import com.jfshare.mvp.server.mapper.TbLevelInfo;
 public class LevelInfoService {
 	@Autowired
 	private LevelInfoDao levelInfoDao;
+	//消费聚金豆
 	@Transactional
 	public int openOrdisableJvjindou(int userId, int jvjindou){
 		List<TbLevelInfo> levelInfos = levelInfoDao.selectJvjindouRuleByUserId(userId);
@@ -25,8 +26,14 @@ public class LevelInfoService {
 			tbLevelInfo.setRealJvjindou(tbLevelInfo.getRealJvjindou()-jvjindou);
 			tbLevelInfo.setUpdateTime(new Date());
 			tbLevelInfo.setRemark("消费聚金豆"+jvjindou);
+			levelInfoDao.updateLevelInfoById(tbLevelInfo);
 		}
 		return 0;
+	}
+	//查询聚金豆
+	public TbLevelInfo selectByuserid(int userid) {
+		levelInfoDao.selectLevelInfoById(userid);
+		return new TbLevelInfo();
 	}
 
 }

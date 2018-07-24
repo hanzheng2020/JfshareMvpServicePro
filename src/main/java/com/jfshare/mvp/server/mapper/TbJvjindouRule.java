@@ -1,8 +1,9 @@
 package com.jfshare.mvp.server.mapper;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class TbJvjindouRule {
+public class TbJvjindouRule implements Serializable{
     private Integer id;
 
     private Date createTime;
