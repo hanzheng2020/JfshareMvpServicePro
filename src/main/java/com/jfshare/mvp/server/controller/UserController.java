@@ -52,7 +52,7 @@ public class UserController {
 		
 	}
 	
-	@ApiOperation(value="后台商品管理", notes="创建设置赠送聚金豆规则")
+	@ApiOperation(value="后台商品管理", notes="添加设置赠送聚金豆规则")
 	@PostMapping("/insertLevelinfo")
 	public ResultConstant insertLevelinfo(TbJvjindouRule jvjindouRule){
 		try {
