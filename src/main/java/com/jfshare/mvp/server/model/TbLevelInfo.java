@@ -1,9 +1,8 @@
 package com.jfshare.mvp.server.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class TbLevelInfo implements Serializable{
+public class TbLevelInfo{
     private Integer id;
 
     private Integer userid;
