@@ -33,7 +33,6 @@ import com.jfshare.mvp.server.service.LevelInfoService;
 import com.jfshare.mvp.server.service.ProductItemService;
 import com.jfshare.mvp.server.service.PromotionSettingService;
 import com.jfshare.mvp.server.utils.OSSUtils;
-
 /**
  * @author fengxiang
  * @date 2018-07-20
