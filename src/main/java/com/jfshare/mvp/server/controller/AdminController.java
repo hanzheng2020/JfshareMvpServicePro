@@ -91,10 +91,10 @@ public class AdminController {
 	}
 	
 	@ApiOperation(value="获取商品类目", 
-			notes="根据传入的类目编号，获取类目以及当前类目的所有子节点, 如果itemNo为空，则获取全部的类目树")
+			notes="根据传入的类目名称，获取类目, 如果itemNo为空，则获取全部的类目树")
 	@GetMapping("/productItem")
-	public ResultConstant getProductItem(@RequestParam(required=false) String itemNo) {
-		List<TbProductItem> tbProductItems = productItemService.getProductItem(itemNo);
+	public ResultConstant getProductItem(@RequestParam(required=false) String itemName) {
+		List<TbProductItem> tbProductItems = productItemService.getProductItem(itemName);
 		if (CollectionUtils.isEmpty(tbProductItems)) {
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取商品类目失败！");
 		}
@@ -105,7 +105,7 @@ public class AdminController {
 			notes="根据传入的商品类目，新增配置商品类目")
 	@PostMapping("/productItem")
 	public ResultConstant addProductItem(TbProductItem tbProductItem) {
-		boolean result = productItemService.addProductItem();
+		boolean result = productItemService.addProductItem(tbProductItem);
 		if (result) {
 			return ResultConstant.ofSuccess();
 		}
