@@ -158,7 +158,7 @@ public class AdminController {
 	public ResultConstant selectJvjindou(@RequestParam(value="userId", required=true)  Integer userId) {
 		if(!StringUtils.isEmpty(userId)){
 			 TbLevelInfo levelInfo=levelInfoService.selectByuserid(userId);
-			 return ResultConstant.ofSuccess(levelInfo);
+			 return ResultConstant.ofSuccess(ConvertBeanToMapUtils.convertBeanToMap(levelInfo));
 		}else{
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "参数有误");
 		}
