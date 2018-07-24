@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.github.pagehelper.PageInfo;
 import com.jfshare.mvp.server.constants.Constant;
 import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.model.TbJfRaiders;
@@ -192,4 +194,15 @@ public class AdminController {
 		return resultConstant.ofSuccess();
 
 	}
+
+	@ApiOperation(value="积分攻略文章查询", notes="根据传入的类型，查询积分攻略文章")
+	@PostMapping("/queryjfRaider")
+	public ResultConstant queryjfRaiders(TbJfRaiders jfRaiders,
+			@RequestParam(value="page", required=true)Integer page,
+			@RequestParam(value="pageSize", required=true)Integer pageSize) {
+		PageInfo<Map<String, Object>> pageInfo =jfRaidersService.queryJfRaiders(jfRaiders, page, pageSize);
+		return ResultConstant.ofSuccess(pageInfo);
+	}
+	
+	
 }
