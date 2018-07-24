@@ -159,11 +159,9 @@ public class AdminController {
 
 	@ApiOperation(value="积分攻略文章添加", notes="根据传入的类型，添加积分攻略文章")
 	@PostMapping("/addjfRaider")
-	public ResultConstant addjfRaiders(TbJfRaiders jfRaiders,
-			@RequestParam(value="jfRaidersImg", required=true) MultipartFile jfRaidersImg) {
-		String imgUrl="";
-		try {
-	        if (!StringUtils.isEmpty(jfRaidersImg)) {
+	public ResultConstant addjfRaiders(TbJfRaiders jfRaiders) {
+		/* String imgUrl="";
+	       if (!StringUtils.isEmpty(jfRaidersImg)) {
 	        	Date date = new Date();
 	        	StringBuffer sb = new StringBuffer();
 	        	sb.append("jfRaider");
@@ -176,15 +174,12 @@ public class AdminController {
 				sb.append(imgNames[(imgNames.length-1)]);
 				 imgUrl = OSSUtils.uploadFile2OssForTemp(inputStream,sb.toString());
 				 jfRaiders.setImgUrl(imgUrl);
-	        }
+	        }*/
 	      int result =   jfRaidersService.addjfRaiders(jfRaiders);
 	      if(result<1) {
 				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "添加失败");
 	      }
-		} catch (IOException e) {
-			e.printStackTrace();
-			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "添加失败");
-		}
+		
 		return ResultConstant.ofSuccess();
 
 	}
@@ -202,8 +197,7 @@ public class AdminController {
 	@ApiOperation(value="积分攻略文章更新", notes="根据传入的类型，更新积分攻略文章")
 	@PutMapping("/updatejfRaider")
 	public ResultConstant updatejfRaiders(TbJfRaiders jfRaider,
-			@RequestParam(value="jfRaiderId", required=true)Integer jfRaiderId,
-			@RequestParam(value="jfRaidersImg", required=false) MultipartFile jfRaidersImg
+			@RequestParam(value="jfRaiderId", required=true)Integer jfRaiderId
 			) {
 		TbJfRaiders jfRaiders =jfRaidersService.queryJfRaidersOne(jfRaiderId);
 		if(!StringUtils.isEmpty(jfRaider.getTitle())) {
@@ -212,24 +206,8 @@ public class AdminController {
 		if(!StringUtils.isEmpty(jfRaider.getContent())) {
 			jfRaiders.setContent(jfRaider.getContent());
 		}
-		try {
-        if (!StringUtils.isEmpty(jfRaidersImg)) {
-        	Date date = new Date();
-        	StringBuffer sb = new StringBuffer();
-        	sb.append("jfRaider");
-			InputStream inputStream = jfRaidersImg.getInputStream();
-			String imgName = jfRaidersImg.getOriginalFilename();
-			String[] imgNames =  imgName.split("\\.");
-			long time = date.getTime();
-			sb.append(time);
-			sb.append(".");
-			sb.append(imgNames[(imgNames.length-1)]);
-			String imgUrl = OSSUtils.uploadFile2OssForTemp(inputStream,sb.toString());
-			 jfRaiders.setImgUrl(imgUrl);
-        }
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(!StringUtils.isEmpty(jfRaider.getImgUrl())) {
+			jfRaiders.setImgUrl(jfRaider.getImgUrl());
 		}
 		int result = jfRaidersService.updateJfRaiders(jfRaiders);
 		if(result>0) {
