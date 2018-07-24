@@ -235,73 +235,73 @@ public class TbProductItemExample {
             return (Criteria) this;
         }
 
-        public Criteria andParentItemNoIsNull() {
-            addCriterion("parent_item_no is null");
+        public Criteria andParentTemNoIsNull() {
+            addCriterion("parent_tem_no is null");
             return (Criteria) this;
         }
 
-        public Criteria andParentItemNoIsNotNull() {
-            addCriterion("parent_item_no is not null");
+        public Criteria andParentTemNoIsNotNull() {
+            addCriterion("parent_tem_no is not null");
             return (Criteria) this;
         }
 
-        public Criteria andParentItemNoEqualTo(String value) {
-            addCriterion("parent_item_no =", value, "parentItemNo");
+        public Criteria andParentTemNoEqualTo(String value) {
+            addCriterion("parent_tem_no =", value, "parentTemNo");
             return (Criteria) this;
         }
 
-        public Criteria andParentItemNoNotEqualTo(String value) {
-            addCriterion("parent_item_no <>", value, "parentItemNo");
+        public Criteria andParentTemNoNotEqualTo(String value) {
+            addCriterion("parent_tem_no <>", value, "parentTemNo");
             return (Criteria) this;
         }
 
-        public Criteria andParentItemNoGreaterThan(String value) {
-            addCriterion("parent_item_no >", value, "parentItemNo");
+        public Criteria andParentTemNoGreaterThan(String value) {
+            addCriterion("parent_tem_no >", value, "parentTemNo");
             return (Criteria) this;
         }
 
-        public Criteria andParentItemNoGreaterThanOrEqualTo(String value) {
-            addCriterion("parent_item_no >=", value, "parentItemNo");
+        public Criteria andParentTemNoGreaterThanOrEqualTo(String value) {
+            addCriterion("parent_tem_no >=", value, "parentTemNo");
             return (Criteria) this;
         }
 
-        public Criteria andParentItemNoLessThan(String value) {
-            addCriterion("parent_item_no <", value, "parentItemNo");
+        public Criteria andParentTemNoLessThan(String value) {
+            addCriterion("parent_tem_no <", value, "parentTemNo");
             return (Criteria) this;
         }
 
-        public Criteria andParentItemNoLessThanOrEqualTo(String value) {
-            addCriterion("parent_item_no <=", value, "parentItemNo");
+        public Criteria andParentTemNoLessThanOrEqualTo(String value) {
+            addCriterion("parent_tem_no <=", value, "parentTemNo");
             return (Criteria) this;
         }
 
-        public Criteria andParentItemNoLike(String value) {
-            addCriterion("parent_item_no like", value, "parentItemNo");
+        public Criteria andParentTemNoLike(String value) {
+            addCriterion("parent_tem_no like", value, "parentTemNo");
             return (Criteria) this;
         }
 
-        public Criteria andParentItemNoNotLike(String value) {
-            addCriterion("parent_item_no not like", value, "parentItemNo");
+        public Criteria andParentTemNoNotLike(String value) {
+            addCriterion("parent_tem_no not like", value, "parentTemNo");
             return (Criteria) this;
         }
 
-        public Criteria andParentItemNoIn(List<String> values) {
-            addCriterion("parent_item_no in", values, "parentItemNo");
+        public Criteria andParentTemNoIn(List<String> values) {
+            addCriterion("parent_tem_no in", values, "parentTemNo");
             return (Criteria) this;
         }
 
-        public Criteria andParentItemNoNotIn(List<String> values) {
-            addCriterion("parent_item_no not in", values, "parentItemNo");
+        public Criteria andParentTemNoNotIn(List<String> values) {
+            addCriterion("parent_tem_no not in", values, "parentTemNo");
             return (Criteria) this;
         }
 
-        public Criteria andParentItemNoBetween(String value1, String value2) {
-            addCriterion("parent_item_no between", value1, value2, "parentItemNo");
+        public Criteria andParentTemNoBetween(String value1, String value2) {
+            addCriterion("parent_tem_no between", value1, value2, "parentTemNo");
             return (Criteria) this;
         }
 
-        public Criteria andParentItemNoNotBetween(String value1, String value2) {
-            addCriterion("parent_item_no not between", value1, value2, "parentItemNo");
+        public Criteria andParentTemNoNotBetween(String value1, String value2) {
+            addCriterion("parent_tem_no not between", value1, value2, "parentTemNo");
             return (Criteria) this;
         }
 

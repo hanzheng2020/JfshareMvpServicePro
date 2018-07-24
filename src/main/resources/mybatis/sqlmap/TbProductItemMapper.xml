@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.jfshare.mvp.server.model.TbProductItem">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="item_no" jdbcType="VARCHAR" property="itemNo" />
-    <result column="parent_item_no" jdbcType="VARCHAR" property="parentItemNo" />
+    <result column="parent_tem_no" jdbcType="VARCHAR" property="parentTemNo" />
     <result column="item_name" jdbcType="VARCHAR" property="itemName" />
     <result column="item_desc" jdbcType="VARCHAR" property="itemDesc" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -69,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, item_no, parent_item_no, item_name, item_desc, create_time, update_time
+    id, item_no, parent_tem_no, item_name, item_desc, create_time, update_time
   </sql>
   <select id="selectByExample" parameterType="com.jfshare.mvp.server.model.TbProductItemExample" resultMap="BaseResultMap">
     select
@@ -106,10 +106,10 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into tb_product_item (item_no, parent_item_no, item_name, 
+    insert into tb_product_item (item_no, parent_tem_no, item_name, 
       item_desc, create_time, update_time
       )
-    values (#{itemNo,jdbcType=VARCHAR}, #{parentItemNo,jdbcType=VARCHAR}, #{itemName,jdbcType=VARCHAR}, 
+    values (#{itemNo,jdbcType=VARCHAR}, #{parentTemNo,jdbcType=VARCHAR}, #{itemName,jdbcType=VARCHAR}, 
       #{itemDesc,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -122,8 +122,8 @@
       <if test="itemNo != null">
         item_no,
       </if>
-      <if test="parentItemNo != null">
-        parent_item_no,
+      <if test="parentTemNo != null">
+        parent_tem_no,
       </if>
       <if test="itemName != null">
         item_name,
@@ -142,8 +142,8 @@
       <if test="itemNo != null">
         #{itemNo,jdbcType=VARCHAR},
       </if>
-      <if test="parentItemNo != null">
-        #{parentItemNo,jdbcType=VARCHAR},
+      <if test="parentTemNo != null">
+        #{parentTemNo,jdbcType=VARCHAR},
       </if>
       <if test="itemName != null">
         #{itemName,jdbcType=VARCHAR},
@@ -174,8 +174,8 @@
       <if test="record.itemNo != null">
         item_no = #{record.itemNo,jdbcType=VARCHAR},
       </if>
-      <if test="record.parentItemNo != null">
-        parent_item_no = #{record.parentItemNo,jdbcType=VARCHAR},
+      <if test="record.parentTemNo != null">
+        parent_tem_no = #{record.parentTemNo,jdbcType=VARCHAR},
       </if>
       <if test="record.itemName != null">
         item_name = #{record.itemName,jdbcType=VARCHAR},
@@ -198,7 +198,7 @@
     update tb_product_item
     set id = #{record.id,jdbcType=INTEGER},
       item_no = #{record.itemNo,jdbcType=VARCHAR},
-      parent_item_no = #{record.parentItemNo,jdbcType=VARCHAR},
+      parent_tem_no = #{record.parentTemNo,jdbcType=VARCHAR},
       item_name = #{record.itemName,jdbcType=VARCHAR},
       item_desc = #{record.itemDesc,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -213,8 +213,8 @@
       <if test="itemNo != null">
         item_no = #{itemNo,jdbcType=VARCHAR},
       </if>
-      <if test="parentItemNo != null">
-        parent_item_no = #{parentItemNo,jdbcType=VARCHAR},
+      <if test="parentTemNo != null">
+        parent_tem_no = #{parentTemNo,jdbcType=VARCHAR},
       </if>
       <if test="itemName != null">
         item_name = #{itemName,jdbcType=VARCHAR},
@@ -234,7 +234,7 @@
   <update id="updateByPrimaryKey" parameterType="com.jfshare.mvp.server.model.TbProductItem">
     update tb_product_item
     set item_no = #{itemNo,jdbcType=VARCHAR},
-      parent_item_no = #{parentItemNo,jdbcType=VARCHAR},
+      parent_tem_no = #{parentTemNo,jdbcType=VARCHAR},
       item_name = #{itemName,jdbcType=VARCHAR},
       item_desc = #{itemDesc,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},

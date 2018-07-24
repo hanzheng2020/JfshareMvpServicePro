@@ -6,7 +6,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jfshare.mvp.server.constants.ResultConstant;
@@ -33,8 +32,8 @@ public class ShopController {
 	@ApiOperation(value="获取推广商品", 
 			notes="获取所有目前已经配置的推广商品")
 	@GetMapping("/promotionProducts")
-	public ResultConstant getPromotionProducts(@RequestParam(required=false) String appVersion) {
-		List<TbProductPromotion> tbProductPromotions = productPromotionService.getProductPromotions(appVersion);
+	public ResultConstant getPromotionProducts() {
+		List<TbProductPromotion> tbProductPromotions = productPromotionService.getProductPromotions();
 		if (!CollectionUtils.isEmpty(tbProductPromotions)) {
 			return ResultConstant.ofSuccess(ConvertBeanToMapUtils.convertBeanListToMap(tbProductPromotions));
 		}
@@ -44,8 +43,8 @@ public class ShopController {
 	@ApiOperation(value="获取类目商品展示", 
 			notes="获取所有目前已经配置的类目商品展示")
 	@GetMapping("/productItemShows")
-	public ResultConstant getProductItemShows(@RequestParam(required=false) String appVersion) {
-		List<TbProductItemShow> tbProductItemShows = productPromotionService.getProductItemShows(appVersion);
+	public ResultConstant getProductItemShows() {
+		List<TbProductItemShow> tbProductItemShows = productPromotionService.getProductItemShows();
 		if (!CollectionUtils.isEmpty(tbProductItemShows)) {
 			return ResultConstant.ofSuccess(ConvertBeanToMapUtils.convertBeanListToMap(tbProductItemShows));
 		}

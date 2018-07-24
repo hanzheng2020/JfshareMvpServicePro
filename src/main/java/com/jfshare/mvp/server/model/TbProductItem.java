@@ -7,7 +7,7 @@ public class TbProductItem {
 
     private String itemNo;
 
-    private String parentItemNo;
+    private String parentTemNo;
 
     private String itemName;
 
@@ -33,12 +33,12 @@ public class TbProductItem {
         this.itemNo = itemNo == null ? null : itemNo.trim();
     }
 
-    public String getParentItemNo() {
-        return parentItemNo;
+    public String getParentTemNo() {
+        return parentTemNo;
     }
 
-    public void setParentItemNo(String parentItemNo) {
-        this.parentItemNo = parentItemNo == null ? null : parentItemNo.trim();
+    public void setParentTemNo(String parentTemNo) {
+        this.parentTemNo = parentTemNo == null ? null : parentTemNo.trim();
     }
 
     public String getItemName() {

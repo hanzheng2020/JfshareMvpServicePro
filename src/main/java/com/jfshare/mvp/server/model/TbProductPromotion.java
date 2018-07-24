@@ -47,8 +47,6 @@ public class TbProductPromotion {
 
     private String productSixPicUrl;
 
-    private String appVersion;
-
     private Date createTime;
 
     private Date updateTime;
@@ -227,14 +225,6 @@ public class TbProductPromotion {
 
     public void setProductSixPicUrl(String productSixPicUrl) {
         this.productSixPicUrl = productSixPicUrl == null ? null : productSixPicUrl.trim();
-    }
-
-    public String getAppVersion() {
-        return appVersion;
-    }
-
-    public void setAppVersion(String appVersion) {
-        this.appVersion = appVersion == null ? null : appVersion.trim();
     }
 
     public Date getCreateTime() {
