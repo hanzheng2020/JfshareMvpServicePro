@@ -92,7 +92,7 @@ public class AdminController {
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "更新商品类目失败！");
 	}
 
-	@ApiOperation(value = "获取商品类目", notes = "根据传入的类目编号，获取类目以及当前类目的所有子节点, 如果itemNo为空，则获取全部的类目树")
+	@ApiOperation(value = "获取商品类目", notes = "根据传入的类目名称，获取类目, 如果itemNo为空，则获取全部的类目树")
 	@GetMapping("/productItem")
 	public ResultConstant getProductItem(@RequestParam(required = false) String itemNo) {
 		List<TbProductItem> tbProductItems = productItemService.getProductItem(itemNo);
@@ -105,7 +105,7 @@ public class AdminController {
 	@ApiOperation(value = "新增商品类目", notes = "根据传入的商品类目，新增配置商品类目")
 	@PostMapping("/productItem")
 	public ResultConstant addProductItem(TbProductItem tbProductItem) {
-		boolean result = productItemService.addProductItem();
+		boolean result = productItemService.addProductItem(tbProductItem);
 		if (result) {
 			return ResultConstant.ofSuccess();
 		}
@@ -168,24 +168,32 @@ public class AdminController {
 				StringBuffer sb = new StringBuffer();
 				sb.append("jfRaider");
 				InputStream inputStream = jfRaidersImg.getInputStream();
-				String imgName = jfRaidersImg.getOriginalFilename();
-				String[] imgNames = "jf.png".split("\\.");
-				long time = date.getTime();
-				sb.append(time);
-				sb.append(".");
-				sb.append(imgNames[(imgNames.length - 1)]);
-				imgUrl = OSSUtils.uploadFile2OssForTemp(inputStream, sb.toString());
-				jfRaiders.setImgUrl(imgUrl);
-			}
-			int result = jfRaidersService.addjfRaiders(jfRaiders);
-			if (result < 1) {
-				resultConstant.setCode(1);
-				resultConstant.setDesc("添加失败");
+				/*
+				 * String imgUrl=""; if (!StringUtils.isEmpty(jfRaidersImg)) { Date date = new
+				 * Date(); StringBuffer sb = new StringBuffer(); sb.append("jfRaider");
+				 * InputStream inputStream=jfRaidersImg.getInputStream(); String imgName =
+				 * jfRaidersImg.getOriginalFilename(); String[] imgNames =
+				 * "jf.png".split("\\."); String[] imgNames = imgName.split("\\."); long time =
+				 * date.getTime(); sb.append(time); sb.append(".");
+				 * sb.append(imgNames[(imgNames.length - 1)]); imgUrl =
+				 * OSSUtils.uploadFile2OssForTemp(inputStream, sb.toString());
+				 * jfRaiders.setImgUrl(imgUrl); } int result =
+				 * jfRaidersService.addjfRaiders(jfRaiders); if (result < 1) {
+				 * resultConstant.setCode(1); resultConstant.setDesc("添加失败"); } } catch
+				 * (IOException e) { e.printStackTrace(); } return resultConstant.ofSuccess();
+				 * sb.append(imgNames[(imgNames.length-1)]); imgUrl =
+				 * OSSUtils.uploadFile2OssForTemp(inputStream,sb.toString());
+				 * jfRaiders.setImgUrl(imgUrl); }
+				 */
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return resultConstant.ofSuccess();
+		int result = jfRaidersService.addjfRaiders(jfRaiders);
+		if (result < 1) {
+			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "添加失败");
+		}
+		return ResultConstant.ofSuccess();
 
 	}
 
@@ -228,6 +236,9 @@ public class AdminController {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		if (!StringUtils.isEmpty(jfRaider.getImgUrl())) {
+			jfRaiders.setImgUrl(jfRaider.getImgUrl());
 		}
 		int result = jfRaidersService.updateJfRaiders(jfRaiders);
 		if (result > 0) {
@@ -276,12 +287,12 @@ public class AdminController {
 		}
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "更新app版本失败！");
 	}
-	
+
 	@ApiOperation(value = "更新app版本", notes = "根据传入的app信息更新app版本号")
 	@PostMapping("/getAppVerinfo")
 	public ResultConstant getAppVerinfo(@RequestParam(value = "appType", required = true) Integer appType) {
 		TbAppVerinfo appVerinfo = appInfoServer.getAppVerinfo(appType);
-		if(appVerinfo != null) {
+		if (appVerinfo != null) {
 			return ResultConstant.ofSuccess(appVerinfo);
 		}
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取app版本信息失败！");

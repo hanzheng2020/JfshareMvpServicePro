@@ -40,18 +40,18 @@ public class ProductItemService {
 		return true;
 	}
 	
-	public boolean addProductItem() {
+	public boolean addProductItem(TbProductItem tbProductItem) {
+		
 		return false;
 	}
 	
-	public List<TbProductItem> getProductItem(String itemNo) {
+	public List<TbProductItem> getProductItem(String itemName) {
 		TbProductItemExample tbProductItemExample = new TbProductItemExample();
-		if (!StringUtils.isEmpty(itemNo)) {
+		if (!StringUtils.isEmpty(itemName)) {
 			tbProductItemExample.createCriteria()
-								.andItemNoEqualTo(itemNo);
+								.andItemNameEqualTo(itemName);
 		}
 		List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
-		
 		return tbProductItems;
 	}
 	
@@ -61,7 +61,24 @@ public class ProductItemService {
 			tbProductItemExample.createCriteria()
 								.andItemNoEqualTo(itemNo);
 		}
-		List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
+		try {
+			int i = tbProductItemDao.deleteByExample(tbProductItemExample);
+			if (i > 0) {
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return false;
+	}
+	
+	private List<TbProductItem> getSonNode(String itemNo) {
+		TbProductItemExample tbProductItemExample = new TbProductItemExample();
+		if (!StringUtils.isEmpty(itemNo)) {
+			tbProductItemExample.createCriteria()
+								.andParentItemNoEqualTo(itemNo);
+		}
+		List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
+		return tbProductItems;
 	}
 }
