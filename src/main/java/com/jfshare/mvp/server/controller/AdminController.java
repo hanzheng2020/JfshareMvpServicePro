@@ -163,7 +163,7 @@ public class AdminController {
 			@RequestParam(value="jfRaidersImg", required=true) MultipartFile jfRaidersImg) {
 		String imgUrl="";
 		try {
-	        if (!jfRaidersImg.isEmpty()) {
+	        if (!StringUtils.isEmpty(jfRaidersImg)) {
 	        	Date date = new Date();
 	        	StringBuffer sb = new StringBuffer();
 	        	sb.append("jfRaider");
