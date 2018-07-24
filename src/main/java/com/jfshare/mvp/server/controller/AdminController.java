@@ -134,7 +134,7 @@ public class AdminController {
 		if(!StringUtils.isEmpty(userId)){
 			if(useStatus==Constant.USE_JVJINDOU){
 				if(jvjindou<Constant.JVJINDOU_NUM){
-					return resultConstant.ofFail(Constant.JVJINDOU_PARR_ERROR, "使用聚金豆的数量大于0");
+					return resultConstant.ofFail(resultConstant.FAIL_CODE_SYSTEM_ERROR, "使用聚金豆的数量大于0");
 				}else{
 					//走抵扣聚金豆的逻辑
 					try {
@@ -148,7 +148,7 @@ public class AdminController {
 				return resultConstant.ofSuccess();
 			}
 		}else{
-			return resultConstant.ofFail(Constant.JVJINDOU_PARR_ERROR, "参数有误");
+			return resultConstant.ofFail(resultConstant.FAIL_CODE_SYSTEM_ERROR, "参数有误");
 		}
 		return resultConstant.ofSuccess();
 	}
@@ -162,9 +162,9 @@ public class AdminController {
 		resultConstant.setDesc("成功");
 		if(!StringUtils.isEmpty(userId)){
 			 TbLevelInfo levelInfo=levelInfoService.selectByuserid(userId);
-			 return  resultConstant.ofSuccess(levelInfo);
+			 return resultConstant.ofSuccess(levelInfo);
 		}else{
-			return resultConstant.ofFail(Constant.JVJINDOU_PARR_ERROR, "参数有误");
+			return resultConstant.ofFail(resultConstant.FAIL_CODE_SYSTEM_ERROR, "参数有误");
 		}
 	}
 
