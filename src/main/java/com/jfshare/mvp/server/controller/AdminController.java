@@ -162,10 +162,10 @@ public class AdminController {
 		resultConstant.setDesc("成功");
 		if(!StringUtils.isEmpty(userId)){
 			 TbLevelInfo levelInfo=levelInfoService.selectByuserid(userId);
+			 return  resultConstant.ofSuccess(levelInfo);
 		}else{
 			return resultConstant.ofFail(Constant.JVJINDOU_PARR_ERROR, "参数有误");
 		}
-		return resultConstant.ofSuccess();
 	}
 
 
