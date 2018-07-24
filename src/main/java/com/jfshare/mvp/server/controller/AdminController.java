@@ -161,9 +161,6 @@ public class AdminController {
 	@PostMapping("/addjfRaider")
 	public ResultConstant addjfRaiders(TbJfRaiders jfRaiders,
 			@RequestParam(value="jfRaidersImg", required=true) MultipartFile jfRaidersImg) {
-		ResultConstant resultConstant=new ResultConstant();
-		resultConstant.setCode(0);
-		resultConstant.setDesc("成功");
 		String imgUrl="";
 		try {
 	        if (!jfRaidersImg.isEmpty()) {
@@ -172,7 +169,7 @@ public class AdminController {
 	        	sb.append("jfRaider");
 				InputStream inputStream=jfRaidersImg.getInputStream();
 				String imgName = jfRaidersImg.getOriginalFilename();
-				String[] imgNames =  "jf.png".split("\\.");
+				String[] imgNames =  imgName.split("\\.");
 				long time = date.getTime();
 				sb.append(time);
 				sb.append(".");
@@ -182,13 +179,13 @@ public class AdminController {
 	        }
 	      int result =   jfRaidersService.addjfRaiders(jfRaiders);
 	      if(result<1) {
-	    	  resultConstant.setCode(1);
-	    	  resultConstant.setDesc("添加失败");
+				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "添加失败");
 	      }
 		} catch (IOException e) {
 			e.printStackTrace();
+			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "添加失败");
 		}
-		return resultConstant.ofSuccess();
+		return ResultConstant.ofSuccess();
 
 	}
 
