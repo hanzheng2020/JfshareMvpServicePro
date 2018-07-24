@@ -55,7 +55,13 @@ public class ProductItemService {
 		return tbProductItems;
 	}
 	
-	public boolean deleteProductItem() {
+	public boolean deleteProductItem(String itemNo) {
+		TbProductItemExample tbProductItemExample = new TbProductItemExample();
+		if (!StringUtils.isEmpty(itemNo)) {
+			tbProductItemExample.createCriteria()
+								.andItemNoEqualTo(itemNo);
+		}
+		List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
 		return false;
 	}
 }
