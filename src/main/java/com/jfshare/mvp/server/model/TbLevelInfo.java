@@ -1,9 +1,8 @@
 package com.jfshare.mvp.server.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class TbLevelInfo implements Serializable{
+public class TbLevelInfo {
     private Integer id;
 
     private Integer userid;
@@ -15,10 +14,6 @@ public class TbLevelInfo implements Serializable{
     private Integer growthPoint;
 
     private String levle;
-
-    private Integer jvjindou;
-
-    private Integer levleBeyond;
 
     private Integer realJvjindou;
 
@@ -72,22 +67,6 @@ public class TbLevelInfo implements Serializable{
         this.levle = levle == null ? null : levle.trim();
     }
 
-    public Integer getJvjindou() {
-        return jvjindou;
-    }
-
-    public void setJvjindou(Integer jvjindou) {
-        this.jvjindou = jvjindou;
-    }
-
-    public Integer getLevleBeyond() {
-        return levleBeyond;
-    }
-
-    public void setLevleBeyond(Integer levleBeyond) {
-        this.levleBeyond = levleBeyond;
-    }
-
     public Integer getRealJvjindou() {
         return realJvjindou;
     }
@@ -108,8 +87,7 @@ public class TbLevelInfo implements Serializable{
 	public String toString() {
 		return "TbLevelInfo [id=" + id + ", userid=" + userid + ", createTime="
 				+ createTime + ", updateTime=" + updateTime + ", growthPoint="
-				+ growthPoint + ", levle=" + levle + ", jvjindou=" + jvjindou
-				+ ", levleBeyond=" + levleBeyond + ", realJvjindou="
+				+ growthPoint + ", levle=" + levle + ", realJvjindou="
 				+ realJvjindou + ", remark=" + remark + "]";
 	}
 }

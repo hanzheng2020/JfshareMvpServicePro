@@ -1,15 +1,12 @@
 package com.jfshare.mvp.server.mapper;
 
-
-import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
-
 import com.jfshare.mvp.server.model.TbLevelInfo;
 import com.jfshare.mvp.server.model.TbLevelInfoExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface TbLevelInfoMapper {
-    int countByExample(TbLevelInfoExample example);
+    long countByExample(TbLevelInfoExample example);
 
     int deleteByExample(TbLevelInfoExample example);
 

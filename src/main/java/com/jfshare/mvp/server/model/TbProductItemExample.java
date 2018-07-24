@@ -638,4 +638,5 @@ public class TbProductItemExample {
             this(condition, value, secondValue, null);
         }
     }
+
 }

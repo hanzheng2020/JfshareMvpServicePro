@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.dao.LevelInfoDao;
 import com.jfshare.mvp.server.model.TbLevelInfo;
 
@@ -29,10 +30,21 @@ public class LevelInfoService {
 		}
 		return 0;
 	}
+	
 	//查询聚金豆
 	public TbLevelInfo selectByuserid(int userid) {
 		levelInfoDao.selectLevelInfoById(userid);
 		return new TbLevelInfo();
+	}
+	
+	//查询聚金豆
+	public boolean validateJvjindouCount(int userid , int jvjindou) {
+		TbLevelInfo levelInfo= levelInfoDao.selectLevelInfoById(userid);
+		Integer jvjindou2 = levelInfo.getRealJvjindou();
+		if(jvjindou > jvjindou2){
+			return false;
+		}
+		return true;
 	}
 
 }

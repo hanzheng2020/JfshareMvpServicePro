@@ -120,21 +120,25 @@ public class AdminController {
 		ResultConstant result = productItemService.deleteProductItem(itemNo);
 		return result;
 	}
-
-	@ApiOperation(value = "订单消费聚金豆", notes = "根据传入的使用类型，进行扣减聚金豆")
-	@PostMapping("/openOrDisabledJvjindou")
-	public ResultConstant openOrDisabledJvjindou(@RequestParam(value = "userId", required = true) Integer userId,
-			@RequestParam(value = "jvjindou", required = true) Integer jvjindou) {
-		if (!StringUtils.isEmpty(userId)) {
-			if (jvjindou < Constant.JVJINDOU_NUM) {
-				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "使用聚金豆的数量大于0");
-			} else {
-				// 走抵扣聚金豆的逻辑
-				try {
-					levelInfoService.openOrdisableJvjindou(userId, jvjindou);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+	
+	@ApiOperation(value="客户端订单消费聚金豆", notes="根据传入的使用类型，进行扣减聚金豆")
+	@PostMapping("/consumerJvjindou")
+	public ResultConstant consumerJvjindou(@RequestParam(value="userId", required=true)  Integer userId
+			,@RequestParam(value="jvjindou", required=true) Integer jvjindou) {
+		if(!StringUtils.isEmpty(userId)){
+			    boolean validateJvjindouCount = levelInfoService.validateJvjindouCount(userId, jvjindou);
+			    if(!validateJvjindouCount){
+			        ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "聚金豆数量超限。");
+			    }
+				if(jvjindou<Constant.JVJINDOU_NUM){
+					return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "使用聚金豆的数量大于0");
+				}else{
+					//走抵扣聚金豆的逻辑
+					try {
+						levelInfoService.openOrdisableJvjindou(userId, jvjindou);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 			}
 		} else {
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "参数有误");
@@ -142,7 +146,8 @@ public class AdminController {
 		return ResultConstant.ofSuccess();
 	}
 
-	@ApiOperation(value = "查询用户聚金豆", notes = "根据传入的userId，返回聚金豆")
+
+	@ApiOperation(value="客户端查询用户聚金豆", notes="根据传入的userId，返回聚金豆")
 	@GetMapping("/selectJvjindou")
 	public ResultConstant selectJvjindou(@RequestParam(value = "userId", required = true) Integer userId) {
 		if (!StringUtils.isEmpty(userId)) {

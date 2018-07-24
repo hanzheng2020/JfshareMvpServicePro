@@ -1,9 +1,8 @@
 package com.jfshare.mvp.server.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class TbJvjindouRule implements Serializable{
+public class TbJvjindouRule{
     private Integer id;
 
     private Date createTime;
@@ -15,6 +14,8 @@ public class TbJvjindouRule implements Serializable{
     private Integer randomGivingMax;
 
     private Integer fixedGiving;
+
+    private Date updateTime;
 
     public Integer getId() {
         return id;
@@ -64,11 +65,20 @@ public class TbJvjindouRule implements Serializable{
         this.fixedGiving = fixedGiving;
     }
 
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
 	@Override
 	public String toString() {
 		return "TbJvjindouRule [id=" + id + ", createTime=" + createTime
 				+ ", givingRule=" + givingRule + ", randomGivingMin="
 				+ randomGivingMin + ", randomGivingMax=" + randomGivingMax
-				+ ", fixedGiving=" + fixedGiving + "]";
+				+ ", fixedGiving=" + fixedGiving + ", updateTime=" + updateTime
+				+ "]";
 	}
 }
