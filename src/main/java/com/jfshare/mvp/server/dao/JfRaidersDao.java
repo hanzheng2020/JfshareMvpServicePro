@@ -18,7 +18,9 @@ public class JfRaidersDao {
 	private TbJfRaidersMapper tbJfRaidersMapper;
 	
 	public int addRaider(TbJfRaiders jfRaiders) {
-		jfRaiders.setCreateTime(new Date());
+		Date date = new Date();
+		jfRaiders.setCreateTime(date);
+		jfRaiders.setUpdateTime(date);
 		jfRaiders.setStatus(1);
 		return tbJfRaidersMapper.insert(jfRaiders);
 	}
@@ -28,10 +30,16 @@ public class JfRaidersDao {
 	}
 	
 	public int updateJfRaiders(TbJfRaiders jfRaiders) {
+		jfRaiders.setUpdateTime(new Date());
 		return tbJfRaidersMapper.updateByPrimaryKey(jfRaiders);
 	}
 	
 	public List<TbJfRaiders> selectJfRaiders(TbJfRaidersExample example){
 		return  tbJfRaidersMapper.selectByExampleWithBLOBs(example);
 	}
+	
+	public TbJfRaiders selectJfRaidersOne(Integer id) {
+		return tbJfRaidersMapper.selectByPrimaryKey(id);
+	}
 }
+

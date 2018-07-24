@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 public interface TbProductPromotionMapper {
-    long countByExample(TbProductPromotionExample example);
+    int countByExample(TbProductPromotionExample example);
 
     int deleteByExample(TbProductPromotionExample example);
 

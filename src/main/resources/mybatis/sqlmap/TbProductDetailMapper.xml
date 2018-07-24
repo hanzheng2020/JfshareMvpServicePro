@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jfshare.mvp.server.mapper.TbProductItemShowMapper">
-  <resultMap id="BaseResultMap" type="com.jfshare.mvp.server.model.TbProductItemShow">
+<mapper namespace="com.jfshare.mvp.server.mapper.TbProductDetailMapper">
+  <resultMap id="BaseResultMap" type="com.jfshare.mvp.server.model.TbProductDetail">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="item_no" jdbcType="INTEGER" property="itemNo" />
-    <result column="item_desc" jdbcType="VARCHAR" property="itemDesc" />
-    <result column="products" jdbcType="VARCHAR" property="products" />
+    <result column="detail_key" jdbcType="VARCHAR" property="detailKey" />
+    <result column="product_detail" jdbcType="VARCHAR" property="productDetail" />
+    <result column="product_instructions" jdbcType="VARCHAR" property="productInstructions" />
+    <result column="product_exchange" jdbcType="VARCHAR" property="productExchange" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
@@ -68,15 +69,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, item_no, item_desc, products, create_time, update_time
+    id, detail_key, product_detail, product_instructions, product_exchange, create_time, 
+    update_time
   </sql>
-  <select id="selectByExample" parameterType="com.jfshare.mvp.server.model.TbProductItemShowExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.jfshare.mvp.server.model.TbProductDetailExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from tb_product_item_show
+    from tb_product_detail
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -87,41 +89,44 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from tb_product_item_show
+    from tb_product_detail
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from tb_product_item_show
+    delete from tb_product_detail
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.jfshare.mvp.server.model.TbProductItemShowExample">
-    delete from tb_product_item_show
+  <delete id="deleteByExample" parameterType="com.jfshare.mvp.server.model.TbProductDetailExample">
+    delete from tb_product_detail
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.jfshare.mvp.server.model.TbProductItemShow">
-    insert into tb_product_item_show (id, item_no, item_desc, 
-      products, create_time, update_time
-      )
-    values (#{id,jdbcType=INTEGER}, #{itemNo,jdbcType=INTEGER}, #{itemDesc,jdbcType=VARCHAR}, 
-      #{products,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
-      )
+  <insert id="insert" parameterType="com.jfshare.mvp.server.model.TbProductDetail">
+    insert into tb_product_detail (id, detail_key, product_detail, 
+      product_instructions, product_exchange, create_time, 
+      update_time)
+    values (#{id,jdbcType=INTEGER}, #{detailKey,jdbcType=VARCHAR}, #{productDetail,jdbcType=VARCHAR}, 
+      #{productInstructions,jdbcType=VARCHAR}, #{productExchange,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.jfshare.mvp.server.model.TbProductItemShow">
-    insert into tb_product_item_show
+  <insert id="insertSelective" parameterType="com.jfshare.mvp.server.model.TbProductDetail">
+    insert into tb_product_detail
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="itemNo != null">
-        item_no,
+      <if test="detailKey != null">
+        detail_key,
       </if>
-      <if test="itemDesc != null">
-        item_desc,
+      <if test="productDetail != null">
+        product_detail,
       </if>
-      <if test="products != null">
-        products,
+      <if test="productInstructions != null">
+        product_instructions,
+      </if>
+      <if test="productExchange != null">
+        product_exchange,
       </if>
       <if test="createTime != null">
         create_time,
@@ -134,14 +139,17 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="itemNo != null">
-        #{itemNo,jdbcType=INTEGER},
+      <if test="detailKey != null">
+        #{detailKey,jdbcType=VARCHAR},
       </if>
-      <if test="itemDesc != null">
-        #{itemDesc,jdbcType=VARCHAR},
+      <if test="productDetail != null">
+        #{productDetail,jdbcType=VARCHAR},
       </if>
-      <if test="products != null">
-        #{products,jdbcType=VARCHAR},
+      <if test="productInstructions != null">
+        #{productInstructions,jdbcType=VARCHAR},
+      </if>
+      <if test="productExchange != null">
+        #{productExchange,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -151,26 +159,29 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.jfshare.mvp.server.model.TbProductItemShowExample" resultType="java.lang.Integer">
-    select count(*) from tb_product_item_show
+  <select id="countByExample" parameterType="com.jfshare.mvp.server.model.TbProductDetailExample" resultType="java.lang.Integer">
+    select count(*) from tb_product_detail
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update tb_product_item_show
+    update tb_product_detail
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.itemNo != null">
-        item_no = #{record.itemNo,jdbcType=INTEGER},
+      <if test="record.detailKey != null">
+        detail_key = #{record.detailKey,jdbcType=VARCHAR},
       </if>
-      <if test="record.itemDesc != null">
-        item_desc = #{record.itemDesc,jdbcType=VARCHAR},
+      <if test="record.productDetail != null">
+        product_detail = #{record.productDetail,jdbcType=VARCHAR},
       </if>
-      <if test="record.products != null">
-        products = #{record.products,jdbcType=VARCHAR},
+      <if test="record.productInstructions != null">
+        product_instructions = #{record.productInstructions,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productExchange != null">
+        product_exchange = #{record.productExchange,jdbcType=VARCHAR},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -184,28 +195,32 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update tb_product_item_show
+    update tb_product_detail
     set id = #{record.id,jdbcType=INTEGER},
-      item_no = #{record.itemNo,jdbcType=INTEGER},
-      item_desc = #{record.itemDesc,jdbcType=VARCHAR},
-      products = #{record.products,jdbcType=VARCHAR},
+      detail_key = #{record.detailKey,jdbcType=VARCHAR},
+      product_detail = #{record.productDetail,jdbcType=VARCHAR},
+      product_instructions = #{record.productInstructions,jdbcType=VARCHAR},
+      product_exchange = #{record.productExchange,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.jfshare.mvp.server.model.TbProductItemShow">
-    update tb_product_item_show
+  <update id="updateByPrimaryKeySelective" parameterType="com.jfshare.mvp.server.model.TbProductDetail">
+    update tb_product_detail
     <set>
-      <if test="itemNo != null">
-        item_no = #{itemNo,jdbcType=INTEGER},
+      <if test="detailKey != null">
+        detail_key = #{detailKey,jdbcType=VARCHAR},
       </if>
-      <if test="itemDesc != null">
-        item_desc = #{itemDesc,jdbcType=VARCHAR},
+      <if test="productDetail != null">
+        product_detail = #{productDetail,jdbcType=VARCHAR},
       </if>
-      <if test="products != null">
-        products = #{products,jdbcType=VARCHAR},
+      <if test="productInstructions != null">
+        product_instructions = #{productInstructions,jdbcType=VARCHAR},
+      </if>
+      <if test="productExchange != null">
+        product_exchange = #{productExchange,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -216,11 +231,12 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.jfshare.mvp.server.model.TbProductItemShow">
-    update tb_product_item_show
-    set item_no = #{itemNo,jdbcType=INTEGER},
-      item_desc = #{itemDesc,jdbcType=VARCHAR},
-      products = #{products,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.jfshare.mvp.server.model.TbProductDetail">
+    update tb_product_detail
+    set detail_key = #{detailKey,jdbcType=VARCHAR},
+      product_detail = #{productDetail,jdbcType=VARCHAR},
+      product_instructions = #{productInstructions,jdbcType=VARCHAR},
+      product_exchange = #{productExchange,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}

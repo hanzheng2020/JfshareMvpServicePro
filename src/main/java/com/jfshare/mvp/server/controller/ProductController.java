@@ -35,7 +35,7 @@ public class ProductController {
 			@RequestParam(value = "productName", required=false) String productName) {
 		List<TbProductSurvey> productList = productService.productSurveyQuery(productId, productName);
 		if(!CollectionUtils.isEmpty(productList)) {
-			return ResultConstant.ofSuccess(ConvertBeanToMapUtils.convertBeanToMap(productList));
+			return ResultConstant.ofSuccess(productList);
 		}
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取商品信息失败");
 	}

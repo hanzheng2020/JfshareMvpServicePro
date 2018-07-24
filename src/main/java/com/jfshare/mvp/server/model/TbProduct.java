@@ -11,11 +11,13 @@ public class TbProduct {
 
     private String productName;
 
-    private Integer subjectId;
+    private String productHeader;
 
-    private Integer curPrice;
+    private Integer itemNo;
 
-    private Integer orgPrice;
+    private String curPrice;
+
+    private String orgPrice;
 
     private Integer presentexp;
 
@@ -24,8 +26,6 @@ public class TbProduct {
     private String detailKey;
 
     private Integer activeState;
-
-    private Integer type;
 
     private String remark;
 
@@ -39,13 +39,11 @@ public class TbProduct {
 
     private Integer lastUpdateId;
 
-    private Integer state;
-
     private Integer thirdPartyIdentify;
 
     private String thirdPartyProductId;
 
-    private String storehouseIds;
+    private Integer productStock;
 
     private String ext1;
 
@@ -83,28 +81,36 @@ public class TbProduct {
         this.productName = productName == null ? null : productName.trim();
     }
 
-    public Integer getSubjectId() {
-        return subjectId;
+    public String getProductHeader() {
+        return productHeader;
     }
 
-    public void setSubjectId(Integer subjectId) {
-        this.subjectId = subjectId;
+    public void setProductHeader(String productHeader) {
+        this.productHeader = productHeader == null ? null : productHeader.trim();
     }
 
-    public Integer getCurPrice() {
+    public Integer getItemNo() {
+        return itemNo;
+    }
+
+    public void setItemNo(Integer itemNo) {
+        this.itemNo = itemNo;
+    }
+
+    public String getCurPrice() {
         return curPrice;
     }
 
-    public void setCurPrice(Integer curPrice) {
-        this.curPrice = curPrice;
+    public void setCurPrice(String curPrice) {
+        this.curPrice = curPrice == null ? null : curPrice.trim();
     }
 
-    public Integer getOrgPrice() {
+    public String getOrgPrice() {
         return orgPrice;
     }
 
-    public void setOrgPrice(Integer orgPrice) {
-        this.orgPrice = orgPrice;
+    public void setOrgPrice(String orgPrice) {
+        this.orgPrice = orgPrice == null ? null : orgPrice.trim();
     }
 
     public Integer getPresentexp() {
@@ -137,14 +143,6 @@ public class TbProduct {
 
     public void setActiveState(Integer activeState) {
         this.activeState = activeState;
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
     }
 
     public String getRemark() {
@@ -195,14 +193,6 @@ public class TbProduct {
         this.lastUpdateId = lastUpdateId;
     }
 
-    public Integer getState() {
-        return state;
-    }
-
-    public void setState(Integer state) {
-        this.state = state;
-    }
-
     public Integer getThirdPartyIdentify() {
         return thirdPartyIdentify;
     }
@@ -219,12 +209,12 @@ public class TbProduct {
         this.thirdPartyProductId = thirdPartyProductId == null ? null : thirdPartyProductId.trim();
     }
 
-    public String getStorehouseIds() {
-        return storehouseIds;
+    public Integer getProductStock() {
+        return productStock;
     }
 
-    public void setStorehouseIds(String storehouseIds) {
-        this.storehouseIds = storehouseIds == null ? null : storehouseIds.trim();
+    public void setProductStock(Integer productStock) {
+        this.productStock = productStock;
     }
 
     public String getExt1() {
