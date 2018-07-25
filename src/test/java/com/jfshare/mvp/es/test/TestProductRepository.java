@@ -3,7 +3,9 @@ package com.jfshare.mvp.es.test;
 
 import com.jfshare.mvp.server.elasticsearch.Product;
 import com.jfshare.mvp.server.elasticsearch.repository.ProductRepository;
+import com.jfshare.mvp.server.service.LevelInfoService;
 import com.jfshare.mvp.server.JfshareMvpServer;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,6 +32,8 @@ public class TestProductRepository {
     ProductRepository productRepository;
     @Autowired
     private ElasticsearchTemplate esTemplate;
+    @Autowired
+    private LevelInfoService levelInfoService;
 
     @Before
     public void before() {
@@ -107,6 +111,13 @@ public class TestProductRepository {
             Product product = new Product(i+"", "JavaDevMap learn Elasticsearch", price, "计算机网络");
             productRepository.save(product);
         }
+    }
+    
+    
+    @Test
+    public void testJvjindou(){
+    	int userId=99;
+    	levelInfoService.presentJvjindouByuserId(userId);
     }
 
 

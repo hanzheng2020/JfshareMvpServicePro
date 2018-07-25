@@ -14,10 +14,14 @@ public class Constant {
    public static final int  JVJINDOU_SUCCESS=0;
    //随机模式
    public static final int  SUIJI_MODE=0;
+//   //随机模式
+//   public static final int  RANDOUM_PATTERN=1;
+//   //固定模式
+//   public static final int  FIXED_PATTERN=2;
    //随机模式
-   public static final int  RANDOUM_PATTERN=1;
+   public static final String  RANDOUM_PATTERN="1";
    //固定模式
-   public static final int  FIXED_PATTERN=0;
+   public static final String  FIXED_PATTERN="2";
    //app普通升级
    public static final int  UPGRADE_TYPE_PT=1;
    //app强制升级

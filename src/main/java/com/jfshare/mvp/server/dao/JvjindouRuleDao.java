@@ -42,4 +42,9 @@ public class JvjindouRuleDao {
 	public int insertSelective(TbJvjindouRule jvjindouRule) {
 		return jvjindouRuleMapper.insertSelective(jvjindouRule);
 	}
+	
+	public List<TbJvjindouRule> selectByExample(TbJvjindouRuleExample example){
+		List<TbJvjindouRule> jvjindouRules=jvjindouRuleMapper.selectByExample(example);
+		return jvjindouRules;
+	}
 }

@@ -21,21 +21,27 @@ public class LevelInfoDao {
 	@Autowired
 	private TbLevelInfoMapper levelInfoMapper;
     
-	@Cacheable(cacheNames="levelInfos")
+	//@Cacheable(cacheNames="levelInfos")
 	public List<TbLevelInfo> selectJvjindouRuleByUserId(int userId){
 		TbLevelInfoExample example=new TbLevelInfoExample();
 		Criteria criteria = example.createCriteria();
 		criteria.andUseridEqualTo(userId);
-		return levelInfoMapper.selectByExample(example);
+		List<TbLevelInfo> levelInfos =levelInfoMapper.selectByExample(example);
+		return levelInfos;
 	}
 	
 	@Cacheable(cacheNames="levelInfos")
 	public TbLevelInfo selectLevelInfoById(int id){
 		return levelInfoMapper.selectByPrimaryKey(id);
 	}
-   //	@CacheEvict(删除)
+    //	@CacheEvict(删除)
 	@CachePut(cacheNames="levelInfos")
 	public int updateLevelInfoById(TbLevelInfo record){
 		return levelInfoMapper.updateByPrimaryKeySelective(record);
+	}
+	
+	@CachePut(cacheNames="levelInfos")
+	public int insertSelective(TbLevelInfo record){
+		return levelInfoMapper.insertSelective(record);
 	}
 }
