@@ -84,7 +84,8 @@ public class AdminController {
 	@ApiOperation(value = "更新商品类目", notes = "根据传入的商品类目配置，重新配置商品类目")
 	@PutMapping("/productItem")
 	public ResultConstant updateProductItem(@RequestParam(required = true) String itemNo,
-			@RequestParam(required = false) String itemName, @RequestParam(required = false) String itemDesc) {
+											@RequestParam(required = true) String itemName, 
+											@RequestParam(required = true) String itemDesc) {
 		boolean result = productItemService.updateProductItem(itemNo, itemName, itemDesc);
 		if (result) {
 			return ResultConstant.ofSuccess();
@@ -104,8 +105,10 @@ public class AdminController {
 
 	@ApiOperation(value = "新增商品类目", notes = "根据传入的商品类目，新增配置商品类目")
 	@PostMapping("/productItem")
-	public ResultConstant addProductItem(TbProductItem tbProductItem) {
-		boolean result = productItemService.addProductItem(tbProductItem);
+	public ResultConstant addProductItem(@RequestParam(required = true) String itemName, 
+										 @RequestParam(required = true) String itemDesc,
+										 @RequestParam(required = false) String parentItemNo) {
+		boolean result = productItemService.addProductItem(itemName, itemDesc, parentItemNo);
 		if (result) {
 			return ResultConstant.ofSuccess();
 		}

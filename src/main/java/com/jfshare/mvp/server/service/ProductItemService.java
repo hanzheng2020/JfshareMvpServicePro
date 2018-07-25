@@ -4,8 +4,11 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.assertj.core.internal.bytebuddy.implementation.bind.annotation.Default;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.dao.TbProductDao;
@@ -47,16 +50,29 @@ public class ProductItemService {
 		return true;
 	}
 	
-	public boolean addProductItem(TbProductItem tbProductItem) {
+	public boolean addProductItem(String itemName, String itemDesc, String parentItemNo) {
 		
 		return false;
+	}
+
+	public List<TbProductItem> getProductItem(String itemName, boolean useLike) {
+		if (!useLike) {
+			return getProductItem(itemName);
+		}
+		TbProductItemExample tbProductItemExample = new TbProductItemExample();
+		if (!StringUtils.isEmpty(itemName)) {
+			tbProductItemExample.createCriteria()
+								.andItemNameLike("%"+itemName+"%");
+		}
+		List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
+		return tbProductItems;
 	}
 	
 	public List<TbProductItem> getProductItem(String itemName) {
 		TbProductItemExample tbProductItemExample = new TbProductItemExample();
 		if (!StringUtils.isEmpty(itemName)) {
 			tbProductItemExample.createCriteria()
-								.andItemNameLike("%"+itemName+"%");
+								.andItemNameEqualTo(itemName);
 		}
 		List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
 		return tbProductItems;
@@ -86,15 +102,5 @@ public class ProductItemService {
 		}
 		tbProductItemDao.deleteByExample(tbProductItemExample);
 		return ResultConstant.ofSuccess();
-	}
-	
-	private List<TbProductItem> getSonNode(String itemNo) {
-		TbProductItemExample tbProductItemExample = new TbProductItemExample();
-		if (!StringUtils.isEmpty(itemNo)) {
-			tbProductItemExample.createCriteria()
-								.andParentItemNoEqualTo(itemNo);
-		}
-		List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
-		return tbProductItems;
 	}
 }
