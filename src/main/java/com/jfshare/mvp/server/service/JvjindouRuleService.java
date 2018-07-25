@@ -31,4 +31,12 @@ public class JvjindouRuleService {
 		jvjindouRule.setCreateTime(new Date());
 		return jvjindouRuleDao.insertSelective(jvjindouRule);
 	}
+
+	public TbJvjindouRule getJvjindouRule(Integer id) {
+		return jvjindouRuleDao.selectByPrimaryKey(id);
+	}
+
+	public int updateJvjindouRule(TbJvjindouRule record) {
+		return jvjindouRuleDao.updateByPrimaryKeySelective(record);
+	}
 }

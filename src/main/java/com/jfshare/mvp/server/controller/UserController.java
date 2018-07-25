@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.model.TbJvjindouRule;
 import com.jfshare.mvp.server.service.JvjindouRuleService;
+import com.jfshare.mvp.server.utils.ConvertBeanToMapUtils;
 
 /**
  * 用户管理
@@ -53,8 +54,8 @@ public class UserController {
 	}
 	
 	@ApiOperation(value="后台商品管理", notes="添加设置赠送聚金豆规则")
-	@PostMapping("/insertLevelinfo")
-	public ResultConstant insertLevelinfo(TbJvjindouRule jvjindouRule){
+	@PostMapping("/insertJvjindouRule")
+	public ResultConstant insertJvjindouRule(TbJvjindouRule jvjindouRule){
 		try {
 			jvjindouRuleService.insertJvjindouRule(jvjindouRule);
 		} catch (Exception e) {
@@ -65,9 +66,21 @@ public class UserController {
 	}
 	
 	@ApiOperation(value="后台商品管理", notes="查询赠送聚金豆规则")
-	@GetMapping("/getLevelinfo")
-	public ResultConstant getLevelinfo(@RequestParam(value="id", required=true)  Integer id){
-		return ResultConstant.ofSuccess();
+	@GetMapping("/getJvjindouRule")
+	public ResultConstant getJvjindouRule(@RequestParam(value="id", required=true)  Integer id){
+		TbJvjindouRule jvjindouRule = jvjindouRuleService.getJvjindouRule(id);
+		return ResultConstant.ofSuccess(ConvertBeanToMapUtils.convertBeanToMap(jvjindouRule));
 	}
 	
+	@ApiOperation(value="后台商品管理", notes="修改赠送聚金豆规则")
+	@PutMapping("/updateJvjindouRule")
+	public ResultConstant updateJvjindouRule(TbJvjindouRule jvjindouRule){
+		try {
+			jvjindouRuleService.updateJvjindouRule(jvjindouRule);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "参数有误！");
+		}
+		return ResultConstant.ofSuccess();
+	}
 }
