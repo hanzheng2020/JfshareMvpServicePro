@@ -57,3 +57,10 @@ mybatis:
 logging:
   config:
    classpath:logback-boot.xml
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+

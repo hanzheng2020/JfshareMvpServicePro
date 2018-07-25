@@ -1,15 +1,5 @@
 package com.jfshare.mvp.server.service;
 
-import java.util.List;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
-import org.assertj.core.internal.bytebuddy.implementation.bind.annotation.Default;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.dao.TbProductDao;
 import com.jfshare.mvp.server.dao.TbProductItemDao;
@@ -17,6 +7,12 @@ import com.jfshare.mvp.server.model.TbProduct;
 import com.jfshare.mvp.server.model.TbProductExample;
 import com.jfshare.mvp.server.model.TbProductItem;
 import com.jfshare.mvp.server.model.TbProductItemExample;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author fengxiang
