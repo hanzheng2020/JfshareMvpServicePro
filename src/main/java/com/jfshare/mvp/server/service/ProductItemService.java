@@ -30,6 +30,9 @@ public class ProductItemService {
 	@Autowired
 	private TbProductDao tbProductDao;
 	
+	@Autowired
+	private SequenceService sequenceService;
+	
 	public boolean updateProductItem(String itemNo, String itemName, String itemDesc) {
 		TbProductItemExample tbProductItemExample = new TbProductItemExample();
 		tbProductItemExample.createCriteria()
@@ -51,8 +54,13 @@ public class ProductItemService {
 	}
 	
 	public boolean addProductItem(String itemName, String itemDesc, String parentItemNo) {
-		
-		return false;
+		TbProductItem tbProductItem = new TbProductItem();
+		tbProductItem.setItemDesc(itemDesc);
+		tbProductItem.setItemName(itemName);
+		tbProductItem.setParentItemNo(parentItemNo);
+		tbProductItem.setItemNo(sequenceService.generalItemNo());
+		tbProductItemDao.insert(tbProductItem);
+		return true;
 	}
 
 	public List<TbProductItem> getProductItem(String itemName, boolean useLike) {
