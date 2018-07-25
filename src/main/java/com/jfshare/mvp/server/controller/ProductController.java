@@ -49,7 +49,7 @@ public class ProductController {
 	}
 	
 	@ApiOperation(value = "删除商品", notes = "删除商品信息")
-	@PostMapping("/addProduct")
+	@PostMapping("/deleteProduct")
 	public ResultConstant deleteProduct(@RequestParam(value = "productId", required=false) String productId) {
 		int result = productService.deleteProduct(productId);
 		if(result > 0) {
@@ -59,7 +59,7 @@ public class ProductController {
 	}
 	
 	@ApiOperation(value = "更新商品", notes = "更新商品信息")
-	@PostMapping("/addProduct")
+	@PostMapping("/updateProduct")
 	public ResultConstant updateProduct(Product product) {
 		int result = productService.updateProduct(product);
 		if(result > 0) {
