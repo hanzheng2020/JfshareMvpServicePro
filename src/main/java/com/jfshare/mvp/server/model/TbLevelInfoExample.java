@@ -475,6 +475,126 @@ public class TbLevelInfoExample {
             return (Criteria) this;
         }
 
+        public Criteria andJvjindouIsNull() {
+            addCriterion("jvjindou is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andJvjindouIsNotNull() {
+            addCriterion("jvjindou is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andJvjindouEqualTo(Integer value) {
+            addCriterion("jvjindou =", value, "jvjindou");
+            return (Criteria) this;
+        }
+
+        public Criteria andJvjindouNotEqualTo(Integer value) {
+            addCriterion("jvjindou <>", value, "jvjindou");
+            return (Criteria) this;
+        }
+
+        public Criteria andJvjindouGreaterThan(Integer value) {
+            addCriterion("jvjindou >", value, "jvjindou");
+            return (Criteria) this;
+        }
+
+        public Criteria andJvjindouGreaterThanOrEqualTo(Integer value) {
+            addCriterion("jvjindou >=", value, "jvjindou");
+            return (Criteria) this;
+        }
+
+        public Criteria andJvjindouLessThan(Integer value) {
+            addCriterion("jvjindou <", value, "jvjindou");
+            return (Criteria) this;
+        }
+
+        public Criteria andJvjindouLessThanOrEqualTo(Integer value) {
+            addCriterion("jvjindou <=", value, "jvjindou");
+            return (Criteria) this;
+        }
+
+        public Criteria andJvjindouIn(List<Integer> values) {
+            addCriterion("jvjindou in", values, "jvjindou");
+            return (Criteria) this;
+        }
+
+        public Criteria andJvjindouNotIn(List<Integer> values) {
+            addCriterion("jvjindou not in", values, "jvjindou");
+            return (Criteria) this;
+        }
+
+        public Criteria andJvjindouBetween(Integer value1, Integer value2) {
+            addCriterion("jvjindou between", value1, value2, "jvjindou");
+            return (Criteria) this;
+        }
+
+        public Criteria andJvjindouNotBetween(Integer value1, Integer value2) {
+            addCriterion("jvjindou not between", value1, value2, "jvjindou");
+            return (Criteria) this;
+        }
+
+        public Criteria andLevleBeyondIsNull() {
+            addCriterion("levle_beyond is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLevleBeyondIsNotNull() {
+            addCriterion("levle_beyond is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLevleBeyondEqualTo(Integer value) {
+            addCriterion("levle_beyond =", value, "levleBeyond");
+            return (Criteria) this;
+        }
+
+        public Criteria andLevleBeyondNotEqualTo(Integer value) {
+            addCriterion("levle_beyond <>", value, "levleBeyond");
+            return (Criteria) this;
+        }
+
+        public Criteria andLevleBeyondGreaterThan(Integer value) {
+            addCriterion("levle_beyond >", value, "levleBeyond");
+            return (Criteria) this;
+        }
+
+        public Criteria andLevleBeyondGreaterThanOrEqualTo(Integer value) {
+            addCriterion("levle_beyond >=", value, "levleBeyond");
+            return (Criteria) this;
+        }
+
+        public Criteria andLevleBeyondLessThan(Integer value) {
+            addCriterion("levle_beyond <", value, "levleBeyond");
+            return (Criteria) this;
+        }
+
+        public Criteria andLevleBeyondLessThanOrEqualTo(Integer value) {
+            addCriterion("levle_beyond <=", value, "levleBeyond");
+            return (Criteria) this;
+        }
+
+        public Criteria andLevleBeyondIn(List<Integer> values) {
+            addCriterion("levle_beyond in", values, "levleBeyond");
+            return (Criteria) this;
+        }
+
+        public Criteria andLevleBeyondNotIn(List<Integer> values) {
+            addCriterion("levle_beyond not in", values, "levleBeyond");
+            return (Criteria) this;
+        }
+
+        public Criteria andLevleBeyondBetween(Integer value1, Integer value2) {
+            addCriterion("levle_beyond between", value1, value2, "levleBeyond");
+            return (Criteria) this;
+        }
+
+        public Criteria andLevleBeyondNotBetween(Integer value1, Integer value2) {
+            addCriterion("levle_beyond not between", value1, value2, "levleBeyond");
+            return (Criteria) this;
+        }
+
         public Criteria andRealJvjindouIsNull() {
             addCriterion("real_jvjindou is null");
             return (Criteria) this;

@@ -2,6 +2,9 @@ package com.jfshare.mvp.server.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,6 +35,7 @@ import com.jfshare.mvp.server.service.LevelInfoService;
 import com.jfshare.mvp.server.service.ProductItemService;
 import com.jfshare.mvp.server.service.PromotionSettingService;
 import com.jfshare.mvp.server.utils.ConvertBeanToMapUtils;
+import com.jfshare.mvp.server.utils.OSSUtils;
 
 /**
  * @author fengxiang
@@ -79,8 +83,9 @@ public class AdminController {
 
 	@ApiOperation(value = "更新商品类目", notes = "根据传入的商品类目配置，重新配置商品类目")
 	@PutMapping("/productItem")
-	public ResultConstant updateProductItem(@RequestParam(required = true) Integer itemNo,
-			@RequestParam(required = false) String itemName, @RequestParam(required = false) String itemDesc) {
+	public ResultConstant updateProductItem(@RequestParam(required = true) String itemNo,
+											@RequestParam(required = true) String itemName, 
+											@RequestParam(required = true) String itemDesc) {
 		boolean result = productItemService.updateProductItem(itemNo, itemName, itemDesc);
 		if (result) {
 			return ResultConstant.ofSuccess();
@@ -100,10 +105,10 @@ public class AdminController {
 
 	@ApiOperation(value = "新增商品类目", notes = "根据传入的商品类目，新增配置商品类目")
 	@PostMapping("/productItem")
-	public ResultConstant addProductItem(@RequestParam(required = false) Integer parentItemNo,
-										 @RequestParam(required = true) String itemName,
-										 @RequestParam(required = true) String itemDesc) {
-		boolean result = productItemService.addProductItem(parentItemNo, itemName, itemDesc);
+	public ResultConstant addProductItem(@RequestParam(required = true) String itemName, 
+										 @RequestParam(required = true) String itemDesc,
+										 @RequestParam(required = false) String parentItemNo) {
+		boolean result = productItemService.addProductItem(itemName, itemDesc, parentItemNo);
 		if (result) {
 			return ResultConstant.ofSuccess();
 		}
@@ -112,29 +117,25 @@ public class AdminController {
 
 	@ApiOperation(value = "删除商品类目", notes = "根据传入的商品类目编号，删除商品类目")
 	@DeleteMapping("/productItem")
-	public ResultConstant deleteProductItem(@RequestParam(required=false) Integer itemNo) {
+	public ResultConstant deleteProductItem(@RequestParam(required=false) String itemNo) {
 		ResultConstant result = productItemService.deleteProductItem(itemNo);
 		return result;
 	}
-	
-	@ApiOperation(value="客户端订单消费聚金豆", notes="根据传入的使用类型，进行扣减聚金豆")
-	@PostMapping("/consumerJvjindou")
-	public ResultConstant consumerJvjindou(@RequestParam(value="userId", required=true)  Integer userId
-			,@RequestParam(value="jvjindou", required=true) Integer jvjindou) {
-		if(!StringUtils.isEmpty(userId)){
-			    boolean validateJvjindouCount = levelInfoService.validateJvjindouCount(userId, jvjindou);
-			    if(!validateJvjindouCount){
-			        ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "聚金豆数量超限。");
-			    }
-				if(jvjindou<Constant.JVJINDOU_NUM){
-					return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "使用聚金豆的数量大于0");
-				}else{
-					//走抵扣聚金豆的逻辑
-					try {
-						levelInfoService.openOrdisableJvjindou(userId, jvjindou);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+
+	@ApiOperation(value = "订单消费聚金豆", notes = "根据传入的使用类型，进行扣减聚金豆")
+	@PostMapping("/openOrDisabledJvjindou")
+	public ResultConstant openOrDisabledJvjindou(@RequestParam(value = "userId", required = true) Integer userId,
+			@RequestParam(value = "jvjindou", required = true) Integer jvjindou) {
+		if (!StringUtils.isEmpty(userId)) {
+			if (jvjindou < Constant.JVJINDOU_NUM) {
+				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "使用聚金豆的数量大于0");
+			} else {
+				// 走抵扣聚金豆的逻辑
+				try {
+					levelInfoService.openOrdisableJvjindou(userId, jvjindou);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		} else {
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "参数有误");
@@ -142,8 +143,7 @@ public class AdminController {
 		return ResultConstant.ofSuccess();
 	}
 
-
-	@ApiOperation(value="客户端查询用户聚金豆", notes="根据传入的userId，返回聚金豆")
+	@ApiOperation(value = "查询用户聚金豆", notes = "根据传入的userId，返回聚金豆")
 	@GetMapping("/selectJvjindou")
 	public ResultConstant selectJvjindou(@RequestParam(value = "userId", required = true) Integer userId) {
 		if (!StringUtils.isEmpty(userId)) {

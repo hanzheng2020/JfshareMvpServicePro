@@ -4,8 +4,11 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.assertj.core.internal.bytebuddy.implementation.bind.annotation.Default;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.dao.TbProductDao;
@@ -27,7 +30,7 @@ public class ProductItemService {
 	@Autowired
 	private TbProductDao tbProductDao;
 	
-	public boolean updateProductItem(Integer itemNo, String itemName, String itemDesc) {
+	public boolean updateProductItem(String itemNo, String itemName, String itemDesc) {
 		TbProductItemExample tbProductItemExample = new TbProductItemExample();
 		tbProductItemExample.createCriteria()
 							.andItemNoEqualTo(itemNo);
@@ -47,17 +50,15 @@ public class ProductItemService {
 		return true;
 	}
 	
-	public boolean addProductItem(Integer parentItemNo, String itemName, String itemDesc) {
-		TbProductItem tbProductItem = new TbProductItem();
-		tbProductItem.setItemDesc(itemDesc);
-		tbProductItem.setItemName(itemName);
-		if (parentItemNo == null) {
-			
-		}
+	public boolean addProductItem(String itemName, String itemDesc, String parentItemNo) {
+		
 		return false;
 	}
-	
-	public List<TbProductItem> getProductItem(String itemName) {
+
+	public List<TbProductItem> getProductItem(String itemName, boolean useLike) {
+		if (!useLike) {
+			return getProductItem(itemName);
+		}
 		TbProductItemExample tbProductItemExample = new TbProductItemExample();
 		if (!StringUtils.isEmpty(itemName)) {
 			tbProductItemExample.createCriteria()
@@ -67,9 +68,19 @@ public class ProductItemService {
 		return tbProductItems;
 	}
 	
-	public ResultConstant deleteProductItem(Integer itemNo) {
+	public List<TbProductItem> getProductItem(String itemName) {
 		TbProductItemExample tbProductItemExample = new TbProductItemExample();
-		if (itemNo != null) {
+		if (!StringUtils.isEmpty(itemName)) {
+			tbProductItemExample.createCriteria()
+								.andItemNameEqualTo(itemName);
+		}
+		List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
+		return tbProductItems;
+	}
+	
+	public ResultConstant deleteProductItem(String itemNo) {
+		TbProductItemExample tbProductItemExample = new TbProductItemExample();
+		if (!StringUtils.isEmpty(itemNo)) {
 			tbProductItemExample.createCriteria()
 								.andParentItemNoEqualTo(itemNo);
 		}
@@ -85,7 +96,7 @@ public class ProductItemService {
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "该类目中存在商品！");
 		}
 		tbProductItemExample.clear();
-		if (itemNo != null) {
+		if (!StringUtils.isEmpty(itemNo)) {
 			tbProductItemExample.createCriteria()
 								.andParentItemNoEqualTo(itemNo);
 		}

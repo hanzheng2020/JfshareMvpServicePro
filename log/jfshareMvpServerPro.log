@@ -1,0 +1,357 @@
+2018-07-25 10:52:14,650 INFO (StartupInfoLogger.java:50)- Starting JfshareMvpServer on DESKTOP-PO5V0EC with PID 20540 (started by 韩正 in C:\Users\韩正\git\JfshareMvpServerPro)
+2018-07-25 10:52:14,717 INFO (SpringApplication.java:659)- No active profile set, falling back to default profiles: default
+2018-07-25 10:52:14,926 INFO (AbstractApplicationContext.java:590)- Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@4c7a078: startup date [Wed Jul 25 10:52:14 CST 2018]; root of context hierarchy
+2018-07-25 10:52:17,207 INFO (RepositoryConfigurationDelegate.java:163)- Multiple Spring Data modules found, entering strict repository configuration mode!
+2018-07-25 10:52:17,404 INFO (RepositoryConfigurationDelegate.java:163)- Multiple Spring Data modules found, entering strict repository configuration mode!
+2018-07-25 10:52:17,523 INFO (RepositoryConfigurationExtensionSupport.java:297)- Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.jfshare.mvp.server.elasticsearch.repository.ProductRepository.
+2018-07-25 10:52:18,243 INFO (AutowiredAnnotationBeanPostProcessor.java:154)- JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2018-07-25 10:52:18,429 INFO (PostProcessorRegistrationDelegate.java:328)- Bean 'org.springframework.amqp.rabbit.annotation.RabbitBootstrapConfiguration' of type [org.springframework.amqp.rabbit.annotation.RabbitBootstrapConfiguration$$EnhancerBySpringCGLIB$$12640989] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2018-07-25 10:52:18,623 INFO (PostProcessorRegistrationDelegate.java:328)- Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$4bf84b5b] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2018-07-25 10:52:19,828 INFO (TomcatWebServer.java:91)- Tomcat initialized with port(s): 18888 (http)
+2018-07-25 10:52:19,863 INFO (DirectJDKLog.java:180)- Initializing ProtocolHandler ["http-nio-0.0.0.0-18888"]
+2018-07-25 10:52:19,893 INFO (DirectJDKLog.java:180)- Starting service [Tomcat]
+2018-07-25 10:52:19,894 INFO (DirectJDKLog.java:180)- Starting Servlet Engine: Apache Tomcat/8.5.31
+2018-07-25 10:52:19,917 INFO (DirectJDKLog.java:180)- The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [C:\Program Files\Java\jdk1.8.0_151\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:/Program Files/Java/jre1.8.0_151/bin/server;C:/Program Files/Java/jre1.8.0_151/bin;C:/Program Files/Java/jre1.8.0_151/lib/amd64;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Java\jdk1.8.0_151\bin;C:\Program Files\Java\jdk1.8.0_151\jre\bin;rogram Files\TortoiseSVN\bin;D:\开发工具\git\Git\cmd;C:\Program Files\TortoiseGit\bin;D:\开发工具\maven\apache-maven-3.5.2\bin;C:\Program Files (x86)\IDM Computer Solutions\UltraEdit;C:\Program Files\MySQL\MySQL Utilities 1.6\;C:\Program Files\nodejs\;C:\Program Files\Apache Software Foundation\Tomcat 8.5\bin;C:\Users\韩正\AppData\Local\Microsoft\WindowsApps;;C:\Users\韩正\AppData\Local\Programs\Fiddler;C:\Users\韩正\AppData\Local\Microsoft\WindowsApps;C:\Users\韩正\AppData\Roaming\npm;C:\Users\韩正\Desktop;;.]
+2018-07-25 10:52:20,442 INFO (DirectJDKLog.java:180)- Initializing Spring embedded WebApplicationContext
+2018-07-25 10:52:20,443 INFO (ServletWebServerApplicationContext.java:285)- Root WebApplicationContext: initialization completed in 5517 ms
+2018-07-25 10:52:21,172 INFO (ServletRegistrationBean.java:186)- Servlet dispatcherServlet mapped to [/]
+2018-07-25 10:52:21,188 INFO (AbstractFilterRegistrationBean.java:245)- Mapping filter: 'characterEncodingFilter' to: [/*]
+2018-07-25 10:52:21,190 INFO (AbstractFilterRegistrationBean.java:245)- Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2018-07-25 10:52:21,193 INFO (AbstractFilterRegistrationBean.java:245)- Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2018-07-25 10:52:21,195 INFO (AbstractFilterRegistrationBean.java:245)- Mapping filter: 'requestContextFilter' to: [/*]
+2018-07-25 10:52:24,950 INFO (PluginsService.java:176)- no modules loaded
+2018-07-25 10:52:24,953 INFO (PluginsService.java:179)- loaded plugin [org.elasticsearch.index.reindex.ReindexPlugin]
+2018-07-25 10:52:24,954 INFO (PluginsService.java:179)- loaded plugin [org.elasticsearch.join.ParentJoinPlugin]
+2018-07-25 10:52:24,955 INFO (PluginsService.java:179)- loaded plugin [org.elasticsearch.percolator.PercolatorPlugin]
+2018-07-25 10:52:24,957 INFO (PluginsService.java:179)- loaded plugin [org.elasticsearch.script.mustache.MustachePlugin]
+2018-07-25 10:52:24,957 INFO (PluginsService.java:179)- loaded plugin [org.elasticsearch.transport.Netty4Plugin]
+2018-07-25 10:52:26,825 INFO (TransportClientFactoryBean.java:116)- adding transport node : 39.107.230.91:9300
+2018-07-25 10:52:28,052 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/addjfRaider],methods=[POST]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.addjfRaiders(com.jfshare.mvp.server.model.TbJfRaiders)
+2018-07-25 10:52:28,054 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/selectJvjindou],methods=[GET]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.selectJvjindou(java.lang.Integer)
+2018-07-25 10:52:28,055 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/queryjfRaider],methods=[GET]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.queryjfRaiders(com.jfshare.mvp.server.model.TbJfRaiders,java.lang.Integer,java.lang.Integer)
+2018-07-25 10:52:28,057 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/productItem],methods=[POST]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.addProductItem(com.jfshare.mvp.server.model.TbProductItem)
+2018-07-25 10:52:28,058 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/productItem],methods=[GET]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.getProductItem(java.lang.String)
+2018-07-25 10:52:28,059 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/deletejfRaider],methods=[DELETE]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.deletejfRaiders(java.lang.Integer)
+2018-07-25 10:52:28,060 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/updateAppVerinfo],methods=[POST]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.updateAppVerinfo(java.lang.Integer,java.lang.String,java.lang.String,java.lang.String)
+2018-07-25 10:52:28,061 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/updatejfRaider],methods=[PUT]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.updatejfRaiders(com.jfshare.mvp.server.model.TbJfRaiders,java.lang.Integer,org.springframework.web.multipart.MultipartFile)
+2018-07-25 10:52:28,063 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/jfRaiderRelease],methods=[PUT]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.updatejfRaiders(java.lang.Integer)
+2018-07-25 10:52:28,064 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/getAppVerinfo],methods=[POST]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.getAppVerinfo(java.lang.Integer)
+2018-07-25 10:52:28,065 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/productItem],methods=[PUT]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.updateProductItem(java.lang.String,java.lang.String,java.lang.String)
+2018-07-25 10:52:28,066 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/productItem],methods=[DELETE]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.deleteProductItem(java.lang.String)
+2018-07-25 10:52:28,067 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/productItemShows],methods=[POST]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.updateProductItemShow(java.util.ArrayList<com.jfshare.mvp.server.model.TbProductItemShow>)
+2018-07-25 10:52:28,068 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/promotionProducts],methods=[POST]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.updateProductPromotion(java.util.ArrayList<com.jfshare.mvp.server.model.TbProductPromotion>)
+2018-07-25 10:52:28,069 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/openOrDisabledJvjindou],methods=[POST]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.openOrDisabledJvjindou(java.lang.Integer,java.lang.Integer)
+2018-07-25 10:52:28,072 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/product/addProduct],methods=[POST]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.ProductController.deleteProduct(java.lang.String)
+2018-07-25 10:52:28,075 WARN (AbstractApplicationContext.java:558)- Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'documentationPluginsBootstrapper' defined in URL [jar:file:/C:/Users/%e9%9f%a9%e6%ad%a3/.m2/repository/io/springfox/springfox-spring-web/2.7.0/springfox-spring-web-2.7.0.jar!/springfox/documentation/spring/web/plugins/DocumentationPluginsBootstrapper.class]: Unsatisfied dependency expressed through constructor parameter 1; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'webMvcRequestHandlerProvider' defined in URL [jar:file:/C:/Users/%e9%9f%a9%e6%ad%a3/.m2/repository/io/springfox/springfox-spring-web/2.7.0/springfox-spring-web-2.7.0.jar!/springfox/documentation/spring/web/plugins/WebMvcRequestHandlerProvider.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'requestMappingHandlerMapping' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/WebMvcAutoConfiguration$EnableWebMvcConfiguration.class]: Invocation of init method failed; nested exception is java.lang.IllegalStateException: Ambiguous mapping. Cannot map 'productController' method 
+public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.ProductController.addProduct(com.jfshare.mvp.server.model.Product)
+to {[/product/addProduct],methods=[POST]}: There is already 'productController' bean method
+public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.ProductController.deleteProduct(java.lang.String) mapped.
+2018-07-25 10:52:29,113 INFO (DirectJDKLog.java:180)- Stopping service [Tomcat]
+2018-07-25 10:52:29,191 INFO (ConditionEvaluationReportLoggingListener.java:101)- 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2018-07-25 10:52:29,199 ERROR (SpringApplication.java:842)- Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'documentationPluginsBootstrapper' defined in URL [jar:file:/C:/Users/%e9%9f%a9%e6%ad%a3/.m2/repository/io/springfox/springfox-spring-web/2.7.0/springfox-spring-web-2.7.0.jar!/springfox/documentation/spring/web/plugins/DocumentationPluginsBootstrapper.class]: Unsatisfied dependency expressed through constructor parameter 1; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'webMvcRequestHandlerProvider' defined in URL [jar:file:/C:/Users/%e9%9f%a9%e6%ad%a3/.m2/repository/io/springfox/springfox-spring-web/2.7.0/springfox-spring-web-2.7.0.jar!/springfox/documentation/spring/web/plugins/WebMvcRequestHandlerProvider.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'requestMappingHandlerMapping' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/WebMvcAutoConfiguration$EnableWebMvcConfiguration.class]: Invocation of init method failed; nested exception is java.lang.IllegalStateException: Ambiguous mapping. Cannot map 'productController' method 
+public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.ProductController.addProduct(com.jfshare.mvp.server.model.Product)
+to {[/product/addProduct],methods=[POST]}: There is already 'productController' bean method
+public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.ProductController.deleteProduct(java.lang.String) mapped.
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:732)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:197)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1276)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1133)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:543)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:503)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:317)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:315)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:760)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:869)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:550)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:140)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:759)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:395)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:327)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1255)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1243)
+	at com.jfshare.mvp.server.JfshareMvpServer.main(JfshareMvpServer.java:16)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'webMvcRequestHandlerProvider' defined in URL [jar:file:/C:/Users/%e9%9f%a9%e6%ad%a3/.m2/repository/io/springfox/springfox-spring-web/2.7.0/springfox-spring-web-2.7.0.jar!/springfox/documentation/spring/web/plugins/WebMvcRequestHandlerProvider.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'requestMappingHandlerMapping' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/WebMvcAutoConfiguration$EnableWebMvcConfiguration.class]: Invocation of init method failed; nested exception is java.lang.IllegalStateException: Ambiguous mapping. Cannot map 'productController' method 
+public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.ProductController.addProduct(com.jfshare.mvp.server.model.Product)
+to {[/product/addProduct],methods=[POST]}: There is already 'productController' bean method
+public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.ProductController.deleteProduct(java.lang.String) mapped.
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:732)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:197)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1276)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1133)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:543)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:503)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:317)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:315)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:251)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.addCandidateEntry(DefaultListableBeanFactory.java:1325)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.findAutowireCandidates(DefaultListableBeanFactory.java:1291)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveMultipleBeans(DefaultListableBeanFactory.java:1193)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1096)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1065)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:818)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:724)
+	... 19 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'requestMappingHandlerMapping' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/WebMvcAutoConfiguration$EnableWebMvcConfiguration.class]: Invocation of init method failed; nested exception is java.lang.IllegalStateException: Ambiguous mapping. Cannot map 'productController' method 
+public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.ProductController.addProduct(com.jfshare.mvp.server.model.Product)
+to {[/product/addProduct],methods=[POST]}: There is already 'productController' bean method
+public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.ProductController.deleteProduct(java.lang.String) mapped.
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1708)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:581)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:503)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:317)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:315)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:251)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.addCandidateEntry(DefaultListableBeanFactory.java:1325)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.findAutowireCandidates(DefaultListableBeanFactory.java:1291)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveMultipleBeans(DefaultListableBeanFactory.java:1193)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1096)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1065)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:818)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:724)
+	... 36 common frames omitted
+Caused by: java.lang.IllegalStateException: Ambiguous mapping. Cannot map 'productController' method 
+public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.ProductController.addProduct(com.jfshare.mvp.server.model.Product)
+to {[/product/addProduct],methods=[POST]}: There is already 'productController' bean method
+public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.ProductController.deleteProduct(java.lang.String) mapped.
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry.assertUniqueMethodMapping(AbstractHandlerMethodMapping.java:580)
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry.register(AbstractHandlerMethodMapping.java:544)
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:265)
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.lambda$detectHandlerMethods$1(AbstractHandlerMethodMapping.java:250)
+	at java.util.LinkedHashMap.forEach(LinkedHashMap.java:684)
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.detectHandlerMethods(AbstractHandlerMethodMapping.java:248)
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.initHandlerMethods(AbstractHandlerMethodMapping.java:218)
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.afterPropertiesSet(AbstractHandlerMethodMapping.java:188)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping.afterPropertiesSet(RequestMappingHandlerMapping.java:129)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1767)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1704)
+	... 50 common frames omitted
+2018-07-25 10:56:42,494 INFO (StartupInfoLogger.java:50)- Starting JfshareMvpServer on DESKTOP-PO5V0EC with PID 14052 (started by 韩正 in C:\Users\韩正\git\JfshareMvpServerPro)
+2018-07-25 10:56:42,506 INFO (SpringApplication.java:659)- No active profile set, falling back to default profiles: default
+2018-07-25 10:56:42,697 INFO (AbstractApplicationContext.java:590)- Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@4c7a078: startup date [Wed Jul 25 10:56:42 CST 2018]; root of context hierarchy
+2018-07-25 10:56:44,530 INFO (RepositoryConfigurationDelegate.java:163)- Multiple Spring Data modules found, entering strict repository configuration mode!
+2018-07-25 10:56:44,741 INFO (RepositoryConfigurationDelegate.java:163)- Multiple Spring Data modules found, entering strict repository configuration mode!
+2018-07-25 10:56:44,823 INFO (RepositoryConfigurationExtensionSupport.java:297)- Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.jfshare.mvp.server.elasticsearch.repository.ProductRepository.
+2018-07-25 10:56:45,358 INFO (AutowiredAnnotationBeanPostProcessor.java:154)- JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2018-07-25 10:56:45,552 INFO (PostProcessorRegistrationDelegate.java:328)- Bean 'org.springframework.amqp.rabbit.annotation.RabbitBootstrapConfiguration' of type [org.springframework.amqp.rabbit.annotation.RabbitBootstrapConfiguration$$EnhancerBySpringCGLIB$$25bf6eb1] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2018-07-25 10:56:45,757 INFO (PostProcessorRegistrationDelegate.java:328)- Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$5f53b083] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2018-07-25 10:56:47,030 INFO (TomcatWebServer.java:91)- Tomcat initialized with port(s): 18888 (http)
+2018-07-25 10:56:47,056 INFO (DirectJDKLog.java:180)- Initializing ProtocolHandler ["http-nio-0.0.0.0-18888"]
+2018-07-25 10:56:47,080 INFO (DirectJDKLog.java:180)- Starting service [Tomcat]
+2018-07-25 10:56:47,086 INFO (DirectJDKLog.java:180)- Starting Servlet Engine: Apache Tomcat/8.5.31
+2018-07-25 10:56:47,102 INFO (DirectJDKLog.java:180)- The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [C:\Program Files\Java\jdk1.8.0_151\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:/Program Files/Java/jre1.8.0_151/bin/server;C:/Program Files/Java/jre1.8.0_151/bin;C:/Program Files/Java/jre1.8.0_151/lib/amd64;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Java\jdk1.8.0_151\bin;C:\Program Files\Java\jdk1.8.0_151\jre\bin;rogram Files\TortoiseSVN\bin;D:\开发工具\git\Git\cmd;C:\Program Files\TortoiseGit\bin;D:\开发工具\maven\apache-maven-3.5.2\bin;C:\Program Files (x86)\IDM Computer Solutions\UltraEdit;C:\Program Files\MySQL\MySQL Utilities 1.6\;C:\Program Files\nodejs\;C:\Program Files\Apache Software Foundation\Tomcat 8.5\bin;C:\Users\韩正\AppData\Local\Microsoft\WindowsApps;;C:\Users\韩正\AppData\Local\Programs\Fiddler;C:\Users\韩正\AppData\Local\Microsoft\WindowsApps;C:\Users\韩正\AppData\Roaming\npm;C:\Users\韩正\Desktop;;.]
+2018-07-25 10:56:47,431 INFO (DirectJDKLog.java:180)- Initializing Spring embedded WebApplicationContext
+2018-07-25 10:56:47,432 INFO (ServletWebServerApplicationContext.java:285)- Root WebApplicationContext: initialization completed in 4735 ms
+2018-07-25 10:56:47,800 INFO (ServletRegistrationBean.java:186)- Servlet dispatcherServlet mapped to [/]
+2018-07-25 10:56:47,825 INFO (AbstractFilterRegistrationBean.java:245)- Mapping filter: 'characterEncodingFilter' to: [/*]
+2018-07-25 10:56:47,829 INFO (AbstractFilterRegistrationBean.java:245)- Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2018-07-25 10:56:47,833 INFO (AbstractFilterRegistrationBean.java:245)- Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2018-07-25 10:56:47,834 INFO (AbstractFilterRegistrationBean.java:245)- Mapping filter: 'requestContextFilter' to: [/*]
+2018-07-25 10:56:51,754 INFO (PluginsService.java:176)- no modules loaded
+2018-07-25 10:56:51,758 INFO (PluginsService.java:179)- loaded plugin [org.elasticsearch.index.reindex.ReindexPlugin]
+2018-07-25 10:56:51,760 INFO (PluginsService.java:179)- loaded plugin [org.elasticsearch.join.ParentJoinPlugin]
+2018-07-25 10:56:51,762 INFO (PluginsService.java:179)- loaded plugin [org.elasticsearch.percolator.PercolatorPlugin]
+2018-07-25 10:56:51,764 INFO (PluginsService.java:179)- loaded plugin [org.elasticsearch.script.mustache.MustachePlugin]
+2018-07-25 10:56:51,765 INFO (PluginsService.java:179)- loaded plugin [org.elasticsearch.transport.Netty4Plugin]
+2018-07-25 10:56:53,426 INFO (TransportClientFactoryBean.java:116)- adding transport node : 39.107.230.91:9300
+2018-07-25 10:56:54,375 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/openOrDisabledJvjindou],methods=[POST]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.openOrDisabledJvjindou(java.lang.Integer,java.lang.Integer)
+2018-07-25 10:56:54,386 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/productItemShows],methods=[POST]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.updateProductItemShow(java.util.ArrayList<com.jfshare.mvp.server.model.TbProductItemShow>)
+2018-07-25 10:56:54,389 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/promotionProducts],methods=[POST]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.updateProductPromotion(java.util.ArrayList<com.jfshare.mvp.server.model.TbProductPromotion>)
+2018-07-25 10:56:54,391 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/productItem],methods=[DELETE]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.deleteProductItem(java.lang.String)
+2018-07-25 10:56:54,395 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/productItem],methods=[PUT]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.updateProductItem(java.lang.String,java.lang.String,java.lang.String)
+2018-07-25 10:56:54,399 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/selectJvjindou],methods=[GET]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.selectJvjindou(java.lang.Integer)
+2018-07-25 10:56:54,401 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/productItem],methods=[GET]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.getProductItem(java.lang.String)
+2018-07-25 10:56:54,403 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/productItem],methods=[POST]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.addProductItem(com.jfshare.mvp.server.model.TbProductItem)
+2018-07-25 10:56:54,407 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/addjfRaider],methods=[POST]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.addjfRaiders(com.jfshare.mvp.server.model.TbJfRaiders)
+2018-07-25 10:56:54,410 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/getAppVerinfo],methods=[POST]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.getAppVerinfo(java.lang.Integer)
+2018-07-25 10:56:54,412 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/updatejfRaider],methods=[PUT]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.updatejfRaiders(com.jfshare.mvp.server.model.TbJfRaiders,java.lang.Integer,org.springframework.web.multipart.MultipartFile)
+2018-07-25 10:56:54,415 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/jfRaiderRelease],methods=[PUT]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.updatejfRaiders(java.lang.Integer)
+2018-07-25 10:56:54,418 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/updateAppVerinfo],methods=[POST]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.updateAppVerinfo(java.lang.Integer,java.lang.String,java.lang.String,java.lang.String)
+2018-07-25 10:56:54,420 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/deletejfRaider],methods=[DELETE]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.deletejfRaiders(java.lang.Integer)
+2018-07-25 10:56:54,440 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/queryjfRaider],methods=[GET]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.queryjfRaiders(com.jfshare.mvp.server.model.TbJfRaiders,java.lang.Integer,java.lang.Integer)
+2018-07-25 10:56:54,448 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/product/productSurveyQuery],methods=[POST]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.ProductController.productSurveyQuery(java.lang.String,java.lang.String)
+2018-07-25 10:56:54,450 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/product/addProduct],methods=[POST]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.ProductController.addProduct(com.jfshare.mvp.server.model.Product)
+2018-07-25 10:56:54,458 WARN (AbstractApplicationContext.java:558)- Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'documentationPluginsBootstrapper' defined in URL [jar:file:/C:/Users/%e9%9f%a9%e6%ad%a3/.m2/repository/io/springfox/springfox-spring-web/2.7.0/springfox-spring-web-2.7.0.jar!/springfox/documentation/spring/web/plugins/DocumentationPluginsBootstrapper.class]: Unsatisfied dependency expressed through constructor parameter 1; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'webMvcRequestHandlerProvider' defined in URL [jar:file:/C:/Users/%e9%9f%a9%e6%ad%a3/.m2/repository/io/springfox/springfox-spring-web/2.7.0/springfox-spring-web-2.7.0.jar!/springfox/documentation/spring/web/plugins/WebMvcRequestHandlerProvider.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'requestMappingHandlerMapping' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/WebMvcAutoConfiguration$EnableWebMvcConfiguration.class]: Invocation of init method failed; nested exception is java.lang.IllegalStateException: Ambiguous mapping. Cannot map 'productController' method 
+public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.ProductController.deleteProduct(java.lang.String)
+to {[/product/addProduct],methods=[POST]}: There is already 'productController' bean method
+public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.ProductController.addProduct(com.jfshare.mvp.server.model.Product) mapped.
+2018-07-25 10:56:54,542 INFO (DirectJDKLog.java:180)- Stopping service [Tomcat]
+2018-07-25 10:56:54,608 INFO (ConditionEvaluationReportLoggingListener.java:101)- 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2018-07-25 10:56:54,617 ERROR (SpringApplication.java:842)- Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'documentationPluginsBootstrapper' defined in URL [jar:file:/C:/Users/%e9%9f%a9%e6%ad%a3/.m2/repository/io/springfox/springfox-spring-web/2.7.0/springfox-spring-web-2.7.0.jar!/springfox/documentation/spring/web/plugins/DocumentationPluginsBootstrapper.class]: Unsatisfied dependency expressed through constructor parameter 1; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'webMvcRequestHandlerProvider' defined in URL [jar:file:/C:/Users/%e9%9f%a9%e6%ad%a3/.m2/repository/io/springfox/springfox-spring-web/2.7.0/springfox-spring-web-2.7.0.jar!/springfox/documentation/spring/web/plugins/WebMvcRequestHandlerProvider.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'requestMappingHandlerMapping' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/WebMvcAutoConfiguration$EnableWebMvcConfiguration.class]: Invocation of init method failed; nested exception is java.lang.IllegalStateException: Ambiguous mapping. Cannot map 'productController' method 
+public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.ProductController.deleteProduct(java.lang.String)
+to {[/product/addProduct],methods=[POST]}: There is already 'productController' bean method
+public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.ProductController.addProduct(com.jfshare.mvp.server.model.Product) mapped.
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:732)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:197)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1276)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1133)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:543)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:503)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:317)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:315)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:760)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:869)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:550)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:140)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:759)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:395)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:327)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1255)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1243)
+	at com.jfshare.mvp.server.JfshareMvpServer.main(JfshareMvpServer.java:16)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'webMvcRequestHandlerProvider' defined in URL [jar:file:/C:/Users/%e9%9f%a9%e6%ad%a3/.m2/repository/io/springfox/springfox-spring-web/2.7.0/springfox-spring-web-2.7.0.jar!/springfox/documentation/spring/web/plugins/WebMvcRequestHandlerProvider.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'requestMappingHandlerMapping' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/WebMvcAutoConfiguration$EnableWebMvcConfiguration.class]: Invocation of init method failed; nested exception is java.lang.IllegalStateException: Ambiguous mapping. Cannot map 'productController' method 
+public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.ProductController.deleteProduct(java.lang.String)
+to {[/product/addProduct],methods=[POST]}: There is already 'productController' bean method
+public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.ProductController.addProduct(com.jfshare.mvp.server.model.Product) mapped.
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:732)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:197)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1276)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1133)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:543)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:503)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:317)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:315)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:251)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.addCandidateEntry(DefaultListableBeanFactory.java:1325)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.findAutowireCandidates(DefaultListableBeanFactory.java:1291)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveMultipleBeans(DefaultListableBeanFactory.java:1193)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1096)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1065)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:818)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:724)
+	... 19 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'requestMappingHandlerMapping' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/WebMvcAutoConfiguration$EnableWebMvcConfiguration.class]: Invocation of init method failed; nested exception is java.lang.IllegalStateException: Ambiguous mapping. Cannot map 'productController' method 
+public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.ProductController.deleteProduct(java.lang.String)
+to {[/product/addProduct],methods=[POST]}: There is already 'productController' bean method
+public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.ProductController.addProduct(com.jfshare.mvp.server.model.Product) mapped.
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1708)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:581)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:503)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:317)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:315)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:251)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.addCandidateEntry(DefaultListableBeanFactory.java:1325)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.findAutowireCandidates(DefaultListableBeanFactory.java:1291)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveMultipleBeans(DefaultListableBeanFactory.java:1193)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1096)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1065)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:818)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:724)
+	... 36 common frames omitted
+Caused by: java.lang.IllegalStateException: Ambiguous mapping. Cannot map 'productController' method 
+public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.ProductController.deleteProduct(java.lang.String)
+to {[/product/addProduct],methods=[POST]}: There is already 'productController' bean method
+public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.ProductController.addProduct(com.jfshare.mvp.server.model.Product) mapped.
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry.assertUniqueMethodMapping(AbstractHandlerMethodMapping.java:580)
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry.register(AbstractHandlerMethodMapping.java:544)
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:265)
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.lambda$detectHandlerMethods$1(AbstractHandlerMethodMapping.java:250)
+	at java.util.LinkedHashMap.forEach(LinkedHashMap.java:684)
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.detectHandlerMethods(AbstractHandlerMethodMapping.java:248)
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.initHandlerMethods(AbstractHandlerMethodMapping.java:218)
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.afterPropertiesSet(AbstractHandlerMethodMapping.java:188)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping.afterPropertiesSet(RequestMappingHandlerMapping.java:129)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1767)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1704)
+	... 50 common frames omitted
+2018-07-25 11:01:37,349 INFO (StartupInfoLogger.java:50)- Starting JfshareMvpServer on DESKTOP-PO5V0EC with PID 19364 (started by 韩正 in C:\Users\韩正\git\JfshareMvpServerPro)
+2018-07-25 11:01:37,360 INFO (SpringApplication.java:659)- No active profile set, falling back to default profiles: default
+2018-07-25 11:01:37,441 INFO (AbstractApplicationContext.java:590)- Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@4c7a078: startup date [Wed Jul 25 11:01:37 CST 2018]; root of context hierarchy
+2018-07-25 11:01:39,997 INFO (RepositoryConfigurationDelegate.java:163)- Multiple Spring Data modules found, entering strict repository configuration mode!
+2018-07-25 11:01:40,173 INFO (RepositoryConfigurationDelegate.java:163)- Multiple Spring Data modules found, entering strict repository configuration mode!
+2018-07-25 11:01:40,276 INFO (RepositoryConfigurationExtensionSupport.java:297)- Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.jfshare.mvp.server.elasticsearch.repository.ProductRepository.
+2018-07-25 11:01:40,821 INFO (AutowiredAnnotationBeanPostProcessor.java:154)- JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2018-07-25 11:01:41,046 INFO (PostProcessorRegistrationDelegate.java:328)- Bean 'org.springframework.amqp.rabbit.annotation.RabbitBootstrapConfiguration' of type [org.springframework.amqp.rabbit.annotation.RabbitBootstrapConfiguration$$EnhancerBySpringCGLIB$$e5300f52] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2018-07-25 11:01:41,217 INFO (PostProcessorRegistrationDelegate.java:328)- Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$1ec45124] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2018-07-25 11:01:42,304 INFO (TomcatWebServer.java:91)- Tomcat initialized with port(s): 18888 (http)
+2018-07-25 11:01:42,335 INFO (DirectJDKLog.java:180)- Initializing ProtocolHandler ["http-nio-0.0.0.0-18888"]
+2018-07-25 11:01:42,360 INFO (DirectJDKLog.java:180)- Starting service [Tomcat]
+2018-07-25 11:01:42,362 INFO (DirectJDKLog.java:180)- Starting Servlet Engine: Apache Tomcat/8.5.31
+2018-07-25 11:01:42,378 INFO (DirectJDKLog.java:180)- The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [C:\Program Files\Java\jdk1.8.0_151\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:/Program Files/Java/jre1.8.0_151/bin/server;C:/Program Files/Java/jre1.8.0_151/bin;C:/Program Files/Java/jre1.8.0_151/lib/amd64;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Java\jdk1.8.0_151\bin;C:\Program Files\Java\jdk1.8.0_151\jre\bin;rogram Files\TortoiseSVN\bin;D:\开发工具\git\Git\cmd;C:\Program Files\TortoiseGit\bin;D:\开发工具\maven\apache-maven-3.5.2\bin;C:\Program Files (x86)\IDM Computer Solutions\UltraEdit;C:\Program Files\MySQL\MySQL Utilities 1.6\;C:\Program Files\nodejs\;C:\Program Files\Apache Software Foundation\Tomcat 8.5\bin;C:\Users\韩正\AppData\Local\Microsoft\WindowsApps;;C:\Users\韩正\AppData\Local\Programs\Fiddler;C:\Users\韩正\AppData\Local\Microsoft\WindowsApps;C:\Users\韩正\AppData\Roaming\npm;C:\Users\韩正\Desktop;;.]
+2018-07-25 11:01:42,705 INFO (DirectJDKLog.java:180)- Initializing Spring embedded WebApplicationContext
+2018-07-25 11:01:42,705 INFO (ServletWebServerApplicationContext.java:285)- Root WebApplicationContext: initialization completed in 5264 ms
+2018-07-25 11:01:43,048 INFO (ServletRegistrationBean.java:186)- Servlet dispatcherServlet mapped to [/]
+2018-07-25 11:01:43,059 INFO (AbstractFilterRegistrationBean.java:245)- Mapping filter: 'characterEncodingFilter' to: [/*]
+2018-07-25 11:01:43,060 INFO (AbstractFilterRegistrationBean.java:245)- Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2018-07-25 11:01:43,061 INFO (AbstractFilterRegistrationBean.java:245)- Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2018-07-25 11:01:43,062 INFO (AbstractFilterRegistrationBean.java:245)- Mapping filter: 'requestContextFilter' to: [/*]
+2018-07-25 11:01:48,262 INFO (PluginsService.java:176)- no modules loaded
+2018-07-25 11:01:48,265 INFO (PluginsService.java:179)- loaded plugin [org.elasticsearch.index.reindex.ReindexPlugin]
+2018-07-25 11:01:48,266 INFO (PluginsService.java:179)- loaded plugin [org.elasticsearch.join.ParentJoinPlugin]
+2018-07-25 11:01:48,268 INFO (PluginsService.java:179)- loaded plugin [org.elasticsearch.percolator.PercolatorPlugin]
+2018-07-25 11:01:48,269 INFO (PluginsService.java:179)- loaded plugin [org.elasticsearch.script.mustache.MustachePlugin]
+2018-07-25 11:01:48,269 INFO (PluginsService.java:179)- loaded plugin [org.elasticsearch.transport.Netty4Plugin]
+2018-07-25 11:01:50,060 INFO (TransportClientFactoryBean.java:116)- adding transport node : 39.107.230.91:9300
+2018-07-25 11:01:51,143 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/getAppVerinfo],methods=[POST]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.getAppVerinfo(java.lang.Integer)
+2018-07-25 11:01:51,146 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/deletejfRaider],methods=[DELETE]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.deletejfRaiders(java.lang.Integer)
+2018-07-25 11:01:51,147 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/updateAppVerinfo],methods=[POST]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.updateAppVerinfo(java.lang.Integer,java.lang.String,java.lang.String,java.lang.String)
+2018-07-25 11:01:51,148 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/promotionProducts],methods=[POST]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.updateProductPromotion(java.util.ArrayList<com.jfshare.mvp.server.model.TbProductPromotion>)
+2018-07-25 11:01:51,151 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/productItem],methods=[DELETE]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.deleteProductItem(java.lang.String)
+2018-07-25 11:01:51,152 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/productItemShows],methods=[POST]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.updateProductItemShow(java.util.ArrayList<com.jfshare.mvp.server.model.TbProductItemShow>)
+2018-07-25 11:01:51,153 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/productItem],methods=[PUT]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.updateProductItem(java.lang.String,java.lang.String,java.lang.String)
+2018-07-25 11:01:51,154 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/openOrDisabledJvjindou],methods=[POST]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.openOrDisabledJvjindou(java.lang.Integer,java.lang.Integer)
+2018-07-25 11:01:51,155 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/productItem],methods=[POST]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.addProductItem(com.jfshare.mvp.server.model.TbProductItem)
+2018-07-25 11:01:51,157 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/selectJvjindou],methods=[GET]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.selectJvjindou(java.lang.Integer)
+2018-07-25 11:01:51,160 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/queryjfRaider],methods=[GET]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.queryjfRaiders(com.jfshare.mvp.server.model.TbJfRaiders,java.lang.Integer,java.lang.Integer)
+2018-07-25 11:01:51,161 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/productItem],methods=[GET]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.getProductItem(java.lang.String)
+2018-07-25 11:01:51,163 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/addjfRaider],methods=[POST]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.addjfRaiders(com.jfshare.mvp.server.model.TbJfRaiders)
+2018-07-25 11:01:51,164 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/updatejfRaider],methods=[PUT]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.updatejfRaiders(com.jfshare.mvp.server.model.TbJfRaiders,java.lang.Integer,org.springframework.web.multipart.MultipartFile)
+2018-07-25 11:01:51,165 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/admin/jfRaiderRelease],methods=[PUT]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.AdminController.updatejfRaiders(java.lang.Integer)
+2018-07-25 11:01:51,169 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/product/updateProduct],methods=[POST]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.ProductController.updateProduct(com.jfshare.mvp.server.model.Product)
+2018-07-25 11:01:51,170 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/product/addProduct],methods=[POST]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.ProductController.addProduct(com.jfshare.mvp.server.model.Product)
+2018-07-25 11:01:51,171 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/product/deleteProduct],methods=[POST]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.ProductController.deleteProduct(java.lang.String)
+2018-07-25 11:01:51,172 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/product/productSurveyQuery],methods=[POST]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.ProductController.productSurveyQuery(java.lang.String,java.lang.String)
+2018-07-25 11:01:51,174 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/shop/promotionProducts],methods=[GET]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.ShopController.getPromotionProducts()
+2018-07-25 11:01:51,176 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/shop/productItemShows],methods=[GET]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.ShopController.getProductItemShows()
+2018-07-25 11:01:51,178 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/user],methods=[POST]}" onto public void com.jfshare.mvp.server.controller.UserController.postUser()
+2018-07-25 11:01:51,180 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/user],methods=[PUT]}" onto public void com.jfshare.mvp.server.controller.UserController.putUser()
+2018-07-25 11:01:51,180 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/user],methods=[GET]}" onto public com.jfshare.mvp.server.constants.ResultConstant com.jfshare.mvp.server.controller.UserController.getUser(java.lang.String)
+2018-07-25 11:01:51,181 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/user],methods=[DELETE]}" onto public void com.jfshare.mvp.server.controller.UserController.deleteUser()
+2018-07-25 11:01:51,188 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/swagger-resources/configuration/ui]}" onto public org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.UiConfiguration> springfox.documentation.swagger.web.ApiResourceController.uiConfiguration()
+2018-07-25 11:01:51,190 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/swagger-resources]}" onto public org.springframework.http.ResponseEntity<java.util.List<springfox.documentation.swagger.web.SwaggerResource>> springfox.documentation.swagger.web.ApiResourceController.swaggerResources()
+2018-07-25 11:01:51,192 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/swagger-resources/configuration/security]}" onto public org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.SecurityConfiguration> springfox.documentation.swagger.web.ApiResourceController.securityConfiguration()
+2018-07-25 11:01:51,196 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2018-07-25 11:01:51,200 INFO (AbstractHandlerMethodMapping.java:547)- Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2018-07-25 11:01:51,906 INFO (PropertySourcedRequestMappingHandlerMapping.java:69)- Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2018-07-25 11:01:52,260 INFO (AbstractUrlHandlerMapping.java:373)- Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-07-25 11:01:52,929 INFO (RequestMappingHandlerAdapter.java:574)- Looking for @ControllerAdvice: org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@4c7a078: startup date [Wed Jul 25 11:01:37 CST 2018]; root of context hierarchy
+2018-07-25 11:01:53,029 INFO (AbstractUrlHandlerMapping.java:373)- Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-07-25 11:01:53,030 INFO (AbstractUrlHandlerMapping.java:373)- Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-07-25 11:01:53,055 INFO (ExceptionHandlerExceptionResolver.java:288)- Detected @ExceptionHandler methods in globalExceptionHandler
+2018-07-25 11:01:54,403 INFO (DruidDataSource.java:667)- {dataSource-1} inited
+2018-07-25 11:01:55,298 INFO (CommonsLoggingLiquibaseLogger.java:92)- Successfully acquired change log lock
+2018-07-25 11:01:56,156 INFO (CommonsLoggingLiquibaseLogger.java:92)- Reading from db_jfshare_mvp_dev.DATABASECHANGELOG
+2018-07-25 11:01:56,184 INFO (CommonsLoggingLiquibaseLogger.java:92)- Successfully released change log lock
+2018-07-25 11:01:56,360 INFO (MBeanExporter.java:433)- Registering beans for JMX exposure on startup
+2018-07-25 11:01:56,366 INFO (MBeanExporter.java:895)- Bean with name 'dataSource' has been autodetected for JMX exposure
+2018-07-25 11:01:56,382 INFO (MBeanExporter.java:895)- Bean with name 'rabbitConnectionFactory' has been autodetected for JMX exposure
+2018-07-25 11:01:56,391 INFO (MBeanExporter.java:668)- Located MBean 'dataSource': registering with JMX server as MBean [com.alibaba.druid.pool:name=dataSource,type=DruidDataSource]
+2018-07-25 11:01:56,394 INFO (MBeanExporter.java:675)- Located managed bean 'rabbitConnectionFactory': registering with JMX server as MBean [org.springframework.amqp.rabbit.connection:name=rabbitConnectionFactory,type=CachingConnectionFactory]
+2018-07-25 11:01:56,437 INFO (DefaultLifecycleProcessor.java:351)- Starting beans in phase 2147483647
+2018-07-25 11:01:56,438 INFO (DocumentationPluginsBootstrapper.java:147)- Context refreshed
+2018-07-25 11:01:56,453 INFO (DocumentationPluginsBootstrapper.java:150)- Found 1 custom documentation plugin(s)
+2018-07-25 11:01:56,581 INFO (ApiListingReferenceScanner.java:41)- Scanning for api listing references
+2018-07-25 11:01:56,869 WARN (ParameterDataTypeReader.java:86)- Trying to infer dataType java.util.ArrayList<com.jfshare.mvp.server.model.TbProductItemShow>
+2018-07-25 11:01:56,883 WARN (ParameterDataTypeReader.java:86)- Trying to infer dataType java.util.ArrayList<com.jfshare.mvp.server.model.TbProductPromotion>
+2018-07-25 11:01:56,911 INFO (CachingOperationNameGenerator.java:40)- Generating unique operation named: updatejfRaidersUsingPUT_1
+2018-07-25 11:01:57,052 INFO (DirectJDKLog.java:180)- Starting ProtocolHandler ["http-nio-0.0.0.0-18888"]
+2018-07-25 11:01:57,060 INFO (DirectJDKLog.java:180)- Using a shared selector for servlet write/read
+2018-07-25 11:01:57,100 INFO (TomcatWebServer.java:206)- Tomcat started on port(s): 18888 (http) with context path ''
+2018-07-25 11:01:57,106 INFO (StartupInfoLogger.java:59)- Started JfshareMvpServer in 21.85 seconds (JVM running for 23.239)
