@@ -33,10 +33,16 @@
 		ON p.item_no = s.item_no
 		<where>
 			<if test=" productId != null and productId != ''">
-				AND product_id like CONCAT('%',#{productId},'%')
+				AND p.product_id like CONCAT('%',#{productId},'%')
 			</if>
 			<if test=" productName != null and productName != ''">
-				AND product_name like CONCAT('%',#{productName},'%')
+				AND p.product_name like CONCAT('%',#{productName},'%')
+			</if>
+			<if test=" activeState != 0">
+				AND p.active_state = #{activeState,jdbcType=INTEGER}
+			</if>
+			<if test=" itemNo != 0">
+				AND p.item_No = #{itemNo,jdbcType=INTEGER}
 			</if>
 		</where>
 		<if test="sort == null or sort == ''">
