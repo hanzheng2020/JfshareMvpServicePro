@@ -11,9 +11,9 @@ public class TbProduct {
 
     private String productName;
 
-    private String productHeader;
-
     private Integer itemNo;
+
+    private String productHeader;
 
     private String curPrice;
 
@@ -81,20 +81,20 @@ public class TbProduct {
         this.productName = productName == null ? null : productName.trim();
     }
 
-    public String getProductHeader() {
-        return productHeader;
-    }
-
-    public void setProductHeader(String productHeader) {
-        this.productHeader = productHeader == null ? null : productHeader.trim();
-    }
-
     public Integer getItemNo() {
         return itemNo;
     }
 
     public void setItemNo(Integer itemNo) {
         this.itemNo = itemNo;
+    }
+
+    public String getProductHeader() {
+        return productHeader;
+    }
+
+    public void setProductHeader(String productHeader) {
+        this.productHeader = productHeader == null ? null : productHeader.trim();
     }
 
     public String getCurPrice() {

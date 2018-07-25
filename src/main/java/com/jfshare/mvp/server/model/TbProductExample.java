@@ -365,6 +365,66 @@ public class TbProductExample {
             return (Criteria) this;
         }
 
+        public Criteria andItemNoIsNull() {
+            addCriterion("item_no is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNoIsNotNull() {
+            addCriterion("item_no is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNoEqualTo(Integer value) {
+            addCriterion("item_no =", value, "itemNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNoNotEqualTo(Integer value) {
+            addCriterion("item_no <>", value, "itemNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNoGreaterThan(Integer value) {
+            addCriterion("item_no >", value, "itemNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNoGreaterThanOrEqualTo(Integer value) {
+            addCriterion("item_no >=", value, "itemNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNoLessThan(Integer value) {
+            addCriterion("item_no <", value, "itemNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNoLessThanOrEqualTo(Integer value) {
+            addCriterion("item_no <=", value, "itemNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNoIn(List<Integer> values) {
+            addCriterion("item_no in", values, "itemNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNoNotIn(List<Integer> values) {
+            addCriterion("item_no not in", values, "itemNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNoBetween(Integer value1, Integer value2) {
+            addCriterion("item_no between", value1, value2, "itemNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNoNotBetween(Integer value1, Integer value2) {
+            addCriterion("item_no not between", value1, value2, "itemNo");
+            return (Criteria) this;
+        }
+
         public Criteria andProductHeaderIsNull() {
             addCriterion("product_header is null");
             return (Criteria) this;
@@ -432,66 +492,6 @@ public class TbProductExample {
 
         public Criteria andProductHeaderNotBetween(String value1, String value2) {
             addCriterion("product_header not between", value1, value2, "productHeader");
-            return (Criteria) this;
-        }
-
-        public Criteria andItemNoIsNull() {
-            addCriterion("item_no is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andItemNoIsNotNull() {
-            addCriterion("item_no is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andItemNoEqualTo(Integer value) {
-            addCriterion("item_no =", value, "itemNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andItemNoNotEqualTo(Integer value) {
-            addCriterion("item_no <>", value, "itemNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andItemNoGreaterThan(Integer value) {
-            addCriterion("item_no >", value, "itemNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andItemNoGreaterThanOrEqualTo(Integer value) {
-            addCriterion("item_no >=", value, "itemNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andItemNoLessThan(Integer value) {
-            addCriterion("item_no <", value, "itemNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andItemNoLessThanOrEqualTo(Integer value) {
-            addCriterion("item_no <=", value, "itemNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andItemNoIn(List<Integer> values) {
-            addCriterion("item_no in", values, "itemNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andItemNoNotIn(List<Integer> values) {
-            addCriterion("item_no not in", values, "itemNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andItemNoBetween(Integer value1, Integer value2) {
-            addCriterion("item_no between", value1, value2, "itemNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andItemNoNotBetween(Integer value1, Integer value2) {
-            addCriterion("item_no not between", value1, value2, "itemNo");
             return (Criteria) this;
         }
 

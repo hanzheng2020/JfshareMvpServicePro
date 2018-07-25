@@ -6,8 +6,8 @@
     <result column="product_id" jdbcType="VARCHAR" property="productId" />
     <result column="seller_id" jdbcType="INTEGER" property="sellerId" />
     <result column="product_name" jdbcType="VARCHAR" property="productName" />
-    <result column="product_header" jdbcType="VARCHAR" property="productHeader" />
     <result column="item_no" jdbcType="INTEGER" property="itemNo" />
+    <result column="product_header" jdbcType="VARCHAR" property="productHeader" />
     <result column="cur_price" jdbcType="VARCHAR" property="curPrice" />
     <result column="org_price" jdbcType="VARCHAR" property="orgPrice" />
     <result column="presentexp" jdbcType="INTEGER" property="presentexp" />
@@ -89,7 +89,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, product_id, seller_id, product_name, product_header, item_no, cur_price, org_price, 
+    id, product_id, seller_id, product_name, item_no, product_header, cur_price, org_price, 
     presentexp, img_key, detail_key, active_state, remark, create_time, create_user_id, 
     last_soldout_time, last_putaway_time, last_update_id, third_party_identify, third_party_product_id, 
     product_stock, ext1, ext2
@@ -147,7 +147,7 @@
   </delete>
   <insert id="insert" parameterType="com.jfshare.mvp.server.model.TbProductWithBLOBs">
     insert into tb_product (id, product_id, seller_id, 
-      product_name, product_header, item_no, 
+      product_name, item_no, product_header, 
       cur_price, org_price, presentexp, 
       img_key, detail_key, active_state, 
       remark, create_time, create_user_id, 
@@ -156,7 +156,7 @@
       product_stock, ext1, ext2, 
       sku_template, attribute)
     values (#{id,jdbcType=INTEGER}, #{productId,jdbcType=VARCHAR}, #{sellerId,jdbcType=INTEGER}, 
-      #{productName,jdbcType=VARCHAR}, #{productHeader,jdbcType=VARCHAR}, #{itemNo,jdbcType=INTEGER}, 
+      #{productName,jdbcType=VARCHAR}, #{itemNo,jdbcType=INTEGER}, #{productHeader,jdbcType=VARCHAR}, 
       #{curPrice,jdbcType=VARCHAR}, #{orgPrice,jdbcType=VARCHAR}, #{presentexp,jdbcType=INTEGER}, 
       #{imgKey,jdbcType=VARCHAR}, #{detailKey,jdbcType=VARCHAR}, #{activeState,jdbcType=INTEGER}, 
       #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, 
@@ -180,11 +180,11 @@
       <if test="productName != null">
         product_name,
       </if>
-      <if test="productHeader != null">
-        product_header,
-      </if>
       <if test="itemNo != null">
         item_no,
+      </if>
+      <if test="productHeader != null">
+        product_header,
       </if>
       <if test="curPrice != null">
         cur_price,
@@ -257,11 +257,11 @@
       <if test="productName != null">
         #{productName,jdbcType=VARCHAR},
       </if>
-      <if test="productHeader != null">
-        #{productHeader,jdbcType=VARCHAR},
-      </if>
       <if test="itemNo != null">
         #{itemNo,jdbcType=INTEGER},
+      </if>
+      <if test="productHeader != null">
+        #{productHeader,jdbcType=VARCHAR},
       </if>
       <if test="curPrice != null">
         #{curPrice,jdbcType=VARCHAR},
@@ -343,11 +343,11 @@
       <if test="record.productName != null">
         product_name = #{record.productName,jdbcType=VARCHAR},
       </if>
-      <if test="record.productHeader != null">
-        product_header = #{record.productHeader,jdbcType=VARCHAR},
-      </if>
       <if test="record.itemNo != null">
         item_no = #{record.itemNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.productHeader != null">
+        product_header = #{record.productHeader,jdbcType=VARCHAR},
       </if>
       <if test="record.curPrice != null">
         cur_price = #{record.curPrice,jdbcType=VARCHAR},
@@ -417,8 +417,8 @@
       product_id = #{record.productId,jdbcType=VARCHAR},
       seller_id = #{record.sellerId,jdbcType=INTEGER},
       product_name = #{record.productName,jdbcType=VARCHAR},
-      product_header = #{record.productHeader,jdbcType=VARCHAR},
       item_no = #{record.itemNo,jdbcType=INTEGER},
+      product_header = #{record.productHeader,jdbcType=VARCHAR},
       cur_price = #{record.curPrice,jdbcType=VARCHAR},
       org_price = #{record.orgPrice,jdbcType=VARCHAR},
       presentexp = #{record.presentexp,jdbcType=INTEGER},
@@ -448,8 +448,8 @@
       product_id = #{record.productId,jdbcType=VARCHAR},
       seller_id = #{record.sellerId,jdbcType=INTEGER},
       product_name = #{record.productName,jdbcType=VARCHAR},
-      product_header = #{record.productHeader,jdbcType=VARCHAR},
       item_no = #{record.itemNo,jdbcType=INTEGER},
+      product_header = #{record.productHeader,jdbcType=VARCHAR},
       cur_price = #{record.curPrice,jdbcType=VARCHAR},
       org_price = #{record.orgPrice,jdbcType=VARCHAR},
       presentexp = #{record.presentexp,jdbcType=INTEGER},
@@ -483,11 +483,11 @@
       <if test="productName != null">
         product_name = #{productName,jdbcType=VARCHAR},
       </if>
-      <if test="productHeader != null">
-        product_header = #{productHeader,jdbcType=VARCHAR},
-      </if>
       <if test="itemNo != null">
         item_no = #{itemNo,jdbcType=INTEGER},
+      </if>
+      <if test="productHeader != null">
+        product_header = #{productHeader,jdbcType=VARCHAR},
       </if>
       <if test="curPrice != null">
         cur_price = #{curPrice,jdbcType=VARCHAR},
@@ -554,8 +554,8 @@
     set product_id = #{productId,jdbcType=VARCHAR},
       seller_id = #{sellerId,jdbcType=INTEGER},
       product_name = #{productName,jdbcType=VARCHAR},
-      product_header = #{productHeader,jdbcType=VARCHAR},
       item_no = #{itemNo,jdbcType=INTEGER},
+      product_header = #{productHeader,jdbcType=VARCHAR},
       cur_price = #{curPrice,jdbcType=VARCHAR},
       org_price = #{orgPrice,jdbcType=VARCHAR},
       presentexp = #{presentexp,jdbcType=INTEGER},
@@ -582,8 +582,8 @@
     set product_id = #{productId,jdbcType=VARCHAR},
       seller_id = #{sellerId,jdbcType=INTEGER},
       product_name = #{productName,jdbcType=VARCHAR},
-      product_header = #{productHeader,jdbcType=VARCHAR},
       item_no = #{itemNo,jdbcType=INTEGER},
+      product_header = #{productHeader,jdbcType=VARCHAR},
       cur_price = #{curPrice,jdbcType=VARCHAR},
       org_price = #{orgPrice,jdbcType=VARCHAR},
       presentexp = #{presentexp,jdbcType=INTEGER},

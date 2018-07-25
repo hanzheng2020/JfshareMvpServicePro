@@ -7,12 +7,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
 import com.jfshare.mvp.server.dao.TbProductDao;
 import com.jfshare.mvp.server.mapper.TbProductDetailMapper;
 import com.jfshare.mvp.server.model.Product;
 import com.jfshare.mvp.server.model.ProductSurveyQueryParam;
 import com.jfshare.mvp.server.model.TbProduct;
 import com.jfshare.mvp.server.model.TbProductDetail;
+import com.jfshare.mvp.server.model.TbProductDetailExample;
 import com.jfshare.mvp.server.model.TbProductItem;
 import com.jfshare.mvp.server.model.TbProductSurvey;
 import com.jfshare.mvp.server.model.TbProductWithBLOBs;
@@ -25,19 +27,26 @@ public class ProductService {
 	private TbProductDetailMapper tbProductDetailMapper;
 	@Autowired
 	private ProductItemService productItemService;
-	
-	public List<TbProductSurvey> productSurveyQuery(String productId,String productName){
+
+	public List<TbProductSurvey> productSurveyQuery(String productId, String productName,Integer itemNo,Integer activeState, Integer curpage,
+			Integer percount) {
 		ProductSurveyQueryParam param = new ProductSurveyQueryParam();
-		if(StringUtils.isEmpty(productId)) {
+		if (StringUtils.isEmpty(productId)) {
 			param.setProductId(productId);
 		}
-		if(StringUtils.isEmpty(productName)) {
+		if (StringUtils.isEmpty(productName)) {
 			param.setProductName(productName);
 		}
-		
+		if(itemNo > 0) {
+			param.setItemNo(itemNo);
+		}
+		if(activeState > 0) {
+			param.setActiveState(activeState);
+		}
+		PageHelper.startPage(curpage, percount);
 		return tbProductDao.productSurveyQuery(param);
 	}
-	
+
 	public int addProduct(Product product) {
 		TbProductWithBLOBs tbProductWithBLOBs = new TbProductWithBLOBs();
 		tbProductWithBLOBs.setProductId(product.getProductId());
@@ -49,7 +58,8 @@ public class ProductService {
 		tbProductWithBLOBs.setProductStock(product.getProductStock());
 		tbProductWithBLOBs.setActiveState(product.getActiveState());
 		tbProductWithBLOBs.setImgKey(product.getImgKey());
-		//商品使用说明和商品兑换说明使用product_detail表更新
+		tbProductWithBLOBs.setCreateTime(new Date());
+		// 商品使用说明和商品兑换说明使用product_detail表更新
 		TbProductDetail tbProductDetail = new TbProductDetail();
 		tbProductDetail.setDetailKey(product.getProductId());
 		tbProductDetail.setProductInstructions(product.getProductInstructions());
@@ -58,42 +68,49 @@ public class ProductService {
 		tbProductDetail.setUpdateTime(new Date());
 		int count = tbProductDetailMapper.insert(tbProductDetail);
 		int result = 0;
-		if(count > 0) {
+		if (count > 0) {
 			result = tbProductDao.addProduct(tbProductWithBLOBs);
 		}
 		return result;
 	}
-	
+
 	public int deleteProduct(String productId) {
-		int count = 0;
-		if(!StringUtils.isEmpty(productId)) {
-			count = tbProductDao.deleteProduct(productId);
+		int result = 0;
+		if (!StringUtils.isEmpty(productId)) {
+			TbProductDetailExample example = new TbProductDetailExample();
+			example.createCriteria().andDetailKeyEqualTo(productId);
+			int count = tbProductDetailMapper.deleteByExample(example);
+			if (count > 0) {
+				result = tbProductDao.deleteProduct(productId);
+			}
 		}
-		return count;
+		return result;
 	}
-	
+
 	public int updateProduct(Product product) {
-		TbProduct tbProduct = new TbProduct();
-		tbProduct.setProductId(product.getProductId());
-		tbProduct.setProductName(product.getProductName());
-		tbProduct.setItemNo(product.getItemNo());
-		tbProduct.setProductHeader(product.getProductHeader());
-		tbProduct.setCurPrice(product.getCurPrice());
-		tbProduct.setPresentexp(product.getPresentexp());
-		tbProduct.setProductStock(product.getProductStock());
-		tbProduct.setActiveState(product.getActiveState());
-		tbProduct.setImgKey(product.getImgKey());
-		//更新商品详情表
+		TbProductWithBLOBs tbProductWithBLOBs = new TbProductWithBLOBs();
+		tbProductWithBLOBs.setProductId(product.getProductId());
+		tbProductWithBLOBs.setProductName(product.getProductName());
+		tbProductWithBLOBs.setItemNo(product.getItemNo());
+		tbProductWithBLOBs.setProductHeader(product.getProductHeader());
+		tbProductWithBLOBs.setCurPrice(product.getCurPrice());
+		tbProductWithBLOBs.setPresentexp(product.getPresentexp());
+		tbProductWithBLOBs.setProductStock(product.getProductStock());
+		tbProductWithBLOBs.setActiveState(product.getActiveState());
+		tbProductWithBLOBs.setImgKey(product.getImgKey());
+		// 更新商品详情表
 		TbProductDetail tbProductDetail = new TbProductDetail();
 		tbProductDetail.setDetailKey(product.getProductId());
 		tbProductDetail.setProductInstructions(product.getProductInstructions());
 		tbProductDetail.setProductExchange(product.getProductExchange());
-		tbProductDetail.setCreateTime(new Date());
+		// tbProductDetail.setCreateTime(new Date());
 		tbProductDetail.setUpdateTime(new Date());
-		int count = tbProductDetailMapper.updateByPrimaryKey(tbProductDetail);
+		TbProductDetailExample example = new TbProductDetailExample();
+		example.createCriteria().andDetailKeyEqualTo(product.getProductId());
+		int count = tbProductDetailMapper.updateByExampleSelective(tbProductDetail, example);
 		int result = 0;
-		if(count > 0) {
-			result = tbProductDao.updateProduct(tbProduct);
+		if (count > 0) {
+			result = tbProductDao.updateProduct(tbProductWithBLOBs);
 		}
 		return result;
 	}
