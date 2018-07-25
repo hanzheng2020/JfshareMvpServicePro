@@ -1,7 +1,7 @@
 package com.jfshare.mvp.server.model;
 
 public class Product {
-	private Integer itemNo;//类目id
+	private Integer itemNo;//类目
 	private String productId;//商品id
 	private String productName;//商品名称
 	private String productHeader;//商品副标题

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jfshare.mvp.server.constants.ResultConstant;
+import com.jfshare.mvp.server.model.Product;
 import com.jfshare.mvp.server.model.TbProductSurvey;
 import com.jfshare.mvp.server.service.ProductService;
 import io.swagger.annotations.Api;
@@ -35,5 +36,35 @@ public class ProductController {
 			return ResultConstant.ofSuccess(productList);
 		}
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取商品信息失败");
+	}
+	
+	@ApiOperation(value = "新增商品", notes = "新增商品信息")
+	@PostMapping("/addProduct")
+	public ResultConstant addProduct(Product product) {
+		int result = productService.addProduct(product);
+		if(result > 0) {
+			return ResultConstant.ofSuccess();
+		}
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "新增商品失败");
+	}
+	
+	@ApiOperation(value = "删除商品", notes = "删除商品信息")
+	@PostMapping("/addProduct")
+	public ResultConstant deleteProduct(@RequestParam(value = "productId", required=false) String productId) {
+		int result = productService.deleteProduct(productId);
+		if(result > 0) {
+			return ResultConstant.ofSuccess();
+		}
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "删除商品失败");
+	}
+	
+	@ApiOperation(value = "更新商品", notes = "更新商品信息")
+	@PostMapping("/addProduct")
+	public ResultConstant updateProduct(Product product) {
+		int result = productService.updateProduct(product);
+		if(result > 0) {
+			return ResultConstant.ofSuccess();
+		}
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "更新商品失败");
 	}
 }

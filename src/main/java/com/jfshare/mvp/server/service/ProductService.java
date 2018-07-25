@@ -13,6 +13,7 @@ import com.jfshare.mvp.server.model.Product;
 import com.jfshare.mvp.server.model.ProductSurveyQueryParam;
 import com.jfshare.mvp.server.model.TbProduct;
 import com.jfshare.mvp.server.model.TbProductDetail;
+import com.jfshare.mvp.server.model.TbProductItem;
 import com.jfshare.mvp.server.model.TbProductSurvey;
 import com.jfshare.mvp.server.model.TbProductWithBLOBs;
 
@@ -22,6 +23,8 @@ public class ProductService {
 	private TbProductDao tbProductDao;
 	@Autowired
 	private TbProductDetailMapper tbProductDetailMapper;
+	@Autowired
+	private ProductItemService productItemService;
 	
 	public List<TbProductSurvey> productSurveyQuery(String productId,String productName){
 		ProductSurveyQueryParam param = new ProductSurveyQueryParam();
@@ -62,11 +65,36 @@ public class ProductService {
 	}
 	
 	public int deleteProduct(String productId) {
-		
-		return 0;
+		int count = 0;
+		if(!StringUtils.isEmpty(productId)) {
+			count = tbProductDao.deleteProduct(productId);
+		}
+		return count;
 	}
 	
-	public int updateProduct(String productId) {
-		return 0;
+	public int updateProduct(Product product) {
+		TbProduct tbProduct = new TbProduct();
+		tbProduct.setProductId(product.getProductId());
+		tbProduct.setProductName(product.getProductName());
+		tbProduct.setItemNo(product.getItemNo());
+		tbProduct.setProductHeader(product.getProductHeader());
+		tbProduct.setCurPrice(product.getCurPrice());
+		tbProduct.setPresentexp(product.getPresentexp());
+		tbProduct.setProductStock(product.getProductStock());
+		tbProduct.setActiveState(product.getActiveState());
+		tbProduct.setImgKey(product.getImgKey());
+		//更新商品详情表
+		TbProductDetail tbProductDetail = new TbProductDetail();
+		tbProductDetail.setDetailKey(product.getProductId());
+		tbProductDetail.setProductInstructions(product.getProductInstructions());
+		tbProductDetail.setProductExchange(product.getProductExchange());
+		tbProductDetail.setCreateTime(new Date());
+		tbProductDetail.setUpdateTime(new Date());
+		int count = tbProductDetailMapper.updateByPrimaryKey(tbProductDetail);
+		int result = 0;
+		if(count > 0) {
+			result = tbProductDao.updateProduct(tbProduct);
+		}
+		return result;
 	}
 }
