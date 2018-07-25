@@ -1,5 +1,6 @@
 package com.jfshare.mvp.server.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -7,8 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jfshare.mvp.server.dao.TbProductDao;
+import com.jfshare.mvp.server.mapper.TbProductDetailMapper;
+import com.jfshare.mvp.server.model.Product;
 import com.jfshare.mvp.server.model.ProductSurveyQueryParam;
 import com.jfshare.mvp.server.model.TbProduct;
+import com.jfshare.mvp.server.model.TbProductDetail;
 import com.jfshare.mvp.server.model.TbProductSurvey;
 import com.jfshare.mvp.server.model.TbProductWithBLOBs;
 
@@ -16,6 +20,8 @@ import com.jfshare.mvp.server.model.TbProductWithBLOBs;
 public class ProductService {
 	@Autowired
 	private TbProductDao tbProductDao;
+	@Autowired
+	private TbProductDetailMapper tbProductDetailMapper;
 	
 	public List<TbProductSurvey> productSurveyQuery(String productId,String productName){
 		ProductSurveyQueryParam param = new ProductSurveyQueryParam();
@@ -29,7 +35,7 @@ public class ProductService {
 		return tbProductDao.productSurveyQuery(param);
 	}
 	
-	public int addProduct(TbProduct product) {
+	public int addProduct(Product product) {
 		TbProductWithBLOBs tbProductWithBLOBs = new TbProductWithBLOBs();
 		tbProductWithBLOBs.setProductId(product.getProductId());
 		tbProductWithBLOBs.setProductName(product.getProductName());
@@ -41,10 +47,22 @@ public class ProductService {
 		tbProductWithBLOBs.setActiveState(product.getActiveState());
 		tbProductWithBLOBs.setImgKey(product.getImgKey());
 		//商品使用说明和商品兑换说明使用product_detail表更新
-		return tbProductDao.addProduct(tbProductWithBLOBs);
+		TbProductDetail tbProductDetail = new TbProductDetail();
+		tbProductDetail.setDetailKey(product.getProductId());
+		tbProductDetail.setProductInstructions(product.getProductInstructions());
+		tbProductDetail.setProductExchange(product.getProductExchange());
+		tbProductDetail.setCreateTime(new Date());
+		tbProductDetail.setUpdateTime(new Date());
+		int count = tbProductDetailMapper.insert(tbProductDetail);
+		int result = 0;
+		if(count > 0) {
+			result = tbProductDao.addProduct(tbProductWithBLOBs);
+		}
+		return result;
 	}
 	
 	public int deleteProduct(String productId) {
+		
 		return 0;
 	}
 	
