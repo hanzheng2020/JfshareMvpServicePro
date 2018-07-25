@@ -27,7 +27,7 @@ public class ProductItemService {
 	@Autowired
 	private TbProductDao tbProductDao;
 	
-	public boolean updateProductItem(Integer itemNo, String itemName, String itemDesc) {
+	public boolean updateProductItem(String itemNo, String itemName, String itemDesc) {
 		TbProductItemExample tbProductItemExample = new TbProductItemExample();
 		tbProductItemExample.createCriteria()
 							.andItemNoEqualTo(itemNo);
@@ -47,13 +47,8 @@ public class ProductItemService {
 		return true;
 	}
 	
-	public boolean addProductItem(Integer parentItemNo, String itemName, String itemDesc) {
-		TbProductItem tbProductItem = new TbProductItem();
-		tbProductItem.setItemDesc(itemDesc);
-		tbProductItem.setItemName(itemName);
-		if (parentItemNo == null) {
-			
-		}
+	public boolean addProductItem(TbProductItem tbProductItem) {
+		
 		return false;
 	}
 	
@@ -67,9 +62,9 @@ public class ProductItemService {
 		return tbProductItems;
 	}
 	
-	public ResultConstant deleteProductItem(Integer itemNo) {
+	public ResultConstant deleteProductItem(String itemNo) {
 		TbProductItemExample tbProductItemExample = new TbProductItemExample();
-		if (itemNo != null) {
+		if (!StringUtils.isEmpty(itemNo)) {
 			tbProductItemExample.createCriteria()
 								.andParentItemNoEqualTo(itemNo);
 		}
@@ -85,11 +80,21 @@ public class ProductItemService {
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "该类目中存在商品！");
 		}
 		tbProductItemExample.clear();
-		if (itemNo != null) {
+		if (!StringUtils.isEmpty(itemNo)) {
 			tbProductItemExample.createCriteria()
 								.andParentItemNoEqualTo(itemNo);
 		}
 		tbProductItemDao.deleteByExample(tbProductItemExample);
 		return ResultConstant.ofSuccess();
+	}
+	
+	private List<TbProductItem> getSonNode(String itemNo) {
+		TbProductItemExample tbProductItemExample = new TbProductItemExample();
+		if (!StringUtils.isEmpty(itemNo)) {
+			tbProductItemExample.createCriteria()
+								.andParentItemNoEqualTo(itemNo);
+		}
+		List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
+		return tbProductItems;
 	}
 }

@@ -30,18 +30,17 @@ public class TbProductDao {
 		return manualTbProductMapper.productSurveyQuery(param);
 	}
 	
-	//新增商品
 	public int addProduct(TbProductWithBLOBs record) {
 		return tbProductMapper.insert(record);
 	}
 	
-	//删除商品
-	public int deleteProduct(TbProductExample example) {
-		return tbProductMapper.deleteByExample(example);
+	public int updateProduct(TbProduct record) {
+		return tbProductMapper.updateByPrimaryKey(record);
 	}
 	
-	//更新商品
-	public int updateProduct(TbProduct product) {
-		return tbProductMapper.updateByPrimaryKey(product);
+	public int deleteProduct(String productId) {
+		TbProductExample tbProductExample = new TbProductExample();
+		tbProductExample.createCriteria().andProductIdEqualTo(productId);
+		return tbProductMapper.deleteByExample(tbProductExample);
 	}
 }

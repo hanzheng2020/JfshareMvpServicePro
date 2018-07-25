@@ -3,18 +3,14 @@ package com.jfshare.mvp.server.dao;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
-
-
 
 
 import com.jfshare.mvp.server.mapper.TbJvjindouRuleMapper;
 import com.jfshare.mvp.server.model.TbJvjindouRule;
 import com.jfshare.mvp.server.model.TbJvjindouRuleExample;
 import com.jfshare.mvp.server.model.TbJvjindouRuleExample.Criteria;
-import com.jfshare.mvp.server.model.TbLevelInfo;
 
 /**
  *聚金豆消费
@@ -22,18 +18,12 @@ import com.jfshare.mvp.server.model.TbLevelInfo;
 @Repository
 public class JvjindouRuleDao {
 	@Autowired
-	private TbJvjindouRuleMapper jkvjindouRuleMapper;
+	private TbJvjindouRuleMapper JvjindouRuleMapper;
     
 	@Cacheable(cacheNames="jvjindouRules")
 	public List<TbJvjindouRule> selectJvjindouRuleByUserId(int userId, int jvjindou){
 		TbJvjindouRuleExample example=new TbJvjindouRuleExample();
 		Criteria criteria = example.createCriteria();
-		return jkvjindouRuleMapper.selectByExample(example);
-	}
-
-	//增加赠送规则
-	@CachePut(cacheNames="jvjindouRules")
-	public int insertSelective(TbJvjindouRule record) {
-		return jkvjindouRuleMapper.insertSelective(record);
+		return JvjindouRuleMapper.selectByExample(example);
 	}
 }

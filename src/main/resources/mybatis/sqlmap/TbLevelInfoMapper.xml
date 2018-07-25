@@ -8,6 +8,8 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="growth_point" jdbcType="INTEGER" property="growthPoint" />
     <result column="levle" jdbcType="CHAR" property="levle" />
+    <result column="jvjindou" jdbcType="INTEGER" property="jvjindou" />
+    <result column="levle_beyond" jdbcType="INTEGER" property="levleBeyond" />
     <result column="real_jvjindou" jdbcType="INTEGER" property="realJvjindou" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
@@ -70,14 +72,14 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, userId, create_time, update_time, growth_point, levle, real_jvjindou, remark
+    id, userId, create_time, update_time, growth_point, levle, jvjindou, levle_beyond, 
+    real_jvjindou, remark
   </sql>
   <select id="selectByExample" parameterType="com.jfshare.mvp.server.model.TbLevelInfoExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
-    'true' as QUERYID,
     <include refid="Base_Column_List" />
     from tb_level_info
     <if test="_parameter != null">
@@ -104,22 +106,21 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.jfshare.mvp.server.model.TbLevelInfo">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into tb_level_info (userId, create_time, update_time, 
-      growth_point, levle, real_jvjindou, 
+    insert into tb_level_info (id, userId, create_time, 
+      update_time, growth_point, levle, 
+      jvjindou, levle_beyond, real_jvjindou, 
       remark)
-    values (#{userid,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{growthPoint,jdbcType=INTEGER}, #{levle,jdbcType=CHAR}, #{realJvjindou,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{growthPoint,jdbcType=INTEGER}, #{levle,jdbcType=CHAR}, 
+      #{jvjindou,jdbcType=INTEGER}, #{levleBeyond,jdbcType=INTEGER}, #{realJvjindou,jdbcType=INTEGER}, 
       #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.jfshare.mvp.server.model.TbLevelInfo">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
     insert into tb_level_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
       <if test="userid != null">
         userId,
       </if>
@@ -135,6 +136,12 @@
       <if test="levle != null">
         levle,
       </if>
+      <if test="jvjindou != null">
+        jvjindou,
+      </if>
+      <if test="levleBeyond != null">
+        levle_beyond,
+      </if>
       <if test="realJvjindou != null">
         real_jvjindou,
       </if>
@@ -143,6 +150,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
       <if test="userid != null">
         #{userid,jdbcType=INTEGER},
       </if>
@@ -158,6 +168,12 @@
       <if test="levle != null">
         #{levle,jdbcType=CHAR},
       </if>
+      <if test="jvjindou != null">
+        #{jvjindou,jdbcType=INTEGER},
+      </if>
+      <if test="levleBeyond != null">
+        #{levleBeyond,jdbcType=INTEGER},
+      </if>
       <if test="realJvjindou != null">
         #{realJvjindou,jdbcType=INTEGER},
       </if>
@@ -166,7 +182,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.jfshare.mvp.server.model.TbLevelInfoExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.jfshare.mvp.server.model.TbLevelInfoExample" resultType="java.lang.Integer">
     select count(*) from tb_level_info
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -193,6 +209,12 @@
       <if test="record.levle != null">
         levle = #{record.levle,jdbcType=CHAR},
       </if>
+      <if test="record.jvjindou != null">
+        jvjindou = #{record.jvjindou,jdbcType=INTEGER},
+      </if>
+      <if test="record.levleBeyond != null">
+        levle_beyond = #{record.levleBeyond,jdbcType=INTEGER},
+      </if>
       <if test="record.realJvjindou != null">
         real_jvjindou = #{record.realJvjindou,jdbcType=INTEGER},
       </if>
@@ -212,6 +234,8 @@
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       growth_point = #{record.growthPoint,jdbcType=INTEGER},
       levle = #{record.levle,jdbcType=CHAR},
+      jvjindou = #{record.jvjindou,jdbcType=INTEGER},
+      levle_beyond = #{record.levleBeyond,jdbcType=INTEGER},
       real_jvjindou = #{record.realJvjindou,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
@@ -236,6 +260,12 @@
       <if test="levle != null">
         levle = #{levle,jdbcType=CHAR},
       </if>
+      <if test="jvjindou != null">
+        jvjindou = #{jvjindou,jdbcType=INTEGER},
+      </if>
+      <if test="levleBeyond != null">
+        levle_beyond = #{levleBeyond,jdbcType=INTEGER},
+      </if>
       <if test="realJvjindou != null">
         real_jvjindou = #{realJvjindou,jdbcType=INTEGER},
       </if>
@@ -252,6 +282,8 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       growth_point = #{growthPoint,jdbcType=INTEGER},
       levle = #{levle,jdbcType=CHAR},
+      jvjindou = #{jvjindou,jdbcType=INTEGER},
+      levle_beyond = #{levleBeyond,jdbcType=INTEGER},
       real_jvjindou = #{realJvjindou,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

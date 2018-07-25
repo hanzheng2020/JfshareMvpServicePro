@@ -5,9 +5,9 @@ import java.util.Date;
 public class TbProductItem {
     private Integer id;
 
-    private Integer itemNo;
+    private String itemNo;
 
-    private Integer parentItemNo;
+    private String parentItemNo;
 
     private String itemName;
 
@@ -25,20 +25,20 @@ public class TbProductItem {
         this.id = id;
     }
 
-    public Integer getItemNo() {
+    public String getItemNo() {
         return itemNo;
     }
 
-    public void setItemNo(Integer itemNo) {
-        this.itemNo = itemNo;
+    public void setItemNo(String itemNo) {
+        this.itemNo = itemNo == null ? null : itemNo.trim();
     }
 
-    public Integer getParentItemNo() {
+    public String getParentItemNo() {
         return parentItemNo;
     }
 
-    public void setParentItemNo(Integer parentItemNo) {
-        this.parentItemNo = parentItemNo;
+    public void setParentItemNo(String parentItemNo) {
+        this.parentItemNo = parentItemNo == null ? null : parentItemNo.trim();
     }
 
     public String getItemName() {
@@ -72,5 +72,4 @@ public class TbProductItem {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
-
 }

@@ -77,7 +77,6 @@
     <if test="distinct">
       distinct
     </if>
-    'true' as QUERYID,
     <include refid="Base_Column_List" />
     from tb_jvjindou_rule
     <if test="_parameter != null">
@@ -104,22 +103,19 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.jfshare.mvp.server.model.TbJvjindouRule">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into tb_jvjindou_rule (create_time, giving_rule, random_giving_min, 
-      random_giving_max, fixed_giving, update_time
-      )
-    values (#{createTime,jdbcType=TIMESTAMP}, #{givingRule,jdbcType=CHAR}, #{randomGivingMin,jdbcType=INTEGER}, 
-      #{randomGivingMax,jdbcType=INTEGER}, #{fixedGiving,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}
-      )
+    insert into tb_jvjindou_rule (id, create_time, giving_rule, 
+      random_giving_min, random_giving_max, fixed_giving, 
+      update_time)
+    values (#{id,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{givingRule,jdbcType=CHAR}, 
+      #{randomGivingMin,jdbcType=INTEGER}, #{randomGivingMax,jdbcType=INTEGER}, #{fixedGiving,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.jfshare.mvp.server.model.TbJvjindouRule">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
     insert into tb_jvjindou_rule
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
       <if test="createTime != null">
         create_time,
       </if>
@@ -140,6 +136,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -160,7 +159,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.jfshare.mvp.server.model.TbJvjindouRuleExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.jfshare.mvp.server.model.TbJvjindouRuleExample" resultType="java.lang.Integer">
     select count(*) from tb_jvjindou_rule
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
