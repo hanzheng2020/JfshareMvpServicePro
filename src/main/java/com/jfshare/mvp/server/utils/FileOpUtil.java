@@ -131,7 +131,7 @@ public class FileOpUtil {
 	}
 	
 	/**
-	 * 上传文件到fastDFS
+	 * 上传文件
 	 *
 	 * @param fileBuff
 	 * @param uploadFileName

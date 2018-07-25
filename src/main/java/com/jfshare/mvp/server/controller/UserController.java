@@ -1,5 +1,6 @@
 package com.jfshare.mvp.server.controller;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jfshare.mvp.server.constants.ResultConstant;
+import com.jfshare.mvp.server.model.Captcha;
 import com.jfshare.mvp.server.model.TbJvjindouRule;
 import com.jfshare.mvp.server.service.JvjindouRuleService;
+import com.jfshare.mvp.server.service.UserService;
 import com.jfshare.mvp.server.utils.ConvertBeanToMapUtils;
 
 import io.swagger.annotations.Api;
@@ -29,6 +32,8 @@ public class UserController {
 	
 	@Autowired
 	private JvjindouRuleService jvjindouRuleService;
+	@Autowired
+	private UserService userService;
 	
 	@ApiOperation(value="查询用户", notes="用id来查询用户")
 	@GetMapping
@@ -82,5 +87,12 @@ public class UserController {
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "参数有误！");
 		}
 		return ResultConstant.ofSuccess();
+	}
+	
+	@ApiOperation(value="生成二维码", notes="生成客服指引需要的二维码")
+	@PutMapping("/getQRCode")
+	public ResultConstant getQRCode(@RequestParam(value="id", required=true)  String id){
+		Captcha qrCode = userService.getQRCode(id);
+		return ResultConstant.ofSuccess(qrCode);
 	}
 }
