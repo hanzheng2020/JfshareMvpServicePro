@@ -34,8 +34,10 @@ public class TbProductDao {
 		return tbProductMapper.insert(record);
 	}
 	
-	public int updateProduct(TbProduct record) {
-		return tbProductMapper.updateByPrimaryKey(record);
+	public int updateProduct(TbProductWithBLOBs record) {
+		TbProductExample example = new TbProductExample();
+		example.createCriteria().andProductIdEqualTo(record.getProductId());
+		return tbProductMapper.updateByExampleSelective(record,example);
 	}
 	
 	public int deleteProduct(String productId) {
