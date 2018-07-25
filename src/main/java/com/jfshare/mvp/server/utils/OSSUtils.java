@@ -2,11 +2,13 @@ package com.jfshare.mvp.server.utils;
 
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.model.ObjectMetadata;
+
 import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -75,4 +77,24 @@ public class OSSUtils {
         } else
             return "ExportOrder_" + prefix+"_" + timeFormat.format(date) + ".xls";
     }
+    
+	// 获取图片的url ，这里你要传入 路径以及 对应的key
+	public static URL getUrlFromTempDir(String fileName) {
+		Date expiration_100Days = new Date(new Date().getTime() + 100);
+		URL url = client.generatePresignedUrl(bucket, filedir + fileName, expiration_100Days);
+
+		String urlTsr = url.toString();
+		URL urlStr = null;
+		try {
+			urlStr = new URL(urlTsr.split("[?]")[0]);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		// GeneratePresignedUrlRequest generatePresignedUrlRequest = new
+		// GeneratePresignedUrlRequest(bucketName, key);
+		// URL generatePresignedUrl =
+		// client.generatePresignedUrl(generatePresignedUrlRequest);
+		return urlStr;
+	}
 }

@@ -26,5 +26,14 @@ public class Constant {
    public static final int  UPGRADE_TYPE_PT=1;
    //app强制升级
    public static final int  UPGRADE_TYPE_QZ=2;
+   
+   //商品状态  100 待上架  200 已上架 300 已下架
+   public static final int  PRODUCT_STATE_NOT_ONSELL=100;
+   public static final int  PRODUCT_STATE_ONSELL=200;
+   public static final int  PRODUCT_SOLT_OUT=300;
+   
+   //日期格式
+   public static String FORMAT_DEFAULT_MIN = "yyyyMMddHHmmss";
+   
 
 }

@@ -3,6 +3,7 @@ package com.jfshare.mvp.server.controller;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -71,5 +72,20 @@ public class ProductController {
 			return ResultConstant.ofSuccess();
 		}
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "更新商品失败");
+	}
+	
+	@ApiOperation(value = "商品导出execl", notes = "商品导出execl表格")
+	@PostMapping("/exportProduct")
+	public ResultConstant exportProduct(@RequestParam(value = "productId", required = false) String productId,
+			@RequestParam(value = "productName", required = false) String productName,
+			@RequestParam(value = "itemNo", required = false) Integer itemNo,
+			@RequestParam(value = "activeState", required = false) Integer activeState,
+			@RequestParam(value = "curpage", required = true) Integer curpage,
+			@RequestParam(value = "percount", required = true) Integer percount) {
+		String path = productService.exportProduct(productId, productName, itemNo, activeState, curpage, percount);
+		if (!StringUtils.isEmpty(path)) {
+			return ResultConstant.ofSuccess();
+		}
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "导出商品 execl失败");
 	}
 }
