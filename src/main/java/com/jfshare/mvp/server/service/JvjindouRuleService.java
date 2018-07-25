@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.jfshare.mvp.server.service;
 
 import java.util.Date;
@@ -26,6 +23,7 @@ public class JvjindouRuleService {
 		jvjindouRuleDao.selectJvjindouRuleByUserId(userId,jvjindou);
 		return 0;
 	}
+
 	
 	public int insertJvjindouRule(TbJvjindouRule jvjindouRule){
 		jvjindouRule.setCreateTime(new Date());
@@ -39,4 +37,5 @@ public class JvjindouRuleService {
 	public int updateJvjindouRule(TbJvjindouRule record) {
 		return jvjindouRuleDao.updateByPrimaryKeySelective(record);
 	}
+
 }

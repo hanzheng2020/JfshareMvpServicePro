@@ -9,12 +9,10 @@ import org.springframework.stereotype.Repository;
 
 
 
-
 import com.jfshare.mvp.server.mapper.TbJvjindouRuleMapper;
 import com.jfshare.mvp.server.model.TbJvjindouRule;
 import com.jfshare.mvp.server.model.TbJvjindouRuleExample;
 import com.jfshare.mvp.server.model.TbJvjindouRuleExample.Criteria;
-import com.jfshare.mvp.server.model.TbLevelInfo;
 
 /**
  *聚金豆消费
@@ -22,28 +20,26 @@ import com.jfshare.mvp.server.model.TbLevelInfo;
 @Repository
 public class JvjindouRuleDao {
 	@Autowired
-	private TbJvjindouRuleMapper jkvjindouRuleMapper;
+	private TbJvjindouRuleMapper jvjindouRuleMapper;
     
 	@Cacheable(cacheNames="jvjindouRules")
 	public List<TbJvjindouRule> selectJvjindouRuleByUserId(int userId, int jvjindou){
 		TbJvjindouRuleExample example=new TbJvjindouRuleExample();
 		Criteria criteria = example.createCriteria();
-		return jkvjindouRuleMapper.selectByExample(example);
-	}
-
-	//增加赠送规则
-	@CachePut(cacheNames="jvjindouRules")
-	public int insertSelective(TbJvjindouRule record) {
-		return jkvjindouRuleMapper.insertSelective(record);
+		return jvjindouRuleMapper.selectByExample(example);
 	}
 	
 	//查询赠送聚金豆
 	//@Cacheable(cacheNames="jvjindouRules")
 	public TbJvjindouRule selectByPrimaryKey(Integer id) {
-		return jkvjindouRuleMapper.selectByPrimaryKey(id);
+		return jvjindouRuleMapper.selectByPrimaryKey(id);
 	}
 	@CachePut(cacheNames="jvjindouRules")
 	public int updateByPrimaryKeySelective(TbJvjindouRule record){
-		return jkvjindouRuleMapper.updateByPrimaryKeySelective(record);
+		return jvjindouRuleMapper.updateByPrimaryKeySelective(record);
+	}
+
+	public int insertSelective(TbJvjindouRule jvjindouRule) {
+		return jvjindouRuleMapper.insertSelective(jvjindouRule);
 	}
 }
