@@ -20,6 +20,8 @@ public class Constant {
 //   public static final int  FIXED_PATTERN=2;
    //随机模式
    public static final String  RANDOUM_PATTERN="1";
+   //默认等级
+   public static final String  DEFAULE_LEVEL="1";
    //固定模式
    public static final String  FIXED_PATTERN="2";
    //app普通升级

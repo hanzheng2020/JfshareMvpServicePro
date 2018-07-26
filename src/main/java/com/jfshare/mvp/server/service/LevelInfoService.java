@@ -152,14 +152,12 @@ public class LevelInfoService {
 		}else{
 		    TbLevelInfo info=new TbLevelInfo();
 		    info.setCreateTime(new Date());
-		    info.setGrowthPoint(200);
-		    info.setLevle("1");
+		    info.setLevle(Constant.DEFAULE_LEVEL);//默认等级为1级
 		    info.setUserid(userId);
 		    info.setUpdateTime(new Date());
 		    info.setRemark("首次注册200成长点！");
 		    levelInfoDao.insertSelective(info);
 		}
-		
 	}
 
 }

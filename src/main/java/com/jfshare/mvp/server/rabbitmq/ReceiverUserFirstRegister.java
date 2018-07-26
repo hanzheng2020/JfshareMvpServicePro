@@ -1,9 +1,5 @@
-/**
- * 
- */
 package com.jfshare.mvp.server.rabbitmq;
 
-import net.bytebuddy.asm.Advice.This;
 import net.sf.json.JSONObject;
 
 import org.slf4j.Logger;
@@ -35,6 +31,8 @@ public class ReceiverUserFirstRegister {
 			levelInfoService.userFirstRegister(userId);
 		} catch (Exception e) {
 			e.printStackTrace();
+			logger.info(e.getMessage());
+			return;
 		}
 	}
 
