@@ -34,6 +34,7 @@ public class LevelInfoService {
 	// 消费聚金豆
 	@Transactional
 	public int openOrdisableJvjindou(int userId, int jvjindou) {
+		logger.info(String.format("消费聚金豆:userId{} ,jvjindou{} ", userId,jvjindou));
 		List<TbLevelInfo> levelInfos = levelInfoDao
 				.selectJvjindouRuleByUserId(userId);
 		for (TbLevelInfo tbLevelInfo : levelInfos) {
@@ -47,12 +48,14 @@ public class LevelInfoService {
 	}
 	// 查询聚金豆
 	public TbLevelInfo selectByuserid(int userid) {
+		logger.info(String.format("查询聚金豆:userId{}", userid));
 		levelInfoDao.selectLevelInfoById(userid);
 		return new TbLevelInfo();
 	}
 	// 积分同步赠送聚金豆
 	@Transactional
 	public void presentJvjindouByuserId(Integer userId) {
+		logger.info(String.format("积分同步赠送聚金豆:userId{}", userId));
 		List<TbLevelInfo> levelInfos = levelInfoDao.selectJvjindouRuleByUserId(userId);
 		// 判断当前用户是否有聚金豆， 没有则进行首次添加,有则进行判断今天是否查询过 查询过直接return 没有则按照定义赠送的规则添加聚金豆
 		// 查询聚金豆赠送规则
@@ -139,6 +142,24 @@ public class LevelInfoService {
 			}
 		}
 		return num;
+	}
+    //用户首次注册
+	public void userFirstRegister(int userId) {
+		logger.info(String.format("用户首次注册:userId{}", userId));
+		List<TbLevelInfo> levelInfos = levelInfoDao.selectJvjindouRuleByUserId(userId);
+		if(levelInfos.size()>0){
+			return;
+		}else{
+		    TbLevelInfo info=new TbLevelInfo();
+		    info.setCreateTime(new Date());
+		    info.setGrowthPoint(200);
+		    info.setLevle("1");
+		    info.setUserid(userId);
+		    info.setUpdateTime(new Date());
+		    info.setRemark("首次注册200成长点！");
+		    levelInfoDao.insertSelective(info);
+		}
+		
 	}
 
 }
