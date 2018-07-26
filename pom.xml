@@ -182,6 +182,86 @@
 		</dependency>
 		<!--java rest client end  -->
 
+
+		<!--finagle start-->
+		<dependency>
+			<groupId>com.jfshare</groupId>
+			<artifactId>jfshare-model</artifactId>
+			<version>0.0.1.boot</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>com.twitter</groupId>
+			<artifactId>finagle-serversets_2.12</artifactId>
+			<version>18.2.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>log4j</groupId>
+					<artifactId>log4j</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>com.twitter</groupId>
+			<artifactId>finagle-core_2.12</artifactId>
+			<version>18.2.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.twitter</groupId>
+			<artifactId>finagle-http_2.12</artifactId>
+			<version>18.2.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.twitter</groupId>
+					<artifactId>util-logging_2.12</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>com.twitter</groupId>
+			<artifactId>finagle-thrift_2.12</artifactId>
+			<version>18.2.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.twitter</groupId>
+					<artifactId>util-logging_2.12</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>com.twitter</groupId>
+			<artifactId>finagle-thriftmux_2.12</artifactId>
+			<version>18.2.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.twitter</groupId>
+					<artifactId>util-logging_2.12</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.twitter/twitter-server -->
+		<dependency>
+			<groupId>com.twitter</groupId>
+			<artifactId>twitter-server_2.12</artifactId>
+			<version>18.2.0</version>
+		</dependency>
+
+		<!--finagle end-->
+
+
+
+
+
 	</dependencies>
 
 	<repositories>
