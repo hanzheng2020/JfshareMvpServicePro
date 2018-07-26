@@ -17,6 +17,9 @@ public class AppInfoServer {
 	@Autowired
 	private AppInfoDao appInfoDao;
 	
+	/*
+	 *  app版本升级
+	 */
 	public boolean updateAppVerinfo(int appType, String version, String url, String upgradeDesc) throws Exception{
 		if (appType == 1 || appType == 3) {
 			GetUpgradeParamStr getUpgradeParamStr = new GetUpgradeParamStr();

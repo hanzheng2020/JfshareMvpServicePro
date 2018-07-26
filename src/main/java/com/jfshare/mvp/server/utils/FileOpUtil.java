@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * Created by stepyee on 16/5/8.
+ * Created by hanzheng on 18/7/26.
  */
 @Component
 public class FileOpUtil {
@@ -73,10 +73,6 @@ public class FileOpUtil {
 			style2.setFont(ztFont2);
 			boolean isInit = false;
 			// 用来处理脏数据
-			/***
-			 * 因为正常数据是如果没有sku的话，那么sku表中是一条记录，如果有一个sku，那么sku表中是2条记录
-			 * 但是有些迁移过来的商品，竟然有2个sku记录，但是sku的name都是为null
-			 */
 			Map<String, Boolean> hashMap = new HashMap<String, Boolean>();
 
 			for (TbProductSurvey product : list) {

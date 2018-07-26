@@ -91,10 +91,6 @@ public class OSSUtils {
 			e.printStackTrace();
 		}
 
-		// GeneratePresignedUrlRequest generatePresignedUrlRequest = new
-		// GeneratePresignedUrlRequest(bucketName, key);
-		// URL generatePresignedUrl =
-		// client.generatePresignedUrl(generatePresignedUrlRequest);
 		return urlStr;
 	}
 }

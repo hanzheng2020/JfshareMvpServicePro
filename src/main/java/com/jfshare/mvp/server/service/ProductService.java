@@ -27,6 +27,7 @@ public class ProductService {
 	@Autowired
 	private TbProductDetailMapper tbProductDetailMapper;
 
+	//根据条件搜索商品信息
 	public List<TbProductSurvey> productSurveyQuery(String productId, String productName,Integer itemNo,Integer activeState, Integer curpage,
 			Integer percount) {
 		ProductSurveyQueryParam param = new ProductSurveyQueryParam();
@@ -46,6 +47,7 @@ public class ProductService {
 		return tbProductDao.productSurveyQuery(param);
 	}
 
+	//新增商品
 	public int addProduct(Product product) {
 		TbProductWithBLOBs tbProductWithBLOBs = new TbProductWithBLOBs();
 		tbProductWithBLOBs.setProductId(product.getProductId());
@@ -73,6 +75,7 @@ public class ProductService {
 		return result;
 	}
 
+	//删除商品
 	public int deleteProduct(String productId) {
 		int result = 0;
 		if (!StringUtils.isEmpty(productId)) {
@@ -86,6 +89,7 @@ public class ProductService {
 		return result;
 	}
 
+	//更新商品
 	public int updateProduct(Product product) {
 		TbProductWithBLOBs tbProductWithBLOBs = new TbProductWithBLOBs();
 		tbProductWithBLOBs.setProductId(product.getProductId());
