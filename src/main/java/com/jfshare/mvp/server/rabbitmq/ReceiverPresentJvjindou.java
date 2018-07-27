@@ -1,17 +1,14 @@
 package com.jfshare.mvp.server.rabbitmq;
 
+import com.jfshare.mvp.server.service.LevelInfoService;
 import net.sf.json.JSONObject;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-
-import com.jfshare.mvp.server.service.LevelInfoService;
 
 /**
  * 同步积分赠送聚金豆
@@ -26,6 +23,10 @@ public class ReceiverPresentJvjindou {
 	private LevelInfoService levelInfoService;
 	@RabbitHandler
 	public void process(String message) throws Exception {
+		logger.info("process() called with: message = [" + message + "]");
+		if(!message.contains("{")){
+			return;
+		}
 		String jsonStr = message.replace("\\\"", "'");
 		//加非空判断 格式判断 如果消息有异常 则return 打印错误信息
 		//{"totalScoreOrMileage":"677","canuseScoreOrMileage":"677","userName":"**斌","accountMoney":"66.90","canUseFlow":"5794.85","memberLevel":"1","memberLevelValidtime":"20180930","ex1":"8.12","channelId":1,"thirdLoginName":"15815542122","userId":288108}
