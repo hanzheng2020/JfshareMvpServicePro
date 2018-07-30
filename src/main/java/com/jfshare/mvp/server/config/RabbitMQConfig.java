@@ -24,7 +24,7 @@ public class RabbitMQConfig {
 	private RabbitTemplate rabbitTemplate;
 	@Autowired
 	private AmqpAdmin rabbitAdmin;
-	@PostConstruct
+	/*@PostConstruct
 	public void init () {
 		rabbitAdmin.declareExchange(new ExchangeBuilder("dead-exchange", "direct").build());
 		Map<String, Object> arguments = new HashMap<>();
@@ -32,22 +32,19 @@ public class RabbitMQConfig {
 		arguments.put("x-dead-letter-routing-key", "ROUTINGKEY_JINDOU_MSG");
 		rabbitAdmin.declareQueue(new Queue("deadqueue", true, false, false, arguments));
 		rabbitAdmin.declareBinding(new Binding("deadqueue", DestinationType.QUEUE, "dead-exchange", "deadqueue", null));
-	}
+	}*/
 	
 	public void sendMsg(String exchange, String routingKey, Object msg, final int delayTime) {
+		System.out.println("send:"+msg+System.currentTimeMillis());
 		rabbitAdmin.declareExchange(new ExchangeBuilder("dead-exchange", "direct").build());
 		Map<String, Object> arguments = new HashMap<>();
-		arguments.put("x-dead-letter-exchange", "my-mq-exchange");
-		arguments.put("x-dead-letter-routing-key", "ROUTINGKEY_JINDOU_MSG");
-		rabbitAdmin.declareQueue(new Queue("deadqueue", true, false, false, arguments));
-		rabbitAdmin.declareBinding(new Binding("deadqueue", DestinationType.QUEUE, "dead-exchange", "deadqueue", null));
-		rabbitTemplate.convertAndSend(exchange, routingKey, msg, message -> {
+		arguments.put("x-dead-letter-exchange", exchange);
+		arguments.put("x-dead-letter-routing-key", routingKey);
+		rabbitAdmin.declareQueue(new Queue("dead-"+routingKey, true, false, false, arguments));
+		rabbitAdmin.declareBinding(new Binding("dead-"+routingKey, DestinationType.QUEUE, "dead-exchange", "dead-"+routingKey, null));
+		rabbitTemplate.convertAndSend("dead-exchange", "dead-"+routingKey, msg, message -> {
 			message.getMessageProperties().setExpiration(delayTime+"");
 			return message;
 		});
 	}
-	
-	
-	
-	
 }

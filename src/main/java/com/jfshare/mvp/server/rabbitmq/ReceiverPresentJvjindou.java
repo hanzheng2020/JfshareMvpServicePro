@@ -26,6 +26,10 @@ public class ReceiverPresentJvjindou {
 	private LevelInfoService levelInfoService;
 	@RabbitHandler
 	public void process(String message) throws Exception {
+		if("test".equals(message)) {
+			System.out.println("receiver"+message+System.currentTimeMillis());
+			return;
+		}
 		String jsonStr = message.replace("\\\"", "'");
 		//加非空判断 格式判断 如果消息有异常 则return 打印错误信息
 		//{"totalScoreOrMileage":"677","canuseScoreOrMileage":"677","userName":"**斌","accountMoney":"66.90","canUseFlow":"5794.85","memberLevel":"1","memberLevelValidtime":"20180930","ex1":"8.12","channelId":1,"thirdLoginName":"15815542122","userId":288108}
