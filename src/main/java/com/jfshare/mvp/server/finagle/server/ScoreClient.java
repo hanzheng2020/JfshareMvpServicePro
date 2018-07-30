@@ -55,7 +55,7 @@ public class ScoreClient {
     			scoreTrade.setTradeId(orderId);
     			scoreTrade.setAmount(score);
     			scoreTrade.setInOrOut(2);
-    			scoreTrade.setTrader(3);
+    			scoreTrade.setTrader(3);  //3代表聚分享商城
     			scoreTrade.setType(scoreType);
     			scoreTrade.setUserId(buyerId);
     			result = Await.result(service.expenditure(scoreTrade));
@@ -79,7 +79,7 @@ public class ScoreClient {
     			scoreTrade.setTradeId(orderId);
     			scoreTrade.setAmount(score);
     			scoreTrade.setInOrOut(1);
-    			scoreTrade.setTrader(3);
+    			scoreTrade.setTrader(3);  //3代表聚分享商城
     			scoreTrade.setType(scoreType);
     			scoreTrade.setUserId(buyerId);
     			result = Await.result(service.income(scoreTrade));
