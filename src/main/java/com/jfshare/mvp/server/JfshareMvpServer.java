@@ -1,6 +1,7 @@
 package com.jfshare.mvp.server;
 
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -17,6 +18,9 @@ import com.jfshare.mvp.server.config.RabbitMQConfig;
 public class JfshareMvpServer implements CommandLineRunner{
 	
 	@Autowired
+	private RabbitTemplate rabbitTemplate;
+	
+	@Autowired
 	private RabbitMQConfig rabbitMQConfig;
 	
     public static void main( String[] args ) {
@@ -24,6 +28,8 @@ public class JfshareMvpServer implements CommandLineRunner{
     }
 
 	public void run(String... args) throws Exception {
-		rabbitMQConfig.sendMsg("dead-exchange", "deadqueue", "test", 1000);
+		System.out.println("send:"+"test"+System.currentTimeMillis());
+		rabbitTemplate.convertAndSend("my-mq-exchange", "ROUTINGKEY_JINDOU_MSG", "test");
+//		rabbitMQConfig.sendMsg("my-mq-exchange", "ROUTINGKEY_JINDOU_MSG", "test", 5000);
 	}
 }

@@ -23,6 +23,9 @@ public class ReceiverPresentJvjindou {
 	private LevelInfoService levelInfoService;
 	@RabbitHandler
 	public void process(String message) throws Exception {
+		if("test".equals(message)) {
+			System.out.println("receiver"+message+System.currentTimeMillis());
+		}
 		logger.info("process() called with: message = [" + message + "]");
 		if(!message.contains("{")){
 			return;
