@@ -28,7 +28,7 @@ public class ReceiverUserFirstRegister {
 		logger.info(String.format("用户首次注册设置默认为黄金等级fromObject{}", fromObject));
 		int userId=99;
 		try {
-			levelInfoService.userFirstRegister(userId);
+			//levelInfoService.userFirstRegister(userId);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.info(e.getMessage());

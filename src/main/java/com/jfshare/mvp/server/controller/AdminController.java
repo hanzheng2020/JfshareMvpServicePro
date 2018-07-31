@@ -132,7 +132,7 @@ public class AdminController {
 			} else {
 				// 走抵扣聚金豆的逻辑
 				try {
-					levelInfoService.openOrdisableJvjindou(userId, jvjindou);
+					//levelInfoService.openOrdisableJvjindou(userId, jvjindou);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -143,16 +143,16 @@ public class AdminController {
 		return ResultConstant.ofSuccess();
 	}
 
-	@ApiOperation(value = "查询用户聚金豆", notes = "根据传入的userId，返回聚金豆")
+	/*@ApiOperation(value = "查询用户聚金豆", notes = "根据传入的userId，返回聚金豆")
 	@GetMapping("/selectJvjindou")
 	public ResultConstant selectJvjindou(@RequestParam(value = "userId", required = true) Integer userId) {
 		if (!StringUtils.isEmpty(userId)) {
-			TbLevelInfo levelInfo = levelInfoService.selectByuserid(userId);
-			return ResultConstant.ofSuccess(ConvertBeanToMapUtils.convertBeanToMap(levelInfo));
+			//TbLevelInfo levelInfo = levelInfoService.selectByuserid(userId);
+			//return ResultConstant.ofSuccess(ConvertBeanToMapUtils.convertBeanToMap(levelInfo));
 		} else {
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "参数有误");
 		}
-	}
+	}*/
 
 	@ApiOperation(value = "积分攻略文章添加", notes = "根据传入的类型，添加积分攻略文章")
 	@PostMapping("/addjfRaider")
