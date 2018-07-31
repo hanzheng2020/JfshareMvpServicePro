@@ -37,5 +37,13 @@ public class Constant {
    //日期格式
    public static String FORMAT_DEFAULT_MIN = "yyyyMMddHHmmss";
    
+   
+   //会员等级 1:黄金会员  2:白金会员  3:黑金会员   4:钻石会员
+   public static String    GOLD="1";
+   public static String   PLATIMUM ="2";
+   public static String    BLACK="3";
+   public static String    DIAMOND="4";
+   
+   
 
 }

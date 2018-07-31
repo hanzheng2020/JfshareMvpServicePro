@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.model.Captcha;
 import com.jfshare.mvp.server.model.TbJvjindouRule;
+import com.jfshare.mvp.server.model.TbLevelInfo;
 import com.jfshare.mvp.server.service.JvjindouRuleService;
+import com.jfshare.mvp.server.service.LevelInfoService;
 import com.jfshare.mvp.server.service.UserService;
 import com.jfshare.mvp.server.utils.ConvertBeanToMapUtils;
 
@@ -34,6 +36,8 @@ public class UserController {
 	private JvjindouRuleService jvjindouRuleService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private LevelInfoService levelInfoService;
 	
 	@ApiOperation(value="查询用户", notes="用id来查询用户")
 	@GetMapping
@@ -94,5 +98,12 @@ public class UserController {
 	public ResultConstant getQRCode(@RequestParam(value="id", required=true)  String id){
 		Captcha qrCode = userService.getQRCode(id);
 		return ResultConstant.ofSuccess(qrCode);
+	}
+	
+	@ApiOperation(value="个人中心", notes="查询登陆人的等级信息 聚金豆 信息 成长点")
+	@GetMapping("/queryTbLevelInfo")
+	public ResultConstant queryTbLevelInfo(@RequestParam(value="userId",required=true) Integer userId) {
+		TbLevelInfo levelInfo = levelInfoService.queryTbLevelInfo(userId);
+		return ResultConstant.ofSuccess(levelInfo);
 	}
 }

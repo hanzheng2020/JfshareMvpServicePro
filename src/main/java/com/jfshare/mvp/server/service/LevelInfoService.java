@@ -11,12 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jfshare.finagle.thrift.result.StringResult;
+import com.jfshare.finagle.thrift.score.ScoreResult;
 import com.jfshare.mvp.server.constants.Constant;
 import com.jfshare.mvp.server.dao.JvjindouRuleDao;
 import com.jfshare.mvp.server.dao.LevelInfoDao;
 import com.jfshare.mvp.server.model.TbJvjindouRule;
 import com.jfshare.mvp.server.model.TbJvjindouRuleExample;
-import com.jfshare.mvp.server.model.TbJvjindouRuleExample.Criteria;
 import com.jfshare.mvp.server.model.TbLevelInfo;
 
 /**
@@ -27,137 +28,116 @@ public class LevelInfoService {
 	private static Logger logger = LoggerFactory
 			.getLogger(LevelInfoService.class);
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	
 	@Autowired
 	private LevelInfoDao levelInfoDao;
 	@Autowired
 	private JvjindouRuleDao jvjindouRuleDao;
-	// 消费聚金豆
-	@Transactional
-	public int openOrdisableJvjindou(int userId, int jvjindou) {
-		logger.info(String.format("消费聚金豆:userId{} ,jvjindou{} ", userId,jvjindou));
-		List<TbLevelInfo> levelInfos = levelInfoDao
-				.selectJvjindouRuleByUserId(userId);
-		for (TbLevelInfo tbLevelInfo : levelInfos) {
-			tbLevelInfo.setRealJvjindou(tbLevelInfo.getRealJvjindou()
-					- jvjindou);
-			tbLevelInfo.setUpdateTime(new Date());
-			tbLevelInfo.setRemark("消费聚金豆" + jvjindou);
-			levelInfoDao.updateLevelInfoById(tbLevelInfo);
-		}
-		return 0;
-	}
-	// 查询聚金豆
-	public TbLevelInfo selectByuserid(int userid) {
-		logger.info(String.format("查询聚金豆:userId{}", userid));
-		levelInfoDao.selectLevelInfoById(userid);
-		return new TbLevelInfo();
-	}
-	// 积分同步赠送聚金豆
+	@Autowired
+	private com.jfshare.mvp.server.finagle.server.ScoreClient scoreClient;
+
+	
+	
+	// 用户每日查询通过赠送规则赠送积分
 	@Transactional
 	public void presentJvjindouByuserId(Integer userId) {
 		logger.info(String.format("积分同步赠送聚金豆:userId{}", userId));
-		List<TbLevelInfo> levelInfos = levelInfoDao.selectJvjindouRuleByUserId(userId);
+		TbLevelInfo levlInfo = levelInfoDao.selectLevelInfoByUserId(userId);
+		//List<TbLevelInfo> levelInfos = levelInfoDao.selectJvjindouRuleByUserId(userId);
 		// 判断当前用户是否有聚金豆， 没有则进行首次添加,有则进行判断今天是否查询过 查询过直接return 没有则按照定义赠送的规则添加聚金豆
 		// 查询聚金豆赠送规则
 		TbJvjindouRuleExample example = new TbJvjindouRuleExample();
 		List<TbJvjindouRule> jvjindouRules = jvjindouRuleDao.selectByExample(example);
 		TbJvjindouRule jvjindouRule = null;
-		if (jvjindouRules.size() == 1) {
+		if (jvjindouRules.size() > 0) {
 			jvjindouRule = jvjindouRules.get(0);
 		} else {
+			logger.info(String.format("赠送规则不存在:jvjindouRules{}", jvjindouRules));
 			return;
 		}
+		int num =0;
 		String givingRule = jvjindouRule.getGivingRule();
-		if (levelInfos != null && levelInfos.size() > 0) {
-			TbLevelInfo levlInfo = levelInfos.get(0);
+		if (givingRule.equals(Constant.FIXED_PATTERN)) {
+			num=jvjindouRule.getFixedGiving();
+		} else if (givingRule.equals(Constant.RANDOUM_PATTERN)) {
+			int randomGivingMin = jvjindouRule.getRandomGivingMin();
+			int randomGivingMax = jvjindouRule.getRandomGivingMax();
+			num = getRandomNumInTwoIntNum(randomGivingMin,randomGivingMax);	
+		}
+		if (levlInfo != null) {
 			Date date = new Date();
 			String updateTime = sdf.format(levlInfo.getUpdateTime());
 			String curentTime = sdf.format(date);
-			if (updateTime == curentTime) {
+			if (updateTime.equals(curentTime) ) {
+				logger.info(String.format("当日已经赠送不能重复赠送:givingRule{}", givingRule));
 				return;
 			} else {
-				if (givingRule.equals(Constant.FIXED_PATTERN)) {
-					levlInfo.setUserid(userId);
-					levlInfo.setRealJvjindou(jvjindouRule.getFixedGiving()+levlInfo.getRealJvjindou());
-					levlInfo.setUpdateTime(new Date());
-					levlInfo.setId(levlInfo.getId());
-					levlInfo.setRemark("修改赠送固定模式");
-					levelInfoDao.updateLevelInfoById(levlInfo);
-				} else if (givingRule.equals(Constant.RANDOUM_PATTERN)) {
-					int randomGivingMin = jvjindouRule.getRandomGivingMin();
-					int randomGivingMax = jvjindouRule.getRandomGivingMax();
-					int num = getRandomNumInTwoIntNum(randomGivingMin,
-							randomGivingMax);
-					levlInfo.setUserid(userId);
-					levlInfo.setRealJvjindou(num+levlInfo.getRealJvjindou());
-					levlInfo.setUpdateTime(new Date());
-					levlInfo.setRemark("修改赠送随机模式");
-					levlInfo.setId(levlInfo.getId());
-					levelInfoDao.updateLevelInfoById(levlInfo);
-				}
+				levelInfoDao.updateLevelInfo(levlInfo);
 			}
 		} else {
 			TbLevelInfo info = new TbLevelInfo();
-			if (givingRule.equals(Constant.FIXED_PATTERN)) {
-				info.setCreateTime(new Date());
-				info.setUserid(userId);
-				info.setRealJvjindou(jvjindouRule.getFixedGiving());
-				info.setUpdateTime(new Date());
-				info.setRemark("首次增加固定模式");
-				levelInfoDao.insertSelective(info);
-			} else if (givingRule.equals(Constant.RANDOUM_PATTERN)) {
-				int randomGivingMin = jvjindouRule.getRandomGivingMin();
-				int randomGivingMax = jvjindouRule.getRandomGivingMax();
-				int num = getRandomNumInTwoIntNum(randomGivingMin,
-						randomGivingMax);
-				info.setCreateTime(new Date());
-				info.setUserid(userId);
-				info.setRealJvjindou(num);
-				info.setUpdateTime(new Date());
-				info.setRemark("首次增加随机模式");
-				levelInfoDao.insertSelective(info);
-			}
+			info.setUserid(userId);
+			info.setGrowthPoint(0);
+			info.setLevle(Constant.GOLD);
+			levelInfoDao.insertSelective(info);
 		}
+		StringResult results=scoreClient.incomeScore(userId,num, 1, "");
+		logger.info(String.format("每日积分同步:results{}", results));
 	}
+
+
+	//更具用户id查询个人中心信息
+	public TbLevelInfo queryTbLevelInfo(int userId) {
+		logger.info(String.format("查询个人中心信息:userId{}", userId));
+		TbLevelInfo levelInfo =levelInfoDao.selectLevelInfoByUserId(userId);
+		if(levelInfo!=null) {
+			ScoreResult result =scoreClient.getScore(userId);
+			logger.info(String.format("积分查询:result{}", result));
+			levelInfo.setRealJvjindou(result.getSroce().getAmount());
+		}
+		return levelInfo;
+	}
+	
+	//聚分享平台同步聚金豆(增加)
+	public StringResult addlevelInfo(int userid,int integral,String orderId) {
+		TbLevelInfo levelInfo =levelInfoDao.selectLevelInfoByUserId(userid);
+		String  levle=levelInfo.getLevle();
+		if(Constant.PLATIMUM.equals(levle)) {
+			Double b=integral*0.05;
+			integral+=Integer.parseInt(b.toString());
+		}else if(Constant.BLACK.equals(levle)) {
+			Double b=integral*0.1;
+			integral+=Integer.parseInt(b.toString());
+		}else if(Constant.DIAMOND.equals(levle)) {
+			Double b=integral*0.15;
+			integral+=Integer.parseInt(b.toString());
+		}
+		StringResult results=scoreClient.incomeScore(userid,integral, 1, orderId);
+		logger.info(String.format("积分增加:results{}", results));
+		return results;
+	}
+	//聚分享平台同步聚金豆(减少)
+	public StringResult lesslevelInfo(int userid,int integral,String orderId) {
+		StringResult results = scoreClient.reduceScore(userid, integral, 1, orderId);
+		return results;
+	}
+	
+	//会员等级成长点udapte（增加）
+	public int growingUpdate(int userid,int growing) {
+		TbLevelInfo info = levelInfoDao.selectLevelInfoByUserId(userid);
+		if(info!=null) {
+			info.setRealJvjindou(info.getGrowthPoint()+growing);
+		}
+		return levelInfoDao.updateLevelInfo(info);
+	}
+	
+	
 
 	public static int getRandomNumInTwoIntNum(int x, int y) {
 		int num = 0;
 		Random random = new Random();
-		int cha = Math.abs(x - y);
-		if (cha <= 1) {
-			logger.info("两个数字之间没有整数了!");
-			return 1;
-		} else {
-			int randomCha = random.nextInt(cha) + 1;
-			if (randomCha >= cha) {
-				randomCha = cha - 1;
-			}
-			if (x > y) {
-				logger.info("x>y时，它们之间的随机整数为：" + (randomCha + y));
-				num = randomCha + y;
-			}
-			if (x < y) {
-				logger.info("x<y时，它们之间的随机整数为：" + (randomCha + x));
-				num = randomCha + x;
-			}
-		}
+		num = (random.nextInt(y+1-x)+x);
 		return num;
 	}
-    //用户首次注册
-	public void userFirstRegister(int userId) {
-		logger.info(String.format("用户首次注册:userId{}", userId));
-		List<TbLevelInfo> levelInfos = levelInfoDao.selectJvjindouRuleByUserId(userId);
-		if(levelInfos.size()>0){
-			return;
-		}else{
-		    TbLevelInfo info=new TbLevelInfo();
-		    info.setCreateTime(new Date());
-		    info.setLevle(Constant.DEFAULE_LEVEL);//默认等级为1级
-		    info.setUserid(userId);
-		    info.setUpdateTime(new Date());
-		    info.setRemark("首次注册200成长点！");
-		    levelInfoDao.insertSelective(info);
-		}
-	}
-
+	
 }
