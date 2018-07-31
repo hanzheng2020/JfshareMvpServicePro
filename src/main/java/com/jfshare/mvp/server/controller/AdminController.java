@@ -124,8 +124,6 @@ public class AdminController {
 		return result;
 	}
 
-
-
 	@ApiOperation(value = "积分攻略文章添加", notes = "根据传入的类型，添加积分攻略文章")
 	@PostMapping("/addjfRaider")
 	public ResultConstant addjfRaiders(TbJfRaiders jfRaiders) {
