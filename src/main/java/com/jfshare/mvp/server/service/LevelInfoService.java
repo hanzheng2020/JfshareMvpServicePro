@@ -99,40 +99,41 @@ public class LevelInfoService {
 	}
 	
 	//聚分享平台同步聚金豆(增加)
-	public StringResult addlevelInfo(int userid,int integral,String orderId) {
+	public StringResult addlevelInfo(int userid,int integral,String orderId,int amont) {
 		TbLevelInfo levelInfo =levelInfoDao.selectLevelInfoByUserId(userid);
 		String  levle=levelInfo.getLevle();
+		Double b;
 		if(Constant.PLATIMUM.equals(levle)) {
-			Double b=integral*0.05;
+			 b=integral*0.05;
 			integral+=Integer.parseInt(b.toString());
 		}else if(Constant.BLACK.equals(levle)) {
-			Double b=integral*0.1;
+			 b=integral*0.1;
 			integral+=Integer.parseInt(b.toString());
 		}else if(Constant.DIAMOND.equals(levle)) {
-			Double b=integral*0.15;
+			 b=integral*0.15;
 			integral+=Integer.parseInt(b.toString());
 		}
+		TbLevelInfo info = levelInfoDao.selectLevelInfoByUserId(userid);
+		if(info!=null) {
+			info.setRealJvjindou(info.getGrowthPoint()+amont);
+			levelInfoDao.updateLevelInfo(info);
+		}
+		
 		StringResult results=scoreClient.incomeScore(userid,integral, 1, orderId);
 		logger.info(String.format("积分增加:results{}", results));
 		return results;
 	}
 	//聚分享平台同步聚金豆(减少)
-	public StringResult lesslevelInfo(int userid,int integral,String orderId) {
+	public StringResult lesslevelInfo(int userid,int integral,String orderId,int amont) {
+		TbLevelInfo info = levelInfoDao.selectLevelInfoByUserId(userid);
+		if(info!=null) {
+			info.setRealJvjindou(info.getGrowthPoint()-amont);
+		}
+		levelInfoDao.updateLevelInfo(info);
 		StringResult results = scoreClient.reduceScore(userid, integral, 1, orderId);
 		return results;
 	}
 	
-	//会员等级成长点udapte（增加）
-	public int growingUpdate(int userid,int growing) {
-		TbLevelInfo info = levelInfoDao.selectLevelInfoByUserId(userid);
-		if(info!=null) {
-			info.setRealJvjindou(info.getGrowthPoint()+growing);
-		}
-		return levelInfoDao.updateLevelInfo(info);
-	}
-	
-	
-
 	public static int getRandomNumInTwoIntNum(int x, int y) {
 		int num = 0;
 		Random random = new Random();
