@@ -1,6 +1,7 @@
 package com.jfshare.mvp.server.service;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,15 +19,10 @@ public class JvjindouRuleService {
 	
 	@Autowired
 	private JvjindouRuleDao jvjindouRuleDao;
-	@Transactional
-	public int openOrdisableJvjindou(int userId, int jvjindou){
-		jvjindouRuleDao.selectJvjindouRuleByUserId(userId,jvjindou);
-		return 0;
-	}
-
 	
 	public int insertJvjindouRule(TbJvjindouRule jvjindouRule){
 		jvjindouRule.setCreateTime(new Date());
+		jvjindouRule.setUpdateTime(new Date());
 		return jvjindouRuleDao.insertSelective(jvjindouRule);
 	}
 
@@ -38,4 +34,11 @@ public class JvjindouRuleService {
 		return jvjindouRuleDao.updateByPrimaryKeySelective(record);
 	}
 
+	public TbJvjindouRule queryTbJvjindouRule() {
+		List<TbJvjindouRule> jvjindouRules = jvjindouRuleDao.selectJvjindouRule();
+		if(jvjindouRules!=null&&jvjindouRules.size()>0) {
+			return jvjindouRules.get(0);
+		}
+		return null;
+	}
 }

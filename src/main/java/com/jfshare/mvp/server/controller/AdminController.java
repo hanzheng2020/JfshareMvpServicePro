@@ -25,12 +25,14 @@ import com.jfshare.mvp.server.constants.Constant;
 import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.model.TbAppVerinfo;
 import com.jfshare.mvp.server.model.TbJfRaiders;
+import com.jfshare.mvp.server.model.TbJvjindouRule;
 import com.jfshare.mvp.server.model.TbLevelInfo;
 import com.jfshare.mvp.server.model.TbProductItem;
 import com.jfshare.mvp.server.model.TbProductItemShow;
 import com.jfshare.mvp.server.model.TbProductPromotion;
 import com.jfshare.mvp.server.service.AppInfoServer;
 import com.jfshare.mvp.server.service.JfRaidersService;
+import com.jfshare.mvp.server.service.JvjindouRuleService;
 import com.jfshare.mvp.server.service.LevelInfoService;
 import com.jfshare.mvp.server.service.ProductItemService;
 import com.jfshare.mvp.server.service.PromotionSettingService;
@@ -53,7 +55,7 @@ public class AdminController {
 	private ProductItemService productItemService;
 
 	@Autowired
-	private LevelInfoService levelInfoService;
+	private JvjindouRuleService jvjindouRuleService;
 
 	@Autowired
 	private JfRaidersService jfRaidersService;
@@ -122,37 +124,7 @@ public class AdminController {
 		return result;
 	}
 
-	@ApiOperation(value = "订单消费聚金豆", notes = "根据传入的使用类型，进行扣减聚金豆")
-	@PostMapping("/openOrDisabledJvjindou")
-	public ResultConstant openOrDisabledJvjindou(@RequestParam(value = "userId", required = true) Integer userId,
-			@RequestParam(value = "jvjindou", required = true) Integer jvjindou) {
-		if (!StringUtils.isEmpty(userId)) {
-			if (jvjindou < Constant.JVJINDOU_NUM) {
-				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "使用聚金豆的数量大于0");
-			} else {
-				// 走抵扣聚金豆的逻辑
-				try {
-					levelInfoService.openOrdisableJvjindou(userId, jvjindou);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		} else {
-			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "参数有误");
-		}
-		return ResultConstant.ofSuccess();
-	}
 
-	@ApiOperation(value = "查询用户聚金豆", notes = "根据传入的userId，返回聚金豆")
-	@GetMapping("/selectJvjindou")
-	public ResultConstant selectJvjindou(@RequestParam(value = "userId", required = true) Integer userId) {
-		if (!StringUtils.isEmpty(userId)) {
-			TbLevelInfo levelInfo = levelInfoService.selectByuserid(userId);
-			return ResultConstant.ofSuccess(ConvertBeanToMapUtils.convertBeanToMap(levelInfo));
-		} else {
-			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "参数有误");
-		}
-	}
 
 	@ApiOperation(value = "积分攻略文章添加", notes = "根据传入的类型，添加积分攻略文章")
 	@PostMapping("/addjfRaider")
@@ -250,4 +222,74 @@ public class AdminController {
 		}
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取app版本信息失败！");
 	}
+	
+	@ApiOperation(value = "聚金豆规则信息查询", notes = "获取聚金豆规则设定")
+	@GetMapping("/getjvjindouRule")
+	public ResultConstant getjvjindouRule() {
+		TbJvjindouRule jvjindouRule = jvjindouRuleService.queryTbJvjindouRule();
+		return ResultConstant.ofSuccess(jvjindouRule);
+	}
+	@ApiOperation(value = "聚金豆规则信息修改", notes = "修改聚金豆规则设定")
+	@PutMapping("/updatejvjindouRule")
+	public ResultConstant updatejvjindouRule(@RequestParam(value="id",required=true)Integer id,
+			@RequestParam(value="givingRule",required=true)String givingRule,
+			@RequestParam(value="randomGivingMin",required=false)Integer randomGivingMin,
+			@RequestParam(value="randomGivingMax",required=false)Integer randomGivingMax,
+			@RequestParam(value="fixedGiving",required=false)Integer fixedGiving
+			) {
+		TbJvjindouRule jvjindouRule =jvjindouRuleService.getJvjindouRule(id);
+		if(givingRule.equals(Constant.FIXED_PATTERN)) {
+			if(!StringUtils.isEmpty(fixedGiving)){
+				jvjindouRule.setFixedGiving(fixedGiving);
+			}else {
+				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "参数有误");
+			}
+		}else if(givingRule.equals(Constant.RANDOUM_PATTERN)) {
+			if(!StringUtils.isEmpty(randomGivingMin) && !StringUtils.isEmpty(randomGivingMax)){
+				jvjindouRule.setRandomGivingMax(randomGivingMax);
+				jvjindouRule.setRandomGivingMin(randomGivingMin);
+			}else {
+				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "参数有误");	
+			}
+		}
+		jvjindouRule.setGivingRule(givingRule);
+		int result = jvjindouRuleService.updateJvjindouRule(jvjindouRule);
+		if(result>0) {
+			return ResultConstant.ofSuccess();
+		}
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "修改失败");
+	}
+	@ApiOperation(value = "聚金豆规则信息添加", notes = "添加聚金豆规则设定")
+	@PostMapping("/addjvjindouRule")
+	public ResultConstant addjvjindouRule(TbJvjindouRule jvjindouRule ) {
+		if(StringUtils.isEmpty(jvjindouRule)) {
+			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "参数有误");
+		}
+		if(jvjindouRule.getGivingRule().equals(Constant.FIXED_PATTERN)) {
+			if(!StringUtils.isEmpty(jvjindouRule.getFixedGiving())){
+				jvjindouRule.setFixedGiving(jvjindouRule.getFixedGiving());
+			}else {
+				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "参数有误");
+			}
+		}else if(jvjindouRule.getGivingRule().equals(Constant.FIXED_PATTERN)) {
+			if(!StringUtils.isEmpty(jvjindouRule.getRandomGivingMin()) && !StringUtils.isEmpty(jvjindouRule.getRandomGivingMax())){
+				jvjindouRule.setRandomGivingMax(jvjindouRule.getRandomGivingMax());
+				jvjindouRule.setRandomGivingMin(jvjindouRule.getRandomGivingMin());
+			}else {
+				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "参数有误");	
+			}
+		}else {
+			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "参数有误");
+		}
+			
+		int result = jvjindouRuleService.insertJvjindouRule(jvjindouRule);
+		if(result>0) {
+			return ResultConstant.ofSuccess();
+		}
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "修改失败");
+	
+	}
+	
+	
+	
 }
