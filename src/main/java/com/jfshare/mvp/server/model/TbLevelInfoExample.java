@@ -604,6 +604,66 @@ public class TbLevelInfoExample {
             addCriterion("remark not between", value1, value2, "remark");
             return (Criteria) this;
         }
+
+        public Criteria andQueryTimeIsNull() {
+            addCriterion("query_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andQueryTimeIsNotNull() {
+            addCriterion("query_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andQueryTimeEqualTo(Date value) {
+            addCriterion("query_time =", value, "queryTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andQueryTimeNotEqualTo(Date value) {
+            addCriterion("query_time <>", value, "queryTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andQueryTimeGreaterThan(Date value) {
+            addCriterion("query_time >", value, "queryTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andQueryTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("query_time >=", value, "queryTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andQueryTimeLessThan(Date value) {
+            addCriterion("query_time <", value, "queryTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andQueryTimeLessThanOrEqualTo(Date value) {
+            addCriterion("query_time <=", value, "queryTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andQueryTimeIn(List<Date> values) {
+            addCriterion("query_time in", values, "queryTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andQueryTimeNotIn(List<Date> values) {
+            addCriterion("query_time not in", values, "queryTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andQueryTimeBetween(Date value1, Date value2) {
+            addCriterion("query_time between", value1, value2, "queryTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andQueryTimeNotBetween(Date value1, Date value2) {
+            addCriterion("query_time not between", value1, value2, "queryTime");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

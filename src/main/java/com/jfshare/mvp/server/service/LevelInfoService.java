@@ -66,12 +66,14 @@ public class LevelInfoService {
 		}
 		if (levlInfo != null) {
 			Date date = new Date();
-			String updateTime = sdf.format(levlInfo.getUpdateTime());
+			//String updateTime = sdf.format(levlInfo.getUpdateTime());
+			String queryTime = sdf.format(levlInfo.getQueryTime());
 			String curentTime = sdf.format(date);
-			if (updateTime.equals(curentTime) ) {
+			if (queryTime.equals(curentTime)) {
 				logger.info(String.format("当日已经赠送不能重复赠送:givingRule{}", givingRule));
 				return;
 			} else {
+				levlInfo.setQueryTime(new Date());
 				levelInfoDao.updateLevelInfo(levlInfo);
 			}
 		} else {

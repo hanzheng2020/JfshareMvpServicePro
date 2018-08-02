@@ -19,6 +19,8 @@ public class TbLevelInfo {
 
     private String remark;
 
+    private Date queryTime;
+
     public Integer getId() {
         return id;
     }
@@ -81,5 +83,13 @@ public class TbLevelInfo {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public Date getQueryTime() {
+        return queryTime;
+    }
+
+    public void setQueryTime(Date queryTime) {
+        this.queryTime = queryTime;
     }
 }
