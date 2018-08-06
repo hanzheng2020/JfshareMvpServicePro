@@ -49,7 +49,6 @@ public class PromotionSettingService {
 	}
 	
 
-	@Cacheable(cacheNames = "productPromotions",cacheManager="cacheManager60")
 	public List<TbProductPromotion> getProductPromotions() {
 		TbProductPromotionExample tbProductPromotionExample = new TbProductPromotionExample();
 		List<TbProductPromotion> tbProductPromotions = null;
@@ -78,7 +77,6 @@ public class PromotionSettingService {
 		return true;
 	}
 	
-	@Cacheable(cacheNames = "productItemShows")
 	public List<TbProductItemShow> getProductItemShows() {
 		TbProductItemShowExample tbProductItemShowExample = new TbProductItemShowExample();
 		List<TbProductItemShow> tbProductItemShows = null;
