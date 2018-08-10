@@ -2,6 +2,8 @@ package com.jfshare.mvp.server.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Extension;
+import io.swagger.annotations.ExtensionProperty;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -65,7 +68,7 @@ public class AdminController {
 
 	@ApiOperation(value = "更新商品推广设置", notes = "根据传入的推广配置信息，重新配置推广商品")
 	@PostMapping("/promotionProducts")
-	public ResultConstant updateProductPromotion(ArrayList<TbProductPromotion> tbProductPromotions) {
+	public ResultConstant updateProductPromotion(@RequestBody TbProductPromotion[] tbProductPromotions) {
 		boolean result = promotionSettingService.updateProductPromotion(tbProductPromotions);
 		if (result) {
 			return ResultConstant.ofSuccess();
@@ -75,7 +78,7 @@ public class AdminController {
 
 	@ApiOperation(value = "更新类目商品展示设置", notes = "根据传入的类目商品展示信息，重新配置类目商品展示")
 	@PostMapping("/productItemShows")
-	public ResultConstant updateProductItemShow(ArrayList<TbProductItemShow> tbProductItemShows) {
+	public ResultConstant updateProductItemShow(@RequestBody TbProductItemShow[] tbProductItemShows) {
 		boolean result = promotionSettingService.updateProductItemShow(tbProductItemShows);
 		if (result) {
 			return ResultConstant.ofSuccess();

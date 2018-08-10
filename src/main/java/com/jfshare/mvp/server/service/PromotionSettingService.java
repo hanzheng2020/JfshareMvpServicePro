@@ -33,7 +33,7 @@ public class PromotionSettingService {
 	private TbProductItemShowDao tbProductItemShowDao;
 	
 	@Transactional
-	public boolean updateProductPromotion(List<TbProductPromotion> tbProductPromotions) {
+	public boolean updateProductPromotion(TbProductPromotion[] tbProductPromotions) {
 		try {
 			TbProductPromotionExample tbProductPromotionExample = new TbProductPromotionExample();
 			tbProductPromotionDao.deleteByExample(tbProductPromotionExample);
@@ -62,7 +62,7 @@ public class PromotionSettingService {
 	}
 	
 	@Transactional
-	public boolean updateProductItemShow(List<TbProductItemShow> tbProductItemShows) {
+	public boolean updateProductItemShow(TbProductItemShow[] tbProductItemShows) {
 		try {
 			TbProductItemShowExample tbProductItemShowExample = new TbProductItemShowExample();
 			tbProductItemShowDao.deleteByExample(tbProductItemShowExample);
