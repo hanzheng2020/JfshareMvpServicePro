@@ -31,25 +31,37 @@ import io.swagger.annotations.ApiOperation;
 public class ShopController {
 
 	@Autowired
-	private PromotionSettingService productPromotionService;
-
+	private PromotionSettingService promotionSettingService;
+	
 	@Autowired
 	private AppInfoServer appInfoServer;
-
+	
 	@ApiOperation(value = "获取推广商品", notes = "获取所有目前已经配置的推广商品")
 	@GetMapping("/promotionProducts")
 	public ResultConstant getPromotionProducts() {
-		List<TbProductPromotion> tbProductPromotions = productPromotionService.getProductPromotions();
+		List<TbProductPromotion> tbProductPromotions = promotionSettingService.getProductPromotions();
 		if (!CollectionUtils.isEmpty(tbProductPromotions)) {
 			return ResultConstant.ofSuccess(ConvertBeanToMapUtils.convertBeanListToMap(tbProductPromotions));
 		}
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取推广商品失败！");
 	}
-
-	@ApiOperation(value = "获取类目商品展示", notes = "获取所有目前已经配置的类目商品展示")
+	
+	@ApiOperation(value="获取前端展示的商品类目", 
+			notes="获取所有目前已经配置的类目")
 	@GetMapping("/productItemShows")
 	public ResultConstant getProductItemShows() {
-		List<TbProductItemShow> tbProductItemShows = productPromotionService.getProductItemShows();
+		List<TbProductItemShow> tbProductItemShows = promotionSettingService.getProductItemShows();
+		if (!CollectionUtils.isEmpty(tbProductItemShows)) {
+			return ResultConstant.ofSuccess(ConvertBeanToMapUtils.convertBeanListToMap(tbProductItemShows, "products"));
+		}
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取类目商品展示失败！");
+	}
+	
+	@ApiOperation(value="获取类目商品详情", 
+			notes="根据itemShowNo获取对应类目下的所有商品详情")
+	@GetMapping("/productShowDetail")
+	public ResultConstant getProductShowDetail() {
+		List<TbProductItemShow> tbProductItemShows = promotionSettingService.getProductItemShows();
 		if (!CollectionUtils.isEmpty(tbProductItemShows)) {
 			return ResultConstant.ofSuccess(ConvertBeanToMapUtils.convertBeanListToMap(tbProductItemShows));
 		}
