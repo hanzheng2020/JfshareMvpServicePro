@@ -81,7 +81,7 @@ public class UserController {
 		return ResultConstant.ofSuccess(ConvertBeanToMapUtils.convertBeanToMap(jvjindouRule));
 	}
 	
-	@ApiOperation(value="后台商品管理", notes="修改赠送聚金豆规则")
+	@ApiOperation(value="聚金豆规则修改", notes="修改赠送聚金豆规则,givingRule(赠送规则，2，固定，1随机)，randomGivingMin(随机赠送最小数),randomGivingMax(最大数),fixedGiving(固定赠送值)")
 	@PutMapping("/updateJvjindouRule")
 	public ResultConstant updateJvjindouRule(TbJvjindouRule jvjindouRule){
 		try {
