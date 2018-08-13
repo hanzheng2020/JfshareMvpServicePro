@@ -33,7 +33,7 @@ public class PromotionSettingService {
 	private TbProductItemShowDao tbProductItemShowDao;
 	
 	@Transactional
-	public boolean updateProductPromotion(List<TbProductPromotion> tbProductPromotions) {
+	public boolean updateProductPromotion(TbProductPromotion[] tbProductPromotions) {
 		try {
 			TbProductPromotionExample tbProductPromotionExample = new TbProductPromotionExample();
 			tbProductPromotionDao.deleteByExample(tbProductPromotionExample);
@@ -49,7 +49,6 @@ public class PromotionSettingService {
 	}
 	
 
-	@Cacheable(cacheNames = "productPromotions",cacheManager="cacheManager60")
 	public List<TbProductPromotion> getProductPromotions() {
 		TbProductPromotionExample tbProductPromotionExample = new TbProductPromotionExample();
 		List<TbProductPromotion> tbProductPromotions = null;
@@ -63,7 +62,7 @@ public class PromotionSettingService {
 	}
 	
 	@Transactional
-	public boolean updateProductItemShow(List<TbProductItemShow> tbProductItemShows) {
+	public boolean updateProductItemShow(TbProductItemShow[] tbProductItemShows) {
 		try {
 			TbProductItemShowExample tbProductItemShowExample = new TbProductItemShowExample();
 			tbProductItemShowDao.deleteByExample(tbProductItemShowExample);
@@ -78,7 +77,6 @@ public class PromotionSettingService {
 		return true;
 	}
 	
-	@Cacheable(cacheNames = "productItemShows")
 	public List<TbProductItemShow> getProductItemShows() {
 		TbProductItemShowExample tbProductItemShowExample = new TbProductItemShowExample();
 		List<TbProductItemShow> tbProductItemShows = null;

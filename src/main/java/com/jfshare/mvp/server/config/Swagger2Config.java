@@ -37,7 +37,7 @@ public class Swagger2Config {
 		                .version("1.0")
 		                .build())
 				.select()
-				.apis(RequestHandlerSelectors.any()) 
+				.apis(RequestHandlerSelectors.basePackage("com.jfshare.mvp.server.controller")) 
 				.paths(PathSelectors.any()) 
 				.build().enable(enableApi);
 	}
