@@ -136,6 +136,17 @@ public class LevelInfoService {
 		return results;
 	}
 	
+	//更具用户id查询用户积分
+	public Integer queryTbLevelUserAmount(int userId) {
+		logger.info(String.format("查询个人中心信息:userId{}", userId));
+			ScoreResult result =scoreClient.getScore(userId);
+			logger.info(String.format("积分查询:result{}", result));
+		return result.getSroce().getAmount();
+	}
+	
+	
+	
+	
 	public static int getRandomNumInTwoIntNum(int x, int y) {
 		int num = 0;
 		Random random = new Random();

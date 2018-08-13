@@ -100,10 +100,17 @@ public class UserController {
 		return ResultConstant.ofSuccess(qrCode);
 	}
 	
-	@ApiOperation(value="个人中心", notes="查询登陆人的等级信息 聚金豆 信息 成长点")
+	@ApiOperation(value="查询个人信息", notes="查询登陆人的等级信息 聚金豆 信息 成长点")
 	@GetMapping("/queryTbLevelInfo")
 	public ResultConstant queryTbLevelInfo(@RequestParam(value="userId",required=true) Integer userId) {
 		TbLevelInfo levelInfo = levelInfoService.queryTbLevelInfo(userId);
 		return ResultConstant.ofSuccess(levelInfo);
+	}
+	
+	@ApiOperation(value="查询用户积分", notes="更具用户id来查询用户积分")
+	@GetMapping("/queryUserAmount")
+	public ResultConstant queryUserAmount(@RequestParam(value="userId",required=true) Integer userId) {
+		Integer amount = levelInfoService.queryTbLevelUserAmount(userId);
+		return ResultConstant.ofSuccess(amount);
 	}
 }
