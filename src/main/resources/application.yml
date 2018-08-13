@@ -2,6 +2,8 @@ enableApi: true
 server: 
   port: 18888
   address: 0.0.0.0
+  servlet:
+    context-path: /charge
 spring: 
   liquibase: 
     enabled: true 
