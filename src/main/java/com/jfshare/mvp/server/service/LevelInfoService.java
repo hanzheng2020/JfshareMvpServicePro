@@ -80,7 +80,7 @@ public class LevelInfoService {
 			TbLevelInfo info = new TbLevelInfo();
 			info.setUserid(userId);
 			info.setGrowthPoint(0);
-			info.setLevle(Constant.GOLD);
+			info.setGrade(Constant.GOLD);
 			levelInfoDao.insertSelective(info);
 		}
 		StringResult results=scoreClient.incomeScore(userId,num, 1, "");
@@ -103,7 +103,7 @@ public class LevelInfoService {
 	//聚分享平台同步聚金豆(增加)
 	public StringResult addlevelInfo(int userid,int integral,String orderId,int amont) {
 		TbLevelInfo levelInfo =levelInfoDao.selectLevelInfoByUserId(userid);
-		String  levle=levelInfo.getLevle();
+		String  levle=levelInfo.getGrade();
 		Double b;
 		if(Constant.PLATIMUM.equals(levle)) {
 			 b=integral*0.05;
@@ -135,6 +135,17 @@ public class LevelInfoService {
 		StringResult results = scoreClient.reduceScore(userid, integral, 1, orderId);
 		return results;
 	}
+	
+	//更具用户id查询用户积分
+	public Integer queryTbLevelUserAmount(int userId) {
+		logger.info(String.format("查询个人中心信息:userId{}", userId));
+			ScoreResult result =scoreClient.getScore(userId);
+			logger.info(String.format("积分查询:result{}", result));
+		return result.getSroce().getAmount();
+	}
+	
+	
+	
 	
 	public static int getRandomNumInTwoIntNum(int x, int y) {
 		int num = 0;

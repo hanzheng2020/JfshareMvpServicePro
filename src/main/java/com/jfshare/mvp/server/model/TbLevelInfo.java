@@ -13,7 +13,7 @@ public class TbLevelInfo {
 
     private Integer growthPoint;
 
-    private String levle;
+    private String grade;
 
     private Integer realJvjindou;
 
@@ -61,12 +61,12 @@ public class TbLevelInfo {
         this.growthPoint = growthPoint;
     }
 
-    public String getLevle() {
-        return levle;
+    public String getGrade() {
+        return grade;
     }
 
-    public void setLevle(String levle) {
-        this.levle = levle == null ? null : levle.trim();
+    public void setGrade(String grade) {
+        this.grade = grade == null ? null : grade.trim();
     }
 
     public Integer getRealJvjindou() {
