@@ -3,7 +3,7 @@ server:
   port: 18888
   address: 0.0.0.0
   servlet:
-    context-path: /charge
+    context-path: /mvp
 spring: 
   liquibase: 
     enabled: true 
