@@ -221,7 +221,7 @@ public class AdminController {
 		TbJvjindouRule jvjindouRule = jvjindouRuleService.queryTbJvjindouRule();
 		return ResultConstant.ofSuccess(jvjindouRule);
 	}
-	@ApiOperation(value = "聚金豆规则信息修改", notes = "修改聚金豆规则设定")
+	@ApiOperation(value = "聚金豆规则信息修改", notes = "修改赠送聚金豆规则,givingRule(赠送规则，2，固定，1随机)，randomGivingMin(随机赠送最小数),randomGivingMax(最大数),fixedGiving(固定赠送值)")
 	@PutMapping("/updatejvjindouRule")
 	public ResultConstant updatejvjindouRule(@RequestParam(value="id",required=true)Integer id,
 			@RequestParam(value="givingRule",required=true)String givingRule,
