@@ -63,9 +63,6 @@ public class AdminController {
 	@Autowired
 	private JfRaidersService jfRaidersService;
 
-	@Autowired
-	private AppInfoServer appInfoServer;
-
 	@ApiOperation(value = "更新商品推广设置", notes = "根据传入的推广配置信息，重新配置推广商品")
 	@PostMapping("/promotionProducts")
 	public ResultConstant updateProductPromotion(@RequestBody TbProductPromotion[] tbProductPromotions) {
@@ -216,34 +213,6 @@ public class AdminController {
 			return ResultConstant.ofSuccess();
 		}
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "修改失败");
-	}
-
-	@ApiOperation(value = "更新app版本", notes = "根据传入的app信息更新app版本号")
-	@PostMapping("/updateAppVerinfo")
-	public ResultConstant updateAppVerinfo(@RequestParam(value = "appType", required = true) Integer appType,
-			@RequestParam(value = "version", required = true) String version,
-			@RequestParam(value = "url", required = true) String url,
-			@RequestParam(value = "upgradeDesc", required = true) String upgradeDesc) {
-		boolean result = false;
-		try {
-			result = appInfoServer.updateAppVerinfo(appType, version, url, upgradeDesc);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		if (result) {
-			return ResultConstant.ofSuccess();
-		}
-		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "更新app版本失败！");
-	}
-
-	@ApiOperation(value = "获取app信息", notes = "根据app类型获取对应的app信息")
-	@PostMapping("/getAppVerinfo")
-	public ResultConstant getAppVerinfo(@RequestParam(value = "appType", required = true) Integer appType) {
-		TbAppVerinfo appVerinfo = appInfoServer.getAppVerinfo(appType);
-		if (appVerinfo != null) {
-			return ResultConstant.ofSuccess(appVerinfo);
-		}
-		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取app版本信息失败！");
 	}
 	
 	@ApiOperation(value = "聚金豆规则信息查询", notes = "获取聚金豆规则设定")

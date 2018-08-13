@@ -28,7 +28,7 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 
-	@ApiOperation(value = "根据商品id name 获取商品信息", notes = "根据商品id name 获取商品信息")
+	@ApiOperation(value = "根据商品id name 获取商品信息", notes = "根据商品id name 获取商品信息  productid:商品id  productName:商品名称   itemNo:类目id 商品状态:100 待上架  200 已上架 300 已下架")
 	@PostMapping("/productSurveyQuery")
 	public ResultConstant productSurveyQuery(@RequestParam(value = "productId", required = false) String productId,
 			@RequestParam(value = "productName", required = false) String productName,
@@ -36,8 +36,8 @@ public class ProductController {
 			@RequestParam(value = "activeState", required = false) Integer activeState,
 			@RequestParam(value = "curpage", required = true) Integer curpage,
 			@RequestParam(value = "percount", required = true) Integer percount) {
-		List<TbProductSurvey> productList = productService.productSurveyQuery(productId, productName,itemNo,activeState, curpage,
-				percount);
+		List<TbProductSurvey> productList = productService.productSurveyQuery(productId, productName, itemNo,
+				activeState, curpage, percount);
 		if (!CollectionUtils.isEmpty(productList)) {
 			return ResultConstant.ofSuccess(productList);
 		}
@@ -73,7 +73,7 @@ public class ProductController {
 		}
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "更新商品失败");
 	}
-	
+
 	@ApiOperation(value = "商品导出execl", notes = "商品导出execl表格")
 	@PostMapping("/exportProduct")
 	public ResultConstant exportProduct(@RequestParam(value = "productId", required = false) String productId,
