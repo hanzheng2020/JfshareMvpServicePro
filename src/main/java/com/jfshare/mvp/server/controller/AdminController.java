@@ -168,10 +168,11 @@ public class AdminController {
 
 	@ApiOperation(value = "积分攻略文章更新", notes = "根据传入的类型，更新积分攻略文章")
 	@PutMapping("/updatejfRaider")
-	public ResultConstant updatejfRaiders(TbJfRaiders jfRaider,
-			@RequestParam(value = "jfRaiderId", required = true) Integer jfRaiderId,
-			@RequestParam(value = "jfRaidersImg", required = false) MultipartFile jfRaidersImg) {
-		TbJfRaiders jfRaiders = jfRaidersService.queryJfRaidersOne(jfRaiderId);
+	public ResultConstant updatejfRaiders(TbJfRaiders jfRaider) {
+		TbJfRaiders jfRaiders = jfRaidersService.queryJfRaidersOne(jfRaider.getId());
+		if(jfRaiders==null) {
+			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "文章未找到");
+		}
 		if (!StringUtils.isEmpty(jfRaider.getTitle())) {
 			jfRaiders.setTitle(jfRaider.getTitle());
 		}
