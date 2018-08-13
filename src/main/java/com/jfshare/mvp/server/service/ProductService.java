@@ -31,16 +31,16 @@ public class ProductService {
 	public List<TbProductSurvey> productSurveyQuery(String productId, String productName,Integer itemNo,Integer activeState, Integer curpage,
 			Integer percount) {
 		ProductSurveyQueryParam param = new ProductSurveyQueryParam();
-		if (StringUtils.isEmpty(productId)) {
+		if (!StringUtils.isEmpty(productId)) {
 			param.setProductId(productId);
 		}
-		if (StringUtils.isEmpty(productName)) {
+		if (!StringUtils.isEmpty(productName)) {
 			param.setProductName(productName);
 		}
-		if(itemNo > 0) {
+		if(itemNo >= 0) {
 			param.setItemNo(itemNo);
 		}
-		if(activeState > 0) {
+		if(activeState >= 0) {
 			param.setActiveState(activeState);
 		}
 		PageHelper.startPage(curpage, percount);
