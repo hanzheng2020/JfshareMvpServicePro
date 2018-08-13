@@ -13,8 +13,10 @@ import com.jfshare.mvp.server.dao.TbProductDao;
 import com.jfshare.mvp.server.mapper.TbProductDetailMapper;
 import com.jfshare.mvp.server.model.Product;
 import com.jfshare.mvp.server.model.ProductSurveyQueryParam;
+import com.jfshare.mvp.server.model.TbProduct;
 import com.jfshare.mvp.server.model.TbProductDetail;
 import com.jfshare.mvp.server.model.TbProductDetailExample;
+import com.jfshare.mvp.server.model.TbProductExample;
 import com.jfshare.mvp.server.model.TbProductSurvey;
 import com.jfshare.mvp.server.model.TbProductWithBLOBs;
 import com.jfshare.mvp.server.utils.DateUtils;
@@ -132,5 +134,21 @@ public class ProductService {
 			e.printStackTrace();
 		}
 		 return path;
+	}
+	
+	/**
+	 * 
+	 * 根据商品id来搜索商品
+	 * @param productId
+	 * @return
+	 */
+	public TbProduct getProductOne(String productId) {
+		TbProductExample example = new TbProductExample();
+		example.createCriteria().andProductIdEqualTo(productId);
+		List<TbProduct> products =  tbProductDao.selectByExample(example);
+		if(products!=null && products.size()>0) {
+			return products.get(0);
+		}
+		return null;
 	}
 }

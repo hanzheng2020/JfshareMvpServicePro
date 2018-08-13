@@ -80,7 +80,7 @@ public class LevelInfoService {
 			TbLevelInfo info = new TbLevelInfo();
 			info.setUserid(userId);
 			info.setGrowthPoint(0);
-			info.setLevle(Constant.GOLD);
+			info.setGrade(Constant.GOLD);
 			levelInfoDao.insertSelective(info);
 		}
 		StringResult results=scoreClient.incomeScore(userId,num, 1, "");
@@ -103,7 +103,7 @@ public class LevelInfoService {
 	//聚分享平台同步聚金豆(增加)
 	public StringResult addlevelInfo(int userid,int integral,String orderId,int amont) {
 		TbLevelInfo levelInfo =levelInfoDao.selectLevelInfoByUserId(userid);
-		String  levle=levelInfo.getLevle();
+		String  levle=levelInfo.getGrade();
 		Double b;
 		if(Constant.PLATIMUM.equals(levle)) {
 			 b=integral*0.05;
