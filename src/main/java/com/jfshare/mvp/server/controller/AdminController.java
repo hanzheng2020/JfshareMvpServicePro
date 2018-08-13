@@ -85,6 +85,28 @@ public class AdminController {
 		}
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "更新类目商品展示设置失败！");
 	}
+	
+	@ApiOperation(value="获取商品推广设置", 
+			notes="获取所有目前已经配置的商品推广设置")
+	@GetMapping("/promotionProducts")
+	public ResultConstant getPromotionProducts() {
+		List<TbProductPromotion> tbProductPromotions = promotionSettingService.getProductPromotions();
+		if (!CollectionUtils.isEmpty(tbProductPromotions)) {
+			return ResultConstant.ofSuccess(ConvertBeanToMapUtils.convertBeanListToMap(tbProductPromotions));
+		}
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取推广商品失败！");
+	}
+	
+	@ApiOperation(value="获取类目商品展示设置", 
+			notes="获取所有目前已经配置的类目商品展示设置")
+	@GetMapping("/productItemShows")
+	public ResultConstant getProductItemShows() {
+		List<TbProductItemShow> tbProductItemShows = promotionSettingService.getProductItemShows();
+		if (!CollectionUtils.isEmpty(tbProductItemShows)) {
+			return ResultConstant.ofSuccess(ConvertBeanToMapUtils.convertBeanListToMap(tbProductItemShows, "products"));
+		}
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取类目商品展示失败！");
+	}
 
 	@ApiOperation(value = "更新商品类目", notes = "根据传入的商品类目配置，重新配置商品类目")
 	@PutMapping("/productItem")

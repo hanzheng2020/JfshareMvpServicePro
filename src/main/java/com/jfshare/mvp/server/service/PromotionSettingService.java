@@ -1,7 +1,11 @@
 package com.jfshare.mvp.server.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +19,7 @@ import com.jfshare.mvp.server.model.TbProductItemShow;
 import com.jfshare.mvp.server.model.TbProductItemShowExample;
 import com.jfshare.mvp.server.model.TbProductPromotion;
 import com.jfshare.mvp.server.model.TbProductPromotionExample;
+import com.jfshare.mvp.server.utils.ConvertBeanToMapUtils;
 
 /**
  * 推广微页面设置
@@ -47,7 +52,6 @@ public class PromotionSettingService {
 		}
 		return true;
 	}
-	
 
 	public List<TbProductPromotion> getProductPromotions() {
 		TbProductPromotionExample tbProductPromotionExample = new TbProductPromotionExample();
@@ -87,5 +91,20 @@ public class PromotionSettingService {
 			logger.error("获取类目商品展示设置失败！", e);
 		}
 		return tbProductItemShows;
+	}
+	
+	public List<Map<String, Object>> getProductShowDetail(Integer itemShowNo) {
+		TbProductItemShowExample tbProductItemShowExample = new TbProductItemShowExample();
+		tbProductItemShowExample.createCriteria()
+								.andItemShowNoEqualTo(itemShowNo);
+		List<Map<String, Object>> result = new ArrayList<Map<String,Object>>();
+		try {
+			List<TbProductItemShow> tbProductItemShows = tbProductItemShowDao.selectByExample(tbProductItemShowExample);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("获取类目商品展示设置失败！", e);
+		}
+		return result;
 	}
 }
