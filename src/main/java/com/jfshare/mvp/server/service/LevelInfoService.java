@@ -95,7 +95,18 @@ public class LevelInfoService {
 		if(levelInfo!=null) {
 			ScoreResult result =scoreClient.getScore(userId);
 			logger.info(String.format("积分查询:result{}", result));
-			levelInfo.setRealJvjindou(result.getSroce().getAmount());
+			if(result.getSroce()!=null) {
+				levelInfo.setRealJvjindou(result.getSroce().getAmount());
+			}else {
+				levelInfo.setRealJvjindou(0);
+			}
+			
+		}else {
+			levelInfo = new TbLevelInfo();
+			levelInfo.setUserid(userId);
+			levelInfo.setGrowthPoint(0);
+			levelInfo.setGrade(Constant.GOLD);
+			levelInfoDao.insertSelective(levelInfo);
 		}
 		return levelInfo;
 	}
@@ -141,6 +152,9 @@ public class LevelInfoService {
 		logger.info(String.format("查询个人中心信息:userId{}", userId));
 			ScoreResult result =scoreClient.getScore(userId);
 			logger.info(String.format("积分查询:result{}", result));
+			if(result.getSroce()==null) {
+				return 0;
+			}
 		return result.getSroce().getAmount();
 	}
 	
