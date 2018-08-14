@@ -365,73 +365,63 @@ public class TbProductItemShowExample {
             return (Criteria) this;
         }
 
-        public Criteria andAppVersionIsNull() {
-            addCriterion("app_version is null");
+        public Criteria andPublishIndIsNull() {
+            addCriterion("publish_ind is null");
             return (Criteria) this;
         }
 
-        public Criteria andAppVersionIsNotNull() {
-            addCriterion("app_version is not null");
+        public Criteria andPublishIndIsNotNull() {
+            addCriterion("publish_ind is not null");
             return (Criteria) this;
         }
 
-        public Criteria andAppVersionEqualTo(String value) {
-            addCriterion("app_version =", value, "appVersion");
+        public Criteria andPublishIndEqualTo(Boolean value) {
+            addCriterion("publish_ind =", value, "publishInd");
             return (Criteria) this;
         }
 
-        public Criteria andAppVersionNotEqualTo(String value) {
-            addCriterion("app_version <>", value, "appVersion");
+        public Criteria andPublishIndNotEqualTo(Boolean value) {
+            addCriterion("publish_ind <>", value, "publishInd");
             return (Criteria) this;
         }
 
-        public Criteria andAppVersionGreaterThan(String value) {
-            addCriterion("app_version >", value, "appVersion");
+        public Criteria andPublishIndGreaterThan(Boolean value) {
+            addCriterion("publish_ind >", value, "publishInd");
             return (Criteria) this;
         }
 
-        public Criteria andAppVersionGreaterThanOrEqualTo(String value) {
-            addCriterion("app_version >=", value, "appVersion");
+        public Criteria andPublishIndGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("publish_ind >=", value, "publishInd");
             return (Criteria) this;
         }
 
-        public Criteria andAppVersionLessThan(String value) {
-            addCriterion("app_version <", value, "appVersion");
+        public Criteria andPublishIndLessThan(Boolean value) {
+            addCriterion("publish_ind <", value, "publishInd");
             return (Criteria) this;
         }
 
-        public Criteria andAppVersionLessThanOrEqualTo(String value) {
-            addCriterion("app_version <=", value, "appVersion");
+        public Criteria andPublishIndLessThanOrEqualTo(Boolean value) {
+            addCriterion("publish_ind <=", value, "publishInd");
             return (Criteria) this;
         }
 
-        public Criteria andAppVersionLike(String value) {
-            addCriterion("app_version like", value, "appVersion");
+        public Criteria andPublishIndIn(List<Boolean> values) {
+            addCriterion("publish_ind in", values, "publishInd");
             return (Criteria) this;
         }
 
-        public Criteria andAppVersionNotLike(String value) {
-            addCriterion("app_version not like", value, "appVersion");
+        public Criteria andPublishIndNotIn(List<Boolean> values) {
+            addCriterion("publish_ind not in", values, "publishInd");
             return (Criteria) this;
         }
 
-        public Criteria andAppVersionIn(List<String> values) {
-            addCriterion("app_version in", values, "appVersion");
+        public Criteria andPublishIndBetween(Boolean value1, Boolean value2) {
+            addCriterion("publish_ind between", value1, value2, "publishInd");
             return (Criteria) this;
         }
 
-        public Criteria andAppVersionNotIn(List<String> values) {
-            addCriterion("app_version not in", values, "appVersion");
-            return (Criteria) this;
-        }
-
-        public Criteria andAppVersionBetween(String value1, String value2) {
-            addCriterion("app_version between", value1, value2, "appVersion");
-            return (Criteria) this;
-        }
-
-        public Criteria andAppVersionNotBetween(String value1, String value2) {
-            addCriterion("app_version not between", value1, value2, "appVersion");
+        public Criteria andPublishIndNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("publish_ind not between", value1, value2, "publishInd");
             return (Criteria) this;
         }
 

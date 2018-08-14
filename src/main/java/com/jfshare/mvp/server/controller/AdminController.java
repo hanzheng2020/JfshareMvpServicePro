@@ -65,8 +65,9 @@ public class AdminController {
 
 	@ApiOperation(value = "更新商品推广设置", notes = "根据传入的推广配置信息，重新配置推广商品")
 	@PostMapping("/promotionProducts")
-	public ResultConstant updateProductPromotion(@RequestBody TbProductPromotion[] tbProductPromotions) {
-		boolean result = promotionSettingService.updateProductPromotion(tbProductPromotions);
+	public ResultConstant updateProductPromotion(@RequestBody TbProductPromotion[] tbProductPromotions,
+													Boolean publishInd) {
+		boolean result = promotionSettingService.updateProductPromotion(tbProductPromotions, publishInd);
 		if (result) {
 			return ResultConstant.ofSuccess();
 		}
@@ -75,8 +76,9 @@ public class AdminController {
 
 	@ApiOperation(value = "更新类目商品展示设置", notes = "根据传入的类目商品展示信息，重新配置类目商品展示")
 	@PostMapping("/productItemShows")
-	public ResultConstant updateProductItemShow(@RequestBody TbProductItemShow[] tbProductItemShows) {
-		boolean result = promotionSettingService.updateProductItemShow(tbProductItemShows);
+	public ResultConstant updateProductItemShow(@RequestBody TbProductItemShow[] tbProductItemShows,
+													Boolean publishInd) {
+		boolean result = promotionSettingService.updateProductItemShow(tbProductItemShows, publishInd);
 		if (result) {
 			return ResultConstant.ofSuccess();
 		}
