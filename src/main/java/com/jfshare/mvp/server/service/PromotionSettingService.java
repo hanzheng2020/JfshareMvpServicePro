@@ -134,11 +134,11 @@ public class PromotionSettingService {
 		return tbProductItemShows;
 	}
 	
-	public Map<Integer, Map<String, Object>> getProductShowDetail(Integer itemShowNo) {
+	public List<Map<String, Object>> getProductShowDetail(Integer itemShowNo) {
 		TbProductItemShowExample tbProductItemShowExample = new TbProductItemShowExample();
 		tbProductItemShowExample.createCriteria()
 								.andItemShowNoEqualTo(itemShowNo);
-		Map<Integer, Map<String, Object>> result = new HashMap<>();
+		List<Map<String, Object>> result = new ArrayList<>();
 		try {
 			List<TbProductItemShow> tbProductItemShows = tbProductItemShowDao.selectByExample(tbProductItemShowExample);
 			if (!CollectionUtils.isEmpty(tbProductItemShows)) {
@@ -163,7 +163,7 @@ public class PromotionSettingService {
 							map.put("productName", tbProducts.get(0).getProductName());
 							map.put("imgKey", tbProducts.get(0).getImgKey());
 						}
-						result.put(i, map);
+						result.add(map);
 					}
 				}
 			}

@@ -63,8 +63,8 @@ public class ShopController {
 			notes="根据itemShowNo获取对应类目下的所有商品详情")
 	@GetMapping("/productShowDetail")
 	public ResultConstant getProductShowDetail(Integer itemShowNo) {
-		Map<Integer, Map<String, Object>> result = promotionSettingService.getProductShowDetail(itemShowNo);
-		if (!MapUtils.isEmpty(result)) {
+		List<Map<String, Object>> result = promotionSettingService.getProductShowDetail(itemShowNo);
+		if (!CollectionUtils.isEmpty(result)) {
 			return ResultConstant.ofSuccess(result);
 		}
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取类目商品详情失败！");
