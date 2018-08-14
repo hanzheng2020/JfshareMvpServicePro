@@ -28,7 +28,7 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 
-	@ApiOperation(value = "根据商品id name 获取商品信息", notes = "根据商品id name 获取商品信息  productid:商品id  productName:商品名称   itemNo:类目id activeState：商品状态:100 待上架  200 已上架 300 已下架   默认itemNo activeState为0")
+	@ApiOperation(value = "根据商品id name 获取商品信息", notes = "根据商品id name 获取商品信息  productid:商品id  productName:商品名称   itemNo:类目id activeState：商品状态:100 待上架  200 已上架 300 已下架   itemNo activeState为必传参数 默认传0")
 	@PostMapping("/productSurveyQuery")
 	public ResultConstant productSurveyQuery(@RequestParam(value = "productId", required = false) String productId,
 			@RequestParam(value = "productName", required = false) String productName,
