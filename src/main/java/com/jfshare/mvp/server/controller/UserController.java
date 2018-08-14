@@ -81,7 +81,7 @@ public class UserController {
 		return ResultConstant.ofSuccess(ConvertBeanToMapUtils.convertBeanToMap(jvjindouRule));
 	}
 	
-	@ApiOperation(value="后台商品管理", notes="修改赠送聚金豆规则")
+	/*@ApiOperation(value="聚金豆规则修改", notes="修改赠送聚金豆规则,givingRule(赠送规则，2，固定，1随机)，randomGivingMin(随机赠送最小数),randomGivingMax(最大数),fixedGiving(固定赠送值)")
 	@PutMapping("/updateJvjindouRule")
 	public ResultConstant updateJvjindouRule(TbJvjindouRule jvjindouRule){
 		try {
@@ -91,7 +91,7 @@ public class UserController {
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "参数有误！");
 		}
 		return ResultConstant.ofSuccess();
-	}
+	}*/
 	
 	@ApiOperation(value="生成二维码", notes="生成客服指引需要的二维码")
 	@PutMapping("/getQRCode")
@@ -100,10 +100,17 @@ public class UserController {
 		return ResultConstant.ofSuccess(qrCode);
 	}
 	
-	@ApiOperation(value="个人中心", notes="查询登陆人的等级信息 聚金豆 信息 成长点")
+	@ApiOperation(value="查询个人信息", notes="查询登陆人的等级信息 聚金豆 信息 成长点")
 	@GetMapping("/queryTbLevelInfo")
 	public ResultConstant queryTbLevelInfo(@RequestParam(value="userId",required=true) Integer userId) {
 		TbLevelInfo levelInfo = levelInfoService.queryTbLevelInfo(userId);
 		return ResultConstant.ofSuccess(levelInfo);
+	}
+	
+	@ApiOperation(value="查询用户积分", notes="更具用户id来查询用户积分")
+	@GetMapping("/queryUserAmount")
+	public ResultConstant queryUserAmount(@RequestParam(value="userId",required=true) Integer userId) {
+		Integer amount = levelInfoService.queryTbLevelUserAmount(userId);
+		return ResultConstant.ofSuccess(amount);
 	}
 }

@@ -48,11 +48,11 @@ public class LevelInfoDao {
 		record.setUpdateTime(new Date());
 		int growth_point = record.getGrowthPoint();
 		if(growth_point>=2000) {
-			record.setLevle(Constant.DIAMOND);
+			record.setGrade(Constant.DIAMOND);
 		}else if(growth_point>=1000) {
-			record.setLevle(Constant.BLACK);
+			record.setGrade(Constant.BLACK);
 		}else if(growth_point>=200) {
-			record.setLevle(Constant.PLATIMUM);
+			record.setGrade(Constant.PLATIMUM);
 		}
 		return levelInfoMapper.updateByPrimaryKeySelective(record);
 	}

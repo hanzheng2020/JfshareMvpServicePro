@@ -405,73 +405,73 @@ public class TbLevelInfoExample {
             return (Criteria) this;
         }
 
-        public Criteria andLevleIsNull() {
-            addCriterion("levle is null");
+        public Criteria andGradeIsNull() {
+            addCriterion("grade is null");
             return (Criteria) this;
         }
 
-        public Criteria andLevleIsNotNull() {
-            addCriterion("levle is not null");
+        public Criteria andGradeIsNotNull() {
+            addCriterion("grade is not null");
             return (Criteria) this;
         }
 
-        public Criteria andLevleEqualTo(String value) {
-            addCriterion("levle =", value, "levle");
+        public Criteria andGradeEqualTo(String value) {
+            addCriterion("grade =", value, "grade");
             return (Criteria) this;
         }
 
-        public Criteria andLevleNotEqualTo(String value) {
-            addCriterion("levle <>", value, "levle");
+        public Criteria andGradeNotEqualTo(String value) {
+            addCriterion("grade <>", value, "grade");
             return (Criteria) this;
         }
 
-        public Criteria andLevleGreaterThan(String value) {
-            addCriterion("levle >", value, "levle");
+        public Criteria andGradeGreaterThan(String value) {
+            addCriterion("grade >", value, "grade");
             return (Criteria) this;
         }
 
-        public Criteria andLevleGreaterThanOrEqualTo(String value) {
-            addCriterion("levle >=", value, "levle");
+        public Criteria andGradeGreaterThanOrEqualTo(String value) {
+            addCriterion("grade >=", value, "grade");
             return (Criteria) this;
         }
 
-        public Criteria andLevleLessThan(String value) {
-            addCriterion("levle <", value, "levle");
+        public Criteria andGradeLessThan(String value) {
+            addCriterion("grade <", value, "grade");
             return (Criteria) this;
         }
 
-        public Criteria andLevleLessThanOrEqualTo(String value) {
-            addCriterion("levle <=", value, "levle");
+        public Criteria andGradeLessThanOrEqualTo(String value) {
+            addCriterion("grade <=", value, "grade");
             return (Criteria) this;
         }
 
-        public Criteria andLevleLike(String value) {
-            addCriterion("levle like", value, "levle");
+        public Criteria andGradeLike(String value) {
+            addCriterion("grade like", value, "grade");
             return (Criteria) this;
         }
 
-        public Criteria andLevleNotLike(String value) {
-            addCriterion("levle not like", value, "levle");
+        public Criteria andGradeNotLike(String value) {
+            addCriterion("grade not like", value, "grade");
             return (Criteria) this;
         }
 
-        public Criteria andLevleIn(List<String> values) {
-            addCriterion("levle in", values, "levle");
+        public Criteria andGradeIn(List<String> values) {
+            addCriterion("grade in", values, "grade");
             return (Criteria) this;
         }
 
-        public Criteria andLevleNotIn(List<String> values) {
-            addCriterion("levle not in", values, "levle");
+        public Criteria andGradeNotIn(List<String> values) {
+            addCriterion("grade not in", values, "grade");
             return (Criteria) this;
         }
 
-        public Criteria andLevleBetween(String value1, String value2) {
-            addCriterion("levle between", value1, value2, "levle");
+        public Criteria andGradeBetween(String value1, String value2) {
+            addCriterion("grade between", value1, value2, "grade");
             return (Criteria) this;
         }
 
-        public Criteria andLevleNotBetween(String value1, String value2) {
-            addCriterion("levle not between", value1, value2, "levle");
+        public Criteria andGradeNotBetween(String value1, String value2) {
+            addCriterion("grade not between", value1, value2, "grade");
             return (Criteria) this;
         }
 

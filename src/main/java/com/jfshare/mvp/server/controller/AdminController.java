@@ -65,8 +65,9 @@ public class AdminController {
 
 	@ApiOperation(value = "更新商品推广设置", notes = "根据传入的推广配置信息，重新配置推广商品")
 	@PostMapping("/promotionProducts")
-	public ResultConstant updateProductPromotion(@RequestBody TbProductPromotion[] tbProductPromotions) {
-		boolean result = promotionSettingService.updateProductPromotion(tbProductPromotions);
+	public ResultConstant updateProductPromotion(@RequestBody TbProductPromotion[] tbProductPromotions,
+													Boolean publishInd) {
+		boolean result = promotionSettingService.updateProductPromotion(tbProductPromotions, publishInd);
 		if (result) {
 			return ResultConstant.ofSuccess();
 		}
@@ -75,8 +76,9 @@ public class AdminController {
 
 	@ApiOperation(value = "更新类目商品展示设置", notes = "根据传入的类目商品展示信息，重新配置类目商品展示")
 	@PostMapping("/productItemShows")
-	public ResultConstant updateProductItemShow(@RequestBody TbProductItemShow[] tbProductItemShows) {
-		boolean result = promotionSettingService.updateProductItemShow(tbProductItemShows);
+	public ResultConstant updateProductItemShow(@RequestBody TbProductItemShow[] tbProductItemShows,
+													Boolean publishInd) {
+		boolean result = promotionSettingService.updateProductItemShow(tbProductItemShows, publishInd);
 		if (result) {
 			return ResultConstant.ofSuccess();
 		}
@@ -117,7 +119,7 @@ public class AdminController {
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "更新商品类目失败！");
 	}
 
-	@ApiOperation(value = "获取商品类目", notes = "根据传入的类目名称，获取类目, 如果itemNo为空，则获取全部的类目树")
+	@ApiOperation(value = "获取商品类目", notes = "根据传入的itemNo，获取类目, 如果itemNo为空，则获取全部的类目树")
 	@GetMapping("/productItem")
 	public ResultConstant getProductItem(@RequestParam(required = false) String itemNo) {
 		List<TbProductItem> tbProductItems = productItemService.getProductItem(itemNo);
@@ -141,7 +143,7 @@ public class AdminController {
 
 	@ApiOperation(value = "删除商品类目", notes = "根据传入的商品类目编号，删除商品类目")
 	@DeleteMapping("/productItem")
-	public ResultConstant deleteProductItem(@RequestParam(required=false) String itemNo) {
+	public ResultConstant deleteProductItem(@RequestParam(required=true) String itemNo) {
 		ResultConstant result = productItemService.deleteProductItem(itemNo);
 		return result;
 	}
@@ -168,10 +170,11 @@ public class AdminController {
 
 	@ApiOperation(value = "积分攻略文章更新", notes = "根据传入的类型，更新积分攻略文章")
 	@PutMapping("/updatejfRaider")
-	public ResultConstant updatejfRaiders(TbJfRaiders jfRaider,
-			@RequestParam(value = "jfRaiderId", required = true) Integer jfRaiderId,
-			@RequestParam(value = "jfRaidersImg", required = false) MultipartFile jfRaidersImg) {
-		TbJfRaiders jfRaiders = jfRaidersService.queryJfRaidersOne(jfRaiderId);
+	public ResultConstant updatejfRaiders(TbJfRaiders jfRaider) {
+		TbJfRaiders jfRaiders = jfRaidersService.queryJfRaidersOne(jfRaider.getId());
+		if(jfRaiders==null) {
+			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "文章未找到");
+		}
 		if (!StringUtils.isEmpty(jfRaider.getTitle())) {
 			jfRaiders.setTitle(jfRaider.getTitle());
 		}
@@ -221,7 +224,7 @@ public class AdminController {
 		TbJvjindouRule jvjindouRule = jvjindouRuleService.queryTbJvjindouRule();
 		return ResultConstant.ofSuccess(jvjindouRule);
 	}
-	@ApiOperation(value = "聚金豆规则信息修改", notes = "修改聚金豆规则设定")
+	@ApiOperation(value = "聚金豆规则信息修改", notes = "修改赠送聚金豆规则,givingRule(赠送规则，2，固定，1随机)，randomGivingMin(随机赠送最小数),randomGivingMax(最大数),fixedGiving(固定赠送值)")
 	@PutMapping("/updatejvjindouRule")
 	public ResultConstant updatejvjindouRule(@RequestParam(value="id",required=true)Integer id,
 			@RequestParam(value="givingRule",required=true)String givingRule,

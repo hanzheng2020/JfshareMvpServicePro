@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.model.Product;
+import com.jfshare.mvp.server.model.TbProduct;
 import com.jfshare.mvp.server.model.TbProductSurvey;
 import com.jfshare.mvp.server.service.ProductService;
 import io.swagger.annotations.Api;
@@ -88,4 +89,18 @@ public class ProductController {
 		}
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "导出商品 execl失败");
 	}
+	
+	@ApiOperation(value = "查询商品详情", notes = "根据商品ID查询商品详情，productId")
+	@PostMapping("/queryProductInfo")
+	public ResultConstant exportProduct(@RequestParam(value = "productId", required = true) String productId) {
+		
+		TbProduct  product =  productService.getProductOne(productId);
+	
+		if(product!=null) {
+			return ResultConstant.ofSuccess(product);
+		}
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "查询商品详情失败！");
+		
+	}
+
 }
