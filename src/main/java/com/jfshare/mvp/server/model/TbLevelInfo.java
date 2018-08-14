@@ -92,4 +92,13 @@ public class TbLevelInfo {
     public void setQueryTime(Date queryTime) {
         this.queryTime = queryTime;
     }
+
+	@Override
+	public String toString() {
+		return "TbLevelInfo [id=" + id + ", userid=" + userid + ", createTime=" + createTime + ", updateTime="
+				+ updateTime + ", growthPoint=" + growthPoint + ", grade=" + grade + ", realJvjindou=" + realJvjindou
+				+ ", remark=" + remark + ", queryTime=" + queryTime + "]";
+	}
+    
+    
 }
