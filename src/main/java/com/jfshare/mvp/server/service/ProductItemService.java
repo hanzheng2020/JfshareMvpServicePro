@@ -39,10 +39,10 @@ public class ProductItemService {
 			return false;
 		}
 		TbProductItem tbProductItemt = tbProductItems.get(0);
-		if (StringUtils.isEmpty(itemName)) {
+		if (!StringUtils.isEmpty(itemName)) {
 			tbProductItemt.setItemName(itemName);
 		}
-		if (StringUtils.isEmpty(itemDesc)) {
+		if (!StringUtils.isEmpty(itemDesc)) {
 			tbProductItemt.setItemDesc(itemDesc);
 		}
 		tbProductItemDao.updateByPrimaryKey(tbProductItemt);
@@ -72,11 +72,11 @@ public class ProductItemService {
 		return tbProductItems;
 	}
 	
-	public List<TbProductItem> getProductItem(String itemName) {
+	public List<TbProductItem> getProductItem(String itemNo) {
 		TbProductItemExample tbProductItemExample = new TbProductItemExample();
-		if (!StringUtils.isEmpty(itemName)) {
+		if (!StringUtils.isEmpty(itemNo)) {
 			tbProductItemExample.createCriteria()
-								.andItemNameEqualTo(itemName);
+								.andItemNoEqualTo(itemNo);
 		}
 		List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
 		return tbProductItems;
@@ -102,7 +102,7 @@ public class ProductItemService {
 		tbProductItemExample.clear();
 		if (!StringUtils.isEmpty(itemNo)) {
 			tbProductItemExample.createCriteria()
-								.andParentItemNoEqualTo(itemNo);
+								.andItemNoEqualTo(itemNo);
 		}
 		tbProductItemDao.deleteByExample(tbProductItemExample);
 		return ResultConstant.ofSuccess();
