@@ -122,11 +122,11 @@ public class AdminController {
 	@ApiOperation(value = "获取商品类目", notes = "根据传入的itemNo，获取类目, 如果itemNo为空，则获取全部的类目树")
 	@GetMapping("/productItem")
 	public ResultConstant getProductItem(@RequestParam(required = false) String itemNo) {
-		List<TbProductItem> tbProductItems = productItemService.getProductItem(itemNo);
-		if (CollectionUtils.isEmpty(tbProductItems)) {
+		List<Map<String, Object>> result = productItemService.getProductItem(itemNo);
+		if (CollectionUtils.isEmpty(result)) {
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取商品类目失败！");
 		}
-		return ResultConstant.ofSuccess(ConvertBeanToMapUtils.convertBeanListToMap(tbProductItems));
+		return ResultConstant.ofSuccess(result);
 	}
 
 	@ApiOperation(value = "新增商品类目", notes = "根据传入的商品类目，新增配置商品类目")

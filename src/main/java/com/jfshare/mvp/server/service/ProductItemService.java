@@ -12,7 +12,10 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author fengxiang
@@ -59,27 +62,56 @@ public class ProductItemService {
 		return true;
 	}
 
-	public List<TbProductItem> getProductItem(String itemName, boolean useLike) {
+	public List<Map<String, Object>> getProductItem(String itemName, boolean useLike) {
 		if (!useLike) {
 			return getProductItem(itemName);
 		}
 		TbProductItemExample tbProductItemExample = new TbProductItemExample();
 		if (!StringUtils.isEmpty(itemName)) {
 			tbProductItemExample.createCriteria()
-								.andItemNameLike("%"+itemName+"%");
+								.andItemNameLike("%"+itemName+"%")
+								.andParentItemNoIsNull();
 		}
 		List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
-		return tbProductItems;
+		List<Map<String, Object>> result = new ArrayList<>();
+		for (TbProductItem tbProductItem : tbProductItems) {
+			result.add(createItemTree(tbProductItem));
+		}
+		return result;
 	}
 	
-	public List<TbProductItem> getProductItem(String itemNo) {
+	public List<Map<String, Object>> getProductItem(String itemNo) {
 		TbProductItemExample tbProductItemExample = new TbProductItemExample();
 		if (!StringUtils.isEmpty(itemNo)) {
 			tbProductItemExample.createCriteria()
-								.andItemNoEqualTo(itemNo);
+								.andItemNoEqualTo(itemNo)
+								.andParentItemNoIsNull();
 		}
 		List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
-		return tbProductItems;
+		List<Map<String, Object>> result = new ArrayList<>();
+		for (TbProductItem tbProductItem : tbProductItems) {
+			result.add(createItemTree(tbProductItem));
+		}
+		return result;
+	}
+	
+	private Map<String, Object> createItemTree(TbProductItem tbProductItem) {
+		Map<String, Object> rtMap = new HashMap<>();
+		TbProductItemExample tbProductItemExample = new TbProductItemExample();
+		tbProductItemExample.createCriteria()
+							.andParentItemNoEqualTo(tbProductItem.getItemNo());
+		List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
+		if (!CollectionUtils.isEmpty(tbProductItems)) {
+			List<Map<String, Object>> listChild = new ArrayList<>();
+			for (TbProductItem productItem : tbProductItems) {
+				listChild.add(createItemTree(productItem));
+			}
+			rtMap.put("children", listChild);
+		}
+		rtMap.put("itemNo", tbProductItem.getItemNo());
+		rtMap.put("itemName", tbProductItem.getItemName());
+		rtMap.put("itemDesc", tbProductItem.getItemDesc());
+		return rtMap;
 	}
 	
 	public ResultConstant deleteProductItem(String itemNo) {
