@@ -7,6 +7,8 @@ import com.jfshare.mvp.server.model.TbProduct;
 import com.jfshare.mvp.server.model.TbProductExample;
 import com.jfshare.mvp.server.model.TbProductItem;
 import com.jfshare.mvp.server.model.TbProductItemExample;
+import com.jfshare.mvp.server.model.TbProductItemExample.Criteria;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,10 +69,10 @@ public class ProductItemService {
 			return getProductItem(itemName);
 		}
 		TbProductItemExample tbProductItemExample = new TbProductItemExample();
+		Criteria criteria = tbProductItemExample.createCriteria()
+												.andParentItemNoIsNull();
 		if (!StringUtils.isEmpty(itemName)) {
-			tbProductItemExample.createCriteria()
-								.andItemNameLike("%"+itemName+"%")
-								.andParentItemNoIsNull();
+			criteria.andItemNameLike("%"+itemName+"%");
 		}
 		List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
 		List<Map<String, Object>> result = new ArrayList<>();
@@ -82,10 +84,10 @@ public class ProductItemService {
 	
 	public List<Map<String, Object>> getProductItem(String itemNo) {
 		TbProductItemExample tbProductItemExample = new TbProductItemExample();
+		Criteria criteria = tbProductItemExample.createCriteria()
+							.andParentItemNoIsNull();
 		if (!StringUtils.isEmpty(itemNo)) {
-			tbProductItemExample.createCriteria()
-								.andItemNoEqualTo(itemNo)
-								.andParentItemNoIsNull();
+			criteria.andItemNoEqualTo(itemNo);
 		}
 		List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
 		List<Map<String, Object>> result = new ArrayList<>();
