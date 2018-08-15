@@ -119,10 +119,16 @@ public class AdminController {
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "更新商品类目失败！");
 	}
 
-	@ApiOperation(value = "获取商品类目", notes = "根据传入的itemNo，获取类目, 如果itemNo为空，则获取全部的类目树")
+	@ApiOperation(value = "获取商品类目", notes = "根据传入的itemNo或者ItemName，获取类目, 如果两者都为空，则获取全部的类目树")
 	@GetMapping("/productItem")
-	public ResultConstant getProductItem(@RequestParam(required = false) String itemNo) {
-		List<Map<String, Object>> result = productItemService.getProductItem(itemNo);
+	public ResultConstant getProductItem(@RequestParam(required = false) String itemNo,
+										@RequestParam(required = false) String itemName) {
+		List<Map<String, Object>> result = null;
+		if (StringUtils.isEmpty(itemName)) {
+			result = productItemService.getProductItem(itemName, true);
+		} else {
+			result = productItemService.getProductItem(itemNo);
+		}
 		if (CollectionUtils.isEmpty(result)) {
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取商品类目失败！");
 		}

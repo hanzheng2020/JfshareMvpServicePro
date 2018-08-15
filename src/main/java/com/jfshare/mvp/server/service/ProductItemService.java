@@ -106,7 +106,11 @@ public class ProductItemService {
 		if (!CollectionUtils.isEmpty(tbProductItems)) {
 			List<Map<String, Object>> listChild = new ArrayList<>();
 			for (TbProductItem productItem : tbProductItems) {
-				listChild.add(createItemTree(productItem));
+				Map<String, Object> mapChild = new HashMap<>();
+				mapChild = createItemTree(productItem);
+				mapChild.put("parentItemName", tbProductItem.getItemName());
+				mapChild.put("parentItemNo", tbProductItem.getItemNo());
+				listChild.add(mapChild);
 			}
 			rtMap.put("children", listChild);
 		}
