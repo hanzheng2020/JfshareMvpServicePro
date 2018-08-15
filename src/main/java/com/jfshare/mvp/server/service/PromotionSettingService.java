@@ -22,7 +22,6 @@ import com.jfshare.mvp.server.model.TbProductItemShow;
 import com.jfshare.mvp.server.model.TbProductItemShowExample;
 import com.jfshare.mvp.server.model.TbProductPromotion;
 import com.jfshare.mvp.server.model.TbProductPromotionExample;
-import com.jfshare.mvp.server.utils.ConvertBeanToMapUtils;
 
 /**
  * 推广微页面设置
@@ -77,14 +76,50 @@ public class PromotionSettingService {
 		try {
 			List<TbProductPromotion> tbProductPromotions = tbProductPromotionDao.selectByExample(tbProductPromotionExample);
 			for (TbProductPromotion tbProductPromotion : tbProductPromotions) {
+				List<Map<String, Object>> productList = new ArrayList<>();
 				Map<String, Object> map = new HashMap<>();
-				map = ConvertBeanToMapUtils.convertBeanToMap(tbProductPromotion);
-				map.put("oneCurPrice", this.getCurPrice(tbProductPromotion.getProductOneId()));
-				map.put("twoCurPrice", this.getCurPrice(tbProductPromotion.getProductTwoId()));
-				map.put("threeCurPrice", this.getCurPrice(tbProductPromotion.getProductThreeId()));
-				map.put("fourCurPrice", this.getCurPrice(tbProductPromotion.getProductFourId()));
-				map.put("fiveCurPrice", this.getCurPrice(tbProductPromotion.getProductFiveId()));
-				map.put("sixCurPrice", this.getCurPrice(tbProductPromotion.getProductSixId()));
+				map.put("promotionNo", tbProductPromotion.getPromotionNo());
+				map.put("promotionPicUrl", tbProductPromotion.getPromotionPicUrl());
+				map.put("promotionUrl", tbProductPromotion.getPromotionUrl());
+				
+				Map<String, Object> dtlMap1 = new HashMap<>();
+				dtlMap1.put("CurPrice", this.getCurPrice(tbProductPromotion.getProductOneId()));
+				dtlMap1.put("productId", tbProductPromotion.getProductOneId());
+				dtlMap1.put("productDesc", tbProductPromotion.getProductOneDesc());
+				dtlMap1.put("productPicUrl", tbProductPromotion.getProductOnePicUrl());
+				productList.add(dtlMap1);
+				Map<String, Object> dtlMap2 = new HashMap<>();
+				dtlMap2.put("CurPrice", this.getCurPrice(tbProductPromotion.getProductTwoId()));
+				dtlMap2.put("productId", tbProductPromotion.getProductTwoId());
+				dtlMap2.put("productDesc", tbProductPromotion.getProductTwoDesc());
+				dtlMap2.put("productPicUrl", tbProductPromotion.getProductTwoPicUrl());
+				productList.add(dtlMap2);
+				Map<String, Object> dtlMap3 = new HashMap<>();
+				dtlMap3.put("CurPrice", this.getCurPrice(tbProductPromotion.getProductThreeId()));
+				dtlMap3.put("productId", tbProductPromotion.getProductThreeId());
+				dtlMap3.put("productDesc", tbProductPromotion.getProductThreeDesc());
+				dtlMap3.put("productPicUrl", tbProductPromotion.getProductThreePicUrl());
+				productList.add(dtlMap3);
+				Map<String, Object> dtlMap4 = new HashMap<>();
+				dtlMap4.put("CurPrice", this.getCurPrice(tbProductPromotion.getProductFourId()));
+				dtlMap4.put("productId", tbProductPromotion.getProductFourId());
+				dtlMap4.put("productDesc", tbProductPromotion.getProductFourDesc());
+				dtlMap4.put("productPicUrl", tbProductPromotion.getProductFourPicUrl());
+				productList.add(dtlMap4);
+				Map<String, Object> dtlMap5 = new HashMap<>();
+				dtlMap5.put("CurPrice", this.getCurPrice(tbProductPromotion.getProductFiveId()));
+				dtlMap5.put("productId", tbProductPromotion.getProductFiveId());
+				dtlMap5.put("productDesc", tbProductPromotion.getProductFiveDesc());
+				dtlMap5.put("productPicUrl", tbProductPromotion.getProductFivePicUrl());
+				productList.add(dtlMap5);
+				Map<String, Object> dtlMap6 = new HashMap<>();
+				dtlMap6.put("CurPrice", this.getCurPrice(tbProductPromotion.getProductSixId()));
+				dtlMap6.put("productId", tbProductPromotion.getProductSixId());
+				dtlMap6.put("productDesc", tbProductPromotion.getProductSixDesc());
+				dtlMap6.put("productPicUrl", tbProductPromotion.getProductSixPicUrl());
+				productList.add(dtlMap6);
+				
+				map.put("productDetails", productList);
 				result.add(map);
 			}
 		} catch (Exception e) {
