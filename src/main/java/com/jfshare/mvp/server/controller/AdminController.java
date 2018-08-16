@@ -81,7 +81,7 @@ public class AdminController {
 	public ResultConstant getPromotionProducts(@RequestParam(defaultValue="false", required=false) Boolean publishInd) {
 		List<Map<String, Object>> result = promotionSettingService.getProductPromotionDetails(publishInd);
 		if (!CollectionUtils.isEmpty(result)) {
-			return ResultConstant.ofSuccess(ConvertBeanToMapUtils.convertBeanListToMap(result));
+			return ResultConstant.ofSuccess(result);
 		}
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取推广商品失败！");
 	}
