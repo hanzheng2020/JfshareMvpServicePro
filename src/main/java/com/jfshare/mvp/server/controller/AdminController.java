@@ -37,7 +37,6 @@ import com.jfshare.mvp.server.utils.ConvertBeanToMapUtils;
 @Api(value = "api", tags = "后台管理模块相关API")
 @RestController
 @RequestMapping("/admin")
-@CrossOrigin
 public class AdminController {
 
 	@Autowired
