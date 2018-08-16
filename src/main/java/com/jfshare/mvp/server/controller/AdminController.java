@@ -2,18 +2,13 @@ package com.jfshare.mvp.server.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.Extension;
-import io.swagger.annotations.ExtensionProperty;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,25 +17,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 import com.github.pagehelper.PageInfo;
 import com.jfshare.mvp.server.constants.Constant;
 import com.jfshare.mvp.server.constants.ResultConstant;
-import com.jfshare.mvp.server.model.TbAppVerinfo;
 import com.jfshare.mvp.server.model.TbJfRaiders;
 import com.jfshare.mvp.server.model.TbJvjindouRule;
-import com.jfshare.mvp.server.model.TbLevelInfo;
-import com.jfshare.mvp.server.model.TbProductItem;
 import com.jfshare.mvp.server.model.TbProductItemShow;
 import com.jfshare.mvp.server.model.TbProductPromotion;
-import com.jfshare.mvp.server.service.AppInfoServer;
 import com.jfshare.mvp.server.service.JfRaidersService;
 import com.jfshare.mvp.server.service.JvjindouRuleService;
-import com.jfshare.mvp.server.service.LevelInfoService;
 import com.jfshare.mvp.server.service.ProductItemService;
 import com.jfshare.mvp.server.service.PromotionSettingService;
 import com.jfshare.mvp.server.utils.ConvertBeanToMapUtils;
-import com.jfshare.mvp.server.utils.OSSUtils;
 
 /**
  * @author fengxiang
@@ -119,14 +107,20 @@ public class AdminController {
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "更新商品类目失败！");
 	}
 
-	@ApiOperation(value = "获取商品类目", notes = "根据传入的itemNo，获取类目, 如果itemNo为空，则获取全部的类目树")
+	@ApiOperation(value = "获取商品类目", notes = "根据传入的itemNo或者ItemName，获取类目, 如果两者都为空，则获取全部的类目树")
 	@GetMapping("/productItem")
-	public ResultConstant getProductItem(@RequestParam(required = false) String itemNo) {
-		List<TbProductItem> tbProductItems = productItemService.getProductItem(itemNo);
-		if (CollectionUtils.isEmpty(tbProductItems)) {
+	public ResultConstant getProductItem(@RequestParam(required = false) String itemNo,
+										@RequestParam(required = false) String itemName, Boolean asTree) {
+		List<Map<String, Object>> result = null;
+		if (StringUtils.isEmpty(itemName)) {
+			result = productItemService.getProductItem(itemName, true, asTree);
+		} else {
+			result = productItemService.getProductItem(itemNo, asTree);
+		}
+		if (CollectionUtils.isEmpty(result)) {
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取商品类目失败！");
 		}
-		return ResultConstant.ofSuccess(ConvertBeanToMapUtils.convertBeanListToMap(tbProductItems));
+		return ResultConstant.ofSuccess(result);
 	}
 
 	@ApiOperation(value = "新增商品类目", notes = "根据传入的商品类目，新增配置商品类目")

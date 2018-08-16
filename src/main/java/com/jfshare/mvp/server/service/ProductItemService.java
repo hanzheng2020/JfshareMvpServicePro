@@ -7,12 +7,17 @@ import com.jfshare.mvp.server.model.TbProduct;
 import com.jfshare.mvp.server.model.TbProductExample;
 import com.jfshare.mvp.server.model.TbProductItem;
 import com.jfshare.mvp.server.model.TbProductItemExample;
+import com.jfshare.mvp.server.model.TbProductItemExample.Criteria;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author fengxiang
@@ -59,27 +64,78 @@ public class ProductItemService {
 		return true;
 	}
 
-	public List<TbProductItem> getProductItem(String itemName, boolean useLike) {
+	public List<Map<String, Object>> getProductItem(String itemName, boolean useLike, boolean asTree) {
 		if (!useLike) {
-			return getProductItem(itemName);
+			return getProductItem(itemName, asTree);
 		}
 		TbProductItemExample tbProductItemExample = new TbProductItemExample();
+		Criteria criteria = tbProductItemExample.createCriteria();
+		if (asTree) {
+			criteria.andParentItemNoIsNull();
+		}
 		if (!StringUtils.isEmpty(itemName)) {
-			tbProductItemExample.createCriteria()
-								.andItemNameLike("%"+itemName+"%");
+			criteria.andItemNameLike("%"+itemName+"%");
 		}
 		List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
-		return tbProductItems;
+		List<Map<String, Object>> result = new ArrayList<>();
+		for (TbProductItem tbProductItem : tbProductItems) {
+			result.add(createItemTree(tbProductItem, asTree));
+		}
+		return result;
 	}
 	
-	public List<TbProductItem> getProductItem(String itemNo) {
+	public List<Map<String, Object>> getProductItem(String itemNo, boolean asTree) {
 		TbProductItemExample tbProductItemExample = new TbProductItemExample();
+		Criteria criteria = tbProductItemExample.createCriteria();
+		if (asTree) {
+			criteria.andParentItemNoIsNull();
+		}	
 		if (!StringUtils.isEmpty(itemNo)) {
-			tbProductItemExample.createCriteria()
-								.andItemNoEqualTo(itemNo);
+			criteria.andItemNoEqualTo(itemNo);
 		}
 		List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
-		return tbProductItems;
+		List<Map<String, Object>> result = new ArrayList<>();
+		for (TbProductItem tbProductItem : tbProductItems) {
+			result.add(createItemTree(tbProductItem, asTree));
+		}
+		return result;
+	}
+	
+	private Map<String, Object> createItemTree(TbProductItem tbProductItem, boolean asTree) {
+		Map<String, Object> rtMap = new HashMap<>();
+		TbProductItemExample tbProductItemExample = new TbProductItemExample();
+		if (asTree) {
+			tbProductItemExample.createCriteria()
+								.andParentItemNoEqualTo(tbProductItem.getItemNo());
+			List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
+			if (!CollectionUtils.isEmpty(tbProductItems)) {
+				List<Map<String, Object>> listChild = new ArrayList<>();
+				for (TbProductItem productItem : tbProductItems) {
+					Map<String, Object> mapChild = new HashMap<>();
+					mapChild = createItemTree(productItem, asTree);
+					mapChild.put("parentItemName", tbProductItem.getItemName());
+					mapChild.put("parentItemNo", tbProductItem.getItemNo());
+					listChild.add(mapChild);
+				}
+				rtMap.put("children", listChild);
+			}
+		} else {
+			if (StringUtils.isEmpty(tbProductItem.getParentItemNo())) {
+				rtMap.put("parentItemName", "");
+				rtMap.put("parentItemNo", "");
+			} else {
+				tbProductItemExample.createCriteria()
+									.andItemNoEqualTo(tbProductItem.getParentItemNo());
+				List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
+				rtMap.put("parentItemName", tbProductItems.get(0).getItemName());
+				rtMap.put("parentItemNo", tbProductItems.get(0).getItemNo());
+			}
+		}
+
+		rtMap.put("itemNo", tbProductItem.getItemNo());
+		rtMap.put("itemName", tbProductItem.getItemName());
+		rtMap.put("itemDesc", tbProductItem.getItemDesc());
+		return rtMap;
 	}
 	
 	public ResultConstant deleteProductItem(String itemNo) {
