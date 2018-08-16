@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.model.TbAppVerinfo;
 import com.jfshare.mvp.server.model.TbProductItemShow;
-import com.jfshare.mvp.server.model.TbProductPromotion;
 import com.jfshare.mvp.server.service.AppInfoServer;
 import com.jfshare.mvp.server.service.PromotionSettingService;
 import com.jfshare.mvp.server.utils.ConvertBeanToMapUtils;
@@ -40,8 +38,8 @@ public class ShopController {
 	
 	@ApiOperation(value = "获取前端展示的推广商品", notes = "获取所有目前已经配置的推广商品")
 	@GetMapping("/promotionProducts")
-	public ResultConstant getPromotionProducts() {
-		List<Map<String, Object>> result = promotionSettingService.getProductPromotionDetails();
+	public ResultConstant getPromotionProducts(Boolean publishInd) {
+		List<Map<String, Object>> result = promotionSettingService.getProductPromotionDetails(publishInd);
 		if (!CollectionUtils.isEmpty(result)) {
 			return ResultConstant.ofSuccess(result);
 		}
@@ -51,8 +49,8 @@ public class ShopController {
 	@ApiOperation(value="获取前端展示的商品类目", 
 			notes="获取所有目前已经配置的类目")
 	@GetMapping("/productItemShows")
-	public ResultConstant getProductItemShows() {
-		List<TbProductItemShow> tbProductItemShows = promotionSettingService.getProductItemShows();
+	public ResultConstant getProductItemShows(Boolean publishInd) {
+		List<TbProductItemShow> tbProductItemShows = promotionSettingService.getProductItemShows(publishInd);
 		if (!CollectionUtils.isEmpty(tbProductItemShows)) {
 			return ResultConstant.ofSuccess(ConvertBeanToMapUtils.convertBeanListToMap(tbProductItemShows, "products"));
 		}
@@ -62,8 +60,8 @@ public class ShopController {
 	@ApiOperation(value="获取类目商品详情", 
 			notes="根据itemShowNo获取对应类目下的所有商品详情")
 	@GetMapping("/productShowDetail")
-	public ResultConstant getProductShowDetail(Integer itemShowNo) {
-		List<Map<String, Object>> result = promotionSettingService.getProductShowDetail(itemShowNo);
+	public ResultConstant getProductShowDetail(Integer itemShowNo, Boolean publishInd) {
+		List<Map<String, Object>> result = promotionSettingService.getProductShowDetail(itemShowNo, publishInd);
 		if (!CollectionUtils.isEmpty(result)) {
 			return ResultConstant.ofSuccess(result);
 		}

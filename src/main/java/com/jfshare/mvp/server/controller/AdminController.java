@@ -24,7 +24,6 @@ import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.model.TbJfRaiders;
 import com.jfshare.mvp.server.model.TbJvjindouRule;
 import com.jfshare.mvp.server.model.TbProductItemShow;
-import com.jfshare.mvp.server.model.TbProductPromotion;
 import com.jfshare.mvp.server.service.JfRaidersService;
 import com.jfshare.mvp.server.service.JvjindouRuleService;
 import com.jfshare.mvp.server.service.ProductItemService;
@@ -79,10 +78,10 @@ public class AdminController {
 	@ApiOperation(value="获取商品推广设置", 
 			notes="获取所有目前已经配置的商品推广设置")
 	@GetMapping("/promotionProducts")
-	public ResultConstant getPromotionProducts() {
-		List<TbProductPromotion> tbProductPromotions = promotionSettingService.getProductPromotions();
-		if (!CollectionUtils.isEmpty(tbProductPromotions)) {
-			return ResultConstant.ofSuccess(ConvertBeanToMapUtils.convertBeanListToMap(tbProductPromotions));
+	public ResultConstant getPromotionProducts(Boolean publishInd) {
+		List<Map<String, Object>> result = promotionSettingService.getProductPromotionDetails(publishInd);
+		if (!CollectionUtils.isEmpty(result)) {
+			return ResultConstant.ofSuccess(ConvertBeanToMapUtils.convertBeanListToMap(result));
 		}
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取推广商品失败！");
 	}
@@ -90,8 +89,8 @@ public class AdminController {
 	@ApiOperation(value="获取类目商品展示设置", 
 			notes="获取所有目前已经配置的类目商品展示设置")
 	@GetMapping("/productItemShows")
-	public ResultConstant getProductItemShows() {
-		List<TbProductItemShow> tbProductItemShows = promotionSettingService.getProductItemShows();
+	public ResultConstant getProductItemShows(Boolean publishInd) {
+		List<TbProductItemShow> tbProductItemShows = promotionSettingService.getProductItemShows(publishInd);
 		if (!CollectionUtils.isEmpty(tbProductItemShows)) {
 			return ResultConstant.ofSuccess(ConvertBeanToMapUtils.convertBeanListToMap(tbProductItemShows, "products"));
 		}

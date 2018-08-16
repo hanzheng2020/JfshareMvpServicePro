@@ -37,7 +37,7 @@ public class WeChatInterface {
 	
 	@PostConstruct
 	public void init() {
-		notify_url = configManager.getConfigValue("configManager", "weixinpay_notify_url");
+		notify_url = configManager.getConfigValue("jfx_pay_serv", "weixinpay_notify_url");
 	}
 	
 	public String createPrepayId(String productDesc, String orderNo, int amount, String userIp) {

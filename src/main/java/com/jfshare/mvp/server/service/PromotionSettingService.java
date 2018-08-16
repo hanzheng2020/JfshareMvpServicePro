@@ -20,6 +20,7 @@ import com.jfshare.mvp.server.model.TbProduct;
 import com.jfshare.mvp.server.model.TbProductExample;
 import com.jfshare.mvp.server.model.TbProductItemShow;
 import com.jfshare.mvp.server.model.TbProductItemShowExample;
+import com.jfshare.mvp.server.model.TbProductItemShowExample.Criteria;
 import com.jfshare.mvp.server.model.TbProductPromotion;
 import com.jfshare.mvp.server.model.TbProductPromotionExample;
 
@@ -152,20 +153,12 @@ public class PromotionSettingService {
 		return true;
 	}
 
-	public List<TbProductPromotion> getProductPromotions() {
-		TbProductPromotionExample tbProductPromotionExample = new TbProductPromotionExample();
-		List<TbProductPromotion> tbProductPromotions = null;
-		try {
-			tbProductPromotions = tbProductPromotionDao.selectByExample(tbProductPromotionExample);
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("获取推广商品配置失败", e);
-		}
-		return tbProductPromotions;
-	}
 	
-	public List<Map<String, Object>> getProductPromotionDetails() {
+	public List<Map<String, Object>> getProductPromotionDetails(Boolean publishInd) {
 		TbProductPromotionExample tbProductPromotionExample = new TbProductPromotionExample();
+		if (publishInd != null) {
+			tbProductPromotionExample.createCriteria().andPublishIndEqualTo(publishInd);
+		}
 		List<Map<String, Object>> result = new ArrayList<>();
 		try {
 			List<TbProductPromotion> tbProductPromotions = tbProductPromotionDao.selectByExample(tbProductPromotionExample);
@@ -235,24 +228,11 @@ public class PromotionSettingService {
 		return curPrice;
 	}
 	
-	@Transactional
-	public boolean updateProductItemShow(TbProductItemShow[] tbProductItemShows, Boolean publishInd) {
-		try {
-			TbProductItemShowExample tbProductItemShowExample = new TbProductItemShowExample();
-			tbProductItemShowDao.deleteByExample(tbProductItemShowExample);
-			for (TbProductItemShow tbProductItemShow : tbProductItemShows) {
-				tbProductItemShowDao.insert(tbProductItemShow);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("更新类目商品展示设置失败！", e);
-			return false;
-		}
-		return true;
-	}
-	
-	public List<TbProductItemShow> getProductItemShows() {
+	public List<TbProductItemShow> getProductItemShows(Boolean publishInd) {
 		TbProductItemShowExample tbProductItemShowExample = new TbProductItemShowExample();
+		if (publishInd != null) {
+			tbProductItemShowExample.createCriteria().andPublishIndEqualTo(publishInd);
+		}
 		List<TbProductItemShow> tbProductItemShows = null;
 		try {
 			tbProductItemShows = tbProductItemShowDao.selectByExample(tbProductItemShowExample);
@@ -263,10 +243,13 @@ public class PromotionSettingService {
 		return tbProductItemShows;
 	}
 	
-	public List<Map<String, Object>> getProductShowDetail(Integer itemShowNo) {
+	public List<Map<String, Object>> getProductShowDetail(Integer itemShowNo, Boolean publishInd) {
 		TbProductItemShowExample tbProductItemShowExample = new TbProductItemShowExample();
-		tbProductItemShowExample.createCriteria()
+		Criteria criteria= tbProductItemShowExample.createCriteria()
 								.andItemShowNoEqualTo(itemShowNo);
+		if (publishInd != null) {
+			criteria.andPublishIndEqualTo(publishInd);
+		}
 		List<Map<String, Object>> result = new ArrayList<>();
 		try {
 			List<TbProductItemShow> tbProductItemShows = tbProductItemShowDao.selectByExample(tbProductItemShowExample);
