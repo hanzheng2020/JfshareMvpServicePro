@@ -51,8 +51,8 @@ public class AdminController {
 	@Autowired
 	private JfRaidersService jfRaidersService;
 
-	@ApiOperation(value = "更新商品推广设置", notes = "根据传入的推广配置信息，重新配置推广商品")
-	@PostMapping("/promotionProducts")
+	@ApiOperation(value = "更新推广微页面设置", notes = "根据传入的推广配置信息，重新配置推广商品")
+	@PostMapping("/promotionSetting")
 	public ResultConstant updateProductPromotion(@RequestBody TbProductPromotion[] tbProductPromotions,
 													Boolean publishInd) {
 		boolean result = promotionSettingService.updateProductPromotion(tbProductPromotions, publishInd);
@@ -72,6 +72,8 @@ public class AdminController {
 		}
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "更新类目商品展示设置失败！");
 	}
+	
+	
 	
 	@ApiOperation(value="获取商品推广设置", 
 			notes="获取所有目前已经配置的商品推广设置")

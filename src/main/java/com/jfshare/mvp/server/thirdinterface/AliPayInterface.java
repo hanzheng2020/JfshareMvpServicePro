@@ -1,4 +1,4 @@
-package com.jfshare.mvp.server.thirdpay;
+package com.jfshare.mvp.server.thirdinterface;
 
 /**
  * @author fengxiang
