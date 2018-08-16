@@ -51,29 +51,26 @@ public class AdminController {
 	@Autowired
 	private JfRaidersService jfRaidersService;
 
-	@ApiOperation(value = "更新推广微页面设置", notes = "根据传入的推广配置信息，重新配置推广商品")
+	@ApiOperation(value = "保存推广微页面设置", notes = "保存传入的推广配置和类目商品展示配置")
 	@PostMapping("/promotionSetting")
-	public ResultConstant updateProductPromotion(@RequestBody TbProductPromotion[] tbProductPromotions,
-													Boolean publishInd) {
-		boolean result = promotionSettingService.updateProductPromotion(tbProductPromotions, publishInd);
+	public ResultConstant savePromotionSetting(@RequestParam List<Map<String, Object>> productPromotions,
+												 @RequestParam List<Map<String, Object>> productItemShows) {
+		boolean result = promotionSettingService.savePromotionSetting(productPromotions, productItemShows);
 		if (result) {
 			return ResultConstant.ofSuccess();
 		}
-		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "更新商品推广设置失败！");
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "保存推广微页面设置失败！");
 	}
 
-	@ApiOperation(value = "更新类目商品展示设置", notes = "根据传入的类目商品展示信息，重新配置类目商品展示")
-	@PostMapping("/productItemShows")
-	public ResultConstant updateProductItemShow(@RequestBody TbProductItemShow[] tbProductItemShows,
-													Boolean publishInd) {
-		boolean result = promotionSettingService.updateProductItemShow(tbProductItemShows, publishInd);
+	@ApiOperation(value = "发布配置的推广微页面", notes = "publishInd = true时，发布上次保存的推广微页面配置")
+	@PostMapping("/publishPromotionSetting")
+	public ResultConstant publishPromotionSetting(@RequestParam Boolean publishInd) {
+		boolean result = promotionSettingService.publishPromotionSetting(publishInd);
 		if (result) {
 			return ResultConstant.ofSuccess();
 		}
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "更新类目商品展示设置失败！");
 	}
-	
-	
 	
 	@ApiOperation(value="获取商品推广设置", 
 			notes="获取所有目前已经配置的商品推广设置")

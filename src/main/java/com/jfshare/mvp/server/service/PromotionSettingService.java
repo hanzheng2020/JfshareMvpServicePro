@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jfshare.mvp.server.dao.TbProductDao;
 import com.jfshare.mvp.server.dao.TbProductItemShowDao;
@@ -43,16 +44,64 @@ public class PromotionSettingService {
 	private TbProductDao tbProductDao;
 	
 	@Transactional
-	public boolean updateProductPromotion(TbProductPromotion[] tbProductPromotions, Boolean publishInd) {
+	public boolean savePromotionSetting(List<Map<String, Object>> productPromotions, 
+										List<Map<String, Object>> productItemShows) {
 		try {
 			TbProductPromotionExample tbProductPromotionExample = new TbProductPromotionExample();
+			tbProductPromotionExample.createCriteria().andPublishIndEqualTo(false);
 			tbProductPromotionDao.deleteByExample(tbProductPromotionExample);
-			for (TbProductPromotion tbProductPromotion : tbProductPromotions) {
+			tbProductPromotionExample.clear();
+			for (int i = 0; i < productPromotions.size(); i ++) {
+				Map<String, Object> productPromotion = productPromotions.get(i);
+				TbProductPromotion tbProductPromotion = new TbProductPromotion();
+				tbProductPromotion.setPublishInd(false);
+				tbProductPromotion.setPromotionNo(i);
+				productPromotion.get("productDetails");
 				tbProductPromotionDao.insert(tbProductPromotion);
+			}
+			try {
+				/*TbProductItemShowExample tbProductItemShowExample = new TbProductItemShowExample();
+				tbProductItemShowDao.deleteByExample(tbProductItemShowExample);
+				for (TbProductItemShow tbProductItemShow : tbProductItemShows) {
+					tbProductItemShowDao.insert(tbProductItemShow);
+				}*/
+			} catch (Exception e) {
+				e.printStackTrace();
+				logger.error("更新类目商品展示设置失败！", e);
+				return false;
+			}
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("保存推广微页面设置失败！", e);
+			return false;
+		}
+	}
+	
+	@Transactional
+	public boolean publishPromotionSetting(Boolean publishInd) {
+		try {
+			if (publishInd) {
+				TbProductPromotionExample tbProductPromotionExample = new TbProductPromotionExample();
+				tbProductPromotionExample.createCriteria().andPublishIndEqualTo(true);
+				tbProductPromotionDao.deleteByExample(tbProductPromotionExample);
+				tbProductPromotionExample.clear();
+				TbProductPromotion tbProductPromotion = new TbProductPromotion();
+				tbProductPromotion.setPublishInd(true);
+				tbProductPromotionDao.updateByExampleSelective(tbProductPromotion, tbProductPromotionExample);
+				
+				
+				TbProductItemShowExample tbProductItemShowExample = new TbProductItemShowExample();
+				tbProductItemShowExample.createCriteria().andPublishIndEqualTo(true);
+				tbProductItemShowDao.deleteByExample(tbProductItemShowExample);
+				tbProductItemShowExample.clear();
+				TbProductItemShow tbProductItemShow = new TbProductItemShow();
+				tbProductItemShow.setPublishInd(true);
+				tbProductItemShowDao.updateByExampleSelective(tbProductItemShow, tbProductItemShowExample);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("更新商品推广设置失败！", e);
+			logger.error("发布推广微页面设置失败！", e);
 			return false;
 		}
 		return true;

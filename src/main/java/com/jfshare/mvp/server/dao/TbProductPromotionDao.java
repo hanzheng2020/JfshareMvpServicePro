@@ -4,9 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
 import com.jfshare.mvp.server.mapper.TbProductPromotionMapper;
@@ -29,6 +26,11 @@ public class TbProductPromotionDao {
 	public int updateByPrimaryKey(TbProductPromotion record) {
 		record.setUpdateTime(new Date());
 		return tbProductPromotionMapper.updateByPrimaryKey(record);
+	}
+	
+	public int updateByExampleSelective(TbProductPromotion record, TbProductPromotionExample example) {
+		record.setUpdateTime(new Date());
+		return tbProductPromotionMapper.updateByExampleSelective(record, example);
 	}
 	
 	public int deleteByExample(TbProductPromotionExample example) {

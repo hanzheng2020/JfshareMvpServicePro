@@ -6,11 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
 import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import com.jfshare.mvp.server.config.ConfigManager;
 import com.jfshare.mvp.server.utils.EncryptUtils;
 import com.jfshare.mvp.server.utils.UUIDutils;
 import com.jfshare.mvp.server.utils.XmlUtils;
@@ -23,12 +26,19 @@ import com.jfshare.mvp.server.utils.XmlUtils;
 public class WeChatInterface {
 	@Autowired
 	private RestTemplate restTemplate;
+	@Autowired
+	private ConfigManager configManager;
 	
 	private static String payUrl = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 	private String appid = "wxc93b05e31a57d38c";
 	private String mch_id = "1330572901";
 	private String key = "d1ed1f014730e48b0f209bd2c00942ba";
 	private String notify_url = "";
+	
+	@PostConstruct
+	public void init() {
+		notify_url = configManager.getConfigValue("configManager", "weixinpay_notify_url");
+	}
 	
 	public String createPrepayId(String productDesc, String orderNo, int amount, String userIp) {
 		Map<String, Object> requestMap = new HashMap<>();

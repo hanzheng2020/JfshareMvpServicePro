@@ -18,4 +18,8 @@ public class ThirdPayService {
 		
 		return weChatInterface.createPrepayId("test", orderNo, 1, userIp);
 	}
+	
+	public String createAliPayOrder() {
+		return "";
+	}
 }
