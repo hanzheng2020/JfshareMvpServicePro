@@ -78,7 +78,7 @@ public class AdminController {
 	@ApiOperation(value="获取商品推广设置", 
 			notes="获取所有目前已经配置的商品推广设置")
 	@GetMapping("/promotionProducts")
-	public ResultConstant getPromotionProducts(Boolean publishInd) {
+	public ResultConstant getPromotionProducts(@RequestParam(defaultValue="false", required=false) Boolean publishInd) {
 		List<Map<String, Object>> result = promotionSettingService.getProductPromotionDetails(publishInd);
 		if (!CollectionUtils.isEmpty(result)) {
 			return ResultConstant.ofSuccess(ConvertBeanToMapUtils.convertBeanListToMap(result));
@@ -89,7 +89,7 @@ public class AdminController {
 	@ApiOperation(value="获取类目商品展示设置", 
 			notes="获取所有目前已经配置的类目商品展示设置")
 	@GetMapping("/productItemShows")
-	public ResultConstant getProductItemShows(Boolean publishInd) {
+	public ResultConstant getProductItemShows(@RequestParam(defaultValue="false", required=false) Boolean publishInd) {
 		List<TbProductItemShow> tbProductItemShows = promotionSettingService.getProductItemShows(publishInd);
 		if (!CollectionUtils.isEmpty(tbProductItemShows)) {
 			return ResultConstant.ofSuccess(ConvertBeanToMapUtils.convertBeanListToMap(tbProductItemShows, "products"));
