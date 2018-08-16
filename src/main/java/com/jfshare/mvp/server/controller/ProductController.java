@@ -37,12 +37,15 @@ public class ProductController {
 			@RequestParam(value = "activeState", required = false) Integer activeState,
 			@RequestParam(value = "curpage", required = true) Integer curpage,
 			@RequestParam(value = "percount", required = true) Integer percount) {
-		List<TbProductSurvey> productList = productService.productSurveyQuery(productId, productName, itemNo,
-				activeState, curpage, percount);
-		if (!CollectionUtils.isEmpty(productList)) {
-			return ResultConstant.ofSuccess(productList);
+		List<TbProductSurvey> productList;
+		try {
+			productList = productService.productSurveyQuery(productId, productName, itemNo,
+					activeState, curpage, percount);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取商品信息失败");
 		}
-		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取商品信息失败");
+			return ResultConstant.ofSuccess(productList);
 	}
 
 	@ApiOperation(value = "新增商品", notes = "新增商品信息")
