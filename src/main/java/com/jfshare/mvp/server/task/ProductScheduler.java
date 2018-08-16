@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  */
 @EnableScheduling
 @Component
-public class Scheduler {
-	private final static Logger logger = LoggerFactory.getLogger(Scheduler.class);
+public class ProductScheduler {
+	private final static Logger logger = LoggerFactory.getLogger(ProductScheduler.class);
 	
 }
