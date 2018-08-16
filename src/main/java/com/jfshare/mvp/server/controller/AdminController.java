@@ -2,21 +2,22 @@ package com.jfshare.mvp.server.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import com.jfshare.mvp.server.constants.Constant;
 import com.jfshare.mvp.server.constants.ResultConstant;
@@ -51,10 +52,13 @@ public class AdminController {
 	@Autowired
 	private JfRaidersService jfRaidersService;
 
+	@SuppressWarnings("rawtypes")
 	@ApiOperation(value = "保存推广微页面设置", notes = "保存传入的推广配置和类目商品展示配置")
 	@PostMapping("/promotionSetting")
-	public ResultConstant savePromotionSetting(@RequestParam List<Map<String, Object>> productPromotions,
-												 @RequestParam List<Map<String, Object>> productItemShows) {
+	public ResultConstant savePromotionSetting(@RequestParam String productPromotionJson,
+												 @RequestParam String productItemShowJson) {
+		List<Map> productPromotions = JSON.parseArray(productPromotionJson, Map.class);
+		List<Map> productItemShows = JSON.parseArray(productItemShowJson, Map.class);
 		boolean result = promotionSettingService.savePromotionSetting(productPromotions, productItemShows);
 		if (result) {
 			return ResultConstant.ofSuccess();

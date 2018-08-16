@@ -12,8 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
-
+import com.alibaba.fastjson.JSONArray;
 import com.jfshare.mvp.server.dao.TbProductDao;
 import com.jfshare.mvp.server.dao.TbProductItemShowDao;
 import com.jfshare.mvp.server.dao.TbProductPromotionDao;
@@ -43,9 +42,10 @@ public class PromotionSettingService {
 	@Autowired
 	private TbProductDao tbProductDao;
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Transactional
-	public boolean savePromotionSetting(List<Map<String, Object>> productPromotions, 
-										List<Map<String, Object>> productItemShows) {
+	public boolean savePromotionSetting(List<Map> productPromotions, 
+										List<Map> productItemShows) {
 		try {
 			TbProductPromotionExample tbProductPromotionExample = new TbProductPromotionExample();
 			tbProductPromotionExample.createCriteria().andPublishIndEqualTo(false);
@@ -56,26 +56,71 @@ public class PromotionSettingService {
 				TbProductPromotion tbProductPromotion = new TbProductPromotion();
 				tbProductPromotion.setPublishInd(false);
 				tbProductPromotion.setPromotionNo(i);
-				productPromotion.get("productDetails");
+				tbProductPromotion.setPromotionPicUrl(productPromotion.get("promotionPicUrl").toString());
+				tbProductPromotion.setPromotionUrl(productPromotion.get("promotionUrl").toString());
+				JSONArray productDetailArrays = (JSONArray) productPromotion.get("productDetails");
+				List<Map> productDetails = productDetailArrays.toJavaList(Map.class);
+				for (int index = 0; index < productDetails.size(); index ++) {
+					String productId = productDetails.get(index).get("productId").toString();
+					String productDesc = productDetails.get(index).get("productDesc").toString();
+					String productPicUrl = productDetails.get(index).get("productPicUrl").toString();
+					switch (index) {
+					case 0:
+						tbProductPromotion.setProductOneId(productId);
+						tbProductPromotion.setProductOneDesc(productDesc);
+						tbProductPromotion.setProductOnePicUrl(productPicUrl);
+						break;
+					case 1:
+						tbProductPromotion.setProductTwoId(productId);
+						tbProductPromotion.setProductTwoDesc(productDesc);
+						tbProductPromotion.setProductTwoPicUrl(productPicUrl);
+						break;
+					case 2:
+						tbProductPromotion.setProductThreeId(productId);
+						tbProductPromotion.setProductThreeDesc(productDesc);
+						tbProductPromotion.setProductThreePicUrl(productPicUrl);
+						break;
+					case 3:
+						tbProductPromotion.setProductFourId(productId);
+						tbProductPromotion.setProductFourDesc(productDesc);
+						tbProductPromotion.setProductFourPicUrl(productPicUrl);
+						break;
+					case 4:
+						tbProductPromotion.setProductFiveId(productId);
+						tbProductPromotion.setProductFiveDesc(productDesc);
+						tbProductPromotion.setProductFivePicUrl(productPicUrl);
+						break;
+					case 5:
+						tbProductPromotion.setProductSixId(productId);
+						tbProductPromotion.setProductSixDesc(productDesc);
+						tbProductPromotion.setProductSixPicUrl(productPicUrl);
+						break;
+					default:
+						break;
+					}
+				}
 				tbProductPromotionDao.insert(tbProductPromotion);
 			}
-			try {
-				/*TbProductItemShowExample tbProductItemShowExample = new TbProductItemShowExample();
-				tbProductItemShowDao.deleteByExample(tbProductItemShowExample);
-				for (TbProductItemShow tbProductItemShow : tbProductItemShows) {
-					tbProductItemShowDao.insert(tbProductItemShow);
-				}*/
-			} catch (Exception e) {
-				e.printStackTrace();
-				logger.error("更新类目商品展示设置失败！", e);
-				return false;
+			
+			TbProductItemShowExample tbProductItemShowExample = new TbProductItemShowExample();
+			tbProductItemShowExample.createCriteria().andPublishIndEqualTo(false);
+			tbProductItemShowDao.deleteByExample(tbProductItemShowExample);
+			tbProductItemShowExample.clear();
+			for (int i = 0; i < productItemShows.size(); i ++) {
+				Map<String, Object> productPromotion = productItemShows.get(i);
+				TbProductItemShow tbProductItemShow = new TbProductItemShow();
+				tbProductItemShow.setItemShowNo(i);
+				tbProductItemShow.setItemShowDesc(productPromotion.get("itemShowDesc").toString());
+				tbProductItemShow.setProducts(productPromotion.get("products").toString());
+				tbProductItemShow.setPublishInd(false);
+				tbProductItemShowDao.insert(tbProductItemShow);
 			}
-			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("保存推广微页面设置失败！", e);
 			return false;
 		}
+		return true;
 	}
 	
 	@Transactional
