@@ -1,5 +1,7 @@
 package com.jfshare.mvp.server.controller;
 
+import java.util.Map;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -113,4 +115,13 @@ public class UserController {
 		Integer amount = levelInfoService.queryTbLevelUserAmount(userId);
 		return ResultConstant.ofSuccess(amount);
 	}
+	
+	@ApiOperation(value="同步赠送聚金豆", notes="查询积分赠送聚金豆，用户当日首次查询积分赠送聚金豆，userId")
+	@GetMapping("/synchronizeAmount")
+	public ResultConstant synchronizeAmount(@RequestParam(value="userId",required=true) Integer userId) {
+		Map<String,Object> amount = levelInfoService.presentJvjindouByuserId(userId);
+		return ResultConstant.ofSuccess(amount);
+	}
+	
+	
 }

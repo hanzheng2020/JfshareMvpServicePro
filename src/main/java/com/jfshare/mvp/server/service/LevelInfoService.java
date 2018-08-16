@@ -2,7 +2,9 @@ package com.jfshare.mvp.server.service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.slf4j.Logger;
@@ -40,7 +42,11 @@ public class LevelInfoService {
 	
 	// 用户每日查询通过赠送规则赠送积分
 	@Transactional
-	public void presentJvjindouByuserId(Integer userId) {
+	public Map<String,Object> presentJvjindouByuserId(Integer userId) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("status", false);//是否是当日第一次赠送  false:否，true：是
+		map.put("amount", 0);//当次赠送的聚金豆数量
+		
 		logger.info(String.format("积分同步赠送聚金豆:userId{}", userId));
 		TbLevelInfo levlInfo = levelInfoDao.selectLevelInfoByUserId(userId);
 		//List<TbLevelInfo> levelInfos = levelInfoDao.selectJvjindouRuleByUserId(userId);
@@ -53,7 +59,7 @@ public class LevelInfoService {
 			jvjindouRule = jvjindouRules.get(0);
 		} else {
 			logger.info(String.format("赠送规则不存在:jvjindouRules{}", jvjindouRules));
-			return;
+			return map;
 		}
 		int num =0;
 		String givingRule = jvjindouRule.getGivingRule();
@@ -67,13 +73,18 @@ public class LevelInfoService {
 		if (levlInfo != null) {
 			Date date = new Date();
 			//String updateTime = sdf.format(levlInfo.getUpdateTime());
-			String queryTime = sdf.format(levlInfo.getQueryTime());
+			String queryTime = null;
+			if(levlInfo.getQueryTime()!=null) {
+				queryTime = sdf.format(levlInfo.getQueryTime());
+			}
+
 			String curentTime = sdf.format(date);
-			if (queryTime.equals(curentTime)) {
+			if (curentTime.equals(queryTime)) {
 				logger.info(String.format("当日已经赠送不能重复赠送:givingRule{}", givingRule));
-				return;
+				return map;
 			} else {
 				levlInfo.setQueryTime(new Date());
+				levlInfo.setRealJvjindou(num);
 				levelInfoDao.updateLevelInfo(levlInfo);
 			}
 		} else {
@@ -81,10 +92,14 @@ public class LevelInfoService {
 			info.setUserid(userId);
 			info.setGrowthPoint(0);
 			info.setGrade(Constant.GOLD);
+			info.setRealJvjindou(num);
 			levelInfoDao.insertSelective(info);
 		}
+		map.put("status", true);//是否是当日第一次赠送  false:否，true：是
+		map.put("amount", num);//当次赠送的聚金豆数量
 		StringResult results=scoreClient.incomeScore(userId,num, 1, "");
 		logger.info(String.format("每日积分同步:results{}", results));
+		return map;
 	}
 
 
