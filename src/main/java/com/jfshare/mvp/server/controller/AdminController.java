@@ -128,9 +128,9 @@ public class AdminController {
 
 	@ApiOperation(value = "新增商品类目", notes = "根据传入的商品类目，新增配置商品类目")
 	@PostMapping("/productItem")
-	public ResultConstant addProductItem(String itemName, 
-										 String itemDesc,
-										 String parentItemNo) {
+	public ResultConstant addProductItem(@RequestBody String itemName, 
+										@RequestBody String itemDesc,
+										@RequestBody String parentItemNo) {
 		boolean result = productItemService.addProductItem(itemName, itemDesc, parentItemNo);
 		if (result) {
 			return ResultConstant.ofSuccess();
