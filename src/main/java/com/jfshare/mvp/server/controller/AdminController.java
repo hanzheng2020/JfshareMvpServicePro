@@ -137,7 +137,7 @@ public class AdminController {
 
 	@ApiOperation(value = "删除商品类目", notes = "根据传入的商品类目编号，删除商品类目")
 	@DeleteMapping("/productItem")
-	public ResultConstant deleteProductItem(@RequestBody String itemNo) {
+	public ResultConstant deleteProductItem(String itemNo) {
 		ResultConstant result = productItemService.deleteProductItem(itemNo);
 		return result;
 	}
