@@ -12,6 +12,7 @@ import com.jfshare.mvp.server.service.ThirdPayService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 /**
  * @author fengxiang
@@ -24,10 +25,27 @@ public class OrderController {
 	@Autowired
 	private ThirdPayService thirdPayService;
 	
-	@ApiOperation(value = "调用微信支付接口", notes = "传入订单号和用户终端IP，返回prepay_id（预支付交易会话标识）")
-	@PostMapping("/weChatPay")
-	public ResultConstant weChatPay(@RequestParam String orderNo, @RequestParam String userIp) {
-		String prepay_id = thirdPayService.createWeChatPayOrder(orderNo, userIp);
+	/*
+	 * 微信支付
+	 */
+	private static final int weChatPay = 1;
+	/**
+	 * 支付宝支付
+	 */
+	private static final int aliPay = 2;
+	
+	
+	@ApiOperation(value = "调用支付接口", notes = "微信支付返回prepay_id(预支付交易会话标识),支付宝返回sign(签名)")
+	@PostMapping("/thirdPay")
+	public ResultConstant thirdPay(@ApiParam(value="用户Id",required=true) String userId, 
+									@ApiParam(value="订单Id",required=true) String orderId, 
+									@ApiParam(value="订单金额",required=true) Integer orderAmount,
+									@ApiParam(value="用户端IP",required=true) String clientIp,
+									@ApiParam(value="支付方式，1代表微信，2代表支付宝",required=true) Integer payChannel) {
+		String prepay_id = "";
+		if (weChatPay == payChannel) {
+			prepay_id = thirdPayService.createWeChatPayOrder(userId, orderId, orderAmount, clientIp);
+		}
 		if (StringUtils.isEmpty(prepay_id)) {
 			ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取prepay_id失败！");
 		}
