@@ -6,8 +6,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.jfshare.finagle.thrift.order.OrderDetailResult;
+import com.jfshare.mvp.server.finagle.server.OrderClient;
 import com.jfshare.mvp.server.thirdinterface.AliPayInterface;
-import com.jfshare.mvp.server.thirdinterface.WeChatInterface;
+import com.jfshare.mvp.server.thirdinterface.WeChatPayInterface;
 
 /**
  * @author fengxiang
@@ -16,14 +18,26 @@ import com.jfshare.mvp.server.thirdinterface.WeChatInterface;
 @Service
 public class ThirdPayService {
 	@Autowired
-	private WeChatInterface weChatInterface;
+	private WeChatPayInterface weChatPayInterface;
 	
 	@Autowired
 	private AliPayInterface aliPayInterface;
 	
-	public String createWeChatPayOrder(String orderNo, String userIp) {
+	@Autowired
+	private OrderClient orderClient;
+	
+	public boolean checkOrder(OrderDetailResult result, Integer orderAmount) {
+		return true;
+	}
+	
+	public String createWeChatPayOrder(String userId, String orderId, Integer orderAmount, String clientIp) {
+		OrderDetailResult result = orderClient.queryOrder(userId, orderId);
+		if (checkOrder(result, orderAmount)) {
+			return weChatPayInterface.createPrepayId(result.getOrder().getProductList().get(0).getProductName(), orderId, orderAmount, clientIp);
+		} else {
+			return "";
+		}
 		
-		return weChatInterface.createPrepayId("test", orderNo, 1, userIp);
 	}
 	
 	public String createAliPayOrder(String orderNo) {
