@@ -56,10 +56,10 @@ public class AdminController {
 	@SuppressWarnings("rawtypes")
 	@ApiOperation(value = "保存推广微页面设置", notes = "保存传入的推广配置和类目商品展示配置")
 	@PostMapping("/promotionSetting")
-	public ResultConstant savePromotionSetting(String productPromotionJson,
-												String productItemShowJson) {
-		List<Map> productPromotions = JSON.parseArray(productPromotionJson, Map.class);
-		List<Map> productItemShows = JSON.parseArray(productItemShowJson, Map.class);
+	public ResultConstant savePromotionSetting(@RequestBody String productPromotionArray,
+												@RequestBody String productItemShowArray) {
+		List<Map> productPromotions = JSON.parseArray(productPromotionArray, Map.class);
+		List<Map> productItemShows = JSON.parseArray(productItemShowArray, Map.class);
 		boolean result = promotionSettingService.savePromotionSetting(productPromotions, productItemShows);
 		if (result) {
 			return ResultConstant.ofSuccess();
@@ -69,7 +69,7 @@ public class AdminController {
 
 	@ApiOperation(value = "发布配置的推广微页面", notes = "publishInd = true时，发布上次保存的推广微页面配置")
 	@PostMapping("/publishPromotionSetting")
-	public ResultConstant publishPromotionSetting(Boolean publishInd) {
+	public ResultConstant publishPromotionSetting(@RequestBody Boolean publishInd) {
 		boolean result = promotionSettingService.publishPromotionSetting(publishInd);
 		if (result) {
 			return ResultConstant.ofSuccess();
@@ -101,10 +101,8 @@ public class AdminController {
 
 	@ApiOperation(value = "更新商品类目", notes = "根据传入的商品类目配置，重新配置商品类目")
 	@PutMapping("/productItem")
-	public ResultConstant updateProductItem(String itemNo,
-											String itemName, 
-											String itemDesc) {
-		boolean result = productItemService.updateProductItem(itemNo, itemName, itemDesc);
+	public ResultConstant updateProductItem(@RequestBody TbProductItem tbProductItem) {
+		boolean result = productItemService.updateProductItem(tbProductItem.getItemNo(), tbProductItem.getItemNo(), tbProductItem.getItemDesc());
 		if (result) {
 			return ResultConstant.ofSuccess();
 		}
@@ -139,7 +137,7 @@ public class AdminController {
 
 	@ApiOperation(value = "删除商品类目", notes = "根据传入的商品类目编号，删除商品类目")
 	@DeleteMapping("/productItem")
-	public ResultConstant deleteProductItem(String itemNo) {
+	public ResultConstant deleteProductItem(@RequestBody String itemNo) {
 		ResultConstant result = productItemService.deleteProductItem(itemNo);
 		return result;
 	}
