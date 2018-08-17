@@ -55,8 +55,8 @@ public class AdminController {
 	@SuppressWarnings("rawtypes")
 	@ApiOperation(value = "保存推广微页面设置", notes = "保存传入的推广配置和类目商品展示配置")
 	@PostMapping("/promotionSetting")
-	public ResultConstant savePromotionSetting(@RequestParam String productPromotionJson,
-												 @RequestParam String productItemShowJson) {
+	public ResultConstant savePromotionSetting(String productPromotionJson,
+												String productItemShowJson) {
 		List<Map> productPromotions = JSON.parseArray(productPromotionJson, Map.class);
 		List<Map> productItemShows = JSON.parseArray(productItemShowJson, Map.class);
 		boolean result = promotionSettingService.savePromotionSetting(productPromotions, productItemShows);
@@ -68,7 +68,7 @@ public class AdminController {
 
 	@ApiOperation(value = "发布配置的推广微页面", notes = "publishInd = true时，发布上次保存的推广微页面配置")
 	@PostMapping("/publishPromotionSetting")
-	public ResultConstant publishPromotionSetting(@RequestParam Boolean publishInd) {
+	public ResultConstant publishPromotionSetting(Boolean publishInd) {
 		boolean result = promotionSettingService.publishPromotionSetting(publishInd);
 		if (result) {
 			return ResultConstant.ofSuccess();
@@ -100,9 +100,9 @@ public class AdminController {
 
 	@ApiOperation(value = "更新商品类目", notes = "根据传入的商品类目配置，重新配置商品类目")
 	@PutMapping("/productItem")
-	public ResultConstant updateProductItem(@RequestParam(required = true) String itemNo,
-											@RequestParam(required = true) String itemName, 
-											@RequestParam(required = true) String itemDesc) {
+	public ResultConstant updateProductItem(String itemNo,
+											String itemName, 
+											String itemDesc) {
 		boolean result = productItemService.updateProductItem(itemNo, itemName, itemDesc);
 		if (result) {
 			return ResultConstant.ofSuccess();
@@ -128,9 +128,9 @@ public class AdminController {
 
 	@ApiOperation(value = "新增商品类目", notes = "根据传入的商品类目，新增配置商品类目")
 	@PostMapping("/productItem")
-	public ResultConstant addProductItem(@RequestParam(required = true) String itemName, 
-										 @RequestParam(required = true) String itemDesc,
-										 @RequestParam(required = false) String parentItemNo) {
+	public ResultConstant addProductItem(String itemName, 
+										 String itemDesc,
+										 String parentItemNo) {
 		boolean result = productItemService.addProductItem(itemName, itemDesc, parentItemNo);
 		if (result) {
 			return ResultConstant.ofSuccess();
@@ -140,7 +140,7 @@ public class AdminController {
 
 	@ApiOperation(value = "删除商品类目", notes = "根据传入的商品类目编号，删除商品类目")
 	@DeleteMapping("/productItem")
-	public ResultConstant deleteProductItem(@RequestParam(required=true) String itemNo) {
+	public ResultConstant deleteProductItem(String itemNo) {
 		ResultConstant result = productItemService.deleteProductItem(itemNo);
 		return result;
 	}
