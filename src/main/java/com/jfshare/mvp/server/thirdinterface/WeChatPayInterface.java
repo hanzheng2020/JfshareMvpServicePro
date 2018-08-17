@@ -10,6 +10,7 @@ import javax.annotation.PostConstruct;
 
 import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import com.jfshare.mvp.server.config.ConfigManager;
@@ -21,6 +22,7 @@ import com.jfshare.mvp.server.utils.XmlUtils;
  * @author fengxiang
  * @date 2018-08-17
  */
+@Component
 public class WeChatPayInterface {
 	
 	@Autowired
@@ -29,9 +31,9 @@ public class WeChatPayInterface {
 	private ConfigManager configManager;
 	
 	private static String payUrl = "https://api.mch.weixin.qq.com/pay/unifiedorder";
-	private String appid = "wxc93b05e31a57d38c";
+	private String appid = "wxe71603074adcfb75";
 	private String mch_id = "1330572901";
-	private String key = "d1ed1f014730e48b0f209bd2c00942ba";
+	private String key = "ewevqNRrAvhlFmqFiKbOmt4qIM0buotw";
 	private String notify_url = "";
 	
 	@PostConstruct

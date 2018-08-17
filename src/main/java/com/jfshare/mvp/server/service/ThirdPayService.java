@@ -43,6 +43,6 @@ public class ThirdPayService {
 	public String createAliPayOrder(String orderNo) {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("", "");
-		return aliPayInterface.createPaySign(params);
+		return aliPayInterface.createPaySign();
 	}
 }
