@@ -49,19 +49,19 @@ public class WeChatInterface {
 		notify_url = configManager.getConfigValue("jfx_pay_serv", "weixinpay_notify_url");
 	}
 	
-	@Value("${weChat.appId}")
+//	@Value("${weChat.appId}")
 	private String appId ;
 	
-	@Value("${weChat.appSecret}")
+//	@Value("${weChat.appSecret}")
 	private String appSecret;
 	
-	@Value("${weChat.templateIdSuccess}")
+//	@Value("${weChat.templateIdSuccess}")
 	private String templateIdSuccess;
 	
-	@Value("${weChat.templateIdFail}")
+//	@Value("${weChat.templateIdFail}")
 	private String templateIdFail;
 	
-	@Value("${weChat.redirectUrl}")
+//	@Value("${weChat.redirectUrl}")
 	private String redirectUrl;
 	
 	private String accessToken;
