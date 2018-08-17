@@ -39,6 +39,8 @@ public class XmlUtils {
 			if (value instanceof Map) {
 				Map<String, Object> valueMap = (Map<String, Object>) value;
 				element = createElement(valueMap, element);
+			} else if (value instanceof String || value instanceof Integer) {
+				element.setText(value.toString());
 			} else {
 				element.setText(JSON.toJSONString(value));
 			}
@@ -54,8 +56,10 @@ public class XmlUtils {
 			if (value instanceof Map) {
 				Map<String, Object> valueMap = (Map<String, Object>) value;
 				newElement = createElement(valueMap, newElement);
+			} else if (value instanceof String || value instanceof Integer) {
+				newElement.setText(value.toString());
 			} else {
-				newElement.setText(JSON.toJSONString(value));
+				element.setText(JSON.toJSONString(value));
 			}
 		}
 		return element;

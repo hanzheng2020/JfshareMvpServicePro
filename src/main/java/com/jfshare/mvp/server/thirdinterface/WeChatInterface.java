@@ -14,7 +14,6 @@ import org.dom4j.DocumentException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -154,12 +153,12 @@ public class WeChatInterface {
 	/**
 	 * 微信支付调用接口生成支付信息串
 	 * @param productDesc
-	 * @param orderNo
+	 * @param orderId
 	 * @param amount
 	 * @param userIp
 	 * @return
 	 */
-	public String createPrepayId(String productDesc, String orderNo, int amount, String userIp) {
+	public String createPrepayId(String productDesc, String orderId, int amount, String userIp) {
 		Map<String, Object> requestMap = new HashMap<>();
 		Map<String, Object> context = new HashMap<>();
 		
@@ -167,7 +166,7 @@ public class WeChatInterface {
 		context.put("mch_id", mch_id);
 		context.put("nonce_str", UUIDutils.getUUID());
 		context.put("body", productDesc);
-		context.put("out_trade_no", orderNo);
+		context.put("out_trade_no", orderId);
 		context.put("total_fee", amount);
 		context.put("spbill_create_ip", userIp);
 		context.put("notify_url", notify_url);
@@ -190,10 +189,7 @@ public class WeChatInterface {
 	}
 	
 	private String createSign(Map<String, Object> context) {
-		List<String> keyList = new ArrayList<>();
-		for (String key : context.keySet()) {
-			keyList.add(key);
-		}
+		List<String> keyList = new ArrayList<>(context.keySet());
 		Collections.sort(keyList);
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < keyList.size(); i ++) {
