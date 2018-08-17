@@ -24,6 +24,7 @@ import com.jfshare.mvp.server.constants.Constant;
 import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.model.TbJfRaiders;
 import com.jfshare.mvp.server.model.TbJvjindouRule;
+import com.jfshare.mvp.server.model.TbProductItem;
 import com.jfshare.mvp.server.model.TbProductItemShow;
 import com.jfshare.mvp.server.service.JfRaidersService;
 import com.jfshare.mvp.server.service.JvjindouRuleService;
@@ -128,10 +129,8 @@ public class AdminController {
 
 	@ApiOperation(value = "新增商品类目", notes = "根据传入的商品类目，新增配置商品类目")
 	@PostMapping("/productItem")
-	public ResultConstant addProductItem(@RequestBody String itemName, 
-										@RequestBody String itemDesc,
-										@RequestBody String parentItemNo) {
-		boolean result = productItemService.addProductItem(itemName, itemDesc, parentItemNo);
+	public ResultConstant addProductItem(@RequestBody TbProductItem tbProductItem) {
+		boolean result = productItemService.addProductItem(tbProductItem.getItemName(), tbProductItem.getItemDesc(), tbProductItem.getParentItemNo());
 		if (result) {
 			return ResultConstant.ofSuccess();
 		}
