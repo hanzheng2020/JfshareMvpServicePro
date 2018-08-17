@@ -27,47 +27,50 @@ import com.jfshare.mvp.server.service.ProductService;
 @Service
 public class ProductScheduler {
 	private final static Logger logger = LoggerFactory.getLogger(ProductScheduler.class);
-	
+
 	@Autowired
 	private ProductClient productClient;
-	
+
 	@Autowired
 	private ProductService productService;
-	
+
 	public void queryJfshareProduct() {
-		//查询聚分享的虚拟商品
+		// 查询聚分享的虚拟商品
 		ProductSurveyResult jProduct = productClient.queryProduct();
 		logger.info("jProduct: " + jProduct);
-		if(jProduct != null && jProduct.getProductSurveyList().size() > 0) {
+		if (jProduct != null && jProduct.getProductSurveyList().size() > 0) {
 			List<ProductSurvey> jProductList = jProduct.getProductSurveyList();
 			for (ProductSurvey productSurvey : jProductList) {
-				//同步聚分享虚拟商品到mvp商品
+				// 同步聚分享虚拟商品到mvp商品
 				String productId = productSurvey.getProductId();
+				TbProduct productOne = productService.getProductOne(productId);
+
 				Product product = new Product();
-				product.setProductId(productId);
-				product.setProductName(productSurvey.getProductName());
-				product.setItemNo(productSurvey.getSubjectId());
-				product.setCurPrice(productSurvey.getMinCurPrice());
-				product.setPresentexp(0);//赠送聚金豆默认为0  后台配置
-				//获取聚分享实际库存
+				// 获取聚分享实际库存
 				int count = productClient.getProductCardByState(productId);
 				product.setProductStock(count);
-				//获取商品的状态
-				int activeState = productSurvey.getActiveState();
-				//只有商品状态为300是上架状态
-				if(activeState == Constant.JPRODUCT_SOLT_OUT) {
-					product.setActiveState(Constant.PRODUCT_STATE_ONSELL);
-				}else {
-					//其他状态都设置成待上架的状态
-					product.setActiveState(Constant.PRODUCT_SOLT_OUT);
-				}
-				product.setImgKey(productSurvey.getImgUrl());
-				//同步到mvp商品
-				TbProduct productOne = productService.getProductOne(productId);
-				if(productOne != null) {
-					productService.updateProduct(product);
-				}else {
+				//状态都设置成待上架的状态
+				product.setActiveState(Constant.PRODUCT_SOLT_OUT);
+						
+				if (productOne == null) {
+					product.setProductId(productId);
+					product.setProductName(productSurvey.getProductName());
+					product.setItemNo(productSurvey.getSubjectId());
+					product.setCurPrice(productSurvey.getMinCurPrice());
+					product.setOrgPrice(productSurvey.getMinOrgPrice());
+					product.setPresentexp(0);// 赠送聚金豆默认为0 后台配置
+					product.setImgKey(productSurvey.getImgUrl());
+					// 同步到mvp商品
 					productService.addProduct(product);
+				} else {
+					product.setProductId(productOne.getProductId());
+					product.setProductName(productOne.getProductName());
+					product.setItemNo(productOne.getItemNo());
+					product.setCurPrice(productOne.getCurPrice());
+					product.setOrgPrice(productOne.getOrgPrice());
+					product.setPresentexp(productOne.getPresentexp());
+					product.setImgKey(productOne.getImgKey());
+					productService.updateProduct(product);
 				}
 			}
 		}

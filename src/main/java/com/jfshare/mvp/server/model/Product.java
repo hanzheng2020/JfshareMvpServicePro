@@ -8,6 +8,7 @@ public class Product {
 	private String productName;//商品名称
 	private String productHeader;//商品副标题
 	private String curPrice;//商品价格
+	private String orgPrice;//商品原价
 	private Integer productStock;//商品库存
 	private Integer activeState;//商品状态
 	private Integer presentexp;//赠送金豆
@@ -17,6 +18,12 @@ public class Product {
 	private Date lastSoldoutTime;//下架时间
 	private Date lastPutawayTime;//上架时间
 	
+	public String getOrgPrice() {
+		return orgPrice;
+	}
+	public void setOrgPrice(String orgPrice) {
+		this.orgPrice = orgPrice;
+	}
 	public Date getLastSoldoutTime() {
 		return lastSoldoutTime;
 	}

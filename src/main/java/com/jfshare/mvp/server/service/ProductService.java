@@ -99,6 +99,7 @@ public class ProductService {
 		tbProductWithBLOBs.setItemNo(product.getItemNo());
 		tbProductWithBLOBs.setProductHeader(product.getProductHeader());
 		tbProductWithBLOBs.setCurPrice(product.getCurPrice());
+		tbProductWithBLOBs.setOrgPrice(product.getOrgPrice());
 		tbProductWithBLOBs.setPresentexp(product.getPresentexp());
 		tbProductWithBLOBs.setProductStock(product.getProductStock());
 		Integer activeState = product.getActiveState();
