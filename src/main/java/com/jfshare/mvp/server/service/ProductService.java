@@ -68,7 +68,7 @@ public class ProductService {
 		tbProductDetail.setProductInstructions(product.getProductInstructions());
 		tbProductDetail.setProductExchange(product.getProductExchange());
 		tbProductDetail.setCreateTime(new Date());
-		tbProductDetail.setUpdateTime(new Date());
+		//tbProductDetail.setUpdateTime(new Date());
 		int count = tbProductDetailMapper.insert(tbProductDetail);
 		int result = 0;
 		if (count > 0) {
@@ -101,7 +101,13 @@ public class ProductService {
 		tbProductWithBLOBs.setCurPrice(product.getCurPrice());
 		tbProductWithBLOBs.setPresentexp(product.getPresentexp());
 		tbProductWithBLOBs.setProductStock(product.getProductStock());
-		tbProductWithBLOBs.setActiveState(product.getActiveState());
+		Integer activeState = product.getActiveState();
+		tbProductWithBLOBs.setActiveState(activeState);
+		if(activeState == Constant.PRODUCT_STATE_ONSELL) {
+			tbProductWithBLOBs.setLastPutawayTime(new Date());
+		}else {
+			tbProductWithBLOBs.setLastSoldoutTime(new Date());
+		}
 		tbProductWithBLOBs.setImgKey(product.getImgKey());
 		// 更新商品详情表
 		TbProductDetail tbProductDetail = new TbProductDetail();

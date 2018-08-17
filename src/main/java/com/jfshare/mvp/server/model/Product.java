@@ -1,5 +1,7 @@
 package com.jfshare.mvp.server.model;
 
+import java.util.Date;
+
 public class Product {
 	private Integer itemNo;//类目
 	private String productId;//商品id
@@ -12,6 +14,21 @@ public class Product {
 	private String imgKey;//商品图片
 	private String productInstructions;//商品使用说明
 	private String productExchange;//商品兑换说明
+	private Date lastSoldoutTime;//下架时间
+	private Date lastPutawayTime;//上架时间
+	
+	public Date getLastSoldoutTime() {
+		return lastSoldoutTime;
+	}
+	public void setLastSoldoutTime(Date lastSoldoutTime) {
+		this.lastSoldoutTime = lastSoldoutTime;
+	}
+	public Date getLastPutawayTime() {
+		return lastPutawayTime;
+	}
+	public void setLastPutawayTime(Date lastPutawayTime) {
+		this.lastPutawayTime = lastPutawayTime;
+	}
 	public Integer getItemNo() {
 		return itemNo;
 	}
