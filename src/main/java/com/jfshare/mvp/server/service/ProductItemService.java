@@ -75,7 +75,7 @@ public class ProductItemService {
 		Criteria criteria = tbProductItemExample.createCriteria();
 		if (asTree) {
 			criteria.andParentItemNoIsNull();
-		} else {
+		} else if (pageNum != null) {
 			tbProductItemExample.setOrderByClause("create_time desc");
 			PageHelper.startPage(pageNum, pageSize,true);
 		}
@@ -116,7 +116,7 @@ public class ProductItemService {
 		Criteria criteria = tbProductItemExample.createCriteria();
 		if (asTree) {
 			criteria.andParentItemNoIsNull();
-		} else {
+		} else if (pageNum != null) {
 			tbProductItemExample.setOrderByClause("create_time desc");
 			PageHelper.startPage(pageNum, pageSize,true);
 		}
