@@ -92,7 +92,9 @@ public class ProductItemService {
 		Criteria criteria = tbProductItemExample.createCriteria();
 		if (asTree) {
 			criteria.andParentItemNoIsNull();
-		}	
+		} else {
+			PageHelper.startPage(pageNum, pageSize,true);
+		}
 		if (!StringUtils.isEmpty(itemNo)) {
 			criteria.andItemNoEqualTo(itemNo);
 		}
