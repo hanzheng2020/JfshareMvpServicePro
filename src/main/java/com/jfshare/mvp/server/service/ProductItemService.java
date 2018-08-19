@@ -74,6 +74,7 @@ public class ProductItemService {
 		if (asTree) {
 			criteria.andParentItemNoIsNull();
 		} else {
+			tbProductItemExample.setOrderByClause("create_time desc");
 			PageHelper.startPage(pageNum, pageSize,true);
 		}
 		if (!StringUtils.isEmpty(itemName)) {
@@ -93,6 +94,7 @@ public class ProductItemService {
 		if (asTree) {
 			criteria.andParentItemNoIsNull();
 		} else {
+			tbProductItemExample.setOrderByClause("create_time desc");
 			PageHelper.startPage(pageNum, pageSize,true);
 		}
 		if (!StringUtils.isEmpty(itemNo)) {
