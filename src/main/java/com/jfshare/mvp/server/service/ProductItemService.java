@@ -66,6 +66,7 @@ public class ProductItemService {
 		return true;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public List<Map<String, Object>> getProductItem(String itemName, boolean useLike, boolean asTree, Integer pageNum, Integer pageSize) {
 		if (!useLike) {
 			return getProductItem(itemName, asTree, pageNum, pageSize);
@@ -88,20 +89,21 @@ public class ProductItemService {
 			result.add(createItemTree(tbProductItem, asTree));
 		}
 		if (tbProductItems instanceof Page) {
+			Page tbProductItemsPage = (Page) tbProductItems;
 			Page<Map<String, Object>> page = new Page<>();
-			page.setPageNum(page.getPageNum());
-			page.setPageSize(page.getPageSize());
-			page.setOrderBy(page.getOrderBy());
-			page.setPages(page.getPages());
-			page.setTotal(page.getTotal());;
+			page.setPageNum(tbProductItemsPage.getPageNum());
+			page.setPageSize(tbProductItemsPage.getPageSize());
+			page.setOrderBy(tbProductItemsPage.getOrderBy());
+			page.setPages(tbProductItemsPage.getPages());
+			page.setTotal(tbProductItemsPage.getTotal());;
             //由于结果是>startRow的，所以实际的需要+1
             if (page.size() == 0) {
             	page.setStartRow(0);
             	page.setEndRow(0);
             } else {
-            	page.setStartRow(page.getStartRow() + 1);
+            	page.setStartRow(tbProductItemsPage.getStartRow() + 1);
                 //计算实际的endRow（最后一页的时候特殊）
-            	page.setEndRow(page.getStartRow() - 1 + page.size());
+            	page.setEndRow(tbProductItemsPage.getStartRow() - 1 + tbProductItemsPage.size());
             }
 			page.addAll(result);
 			return page;
@@ -127,20 +129,21 @@ public class ProductItemService {
 			result.add(createItemTree(tbProductItem, asTree));
 		}
 		if (tbProductItems instanceof Page) {
+			Page tbProductItemsPage = (Page) tbProductItems;
 			Page<Map<String, Object>> page = new Page<>();
-			page.setPageNum(page.getPageNum());
-			page.setPageSize(page.getPageSize());
-			page.setOrderBy(page.getOrderBy());
-			page.setPages(page.getPages());
-			page.setTotal(page.getTotal());;
+			page.setPageNum(tbProductItemsPage.getPageNum());
+			page.setPageSize(tbProductItemsPage.getPageSize());
+			page.setOrderBy(tbProductItemsPage.getOrderBy());
+			page.setPages(tbProductItemsPage.getPages());
+			page.setTotal(tbProductItemsPage.getTotal());;
             //由于结果是>startRow的，所以实际的需要+1
             if (page.size() == 0) {
             	page.setStartRow(0);
             	page.setEndRow(0);
             } else {
-            	page.setStartRow(page.getStartRow() + 1);
+            	page.setStartRow(tbProductItemsPage.getStartRow() + 1);
                 //计算实际的endRow（最后一页的时候特殊）
-            	page.setEndRow(page.getStartRow() - 1 + page.size());
+            	page.setEndRow(tbProductItemsPage.getStartRow() - 1 + tbProductItemsPage.size());
             }
 			page.addAll(result);
 			return page;
