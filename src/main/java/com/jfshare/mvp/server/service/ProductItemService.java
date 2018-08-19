@@ -89,6 +89,20 @@ public class ProductItemService {
 		}
 		if (tbProductItems instanceof Page) {
 			Page<Map<String, Object>> page = new Page<>();
+			page.setPageNum(page.getPageNum());
+			page.setPageSize(page.getPageSize());
+			page.setOrderBy(page.getOrderBy());
+			page.setPages(page.getPages());
+			page.setTotal(page.getTotal());;
+            //由于结果是>startRow的，所以实际的需要+1
+            if (page.size() == 0) {
+            	page.setStartRow(0);
+            	page.setEndRow(0);
+            } else {
+            	page.setStartRow(page.getStartRow() + 1);
+                //计算实际的endRow（最后一页的时候特殊）
+            	page.setEndRow(page.getStartRow() - 1 + page.size());
+            }
 			page.addAll(result);
 			return page;
 		}
@@ -114,6 +128,20 @@ public class ProductItemService {
 		}
 		if (tbProductItems instanceof Page) {
 			Page<Map<String, Object>> page = new Page<>();
+			page.setPageNum(page.getPageNum());
+			page.setPageSize(page.getPageSize());
+			page.setOrderBy(page.getOrderBy());
+			page.setPages(page.getPages());
+			page.setTotal(page.getTotal());;
+            //由于结果是>startRow的，所以实际的需要+1
+            if (page.size() == 0) {
+            	page.setStartRow(0);
+            	page.setEndRow(0);
+            } else {
+            	page.setStartRow(page.getStartRow() + 1);
+                //计算实际的endRow（最后一页的时候特殊）
+            	page.setEndRow(page.getStartRow() - 1 + page.size());
+            }
 			page.addAll(result);
 			return page;
 		}
