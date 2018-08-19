@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.jfshare.mvp.server.constants.Constant;
 import com.jfshare.mvp.server.constants.ResultConstant;
@@ -130,6 +131,7 @@ public class AdminController {
 		if (CollectionUtils.isEmpty(result)) {
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取商品类目失败！");
 		}
+		
 		PageInfo<Map<String, Object>> pageResult = new PageInfo<Map<String, Object>>(result);
 		return ResultConstant.ofSuccess(pageResult);
 	}

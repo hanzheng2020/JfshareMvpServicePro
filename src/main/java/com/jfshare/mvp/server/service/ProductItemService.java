@@ -1,5 +1,6 @@
 package com.jfshare.mvp.server.service;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.dao.TbProductDao;
@@ -81,9 +82,15 @@ public class ProductItemService {
 			criteria.andItemNameLike("%"+itemName+"%");
 		}
 		List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
+		
 		List<Map<String, Object>> result = new ArrayList<>();
 		for (TbProductItem tbProductItem : tbProductItems) {
 			result.add(createItemTree(tbProductItem, asTree));
+		}
+		if (tbProductItems instanceof Page) {
+			Page<Map<String, Object>> page = new Page<>();
+			page.addAll(result);
+			return page;
 		}
 		return result;
 	}
@@ -104,6 +111,11 @@ public class ProductItemService {
 		List<Map<String, Object>> result = new ArrayList<>();
 		for (TbProductItem tbProductItem : tbProductItems) {
 			result.add(createItemTree(tbProductItem, asTree));
+		}
+		if (tbProductItems instanceof Page) {
+			Page<Map<String, Object>> page = new Page<>();
+			page.addAll(result);
+			return page;
 		}
 		return result;
 	}
