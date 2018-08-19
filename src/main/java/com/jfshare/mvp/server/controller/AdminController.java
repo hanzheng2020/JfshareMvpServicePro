@@ -100,9 +100,14 @@ public class AdminController {
 	}
 
 	@ApiOperation(value = "更新商品类目", notes = "根据传入的商品类目配置，重新配置商品类目")
-	@PostMapping("/updateProductItem")
+	@PostMapping("/productItem")
 	public ResultConstant updateProductItem(@RequestBody TbProductItem tbProductItem) {
-		boolean result = productItemService.updateProductItem(tbProductItem.getItemNo(), tbProductItem.getItemNo(), tbProductItem.getItemDesc());
+		boolean result = false;
+		if (StringUtils.isEmpty(tbProductItem.getItemNo())) {
+			result = productItemService.addProductItem(tbProductItem.getItemName(), tbProductItem.getItemDesc(), tbProductItem.getParentItemNo());
+		} else {
+			result = productItemService.updateProductItem(tbProductItem.getItemNo(), tbProductItem.getItemNo(), tbProductItem.getItemDesc());
+		}
 		if (result) {
 			return ResultConstant.ofSuccess();
 		}
@@ -123,16 +128,6 @@ public class AdminController {
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取商品类目失败！");
 		}
 		return ResultConstant.ofSuccess(result);
-	}
-
-	@ApiOperation(value = "新增商品类目", notes = "根据传入的商品类目，新增配置商品类目")
-	@PostMapping("/addProductItem")
-	public ResultConstant addProductItem(@RequestBody TbProductItem tbProductItem) {
-		boolean result = productItemService.addProductItem(tbProductItem.getItemName(), tbProductItem.getItemDesc(), tbProductItem.getParentItemNo());
-		if (result) {
-			return ResultConstant.ofSuccess();
-		}
-		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "新增商品类目失败！");
 	}
 
 	@ApiOperation(value = "删除商品类目", notes = "根据传入的商品类目编号，删除商品类目")
