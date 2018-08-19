@@ -141,28 +141,29 @@ public class ProductItemService {
 		return rtMap;
 	}
 	
-	public ResultConstant deleteProductItem(String itemNo) {
+	public ResultConstant deleteProductItem(List<String> itemNos) {
 		TbProductItemExample tbProductItemExample = new TbProductItemExample();
-		if (!StringUtils.isEmpty(itemNo)) {
-			tbProductItemExample.createCriteria()
-								.andParentItemNoEqualTo(itemNo);
+		for (String itemNo : itemNos) {
+			if (!StringUtils.isEmpty(itemNo)) {
+				tbProductItemExample.createCriteria()
+									.andParentItemNoEqualTo(itemNo);
+			}
+			List<TbProductItem> sonProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
+			if (!CollectionUtils.isEmpty(sonProductItems)) {
+				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "存在子节点，请先删除子节点！");
+			}
+			TbProductExample tbProductExample = new TbProductExample();
+			tbProductExample.createCriteria()
+							.andItemNoEqualTo(0);
+			List<TbProduct> tbProducts = tbProductDao.selectByExample(tbProductExample);
+			if (!CollectionUtils.isEmpty(tbProducts)) {
+				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "该类目中存在商品！");
+			}
+			tbProductItemExample.clear();
 		}
-		List<TbProductItem> sonProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
-		if (!CollectionUtils.isEmpty(sonProductItems)) {
-			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "存在子节点，请先删除子节点！");
-		}
-		TbProductExample tbProductExample = new TbProductExample();
-		tbProductExample.createCriteria()
-						.andItemNoEqualTo(0);
-		List<TbProduct> tbProducts = tbProductDao.selectByExample(tbProductExample);
-		if (!CollectionUtils.isEmpty(tbProducts)) {
-			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "该类目中存在商品！");
-		}
-		tbProductItemExample.clear();
-		if (!StringUtils.isEmpty(itemNo)) {
-			tbProductItemExample.createCriteria()
-								.andItemNoEqualTo(itemNo);
-		}
+		
+		tbProductItemExample.createCriteria()
+							.andItemNoIn(itemNos);
 		tbProductItemDao.deleteByExample(tbProductItemExample);
 		return ResultConstant.ofSuccess();
 	}
