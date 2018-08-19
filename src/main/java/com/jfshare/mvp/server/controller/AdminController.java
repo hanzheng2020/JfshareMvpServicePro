@@ -117,17 +117,21 @@ public class AdminController {
 	@ApiOperation(value = "获取商品类目", notes = "根据传入的itemNo或者ItemName，获取类目, 如果两者都为空，则获取全部的类目树")
 	@GetMapping("/productItem")
 	public ResultConstant getProductItem(@RequestParam(required = false) String itemNo,
-										@RequestParam(required = false) String itemName, Boolean asTree) {
+										@RequestParam(required = false) String itemName, 
+										Boolean asTree,
+										@RequestParam(required = false) Integer pageNum,
+										@RequestParam(required = false) Integer pageSize) {
 		List<Map<String, Object>> result = null;
 		if (!StringUtils.isEmpty(itemName)) {
-			result = productItemService.getProductItem(itemName, true, asTree);
+			result = productItemService.getProductItem(itemName, true, asTree, pageNum, pageSize);
 		} else {
-			result = productItemService.getProductItem(itemNo, asTree);
+			result = productItemService.getProductItem(itemNo, asTree, pageNum, pageSize);
 		}
 		if (CollectionUtils.isEmpty(result)) {
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取商品类目失败！");
 		}
-		return ResultConstant.ofSuccess(result);
+		PageInfo<Map<String, Object>> pageResult = new PageInfo<Map<String, Object>>(result);
+		return ResultConstant.ofSuccess(pageResult);
 	}
 
 	@ApiOperation(value = "删除商品类目", notes = "根据传入的商品类目编号，删除商品类目")

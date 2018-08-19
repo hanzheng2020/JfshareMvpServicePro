@@ -1,5 +1,6 @@
 package com.jfshare.mvp.server.service;
 
+import com.github.pagehelper.PageHelper;
 import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.dao.TbProductDao;
 import com.jfshare.mvp.server.dao.TbProductItemDao;
@@ -64,14 +65,16 @@ public class ProductItemService {
 		return true;
 	}
 
-	public List<Map<String, Object>> getProductItem(String itemName, boolean useLike, boolean asTree) {
+	public List<Map<String, Object>> getProductItem(String itemName, boolean useLike, boolean asTree, Integer pageNum, Integer pageSize) {
 		if (!useLike) {
-			return getProductItem(itemName, asTree);
+			return getProductItem(itemName, asTree, pageNum, pageSize);
 		}
 		TbProductItemExample tbProductItemExample = new TbProductItemExample();
 		Criteria criteria = tbProductItemExample.createCriteria();
 		if (asTree) {
 			criteria.andParentItemNoIsNull();
+		} else {
+			PageHelper.startPage(pageNum, pageSize,true);
 		}
 		if (!StringUtils.isEmpty(itemName)) {
 			criteria.andItemNameLike("%"+itemName+"%");
@@ -84,7 +87,7 @@ public class ProductItemService {
 		return result;
 	}
 	
-	public List<Map<String, Object>> getProductItem(String itemNo, boolean asTree) {
+	public List<Map<String, Object>> getProductItem(String itemNo, boolean asTree, Integer pageNum, Integer pageSize) {
 		TbProductItemExample tbProductItemExample = new TbProductItemExample();
 		Criteria criteria = tbProductItemExample.createCriteria();
 		if (asTree) {
