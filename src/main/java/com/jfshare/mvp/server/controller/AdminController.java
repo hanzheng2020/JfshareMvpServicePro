@@ -100,7 +100,7 @@ public class AdminController {
 	}
 
 	@ApiOperation(value = "更新商品类目", notes = "根据传入的商品类目配置，重新配置商品类目")
-	@PutMapping("/productItem")
+	@PostMapping("/updateProductItem")
 	public ResultConstant updateProductItem(@RequestBody TbProductItem tbProductItem) {
 		boolean result = productItemService.updateProductItem(tbProductItem.getItemNo(), tbProductItem.getItemNo(), tbProductItem.getItemDesc());
 		if (result) {
@@ -114,7 +114,7 @@ public class AdminController {
 	public ResultConstant getProductItem(@RequestParam(required = false) String itemNo,
 										@RequestParam(required = false) String itemName, Boolean asTree) {
 		List<Map<String, Object>> result = null;
-		if (StringUtils.isEmpty(itemName)) {
+		if (!StringUtils.isEmpty(itemName)) {
 			result = productItemService.getProductItem(itemName, true, asTree);
 		} else {
 			result = productItemService.getProductItem(itemNo, asTree);
@@ -126,7 +126,7 @@ public class AdminController {
 	}
 
 	@ApiOperation(value = "新增商品类目", notes = "根据传入的商品类目，新增配置商品类目")
-	@PostMapping("/productItem")
+	@PostMapping("/addProductItem")
 	public ResultConstant addProductItem(@RequestBody TbProductItem tbProductItem) {
 		boolean result = productItemService.addProductItem(tbProductItem.getItemName(), tbProductItem.getItemDesc(), tbProductItem.getParentItemNo());
 		if (result) {
