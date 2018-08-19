@@ -139,7 +139,7 @@ public class AdminController {
 	@ApiOperation(value = "删除商品类目", notes = "根据传入的商品类目编号，删除商品类目")
 	@DeleteMapping("/productItem")
 	public ResultConstant deleteProductItem(@RequestBody Map<String, List<String>> itemNos) {
-		ResultConstant result = productItemService.deleteProductItem(itemNos.get("itemNos"));
+		ResultConstant result = productItemService.deleteProductItem(itemNos.get("itemNo"));
 		return result;
 	}
 
