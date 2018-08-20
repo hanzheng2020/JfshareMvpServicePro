@@ -1,5 +1,7 @@
 package com.jfshare.mvp.server.service;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.dao.TbProductDao;
 import com.jfshare.mvp.server.dao.TbProductItemDao;
@@ -64,72 +66,159 @@ public class ProductItemService {
 		return true;
 	}
 
-	public List<Map<String, Object>> getProductItem(String itemName, boolean useLike, boolean asTree) {
-		if (!useLike) {
-			return getProductItem(itemName, asTree);
-		}
+	@SuppressWarnings("rawtypes")
+	public List<Map<String, Object>> getProductItem(String itemName, boolean useLike, boolean asTree, Integer pageNum, Integer pageSize) {
+		
 		TbProductItemExample tbProductItemExample = new TbProductItemExample();
 		Criteria criteria = tbProductItemExample.createCriteria();
-		if (asTree) {
-			criteria.andParentItemNoIsNull();
+		if (!asTree && pageNum != null) {
+			tbProductItemExample.setOrderByClause("create_time desc");
+			PageHelper.startPage(pageNum, pageSize,true);
 		}
+		
 		if (!StringUtils.isEmpty(itemName)) {
-			criteria.andItemNameLike("%"+itemName+"%");
-		}
-		List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
-		List<Map<String, Object>> result = new ArrayList<>();
-		for (TbProductItem tbProductItem : tbProductItems) {
-			result.add(createItemTree(tbProductItem, asTree));
-		}
-		return result;
-	}
-	
-	public List<Map<String, Object>> getProductItem(String itemNo, boolean asTree) {
-		TbProductItemExample tbProductItemExample = new TbProductItemExample();
-		Criteria criteria = tbProductItemExample.createCriteria();
-		if (asTree) {
+			if (!useLike) {
+				criteria.andItemNameEqualTo(itemName);
+			} else {
+				criteria.andItemNameLike("%"+itemName+"%");
+			}
+			
+		} else if (asTree) {
 			criteria.andParentItemNoIsNull();
-		}	
-		if (!StringUtils.isEmpty(itemNo)) {
-			criteria.andItemNoEqualTo(itemNo);
 		}
+		
 		List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
+		
 		List<Map<String, Object>> result = new ArrayList<>();
-		for (TbProductItem tbProductItem : tbProductItems) {
-			result.add(createItemTree(tbProductItem, asTree));
-		}
-		return result;
-	}
-	
-	private Map<String, Object> createItemTree(TbProductItem tbProductItem, boolean asTree) {
-		Map<String, Object> rtMap = new HashMap<>();
-		TbProductItemExample tbProductItemExample = new TbProductItemExample();
 		if (asTree) {
-			tbProductItemExample.createCriteria()
-								.andParentItemNoEqualTo(tbProductItem.getItemNo());
-			List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
-			if (!CollectionUtils.isEmpty(tbProductItems)) {
-				List<Map<String, Object>> listChild = new ArrayList<>();
-				for (TbProductItem productItem : tbProductItems) {
-					Map<String, Object> mapChild = new HashMap<>();
-					mapChild = createItemTree(productItem, asTree);
-					mapChild.put("parentItemName", tbProductItem.getItemName());
-					mapChild.put("parentItemNo", tbProductItem.getItemNo());
-					listChild.add(mapChild);
-				}
-				rtMap.put("children", listChild);
+			for (TbProductItem tbProductItem : tbProductItems) {
+				result.add(createItemTree(tbProductItem));
 			}
 		} else {
-			if (StringUtils.isEmpty(tbProductItem.getParentItemNo())) {
-				rtMap.put("parentItemName", "");
-				rtMap.put("parentItemNo", "");
-			} else {
-				tbProductItemExample.createCriteria()
-									.andItemNoEqualTo(tbProductItem.getParentItemNo());
-				List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
-				rtMap.put("parentItemName", tbProductItems.get(0).getItemName());
-				rtMap.put("parentItemNo", tbProductItems.get(0).getItemNo());
+			result.addAll(createItemList(tbProductItems));
+		}
+		if (tbProductItems instanceof Page) {
+			Page tbProductItemsPage = (Page) tbProductItems;
+			Page<Map<String, Object>> page = new Page<>();
+			page.setPageNum(tbProductItemsPage.getPageNum());
+			page.setPageSize(tbProductItemsPage.getPageSize());
+			page.setOrderBy(tbProductItemsPage.getOrderBy());
+			page.setPages(tbProductItemsPage.getPages());
+			page.setTotal(tbProductItemsPage.getTotal());;
+            //由于结果是>startRow的，所以实际的需要+1
+            if (page.size() == 0) {
+            	page.setStartRow(0);
+            	page.setEndRow(0);
+            } else {
+            	page.setStartRow(tbProductItemsPage.getStartRow() + 1);
+                //计算实际的endRow（最后一页的时候特殊）
+            	page.setEndRow(tbProductItemsPage.getStartRow() - 1 + tbProductItemsPage.size());
+            }
+			page.addAll(result);
+			return page;
+		}
+		return result;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public List<Map<String, Object>> getProductItem(String itemNo, boolean asTree, Integer pageNum, Integer pageSize) {
+		TbProductItemExample tbProductItemExample = new TbProductItemExample();
+		Criteria criteria = tbProductItemExample.createCriteria();
+		if (!asTree && pageNum != null) {
+			tbProductItemExample.setOrderByClause("create_time desc");
+			PageHelper.startPage(pageNum, pageSize,true);
+		}
+		if (!StringUtils.isEmpty(itemNo)) {
+			criteria.andItemNoEqualTo(itemNo);
+		} else if (asTree) {
+			criteria.andParentItemNoIsNull();
+		}
+		List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
+		List<Map<String, Object>> result = new ArrayList<>();
+		if (asTree) {
+			for (TbProductItem tbProductItem : tbProductItems) {
+				result.add(createItemTree(tbProductItem));
 			}
+		} else {
+			result.addAll(createItemList(tbProductItems));
+		}
+		
+		if (tbProductItems instanceof Page) {
+			Page tbProductItemsPage = (Page) tbProductItems;
+			Page<Map<String, Object>> page = new Page<>();
+			page.setPageNum(tbProductItemsPage.getPageNum());
+			page.setPageSize(tbProductItemsPage.getPageSize());
+			page.setOrderBy(tbProductItemsPage.getOrderBy());
+			page.setPages(tbProductItemsPage.getPages());
+			page.setTotal(tbProductItemsPage.getTotal());;
+            //由于结果是>startRow的，所以实际的需要+1
+            if (page.size() == 0) {
+            	page.setStartRow(0);
+            	page.setEndRow(0);
+            } else {
+            	page.setStartRow(tbProductItemsPage.getStartRow() + 1);
+                //计算实际的endRow（最后一页的时候特殊）
+            	page.setEndRow(tbProductItemsPage.getStartRow() - 1 + tbProductItemsPage.size());
+            }
+			page.addAll(result);
+			return page;
+		}
+		return result;
+	}
+	
+	private List<Map<String, Object>> createItemList(List<TbProductItem> tbProductItems) {
+		List<Map<String, Object>> resultList = new ArrayList<>();
+		if (!CollectionUtils.isEmpty(tbProductItems)) {
+			for (TbProductItem tbProductItem : tbProductItems) {
+				Map<String, Object> rtMap = new HashMap<>();
+				TbProductItemExample tbProductItemExample = new TbProductItemExample();
+				
+				rtMap.put("itemNo", tbProductItem.getItemNo());
+				rtMap.put("itemName", tbProductItem.getItemName());
+				rtMap.put("itemDesc", tbProductItem.getItemDesc());
+				if (StringUtils.isEmpty(tbProductItem.getParentItemNo())) {
+					rtMap.put("parentItemName", "");
+					rtMap.put("parentItemNo", "");
+				} else {
+					tbProductItemExample.createCriteria()
+										.andItemNoEqualTo(tbProductItem.getParentItemNo());
+					List<TbProductItem> parentProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
+					rtMap.put("parentItemName", parentProductItems.get(0).getItemName());
+					rtMap.put("parentItemNo", parentProductItems.get(0).getItemNo());
+					tbProductItemExample.clear();
+				}
+				resultList.add(rtMap);
+
+				tbProductItemExample.createCriteria()
+									.andParentItemNoEqualTo(tbProductItem.getItemNo());
+				List<TbProductItem> productItems = tbProductItemDao.selectByExample(tbProductItemExample);
+				if (!CollectionUtils.isEmpty(productItems)) {
+					resultList.addAll(createItemList(productItems));
+				}
+				
+			}
+		}
+		
+		return resultList;
+	}
+	
+	private Map<String, Object> createItemTree(TbProductItem tbProductItem) {
+		Map<String, Object> rtMap = new HashMap<>();
+		TbProductItemExample tbProductItemExample = new TbProductItemExample();
+
+		tbProductItemExample.createCriteria()
+							.andParentItemNoEqualTo(tbProductItem.getItemNo());
+		List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
+		if (!CollectionUtils.isEmpty(tbProductItems)) {
+			List<Map<String, Object>> listChild = new ArrayList<>();
+			for (TbProductItem productItem : tbProductItems) {
+				Map<String, Object> mapChild = new HashMap<>();
+				mapChild = createItemTree(productItem);
+				mapChild.put("parentItemName", tbProductItem.getItemName());
+				mapChild.put("parentItemNo", tbProductItem.getItemNo());
+				listChild.add(mapChild);
+			}
+			rtMap.put("children", listChild);
 		}
 
 		rtMap.put("itemNo", tbProductItem.getItemNo());
@@ -138,28 +227,29 @@ public class ProductItemService {
 		return rtMap;
 	}
 	
-	public ResultConstant deleteProductItem(String itemNo) {
+	public ResultConstant deleteProductItem(List<String> itemNos) {
 		TbProductItemExample tbProductItemExample = new TbProductItemExample();
-		if (!StringUtils.isEmpty(itemNo)) {
-			tbProductItemExample.createCriteria()
-								.andParentItemNoEqualTo(itemNo);
+		for (String itemNo : itemNos) {
+			if (!StringUtils.isEmpty(itemNo)) {
+				tbProductItemExample.createCriteria()
+									.andParentItemNoEqualTo(itemNo);
+			}
+			List<TbProductItem> sonProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
+			if (!CollectionUtils.isEmpty(sonProductItems)) {
+				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "存在子节点，请先删除子节点！");
+			}
+			/*TbProductExample tbProductExample = new TbProductExample();
+			tbProductExample.createCriteria()
+							.andItemNoEqualTo(itemNo);
+			List<TbProduct> tbProducts = tbProductDao.selectByExample(tbProductExample);
+			if (!CollectionUtils.isEmpty(tbProducts)) {
+				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "该类目中存在商品！");
+			}*/
+			tbProductItemExample.clear();
 		}
-		List<TbProductItem> sonProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
-		if (!CollectionUtils.isEmpty(sonProductItems)) {
-			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "存在子节点，请先删除子节点！");
-		}
-		TbProductExample tbProductExample = new TbProductExample();
-		tbProductExample.createCriteria()
-						.andItemNoEqualTo(0);
-		List<TbProduct> tbProducts = tbProductDao.selectByExample(tbProductExample);
-		if (!CollectionUtils.isEmpty(tbProducts)) {
-			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "该类目中存在商品！");
-		}
-		tbProductItemExample.clear();
-		if (!StringUtils.isEmpty(itemNo)) {
-			tbProductItemExample.createCriteria()
-								.andItemNoEqualTo(itemNo);
-		}
+		
+		tbProductItemExample.createCriteria()
+							.andItemNoIn(itemNos);
 		tbProductItemDao.deleteByExample(tbProductItemExample);
 		return ResultConstant.ofSuccess();
 	}

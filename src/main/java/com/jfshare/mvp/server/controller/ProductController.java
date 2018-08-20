@@ -3,8 +3,9 @@ package com.jfshare.mvp.server.controller;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,8 @@ import com.jfshare.mvp.server.model.TbProductSurvey;
 import com.jfshare.mvp.server.service.ProductDetailService;
 import com.jfshare.mvp.server.service.ProductService;
 import com.jfshare.mvp.server.utils.ConvertBeanToMapUtils;
-
+import com.jfshare.mvp.server.service.PromotionSettingService;
+import com.jfshare.mvp.server.task.ProductScheduler;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -31,6 +33,9 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("/product")
 public class ProductController {
+	
+	private final static Logger logger = LoggerFactory.getLogger(ProductController.class);
+	
 	@Autowired
 	private ProductService productService;
 	
@@ -45,6 +50,7 @@ public class ProductController {
 			@RequestParam(value = "activeState", required = false) Integer activeState,
 			@RequestParam(value = "curpage", required = true) Integer curpage,
 			@RequestParam(value = "percount", required = true) Integer percount) {
+		logger.info("productName:"+productName+" productId"+productId+" itemNo:"+itemNo+" activeState:"+activeState+" curpage:"+curpage+" percount:"+percount);
 		List<TbProductSurvey> productList;
 		try {
 			productList = productService.productSurveyQuery(productId, productName, itemNo,
@@ -106,9 +112,9 @@ public class ProductController {
 	public ResultConstant exportProduct(@RequestParam(value = "productId", required = true) String productId) {
 		
 		TbProduct  product =  productService.getProductOne(productId);
-		List<TbProductDetail> productDetails =  productDetailService.selectByExample(productId);
-		
+
 		if(product!=null) {
+			List<TbProductDetail> productDetails =  productDetailService.selectByExample(productId);
 			Map productMap = ConvertBeanToMapUtils.convertBeanToMap(product, "");
 			if(productDetails!=null&&productDetails.size()>0) {
 				TbProductDetail productDetail = productDetails.get(0);
