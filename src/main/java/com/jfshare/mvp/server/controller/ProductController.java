@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,9 @@ import com.jfshare.mvp.server.model.Product;
 import com.jfshare.mvp.server.model.TbProduct;
 import com.jfshare.mvp.server.model.TbProductSurvey;
 import com.jfshare.mvp.server.service.ProductService;
+import com.jfshare.mvp.server.service.PromotionSettingService;
+import com.jfshare.mvp.server.task.ProductScheduler;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -26,6 +31,9 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("/product")
 public class ProductController {
+	
+	private final static Logger logger = LoggerFactory.getLogger(ProductController.class);
+	
 	@Autowired
 	private ProductService productService;
 
@@ -37,6 +45,7 @@ public class ProductController {
 			@RequestParam(value = "activeState", required = false) Integer activeState,
 			@RequestParam(value = "curpage", required = true) Integer curpage,
 			@RequestParam(value = "percount", required = true) Integer percount) {
+		logger.info("productName:"+productName+" productId"+productId+" itemNo:"+itemNo+" activeState:"+activeState+" curpage:"+curpage+" percount:"+percount);
 		List<TbProductSurvey> productList;
 		try {
 			productList = productService.productSurveyQuery(productId, productName, itemNo,
