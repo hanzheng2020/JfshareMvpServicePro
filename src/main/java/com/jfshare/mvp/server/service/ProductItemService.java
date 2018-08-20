@@ -176,7 +176,7 @@ public class ProductItemService {
 					rtMap.put("parentItemNo", "");
 				} else {
 					tbProductItemExample.createCriteria()
-										.andParentItemNoEqualTo(tbProductItem.getItemNo());
+										.andItemNoEqualTo(tbProductItem.getParentItemNo());
 					List<TbProductItem> parentProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
 					rtMap.put("parentItemName", parentProductItems.get(0).getItemName());
 					rtMap.put("parentItemNo", parentProductItems.get(0).getItemNo());
