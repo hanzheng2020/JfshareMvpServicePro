@@ -87,8 +87,12 @@ public class ProductItemService {
 		List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
 		
 		List<Map<String, Object>> result = new ArrayList<>();
-		for (TbProductItem tbProductItem : tbProductItems) {
-			result.add(createItemTree(tbProductItem, asTree));
+		if (asTree) {
+			for (TbProductItem tbProductItem : tbProductItems) {
+				result.add(createItemTree(tbProductItem));
+			}
+		} else {
+			result.addAll(createItemList(tbProductItems));
 		}
 		if (tbProductItems instanceof Page) {
 			Page tbProductItemsPage = (Page) tbProductItems;
@@ -126,9 +130,14 @@ public class ProductItemService {
 		}
 		List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
 		List<Map<String, Object>> result = new ArrayList<>();
-		for (TbProductItem tbProductItem : tbProductItems) {
-			result.add(createItemTree(tbProductItem, asTree));
+		if (asTree) {
+			for (TbProductItem tbProductItem : tbProductItems) {
+				result.add(createItemTree(tbProductItem));
+			}
+		} else {
+			result.addAll(createItemList(tbProductItems));
 		}
+		
 		if (tbProductItems instanceof Page) {
 			Page tbProductItemsPage = (Page) tbProductItems;
 			Page<Map<String, Object>> page = new Page<>();
@@ -152,35 +161,59 @@ public class ProductItemService {
 		return result;
 	}
 	
-	private Map<String, Object> createItemTree(TbProductItem tbProductItem, boolean asTree) {
-		Map<String, Object> rtMap = new HashMap<>();
-		TbProductItemExample tbProductItemExample = new TbProductItemExample();
-		if (asTree) {
-			tbProductItemExample.createCriteria()
-								.andParentItemNoEqualTo(tbProductItem.getItemNo());
-			List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
-			if (!CollectionUtils.isEmpty(tbProductItems)) {
-				List<Map<String, Object>> listChild = new ArrayList<>();
-				for (TbProductItem productItem : tbProductItems) {
-					Map<String, Object> mapChild = new HashMap<>();
-					mapChild = createItemTree(productItem, asTree);
-					mapChild.put("parentItemName", tbProductItem.getItemName());
-					mapChild.put("parentItemNo", tbProductItem.getItemNo());
-					listChild.add(mapChild);
+	private List<Map<String, Object>> createItemList(List<TbProductItem> tbProductItems) {
+		List<Map<String, Object>> resultList = new ArrayList<>();
+		if (!CollectionUtils.isEmpty(tbProductItems)) {
+			for (TbProductItem tbProductItem : tbProductItems) {
+				Map<String, Object> rtMap = new HashMap<>();
+				TbProductItemExample tbProductItemExample = new TbProductItemExample();
+				
+				rtMap.put("itemNo", tbProductItem.getItemNo());
+				rtMap.put("itemName", tbProductItem.getItemName());
+				rtMap.put("itemDesc", tbProductItem.getItemDesc());
+				if (StringUtils.isEmpty(tbProductItem.getParentItemNo())) {
+					rtMap.put("parentItemName", "");
+					rtMap.put("parentItemNo", "");
+				} else {
+					tbProductItemExample.createCriteria()
+										.andItemNoEqualTo(tbProductItem.getParentItemNo());
+					List<TbProductItem> parentProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
+					rtMap.put("parentItemName", parentProductItems.get(0).getItemName());
+					rtMap.put("parentItemNo", parentProductItems.get(0).getItemNo());
+					tbProductItemExample.clear();
 				}
-				rtMap.put("children", listChild);
-			}
-		} else {
-			if (StringUtils.isEmpty(tbProductItem.getParentItemNo())) {
-				rtMap.put("parentItemName", "");
-				rtMap.put("parentItemNo", "");
-			} else {
+				resultList.add(rtMap);
+
 				tbProductItemExample.createCriteria()
 									.andParentItemNoEqualTo(tbProductItem.getItemNo());
-				List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
-				rtMap.put("parentItemName", tbProductItems.get(0).getItemName());
-				rtMap.put("parentItemNo", tbProductItems.get(0).getItemNo());
+				List<TbProductItem> productItems = tbProductItemDao.selectByExample(tbProductItemExample);
+				if (!CollectionUtils.isEmpty(productItems)) {
+					resultList.addAll(createItemList(productItems));
+				}
+				
 			}
+		}
+		
+		return resultList;
+	}
+	
+	private Map<String, Object> createItemTree(TbProductItem tbProductItem) {
+		Map<String, Object> rtMap = new HashMap<>();
+		TbProductItemExample tbProductItemExample = new TbProductItemExample();
+
+		tbProductItemExample.createCriteria()
+							.andParentItemNoEqualTo(tbProductItem.getItemNo());
+		List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
+		if (!CollectionUtils.isEmpty(tbProductItems)) {
+			List<Map<String, Object>> listChild = new ArrayList<>();
+			for (TbProductItem productItem : tbProductItems) {
+				Map<String, Object> mapChild = new HashMap<>();
+				mapChild = createItemTree(productItem);
+				mapChild.put("parentItemName", tbProductItem.getItemName());
+				mapChild.put("parentItemNo", tbProductItem.getItemNo());
+				listChild.add(mapChild);
+			}
+			rtMap.put("children", listChild);
 		}
 
 		rtMap.put("itemNo", tbProductItem.getItemNo());
