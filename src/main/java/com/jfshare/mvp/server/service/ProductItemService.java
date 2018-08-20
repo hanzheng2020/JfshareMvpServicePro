@@ -128,27 +128,31 @@ public class ProductItemService {
 			}
 			return result;
 		} else {
-			PageHelper.startPage(pageNum, pageSize,true);
-			List<TbProductItem> tbProductItems = tbProductItemDao.queryItemList(itemNo);
-			Page tbProductItemsPage = (Page) tbProductItems;
-			Page<Map<String, Object>> page = new Page<>();
-			page.setPageNum(tbProductItemsPage.getPageNum());
-			page.setPageSize(tbProductItemsPage.getPageSize());
-			page.setOrderBy(tbProductItemsPage.getOrderBy());
-			page.setPages(tbProductItemsPage.getPages());
-			page.setTotal(tbProductItemsPage.getTotal());;
-            //由于结果是>startRow的，所以实际的需要+1
-            if (page.size() == 0) {
-            	page.setStartRow(0);
-            	page.setEndRow(0);
-            } else {
-            	page.setStartRow(tbProductItemsPage.getStartRow() + 1);
-                //计算实际的endRow（最后一页的时候特殊）
-            	page.setEndRow(tbProductItemsPage.getStartRow() - 1 + tbProductItemsPage.size());
-            }
-			page.addAll(ConvertBeanToMapUtils.convertBeanListToMap(tbProductItems, "createTime", "updateTime"));
-			return page;
-			
+			if (pageNum != null && pageSize != null) {
+				PageHelper.startPage(pageNum, pageSize,true);
+				List<TbProductItem> tbProductItems = tbProductItemDao.queryItemList(itemNo);
+				Page tbProductItemsPage = (Page) tbProductItems;
+				Page<Map<String, Object>> page = new Page<>();
+				page.setPageNum(tbProductItemsPage.getPageNum());
+				page.setPageSize(tbProductItemsPage.getPageSize());
+				page.setOrderBy(tbProductItemsPage.getOrderBy());
+				page.setPages(tbProductItemsPage.getPages());
+				page.setTotal(tbProductItemsPage.getTotal());;
+	            //由于结果是>startRow的，所以实际的需要+1
+	            if (page.size() == 0) {
+	            	page.setStartRow(0);
+	            	page.setEndRow(0);
+	            } else {
+	            	page.setStartRow(tbProductItemsPage.getStartRow() + 1);
+	                //计算实际的endRow（最后一页的时候特殊）
+	            	page.setEndRow(tbProductItemsPage.getStartRow() - 1 + tbProductItemsPage.size());
+	            }
+				page.addAll(ConvertBeanToMapUtils.convertBeanListToMap(tbProductItems, "createTime", "updateTime"));
+				return page;
+			} else {
+				List<TbProductItem> tbProductItems = tbProductItemDao.queryItemList(itemNo);
+				return ConvertBeanToMapUtils.convertBeanListToMap(tbProductItems, "createTime", "updateTime");
+			}
 		}
 	}
 	
