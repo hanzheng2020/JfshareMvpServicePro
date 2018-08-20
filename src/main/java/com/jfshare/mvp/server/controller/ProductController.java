@@ -1,8 +1,8 @@
 package com.jfshare.mvp.server.controller;
 
 import java.util.List;
+import java.util.Map;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.model.Product;
 import com.jfshare.mvp.server.model.TbProduct;
+import com.jfshare.mvp.server.model.TbProductDetail;
 import com.jfshare.mvp.server.model.TbProductSurvey;
+import com.jfshare.mvp.server.service.ProductDetailService;
 import com.jfshare.mvp.server.service.ProductService;
+import com.jfshare.mvp.server.utils.ConvertBeanToMapUtils;
 import com.jfshare.mvp.server.service.PromotionSettingService;
 import com.jfshare.mvp.server.task.ProductScheduler;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -36,7 +38,10 @@ public class ProductController {
 	
 	@Autowired
 	private ProductService productService;
-
+	
+	@Autowired
+	private ProductDetailService productDetailService;
+	
 	@ApiOperation(value = "根据商品id name 获取商品信息", notes = "根据商品id name 获取商品信息  productid:商品id  productName:商品名称   itemNo:类目id activeState：商品状态:100 待上架  200 已上架 300 已下架   itemNo activeState为必传参数 默认传0")
 	@PostMapping("/productSurveyQuery")
 	public ResultConstant productSurveyQuery(@RequestParam(value = "productId", required = false) String productId,
@@ -107,9 +112,18 @@ public class ProductController {
 	public ResultConstant exportProduct(@RequestParam(value = "productId", required = true) String productId) {
 		
 		TbProduct  product =  productService.getProductOne(productId);
-	
+
 		if(product!=null) {
-			return ResultConstant.ofSuccess(product);
+			List<TbProductDetail> productDetails =  productDetailService.selectByExample(productId);
+			Map productMap = ConvertBeanToMapUtils.convertBeanToMap(product, "");
+			if(productDetails!=null&&productDetails.size()>0) {
+				TbProductDetail productDetail = productDetails.get(0);
+				productMap.put("productDetail", productDetail.getProductDetail());//商品详情
+				productMap.put("productInstructions", productDetail.getProductInstructions());//商品使用说明
+				productMap.put("productExchange", productDetail.getProductExchange());//商品兑换说明
+			}
+			
+			return ResultConstant.ofSuccess(productMap);
 		}
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "查询商品详情失败！");
 		
