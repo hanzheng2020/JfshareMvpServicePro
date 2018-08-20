@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.jfshare.mvp.server.constants.Constant;
 import com.jfshare.mvp.server.constants.ResultConstant;
@@ -100,9 +101,14 @@ public class AdminController {
 	}
 
 	@ApiOperation(value = "更新商品类目", notes = "根据传入的商品类目配置，重新配置商品类目")
-	@PutMapping("/productItem")
+	@PostMapping("/productItem")
 	public ResultConstant updateProductItem(@RequestBody TbProductItem tbProductItem) {
-		boolean result = productItemService.updateProductItem(tbProductItem.getItemNo(), tbProductItem.getItemNo(), tbProductItem.getItemDesc());
+		boolean result = false;
+		if (StringUtils.isEmpty(tbProductItem.getItemNo())) {
+			result = productItemService.addProductItem(tbProductItem.getItemName(), tbProductItem.getItemDesc(), tbProductItem.getParentItemNo());
+		} else {
+			result = productItemService.updateProductItem(tbProductItem.getItemNo(), tbProductItem.getItemNo(), tbProductItem.getItemDesc());
+		}
 		if (result) {
 			return ResultConstant.ofSuccess();
 		}
@@ -112,33 +118,28 @@ public class AdminController {
 	@ApiOperation(value = "获取商品类目", notes = "根据传入的itemNo或者ItemName，获取类目, 如果两者都为空，则获取全部的类目树")
 	@GetMapping("/productItem")
 	public ResultConstant getProductItem(@RequestParam(required = false) String itemNo,
-										@RequestParam(required = false) String itemName, Boolean asTree) {
+										@RequestParam(required = false) String itemName, 
+										Boolean asTree,
+										@RequestParam(required = false) Integer pageNum,
+										@RequestParam(required = false) Integer pageSize) {
 		List<Map<String, Object>> result = null;
-		if (StringUtils.isEmpty(itemName)) {
-			result = productItemService.getProductItem(itemName, true, asTree);
+		if (!StringUtils.isEmpty(itemName)) {
+			result = productItemService.getProductItem(itemName, true, asTree, pageNum, pageSize);
 		} else {
-			result = productItemService.getProductItem(itemNo, asTree);
+			result = productItemService.getProductItem(itemNo, asTree, pageNum, pageSize);
 		}
 		if (CollectionUtils.isEmpty(result)) {
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取商品类目失败！");
 		}
-		return ResultConstant.ofSuccess(result);
-	}
-
-	@ApiOperation(value = "新增商品类目", notes = "根据传入的商品类目，新增配置商品类目")
-	@PostMapping("/productItem")
-	public ResultConstant addProductItem(@RequestBody TbProductItem tbProductItem) {
-		boolean result = productItemService.addProductItem(tbProductItem.getItemName(), tbProductItem.getItemDesc(), tbProductItem.getParentItemNo());
-		if (result) {
-			return ResultConstant.ofSuccess();
-		}
-		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "新增商品类目失败！");
+		
+		PageInfo<Map<String, Object>> pageResult = new PageInfo<Map<String, Object>>(result);
+		return ResultConstant.ofSuccess(pageResult);
 	}
 
 	@ApiOperation(value = "删除商品类目", notes = "根据传入的商品类目编号，删除商品类目")
 	@DeleteMapping("/productItem")
-	public ResultConstant deleteProductItem(String itemNo) {
-		ResultConstant result = productItemService.deleteProductItem(itemNo);
+	public ResultConstant deleteProductItem(@RequestBody Map<String, List<String>> itemNos) {
+		ResultConstant result = productItemService.deleteProductItem(itemNos.get("itemNo"));
 		return result;
 	}
 
