@@ -142,6 +142,11 @@ public class AdminController {
 		ResultConstant result = productItemService.deleteProductItem(itemNos.get("itemNo"));
 		return result;
 	}
+	
+	@GetMapping("")
+	public ResultConstant getAppVerify() {
+		return ResultConstant.ofSuccess();
+	}
 
 	@ApiOperation(value = "积分攻略文章添加", notes = "根据传入的类型，添加积分攻略文章")
 	@PostMapping("/addjfRaider")
