@@ -68,19 +68,21 @@ public class ProductItemService {
 
 	@SuppressWarnings("rawtypes")
 	public List<Map<String, Object>> getProductItem(String itemName, boolean useLike, boolean asTree, Integer pageNum, Integer pageSize) {
-		if (!useLike) {
-			return getProductItem(itemName, asTree, pageNum, pageSize);
-		}
+		
 		TbProductItemExample tbProductItemExample = new TbProductItemExample();
 		Criteria criteria = tbProductItemExample.createCriteria();
-		if (asTree) {
-			criteria.andParentItemNoIsNull();
-		} else if (pageNum != null) {
+		if (!asTree && pageNum != null) {
 			tbProductItemExample.setOrderByClause("create_time desc");
 			PageHelper.startPage(pageNum, pageSize,true);
 		}
+		
 		if (!StringUtils.isEmpty(itemName)) {
-			criteria.andItemNameLike("%"+itemName+"%");
+			if (!useLike) {
+				criteria.andItemNameEqualTo(itemName);
+			} else {
+				criteria.andItemNameLike("%"+itemName+"%");
+			}
+			
 		}
 		List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
 		
@@ -111,12 +113,11 @@ public class ProductItemService {
 		return result;
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public List<Map<String, Object>> getProductItem(String itemNo, boolean asTree, Integer pageNum, Integer pageSize) {
 		TbProductItemExample tbProductItemExample = new TbProductItemExample();
 		Criteria criteria = tbProductItemExample.createCriteria();
-		if (asTree) {
-			criteria.andParentItemNoIsNull();
-		} else if (pageNum != null) {
+		if (!asTree && pageNum != null) {
 			tbProductItemExample.setOrderByClause("create_time desc");
 			PageHelper.startPage(pageNum, pageSize,true);
 		}
@@ -175,7 +176,7 @@ public class ProductItemService {
 				rtMap.put("parentItemNo", "");
 			} else {
 				tbProductItemExample.createCriteria()
-									.andItemNoEqualTo(tbProductItem.getParentItemNo());
+									.andParentItemNoEqualTo(tbProductItem.getItemNo());
 				List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
 				rtMap.put("parentItemName", tbProductItems.get(0).getItemName());
 				rtMap.put("parentItemNo", tbProductItems.get(0).getItemNo());
