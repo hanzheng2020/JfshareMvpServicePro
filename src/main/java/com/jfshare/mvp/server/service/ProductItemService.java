@@ -83,7 +83,10 @@ public class ProductItemService {
 				criteria.andItemNameLike("%"+itemName+"%");
 			}
 			
+		} else if (asTree) {
+			criteria.andParentItemNoIsNull();
 		}
+		
 		List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
 		
 		List<Map<String, Object>> result = new ArrayList<>();
@@ -127,6 +130,8 @@ public class ProductItemService {
 		}
 		if (!StringUtils.isEmpty(itemNo)) {
 			criteria.andItemNoEqualTo(itemNo);
+		} else if (asTree) {
+			criteria.andParentItemNoIsNull();
 		}
 		List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
 		List<Map<String, Object>> result = new ArrayList<>();
