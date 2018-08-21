@@ -37,7 +37,7 @@ public class SequenceService {
 	}
 	
 	public String generalItemNo() {
-		String sequenceNo = getSequenceNo("itemNo") + "";
+		String sequenceNo = getSequenceNo("1") + "";
 		String itemNo = "item" + StringUtils.leftPad(sequenceNo, 6, "0");
 		return itemNo;
 	}
