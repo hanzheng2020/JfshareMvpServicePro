@@ -1,24 +1,17 @@
 package com.jfshare.mvp.server.service;
 
-import java.util.List;
-
-import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSON;
 import com.alipay.api.AlipayApiException;
 import com.jfshare.finagle.thrift.order.Order;
 import com.jfshare.finagle.thrift.order.OrderDetailResult;
-import com.jfshare.finagle.thrift.result.FailDesc;
-import com.jfshare.finagle.thrift.trade.BuyInfo;
 import com.jfshare.mvp.server.finagle.server.OrderClient;
 import com.jfshare.mvp.server.thirdinterface.AliPayInterface;
 import com.jfshare.mvp.server.thirdinterface.WeChatPayInterface;
 import com.jfshare.mvp.server.utils.ConstantUtil;
-import com.twitter.util.Future;
 
 /**
  * @author fengxiang
@@ -37,6 +30,9 @@ public class ThirdPayService {
 	
 	@Autowired
 	private OrderClient orderClient;
+	
+	@Autowired
+	private LevelInfoService levelInfoService;
 	
 	public boolean checkOrder(OrderDetailResult result, Integer orderAmount) {
 		Order order = result.getOrder();
@@ -60,20 +56,29 @@ public class ThirdPayService {
 		return true;
 	}
 	
-	public String createWeChatPayOrder(String userId, String orderId, Integer orderAmount, String clientIp) {
+	private int calcuAmt(OrderDetailResult result, Integer jfScore, Integer fenXiangScore) {
+		Order order = result.getOrder();
+		int orderAmt = Integer.valueOf(order.getClosingPrice());
+		levelInfoService.lesslevelInfo(order.getUserId(), jfScore + fenXiangScore, order.getOrderId(), Integer.valueOf(order.getClosingPrice()), fenXiangScore > 0, fenXiangScore);
+		return orderAmt-jfScore-fenXiangScore;
+	}
+	
+	public String createWeChatPayOrder(String userId, String orderId, Integer orderAmount, String clientIp, Integer jfScore, Integer fenXiangScore) {
 		OrderDetailResult result = orderClient.queryOrderDetail(userId, orderId);
 		if (checkOrder(result, orderAmount)) {
-			return weChatPayInterface.createPrepayId("Test", orderId, orderAmount, clientIp);
+			int amt = calcuAmt(result, jfScore, fenXiangScore);
+			return weChatPayInterface.createPrepayId("Test", orderId, amt, clientIp);
 		} else {
 			return "";
 		}
 	}
 	
-	public String createAliPayOrder(String userId, String orderId, Integer orderAmount) {
+	public String createAliPayOrder(String userId, String orderId, Integer orderAmount, Integer jfScore, Integer fenXiangScore) {
 		OrderDetailResult result = orderClient.queryOrderDetail(userId, orderId);
 		if (checkOrder(result, orderAmount)) {
 			try {
-				return aliPayInterface.createPaySign(orderId, result.getOrder().getProductList().get(0).getProductName(), "test", orderAmount);
+				int amt = calcuAmt(result, jfScore, fenXiangScore);
+				return aliPayInterface.createPaySign(orderId, result.getOrder().getProductList().get(0).getProductName(), "test", amt);
 			} catch (AlipayApiException e) {
 				e.printStackTrace();
 			}

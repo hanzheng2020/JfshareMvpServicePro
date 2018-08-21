@@ -43,27 +43,30 @@ public class OrderController {
 	@ApiOperation(value = "调用支付接口", notes = "微信支付返回prepay_id(预支付交易会话标识),支付宝返回sign(签名)")
 	@PostMapping("/thirdPay")
 	public ResultConstant thirdPay(@ApiParam(value= "{\"userId\":\"用户ID\",\"orderId\":\"订单Id\","
-									+ "\"orderAmount\":\"订单金额\",\"payChannel\":\"支付方式，1代表微信，2代表支付宝\"}")
+									+ "\"orderAmount\":\"订单金额\",\"payChannel\":\"支付方式，1代表微信，2代表支付宝\","
+									+ "\"jfScore\":\"扣减的聚金豆\", \"fenXiangScore\":\"扣减的分象积分\"}")
 									@RequestBody Map<String, String> map) {
 		String result = "";
 		int payChannel = Integer.valueOf(map.get("payChannel"));
 		int orderAmount = Integer.valueOf(map.get("orderAmount"));
+		int jfScore = Integer.valueOf(map.get("jfScore"));
+		int fenXiangScore = Integer.valueOf(map.get("fenXiangScore"));
 		String userId = map.get("userId");
 		String orderId = map.get("orderId");
 		String clientIp = "127.0.0.1";
+		
 		if (weChatPay == payChannel) {
-			result = thirdPayService.createWeChatPayOrder(userId, orderId, orderAmount, clientIp);
+			result = thirdPayService.createWeChatPayOrder(userId, orderId, orderAmount, clientIp, jfScore, fenXiangScore);
 			if (StringUtils.isEmpty(result)) {
 				ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取微信支付prepay_id失败！");
 			}
 		}
 		if (aliPay == payChannel) {
-			result = thirdPayService.createAliPayOrder(userId, orderId, orderAmount);
+			result = thirdPayService.createAliPayOrder(userId, orderId, orderAmount, jfScore, fenXiangScore);
 			if (StringUtils.isEmpty(result)) {
 				ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取支付宝sign失败！");
 			}
 		}
-		
 		
 		return ResultConstant.ofSuccess(result);
 	}
