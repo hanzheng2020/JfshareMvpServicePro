@@ -153,11 +153,15 @@ public class ProductItemService {
 				list.forEach((map) -> {
 					map.put("parentItemName", getParentItemName(map.get("parentItemNo").toString()));
 				});
-	            page.addAll(ConvertBeanToMapUtils.convertBeanListToMap(tbProductItems, "createTime", "updateTime"));
+	            page.addAll(list);
 				return page;
 			} else {
 				List<TbProductItem> tbProductItems = tbProductItemDao.queryItemList(itemNo);
-				return ConvertBeanToMapUtils.convertBeanListToMap(tbProductItems, "createTime", "updateTime");
+				List<Map<String, Object>> list = ConvertBeanToMapUtils.convertBeanListToMap(tbProductItems, "createTime", "updateTime");
+				list.forEach((map) -> {
+					map.put("parentItemName", getParentItemName(map.get("parentItemNo").toString()));
+				});
+				return list;
 			}
 		}
 	}
