@@ -63,7 +63,18 @@ public class ThirdPayService {
 		return orderAmt-jfScore-fenXiangScore;
 	}
 	
-	public String createWeChatPayOrder(String userId, String orderId, Integer orderAmount, String clientIp, Integer jfScore, Integer fenXiangScore) {
+	public boolean allScorePay(String userId, String orderId, Integer orderAmount, Integer jfScore, Integer fenXiangScore) {
+		OrderDetailResult result = orderClient.queryOrderDetail(userId, orderId);
+		if (checkOrder(result, orderAmount)) {
+			int amt = calcuAmt(result, jfScore, fenXiangScore);
+			if (amt == 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public String weChatPay(String userId, String orderId, Integer orderAmount, String clientIp, Integer jfScore, Integer fenXiangScore) {
 		OrderDetailResult result = orderClient.queryOrderDetail(userId, orderId);
 		if (checkOrder(result, orderAmount)) {
 			int amt = calcuAmt(result, jfScore, fenXiangScore);
@@ -73,7 +84,7 @@ public class ThirdPayService {
 		}
 	}
 	
-	public String createAliPayOrder(String userId, String orderId, Integer orderAmount, Integer jfScore, Integer fenXiangScore) {
+	public String aliPay(String userId, String orderId, Integer orderAmount, Integer jfScore, Integer fenXiangScore) {
 		OrderDetailResult result = orderClient.queryOrderDetail(userId, orderId);
 		if (checkOrder(result, orderAmount)) {
 			try {
