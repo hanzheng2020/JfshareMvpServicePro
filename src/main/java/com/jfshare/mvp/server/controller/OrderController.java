@@ -40,15 +40,23 @@ public class OrderController {
 	public ResultConstant thirdPay(@ApiParam(value="用户Id",required=true) String userId, 
 									@ApiParam(value="订单Id",required=true) String orderId, 
 									@ApiParam(value="订单金额",required=true) Integer orderAmount,
-									@ApiParam(value="用户端IP",required=true) String clientIp,
+									@ApiParam(value="用户端IP",required=false) String clientIp,
 									@ApiParam(value="支付方式，1代表微信，2代表支付宝",required=true) Integer payChannel) {
-		String prepay_id = "";
+		String result = "";
 		if (weChatPay == payChannel) {
-			prepay_id = thirdPayService.createWeChatPayOrder(userId, orderId, orderAmount, clientIp);
+			result = thirdPayService.createWeChatPayOrder(userId, orderId, orderAmount, clientIp);
+			if (StringUtils.isEmpty(result)) {
+				ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取微信支付prepay_id失败！");
+			}
 		}
-		if (StringUtils.isEmpty(prepay_id)) {
-			ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取prepay_id失败！");
+		if (aliPay == payChannel) {
+			result = thirdPayService.createAliPayOrder(userId, orderId, orderAmount);
+			if (StringUtils.isEmpty(result)) {
+				ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取支付宝sign失败！");
+			}
 		}
-		return ResultConstant.ofSuccess(prepay_id);
+		
+		
+		return ResultConstant.ofSuccess(result);
 	}
 }

@@ -28,7 +28,7 @@ public class AppTest {
 		
 		
 //		wxpay.createPrepayId("test", "123", 1, "127.0.0.1");
-		alipay.createPaySign();
+//		alipay.createPaySign();
 		
 	}
 }
