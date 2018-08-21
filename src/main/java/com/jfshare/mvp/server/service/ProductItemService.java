@@ -16,6 +16,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,6 +58,7 @@ public class ProductItemService {
 		return true;
 	}
 	
+	@Transactional
 	public boolean addProductItem(String itemName, String itemDesc, String parentItemNo) {
 		TbProductItem tbProductItem = new TbProductItem();
 		tbProductItem.setItemDesc(itemDesc);
