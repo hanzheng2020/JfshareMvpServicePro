@@ -153,9 +153,11 @@ public class ProductItemService {
 	            }
 	            List<Map<String, Object>> list = ConvertBeanToMapUtils.convertBeanListToMap(tbProductItems, "createTime", "updateTime");
 	            for (Map<String, Object> map : list) {
-					String parentItemNo = map.get("parentItemNo").toString();
-					if (!StringUtils.isEmpty(parentItemNo)) {
-						map.put("parentItemName", getParentItemName(parentItemNo));
+	            	if (map.containsKey("parentItemNo") && map.get("parentItemNo") != null) {
+						String parentItemNo = map.get("parentItemNo").toString();
+						if (!StringUtils.isEmpty(parentItemNo)) {
+							map.put("parentItemName", getParentItemName(parentItemNo));
+						}
 					}
 				}
 	            page.addAll(list);
