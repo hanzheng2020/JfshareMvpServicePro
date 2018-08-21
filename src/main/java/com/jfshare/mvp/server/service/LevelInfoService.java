@@ -154,7 +154,7 @@ public class LevelInfoService {
 	//聚分享平台同步聚金豆(减少)
 	public StringResult lesslevelInfo(int userid,int integral,String orderId,int amont, boolean useFenxiang, int fenXiangIntegral) {
 		if (useFenxiang) {
-			
+			scoreClient.pointIncomeOrExpenses(userid, fenXiangIntegral+"");
 		}
 		TbLevelInfo info = levelInfoDao.selectLevelInfoByUserId(userid);
 		if(info!=null) {
