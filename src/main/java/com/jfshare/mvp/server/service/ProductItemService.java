@@ -151,9 +151,8 @@ public class ProductItemService {
 	            }
 	            List<Map<String, Object>> list = ConvertBeanToMapUtils.convertBeanListToMap(tbProductItems, "createTime", "updateTime");
 				list.forEach((map) -> {
-					String parentItemNo = map.get("parentItemNo").toString();
-					if (!StringUtils.isEmpty(parentItemNo)) {
-						map.put("parentItemName", getParentItemName(parentItemNo));
+					if (map.containsKey("parentItemNo") && map.get("parentItemNo") != null && map.get("parentItemNo") != "") {
+						map.put("parentItemName", getParentItemName(map.get("parentItemNo").toString()));
 					}
 				});
 	            page.addAll(list);
@@ -162,9 +161,8 @@ public class ProductItemService {
 				List<TbProductItem> tbProductItems = tbProductItemDao.queryItemList(itemNo);
 				List<Map<String, Object>> list = ConvertBeanToMapUtils.convertBeanListToMap(tbProductItems, "createTime", "updateTime");
 				list.forEach((map) -> {
-					String parentItemNo = map.get("parentItemNo").toString();
-					if (!StringUtils.isEmpty(parentItemNo)) {
-						map.put("parentItemName", getParentItemName(parentItemNo));
+					if (map.containsKey("parentItemNo") && map.get("parentItemNo") != null && map.get("parentItemNo") != "") {
+						map.put("parentItemName", getParentItemName(map.get("parentItemNo").toString()));
 					}
 				});
 				return list;
