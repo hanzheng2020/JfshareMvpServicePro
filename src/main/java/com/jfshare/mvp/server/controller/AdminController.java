@@ -107,7 +107,7 @@ public class AdminController {
 		if (StringUtils.isEmpty(tbProductItem.getItemNo())) {
 			result = productItemService.addProductItem(tbProductItem.getItemName(), tbProductItem.getItemDesc(), tbProductItem.getParentItemNo());
 		} else {
-			result = productItemService.updateProductItem(tbProductItem.getItemNo(), tbProductItem.getItemNo(), tbProductItem.getItemDesc());
+			result = productItemService.updateProductItem(tbProductItem.getItemNo(), tbProductItem.getItemName(), tbProductItem.getItemDesc());
 		}
 		if (result) {
 			return ResultConstant.ofSuccess();
@@ -141,6 +141,11 @@ public class AdminController {
 	public ResultConstant deleteProductItem(@RequestBody Map<String, List<String>> itemNos) {
 		ResultConstant result = productItemService.deleteProductItem(itemNos.get("itemNo"));
 		return result;
+	}
+	
+	@GetMapping("")
+	public ResultConstant getAppVerify() {
+		return ResultConstant.ofSuccess();
 	}
 
 	@ApiOperation(value = "积分攻略文章添加", notes = "根据传入的类型，添加积分攻略文章")

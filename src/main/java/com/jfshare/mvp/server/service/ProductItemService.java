@@ -10,11 +10,13 @@ import com.jfshare.mvp.server.model.TbProductExample;
 import com.jfshare.mvp.server.model.TbProductItem;
 import com.jfshare.mvp.server.model.TbProductItemExample;
 import com.jfshare.mvp.server.model.TbProductItemExample.Criteria;
+import com.jfshare.mvp.server.utils.ConvertBeanToMapUtils;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,6 +58,7 @@ public class ProductItemService {
 		return true;
 	}
 	
+	@Transactional
 	public boolean addProductItem(String itemName, String itemDesc, String parentItemNo) {
 		TbProductItem tbProductItem = new TbProductItem();
 		tbProductItem.setItemDesc(itemDesc);
@@ -71,19 +74,18 @@ public class ProductItemService {
 		
 		TbProductItemExample tbProductItemExample = new TbProductItemExample();
 		Criteria criteria = tbProductItemExample.createCriteria();
-		if (!asTree && pageNum != null) {
+		if (!asTree) {
 			tbProductItemExample.setOrderByClause("create_time desc");
 			PageHelper.startPage(pageNum, pageSize,true);
 		}
-		
 		if (!StringUtils.isEmpty(itemName)) {
 			if (!useLike) {
 				criteria.andItemNameEqualTo(itemName);
 			} else {
 				criteria.andItemNameLike("%"+itemName+"%");
 			}
-			
 		}
+		
 		List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
 		
 		List<Map<String, Object>> result = new ArrayList<>();
@@ -91,10 +93,8 @@ public class ProductItemService {
 			for (TbProductItem tbProductItem : tbProductItems) {
 				result.add(createItemTree(tbProductItem));
 			}
-		} else {
-			result.addAll(createItemList(tbProductItems));
 		}
-		if (tbProductItems instanceof Page) {
+		if (!asTree && tbProductItems instanceof Page) {
 			Page tbProductItemsPage = (Page) tbProductItems;
 			Page<Map<String, Object>> page = new Page<>();
 			page.setPageNum(tbProductItemsPage.getPageNum());
@@ -111,7 +111,7 @@ public class ProductItemService {
                 //计算实际的endRow（最后一页的时候特殊）
             	page.setEndRow(tbProductItemsPage.getStartRow() - 1 + tbProductItemsPage.size());
             }
-			page.addAll(result);
+			page.addAll(ConvertBeanToMapUtils.convertBeanListToMap(tbProductItems, "createTime", "updateTime"));
 			return page;
 		}
 		return result;
@@ -121,80 +121,61 @@ public class ProductItemService {
 	public List<Map<String, Object>> getProductItem(String itemNo, boolean asTree, Integer pageNum, Integer pageSize) {
 		TbProductItemExample tbProductItemExample = new TbProductItemExample();
 		Criteria criteria = tbProductItemExample.createCriteria();
-		if (!asTree && pageNum != null) {
-			tbProductItemExample.setOrderByClause("create_time desc");
-			PageHelper.startPage(pageNum, pageSize,true);
-		}
-		if (!StringUtils.isEmpty(itemNo)) {
-			criteria.andItemNoEqualTo(itemNo);
-		}
-		List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
-		List<Map<String, Object>> result = new ArrayList<>();
 		if (asTree) {
+			criteria.andParentItemNoIsNull();
+			List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
+			List<Map<String, Object>> result = new ArrayList<>();
 			for (TbProductItem tbProductItem : tbProductItems) {
 				result.add(createItemTree(tbProductItem));
 			}
+			return result;
 		} else {
-			result.addAll(createItemList(tbProductItems));
-		}
-		
-		if (tbProductItems instanceof Page) {
-			Page tbProductItemsPage = (Page) tbProductItems;
-			Page<Map<String, Object>> page = new Page<>();
-			page.setPageNum(tbProductItemsPage.getPageNum());
-			page.setPageSize(tbProductItemsPage.getPageSize());
-			page.setOrderBy(tbProductItemsPage.getOrderBy());
-			page.setPages(tbProductItemsPage.getPages());
-			page.setTotal(tbProductItemsPage.getTotal());;
-            //由于结果是>startRow的，所以实际的需要+1
-            if (page.size() == 0) {
-            	page.setStartRow(0);
-            	page.setEndRow(0);
-            } else {
-            	page.setStartRow(tbProductItemsPage.getStartRow() + 1);
-                //计算实际的endRow（最后一页的时候特殊）
-            	page.setEndRow(tbProductItemsPage.getStartRow() - 1 + tbProductItemsPage.size());
-            }
-			page.addAll(result);
-			return page;
-		}
-		return result;
-	}
-	
-	private List<Map<String, Object>> createItemList(List<TbProductItem> tbProductItems) {
-		List<Map<String, Object>> resultList = new ArrayList<>();
-		if (!CollectionUtils.isEmpty(tbProductItems)) {
-			for (TbProductItem tbProductItem : tbProductItems) {
-				Map<String, Object> rtMap = new HashMap<>();
-				TbProductItemExample tbProductItemExample = new TbProductItemExample();
-				
-				rtMap.put("itemNo", tbProductItem.getItemNo());
-				rtMap.put("itemName", tbProductItem.getItemName());
-				rtMap.put("itemDesc", tbProductItem.getItemDesc());
-				if (StringUtils.isEmpty(tbProductItem.getParentItemNo())) {
-					rtMap.put("parentItemName", "");
-					rtMap.put("parentItemNo", "");
-				} else {
-					tbProductItemExample.createCriteria()
-										.andItemNoEqualTo(tbProductItem.getParentItemNo());
-					List<TbProductItem> parentProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
-					rtMap.put("parentItemName", parentProductItems.get(0).getItemName());
-					rtMap.put("parentItemNo", parentProductItems.get(0).getItemNo());
-					tbProductItemExample.clear();
-				}
-				resultList.add(rtMap);
-
-				tbProductItemExample.createCriteria()
-									.andParentItemNoEqualTo(tbProductItem.getItemNo());
-				List<TbProductItem> productItems = tbProductItemDao.selectByExample(tbProductItemExample);
-				if (!CollectionUtils.isEmpty(productItems)) {
-					resultList.addAll(createItemList(productItems));
-				}
-				
+			if (pageNum != null && pageSize != null) {
+				PageHelper.startPage(pageNum, pageSize,true);
+				List<TbProductItem> tbProductItems = tbProductItemDao.queryItemList(itemNo);
+				Page tbProductItemsPage = (Page) tbProductItems;
+				Page<Map<String, Object>> page = new Page<>();
+				page.setPageNum(tbProductItemsPage.getPageNum());
+				page.setPageSize(tbProductItemsPage.getPageSize());
+				page.setOrderBy(tbProductItemsPage.getOrderBy());
+				page.setPages(tbProductItemsPage.getPages());
+				page.setTotal(tbProductItemsPage.getTotal());;
+	            //由于结果是>startRow的，所以实际的需要+1
+	            if (page.size() == 0) {
+	            	page.setStartRow(0);
+	            	page.setEndRow(0);
+	            } else {
+	            	page.setStartRow(tbProductItemsPage.getStartRow() + 1);
+	                //计算实际的endRow（最后一页的时候特殊）
+	            	page.setEndRow(tbProductItemsPage.getStartRow() - 1 + tbProductItemsPage.size());
+	            }
+	            List<Map<String, Object>> list = ConvertBeanToMapUtils.convertBeanListToMap(tbProductItems, "createTime", "updateTime");
+				list.forEach((map) -> {
+					if (map.containsKey("parentItemNo") && map.get("parentItemNo") != null && map.get("parentItemNo") != "") {
+						map.put("parentItemName", getParentItemName(map.get("parentItemNo").toString()));
+					}
+				});
+	            page.addAll(list);
+				return page;
+			} else {
+				List<TbProductItem> tbProductItems = tbProductItemDao.queryItemList(itemNo);
+				List<Map<String, Object>> list = ConvertBeanToMapUtils.convertBeanListToMap(tbProductItems, "createTime", "updateTime");
+				list.forEach((map) -> {
+					if (map.containsKey("parentItemNo") && map.get("parentItemNo") != null && map.get("parentItemNo") != "") {
+						map.put("parentItemName", getParentItemName(map.get("parentItemNo").toString()));
+					}
+				});
+				return list;
 			}
 		}
-		
-		return resultList;
+	}
+	
+	private String getParentItemName(String parentItemNo) {
+		TbProductItemExample tbProductItemExample = new TbProductItemExample();
+		tbProductItemExample.createCriteria()
+							.andItemNoEqualTo(parentItemNo);
+		List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
+		return tbProductItems.get(0).getItemName();
 	}
 	
 	private Map<String, Object> createItemTree(TbProductItem tbProductItem) {

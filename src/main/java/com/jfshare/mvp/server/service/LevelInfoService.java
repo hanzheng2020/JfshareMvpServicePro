@@ -152,13 +152,17 @@ public class LevelInfoService {
 		return results;
 	}
 	//聚分享平台同步聚金豆(减少)
-	public StringResult lesslevelInfo(int userid,int integral,String orderId,int amont) {
+	public StringResult lesslevelInfo(int userid,int integral,String orderId,int amont, boolean useFenxiang, int fenXiangIntegral) {
+		if (useFenxiang) {
+			
+		}
 		TbLevelInfo info = levelInfoDao.selectLevelInfoByUserId(userid);
 		if(info!=null) {
 			info.setRealJvjindou(info.getGrowthPoint()-amont);
 		}
 		levelInfoDao.updateLevelInfo(info);
 		StringResult results = scoreClient.reduceScore(userid, integral, 1, orderId);
+		logger.info(String.format("积分增加:results{}", results));
 		return results;
 	}
 	

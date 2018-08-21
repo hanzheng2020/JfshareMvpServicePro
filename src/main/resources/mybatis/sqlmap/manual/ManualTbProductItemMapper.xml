@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.jfshare.mvp.server.mapper.manual.ManualTbProductItemMapper">
+	<!-- BaseResultOtherMap -->
+	<resultMap id="BaseResultMap"
+		type="com.jfshare.mvp.server.model.TbProductItem">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="item_no" jdbcType="VARCHAR" property="itemNo" />
+		<result column="parent_item_no" jdbcType="VARCHAR" property="parentItemNo" />
+		<result column="item_name" jdbcType="VARCHAR" property="itemName" />
+		<result column="item_desc" jdbcType="VARCHAR" property="itemDesc" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+	</resultMap>
+
+	<select id="queryItemList"
+		parameterType="string"
+		resultMap="BaseResultMap">
+		SELECT * FROM TB_PRODUCT_ITEM 
+		<if test="_parameter != null and _parameter != ''">
+         	WHERE FIND_IN_SET(ITEM_NO,FCGETCHILDRENITEM('${value}'))
+      	</if>
+      	ORDER BY UPDATE_TIME DESC
+	</select>
+</mapper>

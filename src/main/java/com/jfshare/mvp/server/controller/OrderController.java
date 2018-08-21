@@ -1,8 +1,11 @@
 package com.jfshare.mvp.server.controller;
 
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +16,8 @@ import com.jfshare.mvp.server.service.ThirdPayService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.Example;
+import io.swagger.annotations.ExampleProperty;
 
 /**
  * @author fengxiang
@@ -37,18 +42,32 @@ public class OrderController {
 	
 	@ApiOperation(value = "调用支付接口", notes = "微信支付返回prepay_id(预支付交易会话标识),支付宝返回sign(签名)")
 	@PostMapping("/thirdPay")
-	public ResultConstant thirdPay(@ApiParam(value="用户Id",required=true) String userId, 
-									@ApiParam(value="订单Id",required=true) String orderId, 
-									@ApiParam(value="订单金额",required=true) Integer orderAmount,
-									@ApiParam(value="用户端IP",required=true) String clientIp,
-									@ApiParam(value="支付方式，1代表微信，2代表支付宝",required=true) Integer payChannel) {
-		String prepay_id = "";
+	public ResultConstant thirdPay(@ApiParam(value= "{\"userId\":\"用户ID\",\"orderId\":\"订单Id\","
+									+ "\"orderAmount\":\"订单金额\",\"payChannel\":\"支付方式，1代表微信，2代表支付宝\","
+									+ "\"jfScore\":\"扣减的聚金豆\", \"fenXiangScore\":\"扣减的分象积分\"}")
+									@RequestBody Map<String, String> map) {
+		String result = "";
+		int payChannel = Integer.valueOf(map.get("payChannel"));
+		int orderAmount = Integer.valueOf(map.get("orderAmount"));
+		int jfScore = Integer.valueOf(map.get("jfScore"));
+		int fenXiangScore = Integer.valueOf(map.get("fenXiangScore"));
+		String userId = map.get("userId");
+		String orderId = map.get("orderId");
+		String clientIp = "127.0.0.1";
+		
 		if (weChatPay == payChannel) {
-			prepay_id = thirdPayService.createWeChatPayOrder(userId, orderId, orderAmount, clientIp);
+			result = thirdPayService.createWeChatPayOrder(userId, orderId, orderAmount, clientIp, jfScore, fenXiangScore);
+			if (StringUtils.isEmpty(result)) {
+				ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取微信支付prepay_id失败！");
+			}
 		}
-		if (StringUtils.isEmpty(prepay_id)) {
-			ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取prepay_id失败！");
+		if (aliPay == payChannel) {
+			result = thirdPayService.createAliPayOrder(userId, orderId, orderAmount, jfScore, fenXiangScore);
+			if (StringUtils.isEmpty(result)) {
+				ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取支付宝sign失败！");
+			}
 		}
-		return ResultConstant.ofSuccess(prepay_id);
+		
+		return ResultConstant.ofSuccess(result);
 	}
 }
