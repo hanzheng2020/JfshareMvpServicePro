@@ -149,13 +149,25 @@ public class ProductItemService {
 	                //计算实际的endRow（最后一页的时候特殊）
 	            	page.setEndRow(tbProductItemsPage.getStartRow() - 1 + tbProductItemsPage.size());
 	            }
-				page.addAll(ConvertBeanToMapUtils.convertBeanListToMap(tbProductItems, "createTime", "updateTime"));
+	            List<Map<String, Object>> list = ConvertBeanToMapUtils.convertBeanListToMap(tbProductItems, "createTime", "updateTime");
+				list.forEach((map) -> {
+					map.put("parentItemName", getParentItemName(map.get("parentItemNo").toString()));
+				});
+	            page.addAll(ConvertBeanToMapUtils.convertBeanListToMap(tbProductItems, "createTime", "updateTime"));
 				return page;
 			} else {
 				List<TbProductItem> tbProductItems = tbProductItemDao.queryItemList(itemNo);
 				return ConvertBeanToMapUtils.convertBeanListToMap(tbProductItems, "createTime", "updateTime");
 			}
 		}
+	}
+	
+	private String getParentItemName(String parentItemNo) {
+		TbProductItemExample tbProductItemExample = new TbProductItemExample();
+		tbProductItemExample.createCriteria()
+							.andItemNoEqualTo(parentItemNo);
+		List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
+		return tbProductItems.get(0).getItemName();
 	}
 	
 	private Map<String, Object> createItemTree(TbProductItem tbProductItem) {
