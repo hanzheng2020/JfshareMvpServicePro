@@ -63,7 +63,9 @@ public class ProductItemService {
 		TbProductItem tbProductItem = new TbProductItem();
 		tbProductItem.setItemDesc(itemDesc);
 		tbProductItem.setItemName(itemName);
-		tbProductItem.setParentItemNo(parentItemNo);
+		if (!StringUtils.isEmpty(parentItemNo)) {
+			tbProductItem.setParentItemNo(parentItemNo);
+		}
 		tbProductItem.setItemNo(sequenceService.generalItemNo());
 		tbProductItemDao.insert(tbProductItem);
 		return true;
