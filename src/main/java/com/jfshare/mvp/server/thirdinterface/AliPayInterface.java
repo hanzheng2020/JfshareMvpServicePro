@@ -32,17 +32,9 @@ public class AliPayInterface {
 	private static final Logger logger = LoggerFactory.getLogger(AliPayInterface.class);
 	
 	@Autowired
-	private RestTemplate restTemplate;
-	@Autowired
 	private ConfigManager configManager;
 	
-	private String app_id = AlipayConfig.APP_ID;
-	private String method = AlipayConfig.ALIPAY_GATEWAY_NEW;
-	private String charset = AlipayConfig.input_charset;
-	private String sign_type = "RSA";
-	private String version = AlipayConfig.version;
 	private String notify_url = "";
-	private String biz_content = "";
 	
 	private String privateKey = AlipayConfig.ALIPAY_RSA_PRIVATE;
 	
@@ -51,7 +43,7 @@ public class AliPayInterface {
 		notify_url = configManager.getConfigValue("jfx_pay_serv", "alipay_notify_url");
 	}
 	
-	public String createPaySign() throws AlipayApiException {
+	public String createPaySign(String orderId, String productName, String productDesc, int amount) throws AlipayApiException {
 		Map<String, String> payUrlMap = new HashMap<String, String>();
 		Map<String, String> map = new HashMap<>();
 
@@ -66,10 +58,10 @@ public class AliPayInterface {
 		payUrlMap.put("sign_type", "RSA");
 		// 业务参数   !!!注意:业务参数千万不要放在公共参数内!!!
 		/* 传递过去的所有业务参数,以JSON格式拼装 */
-		map.put("body", "");//商品描述
-		map.put("subject", "");//商品名称
-		map.put("out_trade_no", "");//商户的唯一编码
-		map.put("total_amount", intToStr(1));
+		map.put("body", productDesc);//商品描述
+		map.put("subject", productName);//商品名称
+		map.put("out_trade_no", orderId);//商户的唯一编码
+		map.put("total_amount", intToStr(amount));
 		map.put("product_code", "QUICK_MSECURITY_PAY");//销售产品码，商家和支付宝签约的产品码，为固定值QUICK_MSECURITY_PAY
 		map.put("goods_type", "0");//商品主类型：0—虚拟类商品，1—实物类商品
 		map.put("passback_params", "");//公共回传参数,会原封不动传回

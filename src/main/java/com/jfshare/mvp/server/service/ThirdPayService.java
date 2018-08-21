@@ -40,6 +40,9 @@ public class ThirdPayService {
 	
 	public boolean checkOrder(OrderDetailResult result, Integer orderAmount) {
 		Order order = result.getOrder();
+		if (order == null) {
+			return false;
+		}
 		// 校验订单是否关闭 PAY_ORDER_CLOSE
 		if ((order.getOrderState() == ConstantUtil.ORDER_STATE.TRADE_ADMIN_CANCEL.getEnumVal())
 			|| (order.getOrderState() == ConstantUtil.ORDER_STATE.TRADE_CANCEL.getEnumVal())
@@ -70,7 +73,7 @@ public class ThirdPayService {
 		OrderDetailResult result = orderClient.queryOrderDetail(userId, orderId);
 		if (checkOrder(result, orderAmount)) {
 			try {
-				return aliPayInterface.createPaySign();
+				return aliPayInterface.createPaySign(orderId, result.getOrder().getProductList().get(0).getProductName(), "test", orderAmount);
 			} catch (AlipayApiException e) {
 				e.printStackTrace();
 			}
