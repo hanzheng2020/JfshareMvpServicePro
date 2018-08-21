@@ -46,7 +46,15 @@ public class ProductService {
 			param.setActiveState(activeState);
 		}
 		PageHelper.startPage(curpage, percount);
-		return tbProductDao.productSurveyQuery(param);
+		//处理图片  列表只返回一张图片
+		List<TbProductSurvey> productSurveyQuery = tbProductDao.productSurveyQuery(param);
+		for (TbProductSurvey tbProductSurvey : productSurveyQuery) {
+			String imgKey = tbProductSurvey.getImgKey();
+			if(!StringUtils.isEmpty(imgKey) && imgKey.contains(",")) {
+				tbProductSurvey.setImgKey(imgKey.split(",")[0]);
+			}
+		}	
+		return productSurveyQuery;
 	}
 
 	//新增商品
