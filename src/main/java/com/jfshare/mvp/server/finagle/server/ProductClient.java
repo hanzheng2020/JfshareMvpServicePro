@@ -8,8 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jfshare.finagle.thrift.pagination.Pagination;
+import com.jfshare.finagle.thrift.product.Product;
 import com.jfshare.finagle.thrift.product.ProductCardListResult;
 import com.jfshare.finagle.thrift.product.ProductCardViewParam;
+import com.jfshare.finagle.thrift.product.ProductResult;
+import com.jfshare.finagle.thrift.product.ProductRetParam;
 import com.jfshare.finagle.thrift.product.ProductServ;
 import com.jfshare.finagle.thrift.product.ProductSurveyQueryParam;
 import com.jfshare.finagle.thrift.product.ProductSurveyResult;
@@ -35,7 +38,7 @@ public class ProductClient {
 	public ProductSurveyResult queryProduct() {
 		try {
 			ProductSurveyQueryParam param = new ProductSurveyQueryParam();
-			param.setPagination(new Pagination(0, 0, 1, 1));
+			param.setPagination(new Pagination(0, 0, 1, 2));
 			param.setActiveState(0);
 			param.setSellerId(115);
 			ProductSurveyResult result = Await.result(service.productSurveyBackendQuery(param));
@@ -60,5 +63,31 @@ public class ProductClient {
 			logger.error("查询聚分享商品库存失败：" + e);
 		}
 		return 0;
+	}
+	
+	/**
+	 * 获取商品的信息
+	 * @param productId
+	 * @return
+	 */
+	public Product getProduct(String productId){
+		
+		if ("".equals(productId) || productId == null) {
+			return null;
+		}
+		
+		ProductRetParam param = new ProductRetParam();
+		param.setBaseTag(1);
+		param.setSkuTag(1);
+		param.setSkuTemplateTag(1);
+		try {
+			ProductResult result = Await.result(service.queryProduct(productId, param));
+			if(result.getResult().getCode() ==0){
+				return result.getProduct();
+			}
+		} catch (Exception e) {
+			logger.error("查询商品的信息错误"+e);
+		}
+		return null;
 	}
 }
