@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.pagehelper.PageInfo;
 import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.model.Product;
 import com.jfshare.mvp.server.model.TbProduct;
@@ -59,7 +60,9 @@ public class ProductController {
 			e.printStackTrace();
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取商品信息失败");
 		}
-			return ResultConstant.ofSuccess(productList);
+		PageInfo<TbProductSurvey> pageInfo = new PageInfo<>(productList);
+		return ResultConstant.ofSuccess(pageInfo);
+		  //return ResultConstant.ofSuccess(productList);
 	}
 
 	@ApiOperation(value = "新增商品", notes = "新增商品信息")
