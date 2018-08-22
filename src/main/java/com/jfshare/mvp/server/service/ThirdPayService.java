@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
 import com.alipay.api.AlipayApiException;
 import com.jfshare.finagle.thrift.order.Order;
 import com.jfshare.finagle.thrift.order.OrderDetailResult;
@@ -98,7 +99,7 @@ public class ThirdPayService {
 			if (MapUtils.isEmpty(resultMap)) {
 				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取微信支付信息串失败！");
 			} 
-			return ResultConstant.ofSuccess(resultMap);
+			return ResultConstant.ofSuccess(JSON.toJSON(resultMap));
 		} else {
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, checkOrderResult);
 		}
