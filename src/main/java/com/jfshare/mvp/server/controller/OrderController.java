@@ -39,6 +39,11 @@ public class OrderController {
 	 */
 	private static final int aliPay = 2;
 	
+	/**
+	 * 积分支付
+	 */
+	private static final int allScore = 0;
+	
 	
 	@ApiOperation(value = "调用支付接口", notes = "微信支付返回prepay_id(预支付交易会话标识),支付宝返回sign(签名)")
 	@PostMapping("/thirdPay")
@@ -56,16 +61,19 @@ public class OrderController {
 		String clientIp = "127.0.0.1";
 		
 		if (weChatPay == payChannel) {
-			result = thirdPayService.createWeChatPayOrder(userId, orderId, orderAmount, clientIp, jfScore, fenXiangScore);
+			result = thirdPayService.weChatPay(userId, orderId, orderAmount, clientIp, jfScore, fenXiangScore);
 			if (StringUtils.isEmpty(result)) {
-				ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取微信支付prepay_id失败！");
+				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取微信支付prepay_id失败！");
 			}
 		}
 		if (aliPay == payChannel) {
-			result = thirdPayService.createAliPayOrder(userId, orderId, orderAmount, jfScore, fenXiangScore);
+			result = thirdPayService.aliPay(userId, orderId, orderAmount, jfScore, fenXiangScore);
 			if (StringUtils.isEmpty(result)) {
-				ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取支付宝sign失败！");
+				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取支付宝sign失败！");
 			}
+		}
+		if (allScore == payChannel) {
+			
 		}
 		
 		return ResultConstant.ofSuccess(result);

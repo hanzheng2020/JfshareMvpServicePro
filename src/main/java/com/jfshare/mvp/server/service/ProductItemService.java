@@ -63,7 +63,9 @@ public class ProductItemService {
 		TbProductItem tbProductItem = new TbProductItem();
 		tbProductItem.setItemDesc(itemDesc);
 		tbProductItem.setItemName(itemName);
-		tbProductItem.setParentItemNo(parentItemNo);
+		if (!StringUtils.isEmpty(parentItemNo)) {
+			tbProductItem.setParentItemNo(parentItemNo);
+		}
 		tbProductItem.setItemNo(sequenceService.generalItemNo());
 		tbProductItemDao.insert(tbProductItem);
 		return true;
@@ -150,21 +152,27 @@ public class ProductItemService {
 	            	page.setEndRow(tbProductItemsPage.getStartRow() - 1 + tbProductItemsPage.size());
 	            }
 	            List<Map<String, Object>> list = ConvertBeanToMapUtils.convertBeanListToMap(tbProductItems, "createTime", "updateTime");
-				list.forEach((map) -> {
-					if (map.containsKey("parentItemNo") && map.get("parentItemNo") != null && map.get("parentItemNo") != "") {
-						map.put("parentItemName", getParentItemName(map.get("parentItemNo").toString()));
+	            for (Map<String, Object> map : list) {
+	            	if (map.containsKey("parentItemNo") && map.get("parentItemNo") != null) {
+						String parentItemNo = map.get("parentItemNo").toString();
+						if (!StringUtils.isEmpty(parentItemNo)) {
+							map.put("parentItemName", getParentItemName(parentItemNo));
+						}
 					}
-				});
+				}
 	            page.addAll(list);
 				return page;
 			} else {
 				List<TbProductItem> tbProductItems = tbProductItemDao.queryItemList(itemNo);
 				List<Map<String, Object>> list = ConvertBeanToMapUtils.convertBeanListToMap(tbProductItems, "createTime", "updateTime");
-				list.forEach((map) -> {
-					if (map.containsKey("parentItemNo") && map.get("parentItemNo") != null && map.get("parentItemNo") != "") {
-						map.put("parentItemName", getParentItemName(map.get("parentItemNo").toString()));
+				for (Map<String, Object> map : list) {
+					if (map.containsKey("parentItemNo") && map.get("parentItemNo") != null) {
+						String parentItemNo = map.get("parentItemNo").toString();
+						if (!StringUtils.isEmpty(parentItemNo)) {
+							map.put("parentItemName", getParentItemName(parentItemNo));
+						}
 					}
-				});
+				}
 				return list;
 			}
 		}

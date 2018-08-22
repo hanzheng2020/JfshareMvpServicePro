@@ -36,7 +36,7 @@ public class OrderClient {
     //查询订单信息
     public OrderDetailResult queryOrderDetail(String userId, String orderId) {
         try {
-        	OrderDetailResult result = Await.result(service.queryOrderDetail(Integer.valueOf(userId), 1, orderId));
+        	OrderDetailResult result = Await.result(service.queryOrderDetail(1, Integer.valueOf(userId), orderId));
             return result;
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,6 +1,7 @@
 package com.jfshare.mvp.server.finagle.server;
 
 
+import com.jfshare.finagle.thrift.result.Result;
 import com.jfshare.finagle.thrift.result.StringResult;
 import com.jfshare.finagle.thrift.score.ScoreResult;
 import com.jfshare.finagle.thrift.score.ScoreServ;
@@ -92,5 +93,16 @@ public class ScoreClient {
     		logger.error("调用service.income失败！", e); 
 		}
     	return result;
+    }
+    
+    //使用分象积分
+    public Result pointIncomeOrExpenses(int userId, String pointNum) {
+    	try {
+			Result result = Await.result(service.pointIncomeOrExpenses(userId, pointNum, "1002", "", 2));
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	return null;
     }
 }
