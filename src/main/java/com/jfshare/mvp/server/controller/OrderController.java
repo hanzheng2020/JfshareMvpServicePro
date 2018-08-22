@@ -61,16 +61,10 @@ public class OrderController {
 		String clientIp = "127.0.0.1";
 		
 		if (weChatPay == payChannel) {
-			result = thirdPayService.weChatPay(userId, orderId, orderAmount, clientIp, jfScore, fenXiangScore);
-			if (StringUtils.isEmpty(result)) {
-				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取微信支付prepay_id失败！");
-			}
+			return thirdPayService.weChatPay(userId, orderId, orderAmount, clientIp, jfScore, fenXiangScore);
 		}
 		if (aliPay == payChannel) {
-			result = thirdPayService.aliPay(userId, orderId, orderAmount, jfScore, fenXiangScore);
-			if (StringUtils.isEmpty(result)) {
-				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取支付宝sign失败！");
-			}
+			return thirdPayService.aliPay(userId, orderId, orderAmount, jfScore, fenXiangScore);
 		}
 		if (allScore == payChannel) {
 			

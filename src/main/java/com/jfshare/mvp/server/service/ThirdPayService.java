@@ -1,5 +1,6 @@
 package com.jfshare.mvp.server.service;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.alipay.api.AlipayApiException;
 import com.jfshare.finagle.thrift.order.Order;
 import com.jfshare.finagle.thrift.order.OrderDetailResult;
+import com.jfshare.finagle.thrift.result.StringResult;
 import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.finagle.server.OrderClient;
 import com.jfshare.mvp.server.thirdinterface.AliPayInterface;
@@ -64,7 +66,10 @@ public class ThirdPayService {
 	private int calcuAmt(OrderDetailResult result, Integer jfScore, Integer fenXiangScore) {
 		Order order = result.getOrder();
 		int orderAmt = strToInt(order.getClosingPrice());
-		levelInfoService.lesslevelInfo(order.getUserId(), jfScore + fenXiangScore, order.getOrderId(), strToInt(order.getClosingPrice()), fenXiangScore > 0, fenXiangScore);
+		StringResult stringResult = levelInfoService.lesslevelInfo(order.getUserId(), jfScore + fenXiangScore, order.getOrderId(), strToInt(order.getClosingPrice()), fenXiangScore > 0, fenXiangScore);
+		/*if (CollectionUtils.isEmpty(stringResult.getResult().getFailDescList())) {
+			
+		}*/
 		return orderAmt-jfScore-fenXiangScore;
 	}
 	
@@ -81,28 +86,36 @@ public class ThirdPayService {
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, checkOrderResult);
 	}
 	
-	public String weChatPay(String userId, String orderId, Integer orderAmount, String clientIp, Integer jfScore, Integer fenXiangScore) {
+	public ResultConstant weChatPay(String userId, String orderId, Integer orderAmount, String clientIp, Integer jfScore, Integer fenXiangScore) {
 		OrderDetailResult result = orderClient.queryOrderDetail(userId, orderId);
 		String checkOrderResult = checkOrder(result, orderAmount);
 		if (StringUtils.isEmpty(checkOrderResult)) {
 			int amt = calcuAmt(result, jfScore, fenXiangScore);
-			return weChatPayInterface.createPrepayId("Test", orderId, amt, clientIp);
+			String prepayId = weChatPayInterface.createPrepayId("Test", orderId, amt, clientIp);
+			if (StringUtils.isEmpty(prepayId)) {
+				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取微信支付信息串失败！");
+			} 
+			return ResultConstant.ofSuccess(prepayId);
 		} else {
-			return "";
+			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, checkOrderResult);
 		}
 	}
 	
-	public String aliPay(String userId, String orderId, Integer orderAmount, Integer jfScore, Integer fenXiangScore) {
+	public ResultConstant aliPay(String userId, String orderId, Integer orderAmount, Integer jfScore, Integer fenXiangScore) {
 		OrderDetailResult result = orderClient.queryOrderDetail(userId, orderId);
 		String checkOrderResult = checkOrder(result, orderAmount);
 		if (StringUtils.isEmpty(checkOrderResult)) {
 			try {
 				int amt = calcuAmt(result, jfScore, fenXiangScore);
-				return aliPayInterface.createPaySign(orderId, result.getOrder().getProductList().get(0).getProductName(), "test", amt);
+				String sign = aliPayInterface.createPaySign(orderId, result.getOrder().getProductList().get(0).getProductName(), "test", amt);
+				if (StringUtils.isEmpty(sign)) {
+					return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取支付宝支付串失败！");
+				} 
+				return ResultConstant.ofSuccess(sign);
 			} catch (AlipayApiException e) {
 				e.printStackTrace();
 			}
 		}
-		return "";
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, checkOrderResult);
 	}
 }

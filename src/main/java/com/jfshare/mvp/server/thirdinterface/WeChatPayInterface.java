@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import com.alibaba.fastjson.JSON;
 import com.jfshare.mvp.server.config.ConfigManager;
 import com.jfshare.mvp.server.utils.EncryptUtils;
 import com.jfshare.mvp.server.utils.UUIDutils;
@@ -53,7 +54,6 @@ public class WeChatPayInterface {
 	public String createPrepayId(String productDesc, String orderId, int amount, String userIp) {
 		Map<String, Object> requestMap = new HashMap<>();
 		Map<String, Object> context = new HashMap<>();
-		
 		context.put("appid", appid);
 		context.put("mch_id", mch_id);
 		context.put("nonce_str", UUIDutils.getUUID());
@@ -67,17 +67,28 @@ public class WeChatPayInterface {
 		requestMap.put("xml", context);
 		String requestXml = XmlUtils.mapToXml(requestMap);
 		String responseXml = restTemplate.postForObject(payUrl, requestXml, String.class);
-		String prepay_id = "";
+		
+		String result = "";
 		try {
 			Map<String, Object> responseMap = (Map<String, Object>) XmlUtils.xmlToMap(responseXml).get("xml");
 			if ("SUCCESS".equals(responseMap.get("return_code")) 
 					&& "OK".equals(responseMap.get("return_msg"))) {
-				prepay_id = (String) responseMap.get("prepay_id");
+				String prepay_id = (String) responseMap.get("prepay_id");
+				Map<String, Object> resultMap = new HashMap<>();
+				resultMap.put("appid", appid);
+				resultMap.put("partnerid", mch_id);
+				resultMap.put("prepayid", prepay_id);
+				resultMap.put("package", "Sign=WXPay");
+				resultMap.put("noncestr", UUIDutils.getUUID());
+				resultMap.put("timestamp", System.currentTimeMillis());
+				resultMap.put("sign", createSign(resultMap));
+				result = JSON.toJSONString(resultMap);
 			}
 		} catch (DocumentException e) {
 			e.printStackTrace();
 		}
-		return prepay_id;
+		
+		return result;
 	}
 	
 	private String createSign(Map<String, Object> context) {
