@@ -63,13 +63,13 @@ public class OrderController {
 		if (weChatPay == payChannel) {
 			result = thirdPayService.weChatPay(userId, orderId, orderAmount, clientIp, jfScore, fenXiangScore);
 			if (StringUtils.isEmpty(result)) {
-				ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取微信支付prepay_id失败！");
+				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取微信支付prepay_id失败！");
 			}
 		}
 		if (aliPay == payChannel) {
 			result = thirdPayService.aliPay(userId, orderId, orderAmount, jfScore, fenXiangScore);
 			if (StringUtils.isEmpty(result)) {
-				ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取支付宝sign失败！");
+				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取支付宝sign失败！");
 			}
 		}
 		if (allScore == payChannel) {
