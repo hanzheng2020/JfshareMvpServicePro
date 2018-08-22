@@ -99,7 +99,7 @@ public class ThirdPayService {
 			if (MapUtils.isEmpty(resultMap)) {
 				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取微信支付信息串失败！");
 			} 
-			return ResultConstant.ofSuccess(JSON.toJSON(resultMap));
+			return ResultConstant.ofSuccess(JSON.toJSONString(resultMap));
 		} else {
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, checkOrderResult);
 		}
