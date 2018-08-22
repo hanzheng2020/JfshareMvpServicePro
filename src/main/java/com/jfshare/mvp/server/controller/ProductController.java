@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageInfo;
 import com.jfshare.mvp.server.constants.ResultConstant;
+import com.jfshare.mvp.server.finagle.server.ProductClient;
 import com.jfshare.mvp.server.model.Product;
 import com.jfshare.mvp.server.model.TbProduct;
 import com.jfshare.mvp.server.model.TbProductDetail;
@@ -42,6 +43,9 @@ public class ProductController {
 	
 	@Autowired
 	private ProductDetailService productDetailService;
+	
+	@Autowired
+	private ProductClient productClient;
 	
 	@ApiOperation(value = "根据商品id name 获取商品信息", notes = "根据商品id name 获取商品信息  productid:商品id  productName:商品名称   itemNo:类目id activeState：商品状态:100 待上架  200 已上架 300 已下架   itemNo activeState为必传参数 默认传0")
 	@PostMapping("/productSurveyQuery")
@@ -130,6 +134,22 @@ public class ProductController {
 		}
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "查询商品详情失败！");
 		
+	}
+	
+	@ApiOperation(value = "查询商品详情", notes = "根据商品ID查询聚分享商品详情，productId")
+	@PostMapping("/queryProduct")
+	public ResultConstant queryProduct(@RequestParam(value = "productId", required = true) String productId) {
+		com.jfshare.finagle.thrift.product.Product product = null;
+		TbProduct tbProduct = null;
+		try {
+			product = productClient.getProduct(productId);
+			tbProduct = ConvertBeanToMapUtils.convertBeanToMap(product);
+			tbProduct.setProductStock(productClient.getProductCardByState(productId));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取商品信息失败");
+		}
+		return ResultConstant.ofSuccess(tbProduct);	
 	}
 
 }
