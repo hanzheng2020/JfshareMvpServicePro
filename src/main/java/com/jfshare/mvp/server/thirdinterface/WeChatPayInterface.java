@@ -49,6 +49,7 @@ public class WeChatPayInterface {
 	 * @param userIp
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public String createPrepayId(String productDesc, String orderId, int amount, String userIp) {
 		Map<String, Object> requestMap = new HashMap<>();
 		Map<String, Object> context = new HashMap<>();
@@ -68,9 +69,9 @@ public class WeChatPayInterface {
 		String responseXml = restTemplate.postForObject(payUrl, requestXml, String.class);
 		String prepay_id = "";
 		try {
-			Map<String, Object> responseMap = XmlUtils.xmlToMap(responseXml);
+			Map<String, Object> responseMap = (Map<String, Object>) XmlUtils.xmlToMap(responseXml).get("xml");
 			if ("SUCCESS".equals(responseMap.get("return_code")) 
-					&& "SUCCESS".equals(responseMap.get("result_code"))) {
+					&& "OK".equals(responseMap.get("return_msg"))) {
 				prepay_id = (String) responseMap.get("prepay_id");
 			}
 		} catch (DocumentException e) {
