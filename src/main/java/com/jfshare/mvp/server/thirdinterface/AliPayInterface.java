@@ -72,7 +72,7 @@ public class AliPayInterface {
 		String payUrlFromAppSDK = buildOrderParam(payUrlMap);
 		// 加密sign并进行urlEncode编码
 		String sign = AlipaySignature.rsaSign(payUrlMap, privateKey, "utf-8");
-		payUrlFromAppSDK = payUrlFromAppSDK + "&" + sign;
+		payUrlFromAppSDK = payUrlFromAppSDK + "&sign=" + sign;
 		logger.info("AliApp支付申请payUrlFromAppSDK ==> " + payUrlFromAppSDK);
 		return payUrlFromAppSDK;
 	}
