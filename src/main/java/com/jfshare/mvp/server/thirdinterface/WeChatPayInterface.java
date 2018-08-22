@@ -58,7 +58,7 @@ public class WeChatPayInterface {
 		context.put("mch_id", mch_id);
 		context.put("nonce_str", UUIDutils.getUUID());
 		context.put("body", productDesc);
-		context.put("out_trade_no", orderId);
+		context.put("out_trade_no", orderId+System.currentTimeMillis());
 		context.put("total_fee", amount);
 		context.put("spbill_create_ip", userIp);
 		context.put("notify_url", notify_url);
