@@ -8,12 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
-import org.mockito.internal.stubbing.answers.ReturnsElementsOf;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.jfshare.mvp.server.constants.Constant;
-import com.jfshare.mvp.server.finagle.server.ProductClient;
-import com.jfshare.mvp.server.model.Product;
 import com.jfshare.mvp.server.model.TbProduct;
 
 /**
