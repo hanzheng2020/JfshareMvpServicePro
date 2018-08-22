@@ -51,7 +51,7 @@ public class WeChatPayInterface {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public String createPrepayId(String productDesc, String orderId, int amount, String userIp) {
+	public Map<String, Object> createPrepayId(String productDesc, String orderId, int amount, String userIp) {
 		Map<String, Object> requestMap = new HashMap<>();
 		Map<String, Object> context = new HashMap<>();
 		context.put("appid", appid);
@@ -68,13 +68,12 @@ public class WeChatPayInterface {
 		String requestXml = XmlUtils.mapToXml(requestMap);
 		String responseXml = restTemplate.postForObject(payUrl, requestXml, String.class);
 		
-		String result = "";
+		Map<String, Object> resultMap = new HashMap<>();
 		try {
 			Map<String, Object> responseMap = (Map<String, Object>) XmlUtils.xmlToMap(responseXml).get("xml");
 			if ("SUCCESS".equals(responseMap.get("return_code")) 
 					&& "OK".equals(responseMap.get("return_msg"))) {
 				String prepay_id = (String) responseMap.get("prepay_id");
-				Map<String, Object> resultMap = new HashMap<>();
 				resultMap.put("appid", appid);
 				resultMap.put("partnerid", mch_id);
 				resultMap.put("prepayid", prepay_id);
@@ -82,13 +81,12 @@ public class WeChatPayInterface {
 				resultMap.put("noncestr", UUIDutils.getUUID());
 				resultMap.put("timestamp", System.currentTimeMillis());
 				resultMap.put("sign", createSign(resultMap));
-				result = JSON.toJSONString(resultMap);
 			}
 		} catch (DocumentException e) {
 			e.printStackTrace();
 		}
 		
-		return result;
+		return resultMap;
 	}
 	
 	private String createSign(Map<String, Object> context) {

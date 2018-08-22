@@ -1,6 +1,9 @@
 package com.jfshare.mvp.server.service;
 
+import java.util.Map;
+
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,11 +94,11 @@ public class ThirdPayService {
 		String checkOrderResult = checkOrder(result, orderAmount);
 		if (StringUtils.isEmpty(checkOrderResult)) {
 			int amt = calcuAmt(result, jfScore, fenXiangScore);
-			String prepayId = weChatPayInterface.createPrepayId("Test", orderId, amt, clientIp);
-			if (StringUtils.isEmpty(prepayId)) {
+			Map<String, Object> resultMap = weChatPayInterface.createPrepayId("Test", orderId, amt, clientIp);
+			if (MapUtils.isEmpty(resultMap)) {
 				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取微信支付信息串失败！");
 			} 
-			return ResultConstant.ofSuccess(prepayId);
+			return ResultConstant.ofSuccess(resultMap);
 		} else {
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, checkOrderResult);
 		}
