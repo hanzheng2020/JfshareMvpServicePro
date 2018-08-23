@@ -1,25 +1,20 @@
 package com.jfshare.mvp.server.controller;
 
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.model.TbAppVerinfo;
 import com.jfshare.mvp.server.model.TbProductItemShow;
 import com.jfshare.mvp.server.service.AppInfoServer;
 import com.jfshare.mvp.server.service.PromotionSettingService;
 import com.jfshare.mvp.server.utils.ConvertBeanToMapUtils;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.collections.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author fengxiang
@@ -32,7 +27,11 @@ public class ShopController {
 
 	@Autowired
 	private PromotionSettingService promotionSettingService;
-	
+
+
+	@Autowired
+	private HttpServletRequest request;
+
 	@Autowired
 	private AppInfoServer appInfoServer;
 	
@@ -40,9 +39,20 @@ public class ShopController {
 	@GetMapping("/promotionProducts")
 	public ResultConstant getPromotionProducts(@RequestParam(defaultValue="true", required=false) Boolean publishInd) {
 		List<Map<String, Object>> result = promotionSettingService.getProductPromotionDetails(publishInd);
+
+
+		System.out.println("X-Real-IP : "+request.getHeader("X-Real-IP"));
+		System.out.println("X-Real-IP : "+request.getHeader("X-Real-IP"));
+		System.out.println("X-Real-IP : "+request.getHeader("X-Real-IP"));
+		System.out.println("X-Real-IP : "+request.getHeader("X-Real-IP"));
+
+
 		if (!CollectionUtils.isEmpty(result)) {
 			return ResultConstant.ofSuccess(result);
 		}
+
+
+
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取推广商品失败！");
 	}
 	
