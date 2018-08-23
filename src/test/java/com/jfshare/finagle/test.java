@@ -60,10 +60,11 @@ public class test extends TestProductRepository {
     	System.out.println(queryProduct);
     }
 
-    @Test
+    /*@Test
     public void testQueryStock() {
-//    	System.out.println(scoreClient.pointIncomeOrExpenses(288108, "1"));
-    }
+    	System.out.println(scoreClient.pointIncomeOrExpenses(288108, "1"));
+    }*/
+
     
     @Test
     public void testPoduct() {
