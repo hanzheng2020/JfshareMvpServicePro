@@ -25,46 +25,21 @@ public class OrderController {
 	@Autowired
 	private ThirdPayService thirdPayService;
 	
-	/*
-	 * 微信支付
-	 */
-	private static final int weChatPay = 1;
-	/**
-	 * 支付宝支付
-	 */
-	private static final int aliPay = 2;
-	
-	/**
-	 * 积分支付
-	 */
-	private static final int allScore = 0;
-	
-	
 	@ApiOperation(value = "调用支付接口", notes = "微信支付返回prepay_id(预支付交易会话标识),支付宝返回sign(签名)")
 	@PostMapping("/thirdPay")
 	public ResultConstant thirdPay(@ApiParam(value= "{\"userId\":\"用户ID\",\"orderId\":\"订单Id\","
-									+ "\"orderAmount\":\"订单金额\",\"payChannel\":\"支付方式，1代表微信，2代表支付宝\","
+									+ "\"orderAmount\":\"订单金额\",\"payChannel\":\"支付方式，201代表微信，202代表支付宝\","
 									+ "\"jfScore\":\"扣减的聚金豆\", \"fenXiangScore\":\"扣减的分象积分\"}")
 									@RequestBody Map<String, String> map) {
-		String result = "";
+		
 		int payChannel = Integer.valueOf(map.get("payChannel"));
 		int orderAmount = Integer.valueOf(map.get("orderAmount"));
 		int jfScore = Integer.valueOf(map.get("jfScore"));
 		int fenXiangScore = Integer.valueOf(map.get("fenXiangScore"));
 		String userId = map.get("userId");
 		String orderId = map.get("orderId");
-		String clientIp = "127.0.0.1";
 		
-		if (weChatPay == PayConstants.Channel_WeChatPay_mvp) {
-			return thirdPayService.weChatPay(userId, orderId, orderAmount, clientIp, jfScore, fenXiangScore);
-		}
-		if (aliPay == PayConstants.Channel_AliPay_mvp) {
-			return thirdPayService.aliPay(userId, orderId, orderAmount, jfScore, fenXiangScore);
-		}
-		if (allScore == payChannel) {
-			
-		}
-		
-		return ResultConstant.ofSuccess(result);
+		return thirdPayService.thirdPay(userId, orderId, orderAmount, jfScore, fenXiangScore, payChannel);
+
 	}
 }
