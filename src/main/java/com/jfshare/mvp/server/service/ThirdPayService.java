@@ -1,7 +1,6 @@
 package com.jfshare.mvp.server.service;
 
 import com.alibaba.fastjson.JSON;
-import com.alipay.api.AlipayApiException;
 import com.jfshare.common.PayConstants;
 import com.jfshare.finagle.thrift.order.Order;
 import com.jfshare.finagle.thrift.order.OrderDetailResult;
@@ -120,8 +119,10 @@ public class ThirdPayService {
 		//进行预处理
 		StringResult stringResult = preDealOrderInfo(userId, orderId, totalScore, payChannel);
 
-		String payId =null;
-		if(0!=stringResult.getResult().code){// 代表处理失败
+		String payId =null;// 在第三方订单中展示的订单ID
+		if(null == stringResult){// thrift链接超时出现null
+			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, checkOrderResult);
+		}else if(0!=stringResult.getResult().code){// 代表处理失败
 			FailDesc failDesc = stringResult.getResult().getFailDescList().get(0);
 			return ResultConstant.ofFail(Integer.valueOf(failDesc.getFailCode()),failDesc.getDesc());
 		}else{
