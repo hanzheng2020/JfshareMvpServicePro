@@ -5,6 +5,7 @@ import com.alipay.api.AlipayApiException;
 import com.jfshare.mvp.server.config.ConfigManager;
 import com.jfshare.mvp.server.utils.DateUtils;
 import com.jfshare.mvp.server.utils.SignUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,7 @@ public class AliPayInterface {
 		map.put("subject", productName);//商品名称
 		map.put("out_trade_no", payId);//商户的唯一编码
 		map.put("total_amount", intToStr(amount));
+		map.put("total_fee", intToStr(amount));//需要支付的总费用
 		map.put("product_code", "QUICK_MSECURITY_PAY");//销售产品码，商家和支付宝签约的产品码，为固定值QUICK_MSECURITY_PAY
 		map.put("goods_type", "0");//商品主类型：0—虚拟类商品，1—实物类商品
 		map.put("passback_params", passbackParams);//公共回传参数,会原封不动传回
