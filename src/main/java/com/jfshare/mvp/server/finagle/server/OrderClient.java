@@ -29,7 +29,11 @@ public class OrderClient {
         // 获取zk地址
         String zkPath = configManager.getConfigValue("zk-boot", "zk_addr");
         logger.info("zk info "+zkPath);
-        service = Utils4Brain.createThriftClient(zkPath, Constants4Brain.Jfshare_orderServ,
+//        service = Utils4Brain.createThriftClient(zkPath, Constants4Brain.Jfshare_orderServ,
+//                OrderServ.ServiceIface.class);
+//        service = Utils4Brain.createThriftClientDirect("192.168.3.59", Constants4Brain.Jfshare_orderServ,
+//                OrderServ.ServiceIface.class);
+        service = Utils4Brain.createThriftClientDirect("39.106.147.35", Constants4Brain.Jfshare_orderServ,
                 OrderServ.ServiceIface.class);
     }
 

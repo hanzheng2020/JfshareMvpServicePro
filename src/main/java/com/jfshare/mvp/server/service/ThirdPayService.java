@@ -160,7 +160,9 @@ public class ThirdPayService {
 		StringResult stringResult = preDealOrderInfo(userId, orderId, totalScore);
 
 		String payId =null;
-		if(0!=stringResult.getResult().code){// 代表处理失败
+		if(null == stringResult){// 系统异常
+			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, checkOrderResult);
+		}else if(0!=stringResult.getResult().code){// 代表处理失败
 			FailDesc failDesc = stringResult.getResult().getFailDescList().get(0);
 			return ResultConstant.ofFail(Integer.valueOf(failDesc.getFailCode()),failDesc.getDesc());
 		}else{
