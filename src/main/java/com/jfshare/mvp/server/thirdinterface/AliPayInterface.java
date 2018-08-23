@@ -36,7 +36,7 @@ public class AliPayInterface {
 		notify_url = configManager.getConfigValue("jfx_pay_serv", "alipay_notify_url");
 	}
 	
-	public String createPaySign(String orderId, String productName, String productDesc, int amount,String payId) throws AlipayApiException {
+	public String createPaySign(String orderId, String productName, String productDesc, int amount,String payId) {
 		Map<String, String> payUrlMap = new HashMap<String, String>();
 		Map<String, String> map = new HashMap<>();
 
@@ -56,7 +56,7 @@ public class AliPayInterface {
 		map.put("out_trade_no", payId);//商户的唯一编码
 		map.put("total_amount", intToStr(amount));
 		map.put("product_code", "QUICK_MSECURITY_PAY");//销售产品码，商家和支付宝签约的产品码，为固定值QUICK_MSECURITY_PAY
-//		map.put("goods_type", "0");//商品主类型：0—虚拟类商品，1—实物类商品
+		map.put("goods_type", "0");//商品主类型：0—虚拟类商品，1—实物类商品
 //		map.put("passback_params", "");//公共回传参数,会原封不动传回
 //		map.put("enable_pay_channels", "balance,moneyFund,creditCard,debitCardExpress");//可用渠道以','区隔
 		payUrlMap.put("biz_content", JSON.toJSONString(map));//业务请求参数的集合，最大长度不限
