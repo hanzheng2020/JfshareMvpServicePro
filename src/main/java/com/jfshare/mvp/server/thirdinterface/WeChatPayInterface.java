@@ -1,23 +1,16 @@
 package com.jfshare.mvp.server.thirdinterface;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.PostConstruct;
-
+import com.jfshare.mvp.server.config.ConfigManager;
+import com.jfshare.mvp.server.utils.EncryptUtils;
+import com.jfshare.mvp.server.utils.UUIDutils;
+import com.jfshare.mvp.server.utils.XmlUtils;
 import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import com.alibaba.fastjson.JSON;
-import com.jfshare.mvp.server.config.ConfigManager;
-import com.jfshare.mvp.server.utils.EncryptUtils;
-import com.jfshare.mvp.server.utils.UUIDutils;
-import com.jfshare.mvp.server.utils.XmlUtils;
+import javax.annotation.PostConstruct;
+import java.util.*;
 
 /**
  * @author fengxiang
@@ -51,14 +44,14 @@ public class WeChatPayInterface {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public Map<String, Object> createPrepayId(String productDesc, String orderId, int amount, String userIp) {
+	public Map<String, Object> createPrepayId(String productDesc, String orderId, int amount, String userIp,String payId) {
 		Map<String, Object> requestMap = new HashMap<>();
 		Map<String, Object> context = new HashMap<>();
 		context.put("appid", appid);
 		context.put("mch_id", mch_id);
 		context.put("nonce_str", UUIDutils.getUUID());
 		context.put("body", productDesc);
-		context.put("out_trade_no", orderId+System.currentTimeMillis());
+		context.put("out_trade_no", payId);
 		context.put("total_fee", amount);
 		context.put("spbill_create_ip", userIp);
 		context.put("notify_url", notify_url);

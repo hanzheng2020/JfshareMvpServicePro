@@ -93,13 +93,41 @@ public class ThirdPayService {
 		}
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, checkOrderResult);
 	}
-	
+
+	/**
+	 * 微信支付
+	 * @param userId
+	 * @param orderId
+	 * @param orderAmount
+	 * @param clientIp
+	 * @param jfScore
+	 * @param fenXiangScore
+	 * @return
+	 */
 	public ResultConstant weChatPay(String userId, String orderId, Integer orderAmount, String clientIp, Integer jfScore, Integer fenXiangScore) {
 		OrderDetailResult result = orderClient.queryOrderDetail(userId, orderId);
 		String checkOrderResult = checkOrder(result, orderAmount);
+
+
+		//TODO 将用户的分象的积分转换成聚分享积分
+		Integer scoreFX = dealWithFenXiangScore(userId, fenXiangScore);
+		// 总聚分享积分= 原有聚分享积分+分象转换成聚分享的积分大小
+		int totalScore = jfScore + scoreFX;// 总的聚分享积分
+
+		//进行预处理
+		StringResult stringResult = preDealOrderInfo(userId, orderId, totalScore);
+
+		String payId =null;
+		if(0!=stringResult.getResult().code){// 代表处理失败
+			FailDesc failDesc = stringResult.getResult().getFailDescList().get(0);
+			return ResultConstant.ofFail(Integer.valueOf(failDesc.getFailCode()),failDesc.getDesc());
+		}else{
+			payId =stringResult.getValue();
+		}
+
 		if (StringUtils.isEmpty(checkOrderResult)) {
 			int amt = calcuAmt(result, jfScore, fenXiangScore);
-			Map<String, Object> resultMap = weChatPayInterface.createPrepayId("Test", orderId, amt, clientIp);
+			Map<String, Object> resultMap = weChatPayInterface.createPrepayId("Test", orderId, amt, clientIp,payId);
 			if (MapUtils.isEmpty(resultMap)) {
 				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取微信支付信息串失败！");
 			} 
@@ -108,40 +136,33 @@ public class ThirdPayService {
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, checkOrderResult);
 		}
 	}
-	
+
+	/**
+	 * 支付宝 支付
+	 * @param userId
+	 * @param orderId
+	 * @param orderAmount 订单总金额
+	 * @param jfScore
+	 * @param fenXiangScore
+	 * @return
+	 */
 	public ResultConstant aliPay(String userId, String orderId, Integer orderAmount, Integer jfScore, Integer fenXiangScore) {
 
 		OrderDetailResult result = orderClient.queryOrderDetail(userId, orderId);
 		String checkOrderResult = checkOrder(result, orderAmount);
 
+		//TODO 将用户的分象的积分转换成聚分享积分
+		Integer scoreFX = dealWithFenXiangScore(userId, fenXiangScore);
+		// 总聚分享积分= 原有聚分享积分+分象转换成聚分享的积分大小
+		int totalScore = jfScore + scoreFX;// 总的聚分享积分
 
-//		TODO case1 全积分支付， case2 混合支付（积分和钱） case3  钱支付
-		PayParam payParams =new PayParam();
-		payParams.setUserId(Integer.valueOf(userId));
-		payParams.setOrderIdList(Arrays.asList(orderId));
-		PayChannel channelParams=new PayChannel();
-		channelParams.setPayChannel(PayConstants.Channel_AliPay_mvp);
+		//进行预处理
+		StringResult stringResult = preDealOrderInfo(userId, orderId, totalScore);
 
-		payParams.setPayChannel(channelParams);
-
-		//TODO  这里需要将分象积分转换成 聚分享积分，然后进行累加
-		int totalJfScore=jfScore+fenXiangScore;
-		payParams.setExchangeScore(totalJfScore);
-
-		// 兑换成具体多少钱 ,积分的钱除以100  ；  100积分=1元
-		BigDecimal b1 = new BigDecimal(totalJfScore);
-		BigDecimal b2 = new BigDecimal(100);
-		String cashStr = b1.divide(b2, 2, BigDecimal.ROUND_HALF_UP).toPlainString();
-		payParams.setExchangeCash(cashStr);
-
-		// 订单的业务逻辑处理；返回payId
-		StringResult stringResult = orderClient.beforePayDoSomeStuff(payParams);
 		String payId =null;
 		if(0!=stringResult.getResult().code){// 代表处理失败
-
 			FailDesc failDesc = stringResult.getResult().getFailDescList().get(0);
 			return ResultConstant.ofFail(Integer.valueOf(failDesc.getFailCode()),failDesc.getDesc());
-
 		}else{
 			payId =stringResult.getValue();
 		}
@@ -162,5 +183,55 @@ public class ThirdPayService {
 			}
 		}
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, checkOrderResult);
+	}
+
+	/**
+	 * 将用户的分象积分转换成聚分享积分
+	 * @param userId
+	 * @param fenXiangScore
+	 * @return  返回兑换成聚分享的积分大小
+	 */
+	private Integer dealWithFenXiangScore(String userId, Integer fenXiangScore) {
+
+		//TODO 1、将分象积分 直接兑换成聚分享的积分
+
+
+		//TODO 2、返回兑换成 聚分享的实际积分数量
+
+
+
+		return 0;
+
+
+	}
+
+	/**  内部业务逻辑 支付前的预处理 ！！！ */
+	private StringResult preDealOrderInfo(String userId, String orderId,  Integer totalScore) {
+
+		//		TODO case1 全积分支付， case2 混合支付（积分和钱） case3  钱支付
+		PayParam payParams =new PayParam();
+		payParams.setUserId(Integer.valueOf(userId));
+		payParams.setOrderIdList(Arrays.asList(orderId));
+		PayChannel channelParams=new PayChannel();
+		channelParams.setPayChannel(PayConstants.Channel_AliPay_mvp);
+
+		payParams.setPayChannel(channelParams);
+
+		//这里需要将分象积分转换成 聚分享积分，然后进行累加
+		payParams.setExchangeScore(totalScore);
+
+		// 兑换成具体多少钱 ,积分的钱除以100  ；  100积分=1元
+		BigDecimal b1 = new BigDecimal(totalScore);
+		BigDecimal b2 = new BigDecimal(100);
+		String cashStr = b1.divide(b2, 2, BigDecimal.ROUND_HALF_UP).toPlainString();
+		payParams.setExchangeCash(cashStr);
+
+		// 订单的业务逻辑处理；返回payId
+		StringResult stringResult = orderClient.beforePayDoSomeStuff(payParams);
+
+
+		return stringResult;
+
+
 	}
 }

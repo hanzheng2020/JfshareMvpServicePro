@@ -54,7 +54,9 @@ public class OrderController {
 		String userId = map.get("userId");
 		String orderId = map.get("orderId");
 		String clientIp = "127.0.0.1";
+
 		
+
 		if (weChatPay == PayConstants.Channel_WeChatPay_mvp) {
 			return thirdPayService.weChatPay(userId, orderId, orderAmount, clientIp, jfScore, fenXiangScore);
 		}
