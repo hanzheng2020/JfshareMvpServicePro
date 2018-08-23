@@ -98,7 +98,7 @@ public class ScoreClient {
     //使用分象积分
     public Result pointExpensesFenXiang(int userId, String pointNum) {
     	try {
-			Result result = Await.result(service.pointIncomeOrExpenses(userId, pointNum, "1002", "", 2));
+			Result result = Await.result(service.pointIncomeOrExpenses(userId, pointNum, "1002", "", 1));
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
