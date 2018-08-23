@@ -1,23 +1,18 @@
 package com.jfshare.mvp.server.controller;
 
-import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
+import com.jfshare.common.PayConstants;
+import com.jfshare.mvp.server.constants.ResultConstant;
+import com.jfshare.mvp.server.service.ThirdPayService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jfshare.mvp.server.constants.ResultConstant;
-import com.jfshare.mvp.server.service.ThirdPayService;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.Example;
-import io.swagger.annotations.ExampleProperty;
+import java.util.Map;
 
 /**
  * @author fengxiang
@@ -60,10 +55,10 @@ public class OrderController {
 		String orderId = map.get("orderId");
 		String clientIp = "127.0.0.1";
 		
-		if (weChatPay == payChannel) {
+		if (weChatPay == PayConstants.Channel_WeChatPay_mvp) {
 			return thirdPayService.weChatPay(userId, orderId, orderAmount, clientIp, jfScore, fenXiangScore);
 		}
-		if (aliPay == payChannel) {
+		if (aliPay == PayConstants.Channel_AliPay_mvp) {
 			return thirdPayService.aliPay(userId, orderId, orderAmount, jfScore, fenXiangScore);
 		}
 		if (allScore == payChannel) {

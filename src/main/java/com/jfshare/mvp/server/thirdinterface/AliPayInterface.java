@@ -1,28 +1,19 @@
 package com.jfshare.mvp.server.thirdinterface;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.PostConstruct;
-
+import com.alibaba.fastjson.JSON;
+import com.alipay.api.AlipayApiException;
+import com.jfshare.mvp.server.config.ConfigManager;
+import com.jfshare.mvp.server.utils.DateUtils;
+import com.jfshare.mvp.server.utils.SignUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
-import com.alibaba.fastjson.JSON;
-import com.alipay.api.AlipayApiException;
-import com.alipay.api.internal.util.AlipaySignature;
-import com.jfshare.mvp.server.config.ConfigManager;
-import com.jfshare.mvp.server.utils.DateUtils;
-import com.jfshare.mvp.server.utils.SignUtils;
+import javax.annotation.PostConstruct;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.*;
 
 /**
  * @author fengxiang
@@ -45,7 +36,7 @@ public class AliPayInterface {
 		notify_url = configManager.getConfigValue("jfx_pay_serv", "alipay_notify_url");
 	}
 	
-	public String createPaySign(String orderId, String productName, String productDesc, int amount) throws AlipayApiException {
+	public String createPaySign(String orderId, String productName, String productDesc, int amount,String payId) throws AlipayApiException {
 		Map<String, String> payUrlMap = new HashMap<String, String>();
 		Map<String, String> map = new HashMap<>();
 
@@ -62,7 +53,7 @@ public class AliPayInterface {
 		/* 传递过去的所有业务参数,以JSON格式拼装 */
 //		map.put("body", productDesc);//商品描述
 		map.put("subject", productName);//商品名称
-		map.put("out_trade_no", orderId);//商户的唯一编码
+		map.put("out_trade_no", payId);//商户的唯一编码
 		map.put("total_amount", intToStr(amount));
 		map.put("product_code", "QUICK_MSECURITY_PAY");//销售产品码，商家和支付宝签约的产品码，为固定值QUICK_MSECURITY_PAY
 //		map.put("goods_type", "0");//商品主类型：0—虚拟类商品，1—实物类商品
