@@ -64,7 +64,7 @@ public class test extends TestProductRepository {
 
     @Test
     public void testQueryStock() {
-    	System.out.println(productClient.getProduct("ze180802111638000800"));
+    	System.out.println(scoreClient.pointIncomeOrExpenses(288108, "1"));
     }
     
     @Test

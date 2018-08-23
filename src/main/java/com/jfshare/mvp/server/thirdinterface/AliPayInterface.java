@@ -33,7 +33,7 @@ public class AliPayInterface {
 	
 	@PostConstruct
 	public void init() {
-		notify_url = configManager.getConfigValue("jfx_pay_serv", "alipay_notify_url");
+		notify_url = configManager.getConfigValue("jfx_pay_serv", "alipay_notify_url_mvp");
 	}
 	
 	public String createPaySign(String orderId, String productName, String productDesc, int amount,String payId) throws AlipayApiException {
