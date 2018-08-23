@@ -39,7 +39,7 @@ public class AliPayInterface {
 	public String createPaySign(String orderId, String productName, String productDesc, int amount,String payId) {
 		Map<String, String> payUrlMap = new HashMap<String, String>();
 		Map<String, String> map = new HashMap<>();
-
+		notify_url = configManager.getConfigValue("jfx_pay_serv", "alipay_notify_url_mvp");
 		// 公共参数
 		payUrlMap.put("app_id", AlipayConfig.APP_ID);
 		payUrlMap.put("method", "alipay.trade.app.pay");
