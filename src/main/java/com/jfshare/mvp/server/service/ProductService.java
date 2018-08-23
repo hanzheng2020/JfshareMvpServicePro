@@ -30,24 +30,21 @@ public class ProductService {
 	private TbProductDetailMapper tbProductDetailMapper;
 
 	//根据条件搜索商品信息
-	public List<TbProductSurvey> productSurveyQuery(String productId, String productName,Integer itemNo,Integer activeState, Integer curpage,
+	public List<TbProductSurvey> productSurveyQuery(String param,Integer itemNo,Integer activeState, Integer curpage,
 			Integer percount) {
-		ProductSurveyQueryParam param = new ProductSurveyQueryParam();
-		if (!StringUtils.isEmpty(productId)) {
-			param.setProductId(productId);
-		}
-		if (!StringUtils.isEmpty(productName)) {
-			param.setProductName(productName);
+		ProductSurveyQueryParam productParam = new ProductSurveyQueryParam();
+		if (!StringUtils.isEmpty(param)) {
+			productParam.setParam(param);
 		}
 		if(itemNo >= 0) {
-			param.setItemNo(itemNo);
+			productParam.setItemNo(itemNo);
 		}
 		if(activeState >= 0) {
-			param.setActiveState(activeState);
+			productParam.setActiveState(activeState);
 		}
 		PageHelper.startPage(curpage, percount);
 		//处理图片  列表只返回一张图片
-		List<TbProductSurvey> productSurveyQuery = tbProductDao.productSurveyQuery(param);
+		List<TbProductSurvey> productSurveyQuery = tbProductDao.productSurveyQuery(productParam);
 		for (TbProductSurvey tbProductSurvey : productSurveyQuery) {
 			String imgKey = tbProductSurvey.getImgKey();
 			if(!StringUtils.isEmpty(imgKey) && imgKey.contains(",")) {
@@ -137,11 +134,11 @@ public class ProductService {
 	}
 	
 	//商品导出execl表格
-	public String exportProduct(String productId, String productName,Integer itemNo,Integer activeState, Integer curpage,
+	public String exportProduct(String param,Integer itemNo,Integer activeState, Integer curpage,
 			Integer percount) {
 		 String path = "";
 		 try {
-			List<TbProductSurvey> productList = productSurveyQuery(productId,productName,itemNo,activeState,curpage,percount);
+			List<TbProductSurvey> productList = productSurveyQuery(param,itemNo,activeState,curpage,percount);
 			 if(productList != null && productList.size() > 0) {
 				 byte[] files = FileOpUtil.getExportProduct(productList);
 				 path = FileOpUtil.uploadFile(files, DateUtils.dateToStr(new Date(), Constant.FORMAT_DEFAULT_MIN) + ".xls");

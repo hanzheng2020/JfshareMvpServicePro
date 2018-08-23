@@ -32,11 +32,11 @@
 		FROM tb_product p LEFT JOIN tb_product_item s
 		ON p.item_no = s.item_no
 		<where>
-			<if test=" productId != null and productId != ''">
-				AND p.product_id like CONCAT('%',#{productId},'%')
+			<if test=" param != null and param != ''">
+				AND p.product_id like CONCAT('%',#{param},'%')
 			</if>
-			<if test=" productName != null and productName != ''">
-				AND p.product_name like CONCAT('%',#{productName},'%')
+			<if test=" param != null and param != ''">
+				AND p.product_name like CONCAT('%',#{param},'%')
 			</if>
 			<if test=" activeState != 0">
 				AND p.active_state = #{activeState,jdbcType=INTEGER}
