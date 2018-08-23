@@ -2,11 +2,29 @@ package com.jfshare.mvp.server.model;
 
 
 public class ProductSurveyQueryParam {
-	private String productId;
-	private String productName;
+	private String param;
 	private Integer itemNo; //商品分类id
 	private Integer activeState;
 	private String sort;
+	
+	@Override
+	public String toString() {
+		return "ProductSurveyQueryParam [param=" + param + ", itemNo=" + itemNo + ", activeState=" + activeState
+				+ ", sort=" + sort + "]";
+	}
+	public ProductSurveyQueryParam(String param, Integer itemNo, Integer activeState, String sort) {
+		super();
+		this.param = param;
+		this.itemNo = itemNo;
+		this.activeState = activeState;
+		this.sort = sort;
+	}
+	public String getParam() {
+		return param;
+	}
+	public void setParam(String param) {
+		this.param = param;
+	}
 	public Integer getItemNo() {
 		return itemNo;
 	}
@@ -25,31 +43,8 @@ public class ProductSurveyQueryParam {
 	public void setSort(String sort) {
 		this.sort = sort;
 	}
-	public String getProductId() {
-		return productId;
-	}
-	public void setProductId(String productId) {
-		this.productId = productId;
-	}
-	public String getProductName() {
-		return productName;
-	}
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
 	public ProductSurveyQueryParam() {
 		super();
 		// TODO Auto-generated constructor stub
-	}
-	public ProductSurveyQueryParam(String productId, String productName) {
-		super();
-		this.productId = productId;
-		this.productName = productName;
-	}
-	@Override
-	public String toString() {
-		return "ProductSurveyQueryParam [productId=" + productId + ", productName=" + productName + ", getProductId()="
-				+ getProductId() + ", getProductName()=" + getProductName() + ", getClass()=" + getClass()
-				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
 	}
 }

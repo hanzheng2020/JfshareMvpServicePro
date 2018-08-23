@@ -47,18 +47,17 @@ public class ProductController {
 	@Autowired
 	private ProductClient productClient;
 	
-	@ApiOperation(value = "根据商品id name 获取商品信息", notes = "根据商品id name 获取商品信息  productid:商品id  productName:商品名称   itemNo:类目id activeState：商品状态:100 待上架  200 已上架 300 已下架   itemNo activeState为必传参数 默认传0")
+	@ApiOperation(value = "根据商品id name 获取商品信息", notes = "根据商品id name 获取商品信息  param:商品名称或者商品id   itemNo:类目id activeState：商品状态:100 待上架  200 已上架 300 已下架   itemNo activeState为必传参数 默认传0")
 	@PostMapping("/productSurveyQuery")
-	public ResultConstant productSurveyQuery(@RequestParam(value = "productId", required = false) String productId,
-			@RequestParam(value = "productName", required = false) String productName,
+	public ResultConstant productSurveyQuery(@RequestParam(value = "param", required = false) String param,
 			@RequestParam(value = "itemNo", required = false) Integer itemNo,
 			@RequestParam(value = "activeState", required = false) Integer activeState,
 			@RequestParam(value = "curpage", required = true) Integer curpage,
 			@RequestParam(value = "percount", required = true) Integer percount) {
-		logger.info("productName:"+productName+" productId"+productId+" itemNo:"+itemNo+" activeState:"+activeState+" curpage:"+curpage+" percount:"+percount);
+		logger.info("param"+param+" itemNo:"+itemNo+" activeState:"+activeState+" curpage:"+curpage+" percount:"+percount);
 		List<TbProductSurvey> productList;
 		try {
-			productList = productService.productSurveyQuery(productId, productName, itemNo,
+			productList = productService.productSurveyQuery(param, itemNo,
 					activeState, curpage, percount);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -82,8 +81,14 @@ public class ProductController {
 	@ApiOperation(value = "删除商品", notes = "删除商品信息")
 	@PostMapping("/deleteProduct")
 	public ResultConstant deleteProduct(@RequestParam(value = "productId", required = false) String productId) {
-		int result = productService.deleteProduct(productId);
-		if (result > 0) {
+		int result;
+		try {
+			result = productService.deleteProduct(productId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "删除商品失败");
+		}
+		if(result > 0) {
 			return ResultConstant.ofSuccess();
 		}
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "删除商品失败");
@@ -101,13 +106,12 @@ public class ProductController {
 
 	@ApiOperation(value = "商品导出execl", notes = "商品导出execl表格")
 	@PostMapping("/exportProduct")
-	public ResultConstant exportProduct(@RequestParam(value = "productId", required = false) String productId,
-			@RequestParam(value = "productName", required = false) String productName,
+	public ResultConstant exportProduct(@RequestParam(value = "param", required = false) String param,
 			@RequestParam(value = "itemNo", required = false) Integer itemNo,
 			@RequestParam(value = "activeState", required = false) Integer activeState,
 			@RequestParam(value = "curpage", required = true) Integer curpage,
 			@RequestParam(value = "percount", required = true) Integer percount) {
-		String path = productService.exportProduct(productId, productName, itemNo, activeState, curpage, percount);
+		String path = productService.exportProduct(param, itemNo, activeState, curpage, percount);
 		if (!StringUtils.isEmpty(path)) {
 			return ResultConstant.ofSuccess();
 		}
