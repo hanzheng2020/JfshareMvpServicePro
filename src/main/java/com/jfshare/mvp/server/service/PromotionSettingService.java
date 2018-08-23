@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.jfshare.mvp.server.dao.TbProductDao;
 import com.jfshare.mvp.server.dao.TbProductItemShowDao;
@@ -59,8 +61,7 @@ public class PromotionSettingService {
 				tbProductPromotion.setPromotionNo(i);
 				tbProductPromotion.setPromotionPicUrl(productPromotion.get("promotionPicUrl").toString());
 				tbProductPromotion.setPromotionUrl(productPromotion.get("promotionUrl").toString());
-				JSONArray productDetailArrays = (JSONArray) productPromotion.get("productDetails");
-				List<Map> productDetails = productDetailArrays.toJavaList(Map.class);
+				List<Map> productDetails = (List<Map>) productPromotion.get("productDetails");
 				for (int index = 0; index < productDetails.size(); index ++) {
 					String productId = productDetails.get(index).get("productId").toString();
 					String productDesc = productDetails.get(index).get("productDesc").toString();

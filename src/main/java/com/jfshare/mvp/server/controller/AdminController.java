@@ -57,10 +57,9 @@ public class AdminController {
 	@SuppressWarnings("rawtypes")
 	@ApiOperation(value = "保存推广微页面设置", notes = "保存传入的推广配置和类目商品展示配置")
 	@PostMapping("/promotionSetting")
-	public ResultConstant savePromotionSetting(@RequestBody String productPromotionArray,
-												@RequestBody String productItemShowArray) {
-		List<Map> productPromotions = JSON.parseArray(productPromotionArray, Map.class);
-		List<Map> productItemShows = JSON.parseArray(productItemShowArray, Map.class);
+	public ResultConstant savePromotionSetting(@RequestBody Map<String, List<Map>> map) {
+		List<Map> productPromotions = map.get("productPromotions");
+		List<Map> productItemShows = map.get("productItemShows");
 		boolean result = promotionSettingService.savePromotionSetting(productPromotions, productItemShows);
 		if (result) {
 			return ResultConstant.ofSuccess();
