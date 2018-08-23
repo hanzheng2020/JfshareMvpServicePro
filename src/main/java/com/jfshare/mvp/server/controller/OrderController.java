@@ -1,6 +1,5 @@
 package com.jfshare.mvp.server.controller;
 
-import com.jfshare.common.PayConstants;
 import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.service.ThirdPayService;
 import io.swagger.annotations.Api;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -24,6 +24,9 @@ import java.util.Map;
 public class OrderController {
 	@Autowired
 	private ThirdPayService thirdPayService;
+
+	@Autowired
+	private HttpServletRequest request;
 	
 	@ApiOperation(value = "调用支付接口", notes = "微信支付返回prepay_id(预支付交易会话标识),支付宝返回sign(签名)")
 	@PostMapping("/thirdPay")
@@ -38,7 +41,13 @@ public class OrderController {
 		int fenXiangScore = Integer.valueOf(map.get("fenXiangScore"));
 		String userId = map.get("userId");
 		String orderId = map.get("orderId");
-		
+
+		System.out.println("X-Real-IP : "+request.getHeader("X-Real-IP"));
+		System.out.println("X-Real-IP : "+request.getHeader("X-Real-IP"));
+		System.out.println("X-Real-IP : "+request.getHeader("X-Real-IP"));
+		System.out.println("X-Real-IP : "+request.getHeader("X-Real-IP"));
+
+
 		return thirdPayService.thirdPay(userId, orderId, orderAmount, jfScore, fenXiangScore, payChannel);
 
 	}
