@@ -108,10 +108,12 @@ public class ThirdPayService {
 		
 		//将用户的分象的积分转换成聚分享积分
 		Integer scoreFX = 0;
-		try {
-			scoreFX = dealWithFenXiangScore(userId, fenXiangScore);
-		} catch (Exception e1) {
-			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, e1.getMessage());
+		if (fenXiangScore > 0) {
+			try {
+				scoreFX = dealWithFenXiangScore(userId, fenXiangScore);
+			} catch (Exception e1) {
+				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, e1.getMessage());
+			}
 		}
 		// 总聚分享积分= 原有聚分享积分+分象转换成聚分享的积分大小
 		int totalScore = jfScore + scoreFX;// 总的聚分享积分
