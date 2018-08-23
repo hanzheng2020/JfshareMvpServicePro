@@ -36,7 +36,7 @@
 				AND p.product_id like CONCAT('%',#{param},'%')
 			</if>
 			<if test=" param != null and param != ''">
-				AND p.product_name like CONCAT('%',#{param},'%')
+				or p.product_name like CONCAT('%',#{param},'%')
 			</if>
 			<if test=" activeState != 0">
 				AND p.active_state = #{activeState,jdbcType=INTEGER}
