@@ -225,6 +225,76 @@ public class TbProductItemShowExample {
             return (Criteria) this;
         }
 
+        public Criteria andItemNoIsNull() {
+            addCriterion("item_no is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNoIsNotNull() {
+            addCriterion("item_no is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNoEqualTo(String value) {
+            addCriterion("item_no =", value, "itemNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNoNotEqualTo(String value) {
+            addCriterion("item_no <>", value, "itemNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNoGreaterThan(String value) {
+            addCriterion("item_no >", value, "itemNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNoGreaterThanOrEqualTo(String value) {
+            addCriterion("item_no >=", value, "itemNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNoLessThan(String value) {
+            addCriterion("item_no <", value, "itemNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNoLessThanOrEqualTo(String value) {
+            addCriterion("item_no <=", value, "itemNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNoLike(String value) {
+            addCriterion("item_no like", value, "itemNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNoNotLike(String value) {
+            addCriterion("item_no not like", value, "itemNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNoIn(List<String> values) {
+            addCriterion("item_no in", values, "itemNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNoNotIn(List<String> values) {
+            addCriterion("item_no not in", values, "itemNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNoBetween(String value1, String value2) {
+            addCriterion("item_no between", value1, value2, "itemNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNoNotBetween(String value1, String value2) {
+            addCriterion("item_no not between", value1, value2, "itemNo");
+            return (Criteria) this;
+        }
+
         public Criteria andItemShowDescIsNull() {
             addCriterion("item_show_desc is null");
             return (Criteria) this;

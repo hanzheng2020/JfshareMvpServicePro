@@ -22,7 +22,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -102,16 +104,18 @@ public class ThirdPayService {
 	 * @param payChannel
 	 * @return
 	 */
-	public ResultConstant thirdPay(String userId, String orderId, Integer orderAmount, Integer jfScore, Integer fenXiangScore, Integer payChannel) {
+	public ResultConstant thirdPay(String userId, String orderId, Integer orderAmount, Integer jfScore, Integer fenXiangScore, Integer payChannel, String clientIp) {
 		OrderDetailResult orderDetailResult = orderClient.queryOrderDetail(userId, orderId);
 		String checkOrderResult = checkOrder(orderDetailResult, orderAmount);
 		
 		//将用户的分象的积分转换成聚分享积分
 		Integer scoreFX = 0;
-		try {
-			scoreFX = dealWithFenXiangScore(userId, fenXiangScore);
-		} catch (Exception e1) {
-			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, e1.getMessage());
+		if (fenXiangScore > 0) {
+			try {
+				scoreFX = dealWithFenXiangScore(userId, fenXiangScore);
+			} catch (Exception e1) {
+				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, e1.getMessage());
+			}
 		}
 		// 总聚分享积分= 原有聚分享积分+分象转换成聚分享的积分大小
 		int totalScore = jfScore + scoreFX;// 总的聚分享积分
@@ -131,9 +135,9 @@ public class ThirdPayService {
 		if (StringUtils.isEmpty(checkOrderResult)) {
 			//计算实际需要支付的金额
 			int amt = calcuAmt(orderDetailResult, totalScore);
+			String passbackParams = String.format("userId=%s;orderId=%s;payChannel=%s", userId, orderId, payChannel);
 			
 			if (PayConstants.Channel_WeChatPay_mvp==payChannel) { //调用微信支付接口
-				String clientIp = "127.0.0.1";
 				Map<String, Object> resultMap = weChatPayInterface.createPrepayId("Test", orderId, amt, clientIp,payId);
 				if (MapUtils.isEmpty(resultMap)) {
 					return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取微信支付信息串失败！");
@@ -142,7 +146,7 @@ public class ThirdPayService {
 			} else if (PayConstants.Channel_AliPay_mvp==payChannel) { //调用支付宝支付接口
 				// 暂时一个订单只有一个商品
 				String productName = orderDetailResult.getOrder().getProductList().get(0).getProductName();
-				String sign = aliPayInterface.createPaySign(orderId, productName, "test", amt, payId);
+				String sign = aliPayInterface.createPaySign(orderId, productName, "test", amt, payId, passbackParams);
 				if (StringUtils.isEmpty(sign)) {
 					return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取支付宝支付串失败！");
 				} 

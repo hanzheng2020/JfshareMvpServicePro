@@ -5,6 +5,8 @@ import com.jfshare.mvp.server.service.ThirdPayService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,14 +43,13 @@ public class OrderController {
 		int fenXiangScore = Integer.valueOf(map.get("fenXiangScore"));
 		String userId = map.get("userId");
 		String orderId = map.get("orderId");
+		String clientIp = "127.0.0.1";
+		String realIp = request.getHeader("X-Real-IP");
+		if (!StringUtils.isEmpty(realIp)) {
+			clientIp = realIp;
+		}
 
-		System.out.println("X-Real-IP : "+request.getHeader("X-Real-IP"));
-		System.out.println("X-Real-IP : "+request.getHeader("X-Real-IP"));
-		System.out.println("X-Real-IP : "+request.getHeader("X-Real-IP"));
-		System.out.println("X-Real-IP : "+request.getHeader("X-Real-IP"));
-
-
-		return thirdPayService.thirdPay(userId, orderId, orderAmount, jfScore, fenXiangScore, payChannel);
+		return thirdPayService.thirdPay(userId, orderId, orderAmount, jfScore, fenXiangScore, payChannel, clientIp);
 
 	}
 }
