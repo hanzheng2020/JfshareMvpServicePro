@@ -135,12 +135,7 @@ public class ThirdPayService {
 		if (StringUtils.isEmpty(checkOrderResult)) {
 			//计算实际需要支付的金额
 			int amt = calcuAmt(orderDetailResult, totalScore);
-			String passbackParams = "";
-			try {
-				passbackParams = URLEncoder.encode(String.format("userId=%s;orderId=%s;payChannel=%s", userId, orderId, payChannel), "UTF-8");
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
+			String passbackParams = String.format("userId=%s;orderId=%s;payChannel=%s", userId, orderId, payChannel);
 			
 			if (PayConstants.Channel_WeChatPay_mvp==payChannel) { //调用微信支付接口
 				Map<String, Object> resultMap = weChatPayInterface.createPrepayId("Test", orderId, amt, clientIp,payId);
