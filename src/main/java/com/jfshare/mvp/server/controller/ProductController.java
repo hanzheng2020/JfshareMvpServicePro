@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageInfo;
+import com.jfshare.mvp.server.constants.Constant;
 import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.finagle.server.ProductClient;
 import com.jfshare.mvp.server.model.Product;
@@ -85,6 +86,10 @@ public class ProductController {
 	@PostMapping("/deleteProduct")
 	public ResultConstant deleteProduct(@RequestParam(value = "productId", required = false) String productId) {
 		logger.info("deleteProduct productId:" + productId);
+		TbProduct productOne = productService.getProductOne(productId);
+		if(productOne.getActiveState() == Constant.PRODUCT_STATE_ONSELL) {
+			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "已上架的商品不能被删除！");
+		}
 		int result;
 		try {
 			result = productService.deleteProduct(productId);

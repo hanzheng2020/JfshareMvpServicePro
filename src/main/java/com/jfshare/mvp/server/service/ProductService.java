@@ -199,7 +199,7 @@ public class ProductService {
 		logger.info("tbProductItems : " + tbProductItems.size());
 		ProductSurveyQueryParam productParam = new ProductSurveyQueryParam();
 		productParam.setActiveState(0);
-		productParam.setActiveState(200);//只查询已上架的商品
+		productParam.setActiveState(Constant.PRODUCT_STATE_ONSELL);//只查询已上架的商品
 		if(tbProductItems.size() > 0) {
 			for (TbProductItem tbProductItem : tbProductItems) {
 				logger.info("ItemNo : " + tbProductItem.getItemNo());
