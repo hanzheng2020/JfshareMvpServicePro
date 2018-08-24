@@ -295,12 +295,11 @@ public class AdminController {
 			@RequestParam(value="pwd",required=true)String pwd) {
 		
 		TbAdmin admin = adminService.adminLogin(loginId,pwd);
-		
-		
-		
-		
-		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "修改失败");
-	
+		if(admin==null){
+			return	ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "登录失败");
+		}
+		admin.setPwd("");
+		return ResultConstant.ofSuccess(admin);
 	}
 	
 	
