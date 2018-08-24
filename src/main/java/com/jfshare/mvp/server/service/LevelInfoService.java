@@ -62,6 +62,7 @@ public class LevelInfoService {
 			return map;
 		}
 		int num =0;
+		int status=1;
 		String givingRule = jvjindouRule.getGivingRule();
 		if (givingRule.equals(Constant.FIXED_PATTERN)) {
 			num=jvjindouRule.getFixedGiving();
@@ -83,22 +84,37 @@ public class LevelInfoService {
 				logger.info("当日已经赠送不能重复赠送:givingRule{}", givingRule);
 				return map;
 			} else {
-				levlInfo.setQueryTime(new Date());
-				levlInfo.setRealJvjindou(num);
-				levelInfoDao.updateLevelInfo(levlInfo);
+				StringResult results=scoreClient.incomeScore(userId,num, 1, "");
+				logger.info("每日积分同步:results{}", results);
+				status=results.getResult().code;
+				if(0==results.getResult().code) {
+					levlInfo.setQueryTime(new Date());
+					levlInfo.setRealJvjindou(num);
+					levelInfoDao.updateLevelInfo(levlInfo);
+				}
+
 			}
 		} else {
-			TbLevelInfo info = new TbLevelInfo();
-			info.setUserid(userId);
-			info.setGrowthPoint(0);
-			info.setGrade(Constant.GOLD);
-			info.setRealJvjindou(num);
-			levelInfoDao.insertSelective(info);
+			StringResult results=scoreClient.incomeScore(userId,num, 1, "");
+			logger.info("每日积分同步:results{}", results);
+			status=results.getResult().code;
+			if(0==results.getResult().code) {
+				TbLevelInfo info = new TbLevelInfo();
+				info.setUserid(userId);
+				info.setGrowthPoint(0);
+				info.setGrade(Constant.GOLD);
+				info.setRealJvjindou(num);
+				info.setQueryTime(new Date());
+				levelInfoDao.insertSelective(info);
+			}
 		}
-		map.put("status", true);//是否是当日第一次赠送  false:否，true：是
-		map.put("amount", num);//当次赠送的聚金豆数量
-		StringResult results=scoreClient.incomeScore(userId,num, 1, "");
-		logger.info("每日积分同步:results{}", results);
+		//同步成功，返回聚金豆
+		if(status==0) {
+			map.put("status", true);//是否是当日第一次赠送  false:否，true：是
+			map.put("amount", num);//当次赠送的聚金豆数量
+		}
+
+
 		return map;
 	}
 
