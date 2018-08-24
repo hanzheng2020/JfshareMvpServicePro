@@ -158,11 +158,10 @@ public class ProductService {
 	}
 	
 	//商品导出execl表格
-	public String exportProduct(String param,Integer itemNo,Integer activeState, Integer curpage,
-			Integer percount) {
+	public String exportProduct(String param,Integer itemNo,Integer activeState) {
 		 String path = "";
 		 try {
-			List<TbProductSurvey> productList = productSurveyQuery(param,itemNo,activeState,curpage,percount);
+			List<TbProductSurvey> productList = productSurveyQuery(param,itemNo,activeState,1,1000);
 			 if(productList != null && productList.size() > 0) {
 				 byte[] files = FileOpUtil.getExportProduct(productList);
 				 path = FileOpUtil.uploadFile(files, DateUtils.dateToStr(new Date(), Constant.FORMAT_DEFAULT_MIN) + ".xls");

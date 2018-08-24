@@ -117,10 +117,8 @@ public class ProductController {
 	@PostMapping("/exportProduct")
 	public ResultConstant exportProduct(@RequestParam(value = "param", required = false) String param,
 			@RequestParam(value = "itemNo", required = false) Integer itemNo,
-			@RequestParam(value = "activeState", required = false) Integer activeState,
-			@RequestParam(value = "curpage", required = true) Integer curpage,
-			@RequestParam(value = "percount", required = true) Integer percount) {
-		String path = productService.exportProduct(param, itemNo, activeState, curpage, percount);
+			@RequestParam(value = "activeState", required = false) Integer activeState) {
+		String path = productService.exportProduct(param, itemNo, activeState);
 		if (!StringUtils.isEmpty(path)) {
 			return ResultConstant.ofSuccess();
 		}
