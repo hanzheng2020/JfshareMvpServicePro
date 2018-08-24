@@ -69,7 +69,7 @@ public class AdminController {
 	private AppVerifySettingService appVerifySettingService;
 	
 	@ApiOperation(value = "IOS上线审核设置", notes = "保存IOS上线审核设置")
-	@PostMapping("/promotionSetting")
+	@PostMapping("/appVerifySetting")
 	public ResultConstant saveAppVerifySetting(@RequestBody TbAppVerifySetting tbAppVerifySetting) {
 		return appVerifySettingService.saveAppVerifyProducts(tbAppVerifySetting);
 	}
