@@ -70,6 +70,10 @@ public class ProductController {
 	@ApiOperation(value = "新增商品", notes = "新增商品信息")
 	@PostMapping("/addProduct")
 	public ResultConstant addProduct(Product product) {
+		TbProduct productOne = productService.getProductOne(product.getProductId());
+		if(productOne != null) {
+			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "新增商品重复，请重新添加！");
+		}
 		int result = productService.addProduct(product);
 		if (result > 0) {
 			return ResultConstant.ofSuccess();
