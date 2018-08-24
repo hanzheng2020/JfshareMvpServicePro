@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageInfo;
+import com.jfshare.mvp.server.constants.Constant;
 import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.finagle.server.ProductClient;
 import com.jfshare.mvp.server.model.Product;
@@ -70,6 +71,10 @@ public class ProductController {
 	@ApiOperation(value = "新增商品", notes = "新增商品信息")
 	@PostMapping("/addProduct")
 	public ResultConstant addProduct(Product product) {
+		TbProduct productOne = productService.getProductOne(product.getProductId());
+		if(productOne != null) {
+			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "新增商品重复，请重新添加！");
+		}
 		int result = productService.addProduct(product);
 		if (result > 0) {
 			return ResultConstant.ofSuccess();
@@ -80,6 +85,11 @@ public class ProductController {
 	@ApiOperation(value = "删除商品", notes = "删除商品信息")
 	@PostMapping("/deleteProduct")
 	public ResultConstant deleteProduct(@RequestParam(value = "productId", required = false) String productId) {
+		logger.info("deleteProduct productId:" + productId);
+		TbProduct productOne = productService.getProductOne(productId);
+		if(productOne.getActiveState() == Constant.PRODUCT_STATE_ONSELL) {
+			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "已上架的商品不能被删除！");
+		}
 		int result;
 		try {
 			result = productService.deleteProduct(productId);

@@ -1,6 +1,6 @@
 package com.jfshare.mvp.server.service;
 
-import com.jfshare.mvp.server.model.TbAdmin;
+import java.util.Map;
 
 public interface AdminService {
 	/**
@@ -9,6 +9,11 @@ public interface AdminService {
 	 * @param pwd
 	 * @return
 	 */
-	TbAdmin adminLogin(String loginId, String pwd);
-
+	Map<String, Object> adminLogin(String loginId, String pwd);
+	
+	/**
+	 * 接口权限token校验
+	 * @param token
+	 */
+	Map<String, Object> checkToken(String token);
 }

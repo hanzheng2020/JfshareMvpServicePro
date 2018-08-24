@@ -96,7 +96,19 @@ public class ProductService {
 	//删除商品
 	public int deleteProduct(String productId) {
 		int result = 0;
-		if (!StringUtils.isEmpty(productId)) {
+		if (productId.contains(",")) {
+			String[] productIdStr = productId.split(",");
+			for(int i = 0;i < productIdStr.length;i++) {
+				if(!StringUtils.isEmpty(productIdStr[i])) {
+					TbProductDetailExample example = new TbProductDetailExample();
+					example.createCriteria().andDetailKeyEqualTo(productIdStr[i]);
+					int count = tbProductDetailMapper.deleteByExample(example);
+					if (count > 0) {
+						result = tbProductDao.deleteProduct(productIdStr[i]);
+					}
+				}
+			}
+		}else {
 			TbProductDetailExample example = new TbProductDetailExample();
 			example.createCriteria().andDetailKeyEqualTo(productId);
 			int count = tbProductDetailMapper.deleteByExample(example);
@@ -187,7 +199,7 @@ public class ProductService {
 		logger.info("tbProductItems : " + tbProductItems.size());
 		ProductSurveyQueryParam productParam = new ProductSurveyQueryParam();
 		productParam.setActiveState(0);
-		productParam.setActiveState(200);//只查询已上架的商品
+		productParam.setActiveState(Constant.PRODUCT_STATE_ONSELL);//只查询已上架的商品
 		if(tbProductItems.size() > 0) {
 			for (TbProductItem tbProductItem : tbProductItems) {
 				logger.info("ItemNo : " + tbProductItem.getItemNo());
