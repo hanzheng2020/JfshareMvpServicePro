@@ -190,8 +190,10 @@ public class ProductService {
 		productParam.setActiveState(200);//只查询已上架的商品
 		if(tbProductItems.size() > 0) {
 			for (TbProductItem tbProductItem : tbProductItems) {
+				logger.info("ItemNo : " + tbProductItem.getItemNo());
 				productParam.setItemNo(Integer.parseInt(tbProductItem.getItemNo()));
 				List<TbProductSurvey> productSurveyQuery = tbProductDao.productSurveyQuery(productParam);
+				logger.info("productSurveyQuery : " + productSurveyQuery);
 				for (TbProductSurvey tbProductSurvey : productSurveyQuery) {
 					productList.add(tbProductSurvey);
 				}
