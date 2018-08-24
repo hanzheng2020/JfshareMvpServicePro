@@ -156,8 +156,8 @@ public class ProductController {
 		return ResultConstant.ofSuccess(tbProduct);	
 	}
 
-	@ApiOperation(value = "根据商品id name 获取商品信息", notes = "根据商品id name 获取商品信息  param:商品名称或者商品id   itemNo:类目id activeState：商品状态:100 待上架  200 已上架 300 已下架   itemNo activeState为必传参数 默认传0")
-	@PostMapping("/productSurveyQuery")
+	@ApiOperation(value = "根据类目id 获取商品信息", notes = "根据类目id获取商品信息   默认传0   查询全部商品")
+	@PostMapping("/queryproductByItemNo")
 	public ResultConstant queryproductByItemNo(@RequestParam(value = "itemNo", required = false) Integer itemNo) {
 		logger.info("queryproductByItemNo  itemNo: " + itemNo);
 		List<TbProductSurvey> productList;
