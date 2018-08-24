@@ -1,5 +1,6 @@
 package com.jfshare.mvp.server.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -176,21 +177,27 @@ public class ProductService {
 	 * @return
 	 */
 	public List<TbProductSurvey> queryProductByItemNo(Integer itemNo) {
+		List<TbProductSurvey> productList = new ArrayList<TbProductSurvey>();
 		List<TbProductItem> tbProductItems = tbProductItemDao.queryItemList(itemNo+"");
 		ProductSurveyQueryParam productParam = new ProductSurveyQueryParam();
-		if(itemNo >= 0) {
-			productParam.setItemNo(itemNo);
-		}
 		productParam.setActiveState(0);
 		productParam.setActiveState(200);//只查询已上架的商品
+		if(tbProductItems.size() > 0) {
+			for (TbProductItem tbProductItem : tbProductItems) {
+				productParam.setItemNo(Integer.parseInt(tbProductItem.getItemNo()));
+				List<TbProductSurvey> productSurveyQuery = tbProductDao.productSurveyQuery(productParam);
+				for (TbProductSurvey tbProductSurvey : productSurveyQuery) {
+					productList.add(tbProductSurvey);
+				}
+			}
+		}
 		//处理图片  列表只返回一张图片
-		List<TbProductSurvey> productSurveyQuery = tbProductDao.productSurveyQuery(productParam);
-		for (TbProductSurvey tbProductSurvey : productSurveyQuery) {
+		for (TbProductSurvey tbProductSurvey : productList) {
 			String imgKey = tbProductSurvey.getImgKey();
 			if(!StringUtils.isEmpty(imgKey) && imgKey.contains(",")) {
 				tbProductSurvey.setImgKey(imgKey.split(",")[0]);
 			}
 		}	
-		return productSurveyQuery;
+		return productList;
 	}
 }
