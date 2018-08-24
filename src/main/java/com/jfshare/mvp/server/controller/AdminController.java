@@ -21,9 +21,11 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import com.jfshare.mvp.server.constants.Constant;
 import com.jfshare.mvp.server.constants.ResultConstant;
+import com.jfshare.mvp.server.model.TbAdmin;
 import com.jfshare.mvp.server.model.TbJfRaiders;
 import com.jfshare.mvp.server.model.TbJvjindouRule;
 import com.jfshare.mvp.server.model.TbProductItemShow;
+import com.jfshare.mvp.server.service.AdminService;
 import com.jfshare.mvp.server.service.JfRaidersService;
 import com.jfshare.mvp.server.service.JvjindouRuleService;
 import com.jfshare.mvp.server.service.ProductItemService;
@@ -51,6 +53,9 @@ public class AdminController {
 	@Autowired
 	private JfRaidersService jfRaidersService;
 
+	@Autowired
+	private AdminService adminService;
+	
 	@SuppressWarnings("rawtypes")
 	@ApiOperation(value = "保存推广微页面设置", notes = "保存传入的推广配置和类目商品展示配置")
 	@PostMapping("/promotionSetting")
@@ -277,6 +282,20 @@ public class AdminController {
 		if(result>0) {
 			return ResultConstant.ofSuccess();
 		}
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "修改失败");
+	
+	}
+	
+	@ApiOperation(value = "管理员登陆", notes = "管理员登陆")
+	@PostMapping("/adminLogin")
+	public ResultConstant adminLogin(@RequestParam(value="loginId",required=true)String loginId,
+			@RequestParam(value="pwd",required=true)String pwd) {
+		
+		TbAdmin admin = adminService.adminLogin(loginId,pwd);
+		
+		
+		
+		
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "修改失败");
 	
 	}
