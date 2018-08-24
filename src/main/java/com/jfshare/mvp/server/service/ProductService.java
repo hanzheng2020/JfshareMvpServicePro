@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.jfshare.mvp.server.constants.Constant;
 import com.jfshare.mvp.server.dao.TbProductDao;
+import com.jfshare.mvp.server.dao.TbProductItemDao;
 import com.jfshare.mvp.server.mapper.TbProductDetailMapper;
 import com.jfshare.mvp.server.model.Product;
 import com.jfshare.mvp.server.model.ProductSurveyQueryParam;
@@ -17,6 +18,7 @@ import com.jfshare.mvp.server.model.TbProduct;
 import com.jfshare.mvp.server.model.TbProductDetail;
 import com.jfshare.mvp.server.model.TbProductDetailExample;
 import com.jfshare.mvp.server.model.TbProductExample;
+import com.jfshare.mvp.server.model.TbProductItem;
 import com.jfshare.mvp.server.model.TbProductSurvey;
 import com.jfshare.mvp.server.model.TbProductWithBLOBs;
 import com.jfshare.mvp.server.utils.DateUtils;
@@ -28,6 +30,8 @@ public class ProductService {
 	private TbProductDao tbProductDao;
 	@Autowired
 	private TbProductDetailMapper tbProductDetailMapper;
+	@Autowired
+	private TbProductItemDao tbProductItemDao;
 
 	//根据条件搜索商品信息
 	public List<TbProductSurvey> productSurveyQuery(String param,Integer itemNo,Integer activeState, Integer curpage,
@@ -172,6 +176,7 @@ public class ProductService {
 	 * @return
 	 */
 	public List<TbProductSurvey> queryProductByItemNo(Integer itemNo) {
+		List<TbProductItem> tbProductItems = tbProductItemDao.queryItemList(itemNo+"");
 		ProductSurveyQueryParam productParam = new ProductSurveyQueryParam();
 		if(itemNo >= 0) {
 			productParam.setItemNo(itemNo);
