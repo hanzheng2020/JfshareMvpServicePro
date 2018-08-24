@@ -13,37 +13,25 @@ public class TbProductPromotion {
 
     private String productOneId;
 
-    private String productOneDesc;
-
     private String productOnePicUrl;
 
     private String productTwoId;
-
-    private String productTwoDesc;
 
     private String productTwoPicUrl;
 
     private String productThreeId;
 
-    private String productThreeDesc;
-
     private String productThreePicUrl;
 
     private String productFourId;
-
-    private String productFourDesc;
 
     private String productFourPicUrl;
 
     private String productFiveId;
 
-    private String productFiveDesc;
-
     private String productFivePicUrl;
 
     private String productSixId;
-
-    private String productSixDesc;
 
     private String productSixPicUrl;
 
@@ -93,14 +81,6 @@ public class TbProductPromotion {
         this.productOneId = productOneId == null ? null : productOneId.trim();
     }
 
-    public String getProductOneDesc() {
-        return productOneDesc;
-    }
-
-    public void setProductOneDesc(String productOneDesc) {
-        this.productOneDesc = productOneDesc == null ? null : productOneDesc.trim();
-    }
-
     public String getProductOnePicUrl() {
         return productOnePicUrl;
     }
@@ -115,14 +95,6 @@ public class TbProductPromotion {
 
     public void setProductTwoId(String productTwoId) {
         this.productTwoId = productTwoId == null ? null : productTwoId.trim();
-    }
-
-    public String getProductTwoDesc() {
-        return productTwoDesc;
-    }
-
-    public void setProductTwoDesc(String productTwoDesc) {
-        this.productTwoDesc = productTwoDesc == null ? null : productTwoDesc.trim();
     }
 
     public String getProductTwoPicUrl() {
@@ -141,14 +113,6 @@ public class TbProductPromotion {
         this.productThreeId = productThreeId == null ? null : productThreeId.trim();
     }
 
-    public String getProductThreeDesc() {
-        return productThreeDesc;
-    }
-
-    public void setProductThreeDesc(String productThreeDesc) {
-        this.productThreeDesc = productThreeDesc == null ? null : productThreeDesc.trim();
-    }
-
     public String getProductThreePicUrl() {
         return productThreePicUrl;
     }
@@ -163,14 +127,6 @@ public class TbProductPromotion {
 
     public void setProductFourId(String productFourId) {
         this.productFourId = productFourId == null ? null : productFourId.trim();
-    }
-
-    public String getProductFourDesc() {
-        return productFourDesc;
-    }
-
-    public void setProductFourDesc(String productFourDesc) {
-        this.productFourDesc = productFourDesc == null ? null : productFourDesc.trim();
     }
 
     public String getProductFourPicUrl() {
@@ -189,14 +145,6 @@ public class TbProductPromotion {
         this.productFiveId = productFiveId == null ? null : productFiveId.trim();
     }
 
-    public String getProductFiveDesc() {
-        return productFiveDesc;
-    }
-
-    public void setProductFiveDesc(String productFiveDesc) {
-        this.productFiveDesc = productFiveDesc == null ? null : productFiveDesc.trim();
-    }
-
     public String getProductFivePicUrl() {
         return productFivePicUrl;
     }
@@ -211,14 +159,6 @@ public class TbProductPromotion {
 
     public void setProductSixId(String productSixId) {
         this.productSixId = productSixId == null ? null : productSixId.trim();
-    }
-
-    public String getProductSixDesc() {
-        return productSixDesc;
-    }
-
-    public void setProductSixDesc(String productSixDesc) {
-        this.productSixDesc = productSixDesc == null ? null : productSixDesc.trim();
     }
 
     public String getProductSixPicUrl() {

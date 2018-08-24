@@ -68,37 +68,30 @@ public class PromotionSettingService {
 				List<Map> productDetails = (List<Map>) productPromotion.get("productDetails");
 				for (int index = 0; index < productDetails.size(); index ++) {
 					String productId = productDetails.get(index).get("productId").toString();
-					String productDesc = productDetails.get(index).get("productDesc").toString();
 					String productPicUrl = productDetails.get(index).get("productPicUrl").toString();
 					switch (index) {
 					case 0:
 						tbProductPromotion.setProductOneId(productId);
-						tbProductPromotion.setProductOneDesc(productDesc);
 						tbProductPromotion.setProductOnePicUrl(productPicUrl);
 						break;
 					case 1:
 						tbProductPromotion.setProductTwoId(productId);
-						tbProductPromotion.setProductTwoDesc(productDesc);
 						tbProductPromotion.setProductTwoPicUrl(productPicUrl);
 						break;
 					case 2:
 						tbProductPromotion.setProductThreeId(productId);
-						tbProductPromotion.setProductThreeDesc(productDesc);
 						tbProductPromotion.setProductThreePicUrl(productPicUrl);
 						break;
 					case 3:
 						tbProductPromotion.setProductFourId(productId);
-						tbProductPromotion.setProductFourDesc(productDesc);
 						tbProductPromotion.setProductFourPicUrl(productPicUrl);
 						break;
 					case 4:
 						tbProductPromotion.setProductFiveId(productId);
-						tbProductPromotion.setProductFiveDesc(productDesc);
 						tbProductPromotion.setProductFivePicUrl(productPicUrl);
 						break;
 					case 5:
 						tbProductPromotion.setProductSixId(productId);
-						tbProductPromotion.setProductSixDesc(productDesc);
 						tbProductPromotion.setProductSixPicUrl(productPicUrl);
 						break;
 					default:
@@ -125,7 +118,7 @@ public class PromotionSettingService {
 				if (CollectionUtils.isEmpty(tbProductItems)) {
 					itemName = tbProductItems.get(0).getItemName();
 				}
-				tbProductItemShow.setItemShowDesc(itemName);
+				tbProductItemShow.setItemName(itemName);
 				tbProductItemShow.setProducts(productPromotion.get("products").toString());
 				tbProductItemShow.setPublishInd(false);
 				tbProductItemShowDao.insert(tbProductItemShow);
@@ -184,39 +177,45 @@ public class PromotionSettingService {
 				map.put("promotionUrl", tbProductPromotion.getPromotionUrl());
 				
 				Map<String, Object> dtlMap1 = new HashMap<>();
-				dtlMap1.put("curPrice", this.getCurPrice(tbProductPromotion.getProductOneId()));
+				TbProduct product1 = this.getProduct(tbProductPromotion.getProductOneId());
+				dtlMap1.put("curPrice", product1.getCurPrice());
 				dtlMap1.put("productId", tbProductPromotion.getProductOneId());
-				dtlMap1.put("productDesc", tbProductPromotion.getProductOneDesc());
+				dtlMap1.put("productName", product1.getProductName());
 				dtlMap1.put("productPicUrl", tbProductPromotion.getProductOnePicUrl());
 				productList.add(dtlMap1);
 				Map<String, Object> dtlMap2 = new HashMap<>();
-				dtlMap2.put("curPrice", this.getCurPrice(tbProductPromotion.getProductTwoId()));
+				TbProduct product2 = this.getProduct(tbProductPromotion.getProductOneId());
+				dtlMap2.put("curPrice", product2.getCurPrice());
 				dtlMap2.put("productId", tbProductPromotion.getProductTwoId());
-				dtlMap2.put("productDesc", tbProductPromotion.getProductTwoDesc());
+				dtlMap2.put("productName", product2.getProductName());
 				dtlMap2.put("productPicUrl", tbProductPromotion.getProductTwoPicUrl());
 				productList.add(dtlMap2);
 				Map<String, Object> dtlMap3 = new HashMap<>();
-				dtlMap3.put("curPrice", this.getCurPrice(tbProductPromotion.getProductThreeId()));
+				TbProduct product3 = this.getProduct(tbProductPromotion.getProductOneId());
+				dtlMap3.put("curPrice", product3.getCurPrice());
 				dtlMap3.put("productId", tbProductPromotion.getProductThreeId());
-				dtlMap3.put("productDesc", tbProductPromotion.getProductThreeDesc());
+				dtlMap3.put("productName", product3.getProductName());
 				dtlMap3.put("productPicUrl", tbProductPromotion.getProductThreePicUrl());
 				productList.add(dtlMap3);
 				Map<String, Object> dtlMap4 = new HashMap<>();
-				dtlMap4.put("curPrice", this.getCurPrice(tbProductPromotion.getProductFourId()));
+				TbProduct product4 = this.getProduct(tbProductPromotion.getProductOneId());
+				dtlMap4.put("curPrice", product4.getCurPrice());
 				dtlMap4.put("productId", tbProductPromotion.getProductFourId());
-				dtlMap4.put("productDesc", tbProductPromotion.getProductFourDesc());
+				dtlMap4.put("productName", product4.getProductName());
 				dtlMap4.put("productPicUrl", tbProductPromotion.getProductFourPicUrl());
 				productList.add(dtlMap4);
 				Map<String, Object> dtlMap5 = new HashMap<>();
-				dtlMap5.put("curPrice", this.getCurPrice(tbProductPromotion.getProductFiveId()));
+				TbProduct product5 = this.getProduct(tbProductPromotion.getProductOneId());
+				dtlMap5.put("curPrice", product5.getCurPrice());
 				dtlMap5.put("productId", tbProductPromotion.getProductFiveId());
-				dtlMap5.put("productDesc", tbProductPromotion.getProductFiveDesc());
+				dtlMap5.put("productName", product5.getProductName());
 				dtlMap5.put("productPicUrl", tbProductPromotion.getProductFivePicUrl());
 				productList.add(dtlMap5);
 				Map<String, Object> dtlMap6 = new HashMap<>();
-				dtlMap6.put("curPrice", this.getCurPrice(tbProductPromotion.getProductSixId()));
+				TbProduct product6 = this.getProduct(tbProductPromotion.getProductOneId());
+				dtlMap6.put("curPrice", product6.getCurPrice());
 				dtlMap6.put("productId", tbProductPromotion.getProductSixId());
-				dtlMap6.put("productDesc", tbProductPromotion.getProductSixDesc());
+				dtlMap6.put("productName", product6.getProductName());
 				dtlMap6.put("productPicUrl", tbProductPromotion.getProductSixPicUrl());
 				productList.add(dtlMap6);
 				
@@ -231,15 +230,14 @@ public class PromotionSettingService {
 		return result;
 	}
 	
-	private String getCurPrice(String productId) {
+	private TbProduct getProduct(String productId) {
 		TbProductExample tbProductExample = new TbProductExample();
 		tbProductExample.createCriteria().andProductIdEqualTo(productId);
 		List<TbProduct> tbProducts = tbProductDao.selectByExample(tbProductExample);
-		String curPrice = "";
 		if (!CollectionUtils.isEmpty(tbProducts)) {
-			curPrice = tbProducts.get(0).getCurPrice();
+			return tbProducts.get(0);
 		}
-		return curPrice;
+		return null;
 	}
 	
 	public List<TbProductItemShow> getProductItemShows(Boolean publishInd) {
