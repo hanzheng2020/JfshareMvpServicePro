@@ -1,25 +1,19 @@
 package com.jfshare.mvp.server.controller;
 
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.model.TbAppVerinfo;
 import com.jfshare.mvp.server.model.TbProductItemShow;
 import com.jfshare.mvp.server.service.AppInfoServer;
 import com.jfshare.mvp.server.service.PromotionSettingService;
 import com.jfshare.mvp.server.utils.ConvertBeanToMapUtils;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.collections.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author fengxiang
@@ -32,7 +26,7 @@ public class ShopController {
 
 	@Autowired
 	private PromotionSettingService promotionSettingService;
-	
+
 	@Autowired
 	private AppInfoServer appInfoServer;
 	
@@ -52,7 +46,7 @@ public class ShopController {
 	public ResultConstant getProductItemShows(@RequestParam(defaultValue="true", required=false) Boolean publishInd) {
 		List<TbProductItemShow> tbProductItemShows = promotionSettingService.getProductItemShows(publishInd);
 		if (!CollectionUtils.isEmpty(tbProductItemShows)) {
-			return ResultConstant.ofSuccess(ConvertBeanToMapUtils.convertBeanListToMap(tbProductItemShows, "products"));
+			return ResultConstant.ofSuccess(ConvertBeanToMapUtils.convertBeanListToMap(tbProductItemShows, "products", "itemNo", "createTime", "updateTime"));
 		}
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取类目商品展示失败！");
 	}

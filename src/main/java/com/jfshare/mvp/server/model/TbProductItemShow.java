@@ -7,7 +7,9 @@ public class TbProductItemShow {
 
     private Integer itemShowNo;
 
-    private String itemShowDesc;
+    private String itemNo;
+
+    private String itemName;
 
     private String products;
 
@@ -33,12 +35,20 @@ public class TbProductItemShow {
         this.itemShowNo = itemShowNo;
     }
 
-    public String getItemShowDesc() {
-        return itemShowDesc;
+    public String getItemNo() {
+        return itemNo;
     }
 
-    public void setItemShowDesc(String itemShowDesc) {
-        this.itemShowDesc = itemShowDesc == null ? null : itemShowDesc.trim();
+    public void setItemNo(String itemNo) {
+        this.itemNo = itemNo == null ? null : itemNo.trim();
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName == null ? null : itemName.trim();
     }
 
     public String getProducts() {

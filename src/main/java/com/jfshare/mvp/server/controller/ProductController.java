@@ -13,17 +13,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageInfo;
+import com.jfshare.mvp.server.constants.Constant;
 import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.finagle.server.ProductClient;
 import com.jfshare.mvp.server.model.Product;
 import com.jfshare.mvp.server.model.TbProduct;
 import com.jfshare.mvp.server.model.TbProductDetail;
 import com.jfshare.mvp.server.model.TbProductSurvey;
-import com.jfshare.mvp.server.service.ProductDetailService;
 import com.jfshare.mvp.server.service.ProductService;
+
+import com.jfshare.mvp.server.service.ProductDetailService;
 import com.jfshare.mvp.server.utils.ConvertBeanToMapUtils;
-import com.jfshare.mvp.server.service.PromotionSettingService;
-import com.jfshare.mvp.server.task.ProductScheduler;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -47,18 +47,17 @@ public class ProductController {
 	@Autowired
 	private ProductClient productClient;
 	
-	@ApiOperation(value = "根据商品id name 获取商品信息", notes = "根据商品id name 获取商品信息  productid:商品id  productName:商品名称   itemNo:类目id activeState：商品状态:100 待上架  200 已上架 300 已下架   itemNo activeState为必传参数 默认传0")
+	@ApiOperation(value = "根据商品id name 获取商品信息", notes = "根据商品id name 获取商品信息  param:商品名称或者商品id   itemNo:类目id activeState：商品状态:100 待上架  200 已上架 300 已下架   itemNo activeState为必传参数 默认传0")
 	@PostMapping("/productSurveyQuery")
-	public ResultConstant productSurveyQuery(@RequestParam(value = "productId", required = false) String productId,
-			@RequestParam(value = "productName", required = false) String productName,
+	public ResultConstant productSurveyQuery(@RequestParam(value = "param", required = false) String param,
 			@RequestParam(value = "itemNo", required = false) Integer itemNo,
 			@RequestParam(value = "activeState", required = false) Integer activeState,
 			@RequestParam(value = "curpage", required = true) Integer curpage,
 			@RequestParam(value = "percount", required = true) Integer percount) {
-		logger.info("productName:"+productName+" productId"+productId+" itemNo:"+itemNo+" activeState:"+activeState+" curpage:"+curpage+" percount:"+percount);
+		logger.info("param"+param+" itemNo:"+itemNo+" activeState:"+activeState+" curpage:"+curpage+" percount:"+percount);
 		List<TbProductSurvey> productList;
 		try {
-			productList = productService.productSurveyQuery(productId, productName, itemNo,
+			productList = productService.productSurveyQuery(param, itemNo,
 					activeState, curpage, percount);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -72,6 +71,10 @@ public class ProductController {
 	@ApiOperation(value = "新增商品", notes = "新增商品信息")
 	@PostMapping("/addProduct")
 	public ResultConstant addProduct(Product product) {
+		TbProduct productOne = productService.getProductOne(product.getProductId());
+		if(productOne != null) {
+			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "新增商品重复，请重新添加！");
+		}
 		int result = productService.addProduct(product);
 		if (result > 0) {
 			return ResultConstant.ofSuccess();
@@ -82,8 +85,19 @@ public class ProductController {
 	@ApiOperation(value = "删除商品", notes = "删除商品信息")
 	@PostMapping("/deleteProduct")
 	public ResultConstant deleteProduct(@RequestParam(value = "productId", required = false) String productId) {
-		int result = productService.deleteProduct(productId);
-		if (result > 0) {
+		logger.info("deleteProduct productId:" + productId);
+		TbProduct productOne = productService.getProductOne(productId);
+		if(productOne.getActiveState() == Constant.PRODUCT_STATE_ONSELL) {
+			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "已上架的商品不能被删除！");
+		}
+		int result;
+		try {
+			result = productService.deleteProduct(productId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "删除商品失败");
+		}
+		if(result > 0) {
 			return ResultConstant.ofSuccess();
 		}
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "删除商品失败");
@@ -101,13 +115,10 @@ public class ProductController {
 
 	@ApiOperation(value = "商品导出execl", notes = "商品导出execl表格")
 	@PostMapping("/exportProduct")
-	public ResultConstant exportProduct(@RequestParam(value = "productId", required = false) String productId,
-			@RequestParam(value = "productName", required = false) String productName,
+	public ResultConstant exportProduct(@RequestParam(value = "param", required = false) String param,
 			@RequestParam(value = "itemNo", required = false) Integer itemNo,
-			@RequestParam(value = "activeState", required = false) Integer activeState,
-			@RequestParam(value = "curpage", required = true) Integer curpage,
-			@RequestParam(value = "percount", required = true) Integer percount) {
-		String path = productService.exportProduct(productId, productName, itemNo, activeState, curpage, percount);
+			@RequestParam(value = "activeState", required = false) Integer activeState) {
+		String path = productService.exportProduct(param, itemNo, activeState);
 		if (!StringUtils.isEmpty(path)) {
 			return ResultConstant.ofSuccess();
 		}
@@ -152,4 +163,30 @@ public class ProductController {
 		return ResultConstant.ofSuccess(tbProduct);	
 	}
 
+	@ApiOperation(value = "根据类目id 获取商品信息", notes = "根据类目id获取商品信息   默认传0   查询全部商品")
+	@PostMapping("/queryproductByItemNo")
+	public ResultConstant queryproductByItemNo(@RequestParam(value = "itemNo", required = false) Integer itemNo) {
+		logger.info("queryproductByItemNo  itemNo: " + itemNo);
+		List<TbProductSurvey> productList;
+		try {
+			productList = productService.queryProductByItemNo(itemNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取商品信息失败");
+		}
+		return ResultConstant.ofSuccess(productList);
+	}
+	
+	@ApiOperation(value = "修改商品状态", notes = "设置商品状态  上架  下架")
+	@PostMapping("/changeProductState")
+	public ResultConstant changeProductState(@RequestParam(value = "productId", required = true) String productId,@RequestParam(value = "activeState", required = true) Integer activeState) {
+		logger.info("changeProductState  productId: " + productId+",activeState:" + activeState);
+		try {
+			productService.changeProductState(productId, activeState);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "商品上下架失败！");
+		}
+		return ResultConstant.ofSuccess();
+	}
 }

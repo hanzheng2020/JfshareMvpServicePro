@@ -4,7 +4,8 @@
   <resultMap id="BaseResultMap" type="com.jfshare.mvp.server.model.TbProductItemShow">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="item_show_no" jdbcType="INTEGER" property="itemShowNo" />
-    <result column="item_show_desc" jdbcType="VARCHAR" property="itemShowDesc" />
+    <result column="item_no" jdbcType="VARCHAR" property="itemNo" />
+    <result column="item_name" jdbcType="VARCHAR" property="itemName" />
     <result column="products" jdbcType="VARCHAR" property="products" />
     <result column="publish_ind" jdbcType="BIT" property="publishInd" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, item_show_no, item_show_desc, products, publish_ind, create_time, update_time
+    id, item_show_no, item_no, item_name, products, publish_ind, create_time, update_time
   </sql>
   <select id="selectByExample" parameterType="com.jfshare.mvp.server.model.TbProductItemShowExample" resultMap="BaseResultMap">
     select
@@ -106,12 +107,12 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into tb_product_item_show (item_show_no, item_show_desc, products, 
-      publish_ind, create_time, update_time
-      )
-    values (#{itemShowNo,jdbcType=INTEGER}, #{itemShowDesc,jdbcType=VARCHAR}, #{products,jdbcType=VARCHAR}, 
-      #{publishInd,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
-      )
+    insert into tb_product_item_show (item_show_no, item_no, item_name, 
+      products, publish_ind, create_time, 
+      update_time)
+    values (#{itemShowNo,jdbcType=INTEGER}, #{itemNo,jdbcType=VARCHAR}, #{itemName,jdbcType=VARCHAR}, 
+      #{products,jdbcType=VARCHAR}, #{publishInd,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.jfshare.mvp.server.model.TbProductItemShow">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -122,8 +123,11 @@
       <if test="itemShowNo != null">
         item_show_no,
       </if>
-      <if test="itemShowDesc != null">
-        item_show_desc,
+      <if test="itemNo != null">
+        item_no,
+      </if>
+      <if test="itemName != null">
+        item_name,
       </if>
       <if test="products != null">
         products,
@@ -142,8 +146,11 @@
       <if test="itemShowNo != null">
         #{itemShowNo,jdbcType=INTEGER},
       </if>
-      <if test="itemShowDesc != null">
-        #{itemShowDesc,jdbcType=VARCHAR},
+      <if test="itemNo != null">
+        #{itemNo,jdbcType=VARCHAR},
+      </if>
+      <if test="itemName != null">
+        #{itemName,jdbcType=VARCHAR},
       </if>
       <if test="products != null">
         #{products,jdbcType=VARCHAR},
@@ -174,8 +181,11 @@
       <if test="record.itemShowNo != null">
         item_show_no = #{record.itemShowNo,jdbcType=INTEGER},
       </if>
-      <if test="record.itemShowDesc != null">
-        item_show_desc = #{record.itemShowDesc,jdbcType=VARCHAR},
+      <if test="record.itemNo != null">
+        item_no = #{record.itemNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemName != null">
+        item_name = #{record.itemName,jdbcType=VARCHAR},
       </if>
       <if test="record.products != null">
         products = #{record.products,jdbcType=VARCHAR},
@@ -198,7 +208,8 @@
     update tb_product_item_show
     set id = #{record.id,jdbcType=INTEGER},
       item_show_no = #{record.itemShowNo,jdbcType=INTEGER},
-      item_show_desc = #{record.itemShowDesc,jdbcType=VARCHAR},
+      item_no = #{record.itemNo,jdbcType=VARCHAR},
+      item_name = #{record.itemName,jdbcType=VARCHAR},
       products = #{record.products,jdbcType=VARCHAR},
       publish_ind = #{record.publishInd,jdbcType=BIT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -213,8 +224,11 @@
       <if test="itemShowNo != null">
         item_show_no = #{itemShowNo,jdbcType=INTEGER},
       </if>
-      <if test="itemShowDesc != null">
-        item_show_desc = #{itemShowDesc,jdbcType=VARCHAR},
+      <if test="itemNo != null">
+        item_no = #{itemNo,jdbcType=VARCHAR},
+      </if>
+      <if test="itemName != null">
+        item_name = #{itemName,jdbcType=VARCHAR},
       </if>
       <if test="products != null">
         products = #{products,jdbcType=VARCHAR},
@@ -234,7 +248,8 @@
   <update id="updateByPrimaryKey" parameterType="com.jfshare.mvp.server.model.TbProductItemShow">
     update tb_product_item_show
     set item_show_no = #{itemShowNo,jdbcType=INTEGER},
-      item_show_desc = #{itemShowDesc,jdbcType=VARCHAR},
+      item_no = #{itemNo,jdbcType=VARCHAR},
+      item_name = #{itemName,jdbcType=VARCHAR},
       products = #{products,jdbcType=VARCHAR},
       publish_ind = #{publishInd,jdbcType=BIT},
       create_time = #{createTime,jdbcType=TIMESTAMP},

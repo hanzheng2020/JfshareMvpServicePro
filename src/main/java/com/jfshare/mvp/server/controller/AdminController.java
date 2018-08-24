@@ -1,11 +1,9 @@
 package com.jfshare.mvp.server.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -18,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.StringUtil;
 import com.jfshare.mvp.server.constants.Constant;
@@ -29,12 +25,16 @@ import com.jfshare.mvp.server.model.TbJvjindouRule;
 import com.jfshare.mvp.server.model.TbProductItem;
 import com.jfshare.mvp.server.model.TbProductItemShow;
 import com.jfshare.mvp.server.model.TbSystemInformation;
+import com.jfshare.mvp.server.service.AdminService;
 import com.jfshare.mvp.server.service.JfRaidersService;
 import com.jfshare.mvp.server.service.JvjindouRuleService;
 import com.jfshare.mvp.server.service.ProductItemService;
 import com.jfshare.mvp.server.service.PromotionSettingService;
 import com.jfshare.mvp.server.service.SystemInformationService;
 import com.jfshare.mvp.server.utils.ConvertBeanToMapUtils;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * @author fengxiang
@@ -60,13 +60,15 @@ public class AdminController {
 	@Autowired
 	private SystemInformationService systemInformationService;
 
+	@Autowired
+	private AdminService adminService;
+	
 	@SuppressWarnings("rawtypes")
 	@ApiOperation(value = "保存推广微页面设置", notes = "保存传入的推广配置和类目商品展示配置")
 	@PostMapping("/promotionSetting")
-	public ResultConstant savePromotionSetting(@RequestBody String productPromotionArray,
-												@RequestBody String productItemShowArray) {
-		List<Map> productPromotions = JSON.parseArray(productPromotionArray, Map.class);
-		List<Map> productItemShows = JSON.parseArray(productItemShowArray, Map.class);
+	public ResultConstant savePromotionSetting(@RequestBody Map<String, List<Map>> map) {
+		List<Map> productPromotions = map.get("productPromotions");
+		List<Map> productItemShows = map.get("productItemShows");
 		boolean result = promotionSettingService.savePromotionSetting(productPromotions, productItemShows);
 		if (result) {
 			return ResultConstant.ofSuccess();
@@ -331,6 +333,18 @@ public class AdminController {
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "添加失败");
 	}
 	
+	
+	@ApiOperation(value = "管理员登陆", notes = "管理员登陆")
+	@PostMapping("/adminLogin")
+	public ResultConstant adminLogin(@RequestParam(value="loginId",required=true)String loginId,
+			@RequestParam(value="pwd",required=true)String pwd) {
+		
+		Map<String, Object> map = adminService.adminLogin(loginId,pwd);
+		if(map==null){
+			return	ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "登录失败");
+		}
+		return ResultConstant.ofSuccess(map);
+	}
 	
 	@ApiOperation(value="系统消息查询",notes ="系统消息查询,titleOrContent:标题或者内容，page:当前页，pageSize：每页条数")
 	@GetMapping("/getInformation")

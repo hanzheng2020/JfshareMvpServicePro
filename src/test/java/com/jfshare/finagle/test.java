@@ -11,12 +11,10 @@ import com.jfshare.mvp.server.finagle.server.ScoreClient;
 import com.jfshare.mvp.server.model.Product;
 import com.jfshare.mvp.server.model.TbProduct;
 import com.jfshare.mvp.server.service.ProductService;
-
-import java.util.Date;
-import java.util.List;
-
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 /**
  * Created by chiwenheng on 2018/7/26.
@@ -62,10 +60,11 @@ public class test extends TestProductRepository {
     	System.out.println(queryProduct);
     }
 
-    @Test
+    /*@Test
     public void testQueryStock() {
-    	System.out.println(productClient.getProduct("ze180802111638000800"));
-    }
+    	System.out.println(scoreClient.pointIncomeOrExpenses(288108, "1"));
+    }*/
+
     
     @Test
     public void testPoduct() {

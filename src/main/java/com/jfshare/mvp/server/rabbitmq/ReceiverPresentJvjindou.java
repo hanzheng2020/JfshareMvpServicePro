@@ -1,6 +1,5 @@
 package com.jfshare.mvp.server.rabbitmq;
 
-import com.jfshare.mvp.server.service.LevelInfoService;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +8,8 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+
+import com.jfshare.mvp.server.service.LevelInfoService;
 
 /**
  * 同步积分赠送聚金豆
