@@ -1,11 +1,9 @@
 package com.jfshare.mvp.server.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -18,12 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.jfshare.mvp.server.constants.Constant;
 import com.jfshare.mvp.server.constants.ResultConstant;
-import com.jfshare.mvp.server.model.TbAdmin;
 import com.jfshare.mvp.server.model.TbJfRaiders;
 import com.jfshare.mvp.server.model.TbJvjindouRule;
 import com.jfshare.mvp.server.model.TbProductItem;
@@ -34,6 +29,9 @@ import com.jfshare.mvp.server.service.JvjindouRuleService;
 import com.jfshare.mvp.server.service.ProductItemService;
 import com.jfshare.mvp.server.service.PromotionSettingService;
 import com.jfshare.mvp.server.utils.ConvertBeanToMapUtils;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * @author fengxiang
@@ -294,12 +292,11 @@ public class AdminController {
 	public ResultConstant adminLogin(@RequestParam(value="loginId",required=true)String loginId,
 			@RequestParam(value="pwd",required=true)String pwd) {
 		
-		TbAdmin admin = adminService.adminLogin(loginId,pwd);
-		if(admin==null){
+		Map<String, Object> map = adminService.adminLogin(loginId,pwd);
+		if(map==null){
 			return	ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "登录失败");
 		}
-		admin.setPwd("");
-		return ResultConstant.ofSuccess(admin);
+		return ResultConstant.ofSuccess(map);
 	}
 	
 	
