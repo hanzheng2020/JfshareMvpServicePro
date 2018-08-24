@@ -164,4 +164,26 @@ public class ProductService {
 		}
 		return null;
 	}
+	
+	/**
+	 * 
+	 * 根据类目id来搜索商品
+	 * @param productId
+	 * @return
+	 */
+	public List<TbProductSurvey> queryProductByItemNo(Integer itemNo) {
+		ProductSurveyQueryParam productParam = new ProductSurveyQueryParam();
+		if(itemNo >= 0) {
+			productParam.setItemNo(itemNo);
+		}
+		//处理图片  列表只返回一张图片
+		List<TbProductSurvey> productSurveyQuery = tbProductDao.productSurveyQuery(productParam);
+		for (TbProductSurvey tbProductSurvey : productSurveyQuery) {
+			String imgKey = tbProductSurvey.getImgKey();
+			if(!StringUtils.isEmpty(imgKey) && imgKey.contains(",")) {
+				tbProductSurvey.setImgKey(imgKey.split(",")[0]);
+			}
+		}	
+		return productSurveyQuery;
+	}
 }
