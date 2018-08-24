@@ -96,8 +96,19 @@ public class ProductService {
 	//删除商品
 	public int deleteProduct(String productId) {
 		int result = 0;
-		if (!StringUtils.isEmpty(productId)) {
-			TbProductDetailExample example = new TbProductDetailExample();
+		TbProductDetailExample example = new TbProductDetailExample();
+		if (productId.contains(",")) {
+			String[] productIdStr = productId.split(",");
+			for(int i = 0;i < productIdStr.length;i++) {
+				if(!StringUtils.isEmpty(productIdStr[i])) {
+					example.createCriteria().andDetailKeyEqualTo(productIdStr[i]);
+					int count = tbProductDetailMapper.deleteByExample(example);
+					if (count > 0) {
+						result = tbProductDao.deleteProduct(productIdStr[i]);
+					}
+				}
+			}
+		}else {
 			example.createCriteria().andDetailKeyEqualTo(productId);
 			int count = tbProductDetailMapper.deleteByExample(example);
 			if (count > 0) {
