@@ -13,17 +13,20 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.jfshare.mvp.server.constants.Constant;
 import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.model.TbAdmin;
 import com.jfshare.mvp.server.model.TbJfRaiders;
 import com.jfshare.mvp.server.model.TbJvjindouRule;
+import com.jfshare.mvp.server.model.TbProductItem;
 import com.jfshare.mvp.server.model.TbProductItemShow;
 import com.jfshare.mvp.server.service.AdminService;
 import com.jfshare.mvp.server.service.JfRaidersService;
@@ -59,10 +62,9 @@ public class AdminController {
 	@SuppressWarnings("rawtypes")
 	@ApiOperation(value = "保存推广微页面设置", notes = "保存传入的推广配置和类目商品展示配置")
 	@PostMapping("/promotionSetting")
-	public ResultConstant savePromotionSetting(@RequestParam String productPromotionJson,
-												 @RequestParam String productItemShowJson) {
-		List<Map> productPromotions = JSON.parseArray(productPromotionJson, Map.class);
-		List<Map> productItemShows = JSON.parseArray(productItemShowJson, Map.class);
+	public ResultConstant savePromotionSetting(@RequestBody Map<String, List<Map>> map) {
+		List<Map> productPromotions = map.get("productPromotions");
+		List<Map> productItemShows = map.get("productItemShows");
 		boolean result = promotionSettingService.savePromotionSetting(productPromotions, productItemShows);
 		if (result) {
 			return ResultConstant.ofSuccess();
@@ -72,7 +74,7 @@ public class AdminController {
 
 	@ApiOperation(value = "发布配置的推广微页面", notes = "publishInd = true时，发布上次保存的推广微页面配置")
 	@PostMapping("/publishPromotionSetting")
-	public ResultConstant publishPromotionSetting(@RequestParam Boolean publishInd) {
+	public ResultConstant publishPromotionSetting(@RequestBody Boolean publishInd) {
 		boolean result = promotionSettingService.publishPromotionSetting(publishInd);
 		if (result) {
 			return ResultConstant.ofSuccess();
@@ -103,11 +105,14 @@ public class AdminController {
 	}
 
 	@ApiOperation(value = "更新商品类目", notes = "根据传入的商品类目配置，重新配置商品类目")
-	@PutMapping("/productItem")
-	public ResultConstant updateProductItem(@RequestParam(required = true) String itemNo,
-											@RequestParam(required = true) String itemName, 
-											@RequestParam(required = true) String itemDesc) {
-		boolean result = productItemService.updateProductItem(itemNo, itemName, itemDesc);
+	@PostMapping("/productItem")
+	public ResultConstant updateProductItem(@RequestBody TbProductItem tbProductItem) {
+		boolean result = false;
+		if (StringUtils.isEmpty(tbProductItem.getItemNo())) {
+			result = productItemService.addProductItem(tbProductItem.getItemName(), tbProductItem.getItemDesc(), tbProductItem.getParentItemNo());
+		} else {
+			result = productItemService.updateProductItem(tbProductItem.getItemNo(), tbProductItem.getItemName(), tbProductItem.getItemDesc());
+		}
 		if (result) {
 			return ResultConstant.ofSuccess();
 		}
@@ -117,36 +122,34 @@ public class AdminController {
 	@ApiOperation(value = "获取商品类目", notes = "根据传入的itemNo或者ItemName，获取类目, 如果两者都为空，则获取全部的类目树")
 	@GetMapping("/productItem")
 	public ResultConstant getProductItem(@RequestParam(required = false) String itemNo,
-										@RequestParam(required = false) String itemName, Boolean asTree) {
+										@RequestParam(required = false) String itemName, 
+										Boolean asTree,
+										@RequestParam(required = false) Integer pageNum,
+										@RequestParam(required = false) Integer pageSize) {
 		List<Map<String, Object>> result = null;
-		if (StringUtils.isEmpty(itemName)) {
-			result = productItemService.getProductItem(itemName, true, asTree);
+		if (!StringUtils.isEmpty(itemName)) {
+			result = productItemService.getProductItem(itemName, true, asTree, pageNum, pageSize);
 		} else {
-			result = productItemService.getProductItem(itemNo, asTree);
+			result = productItemService.getProductItem(itemNo, asTree, pageNum, pageSize);
 		}
 		if (CollectionUtils.isEmpty(result)) {
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取商品类目失败！");
 		}
-		return ResultConstant.ofSuccess(result);
-	}
-
-	@ApiOperation(value = "新增商品类目", notes = "根据传入的商品类目，新增配置商品类目")
-	@PostMapping("/productItem")
-	public ResultConstant addProductItem(@RequestParam(required = true) String itemName, 
-										 @RequestParam(required = true) String itemDesc,
-										 @RequestParam(required = false) String parentItemNo) {
-		boolean result = productItemService.addProductItem(itemName, itemDesc, parentItemNo);
-		if (result) {
-			return ResultConstant.ofSuccess();
-		}
-		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "新增商品类目失败！");
+		
+		PageInfo<Map<String, Object>> pageResult = new PageInfo<Map<String, Object>>(result);
+		return ResultConstant.ofSuccess(pageResult);
 	}
 
 	@ApiOperation(value = "删除商品类目", notes = "根据传入的商品类目编号，删除商品类目")
 	@DeleteMapping("/productItem")
-	public ResultConstant deleteProductItem(@RequestParam(required=true) String itemNo) {
-		ResultConstant result = productItemService.deleteProductItem(itemNo);
+	public ResultConstant deleteProductItem(@RequestBody Map<String, List<String>> itemNos) {
+		ResultConstant result = productItemService.deleteProductItem(itemNos.get("itemNo"));
 		return result;
+	}
+	
+	@GetMapping("")
+	public ResultConstant getAppVerify() {
+		return ResultConstant.ofSuccess();
 	}
 
 	@ApiOperation(value = "积分攻略文章添加", notes = "根据传入的类型，添加积分攻略文章")

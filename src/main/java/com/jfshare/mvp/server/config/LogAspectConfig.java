@@ -40,7 +40,7 @@ public class LogAspectConfig {
         logger.info("Request: URL={}, HTTP_METHOD={}, IP={}, CLASS_METHOD={}, ARGS={}", 
         		request.getRequestURL().toString(), 
         		request.getMethod(), 
-        		request.getRemoteAddr(), 
+        		request.getHeader("X-Real-IP"), 
         		joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName(),
         		Arrays.toString(joinPoint.getArgs()));
 	}

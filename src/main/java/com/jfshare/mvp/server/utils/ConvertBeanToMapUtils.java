@@ -8,6 +8,8 @@ import java.util.Map;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import com.jfshare.mvp.server.constants.Constant;
+import com.jfshare.mvp.server.model.TbProduct;
 
 /**
  * 将Java bean转换为Map输出
@@ -15,6 +17,7 @@ import org.apache.commons.lang.StringUtils;
  * @date 2018-07-20
  */
 public class ConvertBeanToMapUtils {
+	
 	/**
 	 * 将Java 对象转换为Map输出
 	 * @param bean 需要转换的对象
@@ -43,5 +46,19 @@ public class ConvertBeanToMapUtils {
 		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
 		beanList.forEach(bean -> list.add(convertBeanToMap(bean, excludeFields)));
 		return list;
+	}
+	
+	public static TbProduct convertBeanToMap(com.jfshare.finagle.thrift.product.Product product) {
+		TbProduct tbProduct = new TbProduct();
+		tbProduct.setItemNo(product.getSubjectId());
+		tbProduct.setProductId(product.getProductId());
+		tbProduct.setProductName(product.getProductName());
+		tbProduct.setProductHeader("");
+		tbProduct.setCurPrice(product.getProductSku().getMinCurPrice());
+		tbProduct.setOrgPrice(product.getProductSku().getMinOrgPrice());
+		tbProduct.setActiveState(Constant.PRODUCT_SOLT_OUT);
+		tbProduct.setPresentexp(0);
+		tbProduct.setImgKey(product.getImgKey());
+		return tbProduct;
 	}
 }

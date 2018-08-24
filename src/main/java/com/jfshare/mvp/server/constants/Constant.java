@@ -34,6 +34,9 @@ public class Constant {
    public static final int  PRODUCT_STATE_ONSELL=200;
    public static final int  PRODUCT_SOLT_OUT=300;
    
+   //聚分享商品状态  300 为销售中
+   public static final int  JPRODUCT_SOLT_OUT=300;
+   
    //日期格式
    public static String FORMAT_DEFAULT_MIN = "yyyyMMddHHmmss";
    

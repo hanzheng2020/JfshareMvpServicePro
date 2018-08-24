@@ -12,12 +12,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.alibaba.fastjson.JSONArray;
+
 import com.jfshare.mvp.server.dao.TbProductDao;
+import com.jfshare.mvp.server.dao.TbProductItemDao;
 import com.jfshare.mvp.server.dao.TbProductItemShowDao;
 import com.jfshare.mvp.server.dao.TbProductPromotionDao;
 import com.jfshare.mvp.server.model.TbProduct;
 import com.jfshare.mvp.server.model.TbProductExample;
+import com.jfshare.mvp.server.model.TbProductItem;
+import com.jfshare.mvp.server.model.TbProductItemExample;
 import com.jfshare.mvp.server.model.TbProductItemShow;
 import com.jfshare.mvp.server.model.TbProductItemShowExample;
 import com.jfshare.mvp.server.model.TbProductItemShowExample.Criteria;
@@ -43,6 +46,9 @@ public class PromotionSettingService {
 	@Autowired
 	private TbProductDao tbProductDao;
 	
+	@Autowired
+	private TbProductItemDao tbProductItemDao;
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Transactional
 	public boolean savePromotionSetting(List<Map> productPromotions, 
@@ -59,8 +65,7 @@ public class PromotionSettingService {
 				tbProductPromotion.setPromotionNo(i);
 				tbProductPromotion.setPromotionPicUrl(productPromotion.get("promotionPicUrl").toString());
 				tbProductPromotion.setPromotionUrl(productPromotion.get("promotionUrl").toString());
-				JSONArray productDetailArrays = (JSONArray) productPromotion.get("productDetails");
-				List<Map> productDetails = productDetailArrays.toJavaList(Map.class);
+				List<Map> productDetails = (List<Map>) productPromotion.get("productDetails");
 				for (int index = 0; index < productDetails.size(); index ++) {
 					String productId = productDetails.get(index).get("productId").toString();
 					String productDesc = productDetails.get(index).get("productDesc").toString();
@@ -111,7 +116,16 @@ public class PromotionSettingService {
 				Map<String, Object> productPromotion = productItemShows.get(i);
 				TbProductItemShow tbProductItemShow = new TbProductItemShow();
 				tbProductItemShow.setItemShowNo(i);
-				tbProductItemShow.setItemShowDesc(productPromotion.get("itemShowDesc").toString());
+				String itemNo = productPromotion.get("itemNo").toString();
+				tbProductItemShow.setItemNo(itemNo);
+				TbProductItemExample tbProductItemExample = new TbProductItemExample();
+				tbProductItemExample.createCriteria().andItemNoEqualTo(itemNo);
+				List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
+				String itemName = "";
+				if (CollectionUtils.isEmpty(tbProductItems)) {
+					itemName = tbProductItems.get(0).getItemName();
+				}
+				tbProductItemShow.setItemShowDesc(itemName);
 				tbProductItemShow.setProducts(productPromotion.get("products").toString());
 				tbProductItemShow.setPublishInd(false);
 				tbProductItemShowDao.insert(tbProductItemShow);

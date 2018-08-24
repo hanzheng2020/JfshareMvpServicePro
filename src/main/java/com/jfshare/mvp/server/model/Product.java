@@ -1,17 +1,41 @@
 package com.jfshare.mvp.server.model;
 
+import java.util.Date;
+
 public class Product {
 	private Integer itemNo;//类目
 	private String productId;//商品id
 	private String productName;//商品名称
 	private String productHeader;//商品副标题
 	private String curPrice;//商品价格
+	private String orgPrice;//商品原价
 	private Integer productStock;//商品库存
 	private Integer activeState;//商品状态
 	private Integer presentexp;//赠送金豆
 	private String imgKey;//商品图片
 	private String productInstructions;//商品使用说明
 	private String productExchange;//商品兑换说明
+	private Date lastSoldoutTime;//下架时间
+	private Date lastPutawayTime;//上架时间
+	
+	public String getOrgPrice() {
+		return orgPrice;
+	}
+	public void setOrgPrice(String orgPrice) {
+		this.orgPrice = orgPrice;
+	}
+	public Date getLastSoldoutTime() {
+		return lastSoldoutTime;
+	}
+	public void setLastSoldoutTime(Date lastSoldoutTime) {
+		this.lastSoldoutTime = lastSoldoutTime;
+	}
+	public Date getLastPutawayTime() {
+		return lastPutawayTime;
+	}
+	public void setLastPutawayTime(Date lastPutawayTime) {
+		this.lastPutawayTime = lastPutawayTime;
+	}
 	public Integer getItemNo() {
 		return itemNo;
 	}

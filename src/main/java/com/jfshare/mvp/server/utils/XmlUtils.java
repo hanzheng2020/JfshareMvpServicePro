@@ -31,7 +31,7 @@ public class XmlUtils {
 	 */
 	@SuppressWarnings("unchecked")
 	public static String mapToXml(Map<String, Object> targetMap) {
-		logger.info("mapToXml begain: {}", JSON.toJSONString(targetMap));
+		logger.debug("mapToXml begain: {}", JSON.toJSONString(targetMap));
 		Document doc = DocumentHelper.createDocument();
 		for (String name : targetMap.keySet()) {
 			Element element = doc.addElement(name);
@@ -39,11 +39,13 @@ public class XmlUtils {
 			if (value instanceof Map) {
 				Map<String, Object> valueMap = (Map<String, Object>) value;
 				element = createElement(valueMap, element);
+			} else if (value instanceof String || value instanceof Integer) {
+				element.setText(value.toString());
 			} else {
 				element.setText(JSON.toJSONString(value));
 			}
 		}
-		logger.info("mapToXml end: {}", doc.getRootElement().asXML());
+		logger.debug("mapToXml end: {}", doc.getRootElement().asXML());
 		return doc.getRootElement().asXML();
 	}
 	@SuppressWarnings("unchecked")
@@ -54,8 +56,10 @@ public class XmlUtils {
 			if (value instanceof Map) {
 				Map<String, Object> valueMap = (Map<String, Object>) value;
 				newElement = createElement(valueMap, newElement);
+			} else if (value instanceof String || value instanceof Integer) {
+				newElement.setText(value.toString());
 			} else {
-				newElement.setText(JSON.toJSONString(value));
+				element.setText(JSON.toJSONString(value));
 			}
 		}
 		return element;
@@ -68,13 +72,13 @@ public class XmlUtils {
 	 * @throws DocumentException 
 	 */
 	public static Map<String, Object> xmlToMap(String xml) throws DocumentException {
-		logger.info("xmlToMap begain: {}", xml);
+		logger.debug("xmlToMap begain: {}", xml);
 		Map<String, Object> reMap = new HashMap<String, Object>();
 		SAXReader reader = new SAXReader();
 		Document doc = reader.read(new ByteArrayInputStream(xml.getBytes()));
 		Element element = doc.getRootElement();
 		reMap = createMap(element, reMap);
-		logger.info("xmlToMap end: {}", JSON.toJSONString(reMap));
+		logger.debug("xmlToMap end: {}", JSON.toJSONString(reMap));
 		return reMap;
 	}
 	

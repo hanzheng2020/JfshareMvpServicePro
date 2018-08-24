@@ -7,6 +7,8 @@ public class TbProductItemShow {
 
     private Integer itemShowNo;
 
+    private String itemNo;
+
     private String itemShowDesc;
 
     private String products;
@@ -31,6 +33,14 @@ public class TbProductItemShow {
 
     public void setItemShowNo(Integer itemShowNo) {
         this.itemShowNo = itemShowNo;
+    }
+
+    public String getItemNo() {
+        return itemNo;
+    }
+
+    public void setItemNo(String itemNo) {
+        this.itemNo = itemNo == null ? null : itemNo.trim();
     }
 
     public String getItemShowDesc() {

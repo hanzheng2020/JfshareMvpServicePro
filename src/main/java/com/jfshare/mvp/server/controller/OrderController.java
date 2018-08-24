@@ -1,17 +1,20 @@
 package com.jfshare.mvp.server.controller;
 
+import com.jfshare.mvp.server.constants.ResultConstant;
+import com.jfshare.mvp.server.service.ThirdPayService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jfshare.mvp.server.constants.ResultConstant;
-import com.jfshare.mvp.server.service.ThirdPayService;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * @author fengxiang
@@ -23,14 +26,30 @@ import io.swagger.annotations.ApiOperation;
 public class OrderController {
 	@Autowired
 	private ThirdPayService thirdPayService;
+
+	@Autowired
+	private HttpServletRequest request;
 	
-	@ApiOperation(value = "调用微信支付接口", notes = "传入订单号和用户终端IP，返回prepay_id（预支付交易会话标识）")
-	@PostMapping("/weChatPay")
-	public ResultConstant weChatPay(@RequestParam String orderNo, @RequestParam String userIp) {
-		String prepay_id = thirdPayService.createWeChatPayOrder(orderNo, userIp);
-		if (StringUtils.isEmpty(prepay_id)) {
-			ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取prepay_id失败！");
+	@ApiOperation(value = "调用支付接口", notes = "微信支付返回prepay_id(预支付交易会话标识),支付宝返回sign(签名)")
+	@PostMapping("/thirdPay")
+	public ResultConstant thirdPay(@ApiParam(value= "{\"userId\":\"用户ID\",\"orderId\":\"订单Id\","
+									+ "\"orderAmount\":\"订单金额\",\"payChannel\":\"支付方式，201代表微信，202代表支付宝\","
+									+ "\"jfScore\":\"扣减的聚金豆\", \"fenXiangScore\":\"扣减的分象积分\"}")
+									@RequestBody Map<String, String> map) {
+		
+		int payChannel = Integer.valueOf(map.get("payChannel"));
+		int orderAmount = Integer.valueOf(map.get("orderAmount"));
+		int jfScore = Integer.valueOf(map.get("jfScore"));
+		int fenXiangScore = Integer.valueOf(map.get("fenXiangScore"));
+		String userId = map.get("userId");
+		String orderId = map.get("orderId");
+		String clientIp = "127.0.0.1";
+		String realIp = request.getHeader("X-Real-IP");
+		if (!StringUtils.isEmpty(realIp)) {
+			clientIp = realIp;
 		}
-		return ResultConstant.ofSuccess(prepay_id);
+
+		return thirdPayService.thirdPay(userId, orderId, orderAmount, jfScore, fenXiangScore, payChannel, clientIp);
+
 	}
 }
