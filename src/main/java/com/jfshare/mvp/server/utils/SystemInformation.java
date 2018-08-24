@@ -1,6 +1,6 @@
 package com.jfshare.mvp.server.utils;
 
-import org.slf4j.Logger;
+/*import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cn.jpush.api.JPushClient;
@@ -8,9 +8,10 @@ import cn.jpush.api.common.ClientConfig;
 import cn.jpush.api.common.resp.APIConnectionException;
 import cn.jpush.api.common.resp.APIRequestException;
 import cn.jpush.api.push.PushResult;
-import cn.jpush.api.push.model.PushPayload;
+import cn.jpush.api.push.model.PushPayload;*/
 
 public class SystemInformation {
+	/*
 	private static Logger LOG = LoggerFactory
 			.getLogger(SystemInformation.class);
 	private static String JPUSH_PUSH_MASTER_SECRET="f5e5bc9a362e7d8549dfcf75";
@@ -45,5 +46,5 @@ public class SystemInformation {
 	    
 	    public static void main(String[] args) {
 	    	send();
-		}
+		}*/
 }
