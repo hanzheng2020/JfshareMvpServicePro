@@ -182,6 +182,7 @@ public class ProductService {
 			productParam.setItemNo(itemNo);
 		}
 		productParam.setActiveState(0);
+		productParam.setActiveState(200);//只查询已上架的商品
 		//处理图片  列表只返回一张图片
 		List<TbProductSurvey> productSurveyQuery = tbProductDao.productSurveyQuery(productParam);
 		for (TbProductSurvey tbProductSurvey : productSurveyQuery) {
