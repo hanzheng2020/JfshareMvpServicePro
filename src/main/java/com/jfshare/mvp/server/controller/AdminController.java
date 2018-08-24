@@ -21,16 +21,19 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.StringUtil;
 import com.jfshare.mvp.server.constants.Constant;
 import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.model.TbJfRaiders;
 import com.jfshare.mvp.server.model.TbJvjindouRule;
 import com.jfshare.mvp.server.model.TbProductItem;
 import com.jfshare.mvp.server.model.TbProductItemShow;
+import com.jfshare.mvp.server.model.TbSystemInformation;
 import com.jfshare.mvp.server.service.JfRaidersService;
 import com.jfshare.mvp.server.service.JvjindouRuleService;
 import com.jfshare.mvp.server.service.ProductItemService;
 import com.jfshare.mvp.server.service.PromotionSettingService;
+import com.jfshare.mvp.server.service.SystemInformationService;
 import com.jfshare.mvp.server.utils.ConvertBeanToMapUtils;
 
 /**
@@ -53,6 +56,9 @@ public class AdminController {
 
 	@Autowired
 	private JfRaidersService jfRaidersService;
+	
+	@Autowired
+	private SystemInformationService systemInformationService;
 
 	@SuppressWarnings("rawtypes")
 	@ApiOperation(value = "保存推广微页面设置", notes = "保存传入的推广配置和类目商品展示配置")
@@ -285,6 +291,116 @@ public class AdminController {
 	
 	}
 	
+	@ApiOperation(value = "系统消息填加", notes = "添加聚金豆规则设定,title:标题，cont：内容，user：创建用户")
+	@PostMapping("/addInformation")
+	public ResultConstant addInformation(
+			@RequestParam(value="title",required=true)String title,
+			@RequestParam(value="cont",required=true)String cont,
+			@RequestParam(value="user",required=true)String user) {
+		TbSystemInformation systemInformation = new TbSystemInformation();
+		Date date  = new Date();
+		systemInformation.setTitle(title);
+		systemInformation.setStatus(1);
+		systemInformation.setContent(cont);
+		systemInformation.setCreateUser(user);
+		systemInformation.setReleaseTime(date);
+		int result = systemInformationService.saveSystemInformation(systemInformation);
+		if(result>0) {
+			return ResultConstant.ofSuccess();
+		}
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "添加失败");
+	}
+	@ApiOperation(value = "系统消息填加并发布", notes = "添加聚金豆规则设定,title:标题，cont：内容，user：创建用户")
+	@PostMapping("/addAndReleaseInformation")
+	public ResultConstant addAndReleaseInformation(
+			@RequestParam(value="title",required=true)String title,
+			@RequestParam(value="cont",required=true)String cont,
+			@RequestParam(value="user",required=true)String user) {
+		TbSystemInformation systemInformation = new TbSystemInformation();
+		Date date  = new Date();
+		systemInformation.setTitle(title);
+		systemInformation.setStatus(2);
+		systemInformation.setContent(cont);
+		systemInformation.setCreateUser(user);
+		systemInformation.setReleaseTime(date);
+		systemInformation.setUpdateTime(date);
+		int result = systemInformationService.saveSystemInformation(systemInformation);
+		if(result>0) {
+			return ResultConstant.ofSuccess();
+		}
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "添加失败");
+	}
 	
+	
+	@ApiOperation(value="系统消息查询",notes ="系统消息查询,titleOrContent:标题或者内容，page:当前页，pageSize：每页条数")
+	@GetMapping("/getInformation")
+	public ResultConstant getInformation(
+			@RequestParam(value="titleOrContent",required=false)String titleOrContent,
+			@RequestParam(value="page",required=true)Integer page,
+			@RequestParam(value="pageSize",required=true)Integer pageSize
+			) {
+		PageInfo pageInfo = systemInformationService.getSystemInformations(titleOrContent, page, pageSize);
+		return ResultConstant.ofSuccess(pageInfo);
+		
+	}
+	
+	
+	@ApiOperation(value="系统消息修改",notes="系统消息修改，id:消息id，title:标题，cont:内容")
+	@PutMapping("/updateInformation")
+	public ResultConstant updateInformation(
+			@RequestParam(value="id",required=true)Integer id,
+			@RequestParam(value="title",required=true)String title,
+			@RequestParam(value="cont",required=true)String cont) {
+		TbSystemInformation systemInformation = systemInformationService.getInformatinInfo(id);
+		int result=0;
+		if(systemInformation!=null) {
+			systemInformation.setTitle(title);
+			systemInformation.setContent(cont);
+			result = systemInformationService.updateSystemInformation(systemInformation);
+		}
+		if(result>0) {
+			return ResultConstant.ofSuccess();
+		}
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "修改失败");
+	}
+	
+	@ApiOperation(value="系统消息删除",notes="删除系统消息，id:消息id")
+	@DeleteMapping("/deleteInformation")
+	public ResultConstant deleteInformation(@RequestParam(value="id",required=true)Integer id) {
+		int result = systemInformationService.deleteSystemInformation(id);
+		if(result>0) {
+			return ResultConstant.ofSuccess();
+		}
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "删除失败");
+	}
+
+	
+	@ApiOperation(value="系统消息详情",notes="获取系统详情，id:消息id")
+	@GetMapping("/getInformationInfo")
+	public ResultConstant getInformationInfo(
+			@RequestParam(value="id",required=true)Integer id) {
+		TbSystemInformation systemInformation = systemInformationService.getInformatinInfo(id);
+		if(systemInformation!=null) {
+			return ResultConstant.ofSuccess(systemInformation);
+		}
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "获取失败，请检查id是否正确");
+	}
+	
+	@ApiOperation(value="系统消息发布",notes="系统消息发布，id:消息id")
+	@PutMapping("/releaseformation")
+	public ResultConstant releaseformation(
+			@RequestParam(value="id",required=true)Integer id) {
+		TbSystemInformation systemInformation = systemInformationService.getInformatinInfo(id);
+		int result=0;
+		if(systemInformation!=null && systemInformation.getStatus()==1) {
+			systemInformation.setStatus(2);
+			systemInformation.setReleaseTime(new Date());
+			result = systemInformationService.updateSystemInformation(systemInformation);
+		}
+		if(result>0) {
+			return ResultConstant.ofSuccess();
+		}
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "发布失败");
+	}
 	
 }
