@@ -80,6 +80,7 @@ public class ProductController {
 	@ApiOperation(value = "删除商品", notes = "删除商品信息")
 	@PostMapping("/deleteProduct")
 	public ResultConstant deleteProduct(@RequestParam(value = "productId", required = false) String productId) {
+		logger.info("deleteProduct productId:" + productId);
 		int result;
 		try {
 			result = productService.deleteProduct(productId);

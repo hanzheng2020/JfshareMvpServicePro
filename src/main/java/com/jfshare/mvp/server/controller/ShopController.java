@@ -12,7 +12,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -28,10 +27,6 @@ public class ShopController {
 	@Autowired
 	private PromotionSettingService promotionSettingService;
 
-
-	@Autowired
-	private HttpServletRequest request;
-
 	@Autowired
 	private AppInfoServer appInfoServer;
 	
@@ -39,20 +34,9 @@ public class ShopController {
 	@GetMapping("/promotionProducts")
 	public ResultConstant getPromotionProducts(@RequestParam(defaultValue="true", required=false) Boolean publishInd) {
 		List<Map<String, Object>> result = promotionSettingService.getProductPromotionDetails(publishInd);
-
-
-		System.out.println("X-Real-IP : "+request.getHeader("X-Real-IP"));
-		System.out.println("X-Real-IP : "+request.getHeader("X-Real-IP"));
-		System.out.println("X-Real-IP : "+request.getHeader("X-Real-IP"));
-		System.out.println("X-Real-IP : "+request.getHeader("X-Real-IP"));
-
-
 		if (!CollectionUtils.isEmpty(result)) {
 			return ResultConstant.ofSuccess(result);
 		}
-
-
-
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取推广商品失败！");
 	}
 	
@@ -62,7 +46,7 @@ public class ShopController {
 	public ResultConstant getProductItemShows(@RequestParam(defaultValue="true", required=false) Boolean publishInd) {
 		List<TbProductItemShow> tbProductItemShows = promotionSettingService.getProductItemShows(publishInd);
 		if (!CollectionUtils.isEmpty(tbProductItemShows)) {
-			return ResultConstant.ofSuccess(ConvertBeanToMapUtils.convertBeanListToMap(tbProductItemShows, "products"));
+			return ResultConstant.ofSuccess(ConvertBeanToMapUtils.convertBeanListToMap(tbProductItemShows, "products", "itemNo", "createTime", "updateTime"));
 		}
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取类目商品展示失败！");
 	}

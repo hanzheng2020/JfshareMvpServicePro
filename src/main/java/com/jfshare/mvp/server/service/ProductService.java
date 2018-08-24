@@ -5,11 +5,14 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.jfshare.mvp.server.constants.Constant;
+import com.jfshare.mvp.server.controller.ProductController;
 import com.jfshare.mvp.server.dao.TbProductDao;
 import com.jfshare.mvp.server.dao.TbProductItemDao;
 import com.jfshare.mvp.server.mapper.TbProductDetailMapper;
@@ -27,6 +30,8 @@ import com.jfshare.mvp.server.utils.FileOpUtil;
 
 @Service
 public class ProductService {
+	private final static Logger logger = LoggerFactory.getLogger(ProductService.class);
+	
 	@Autowired
 	private TbProductDao tbProductDao;
 	@Autowired
@@ -91,8 +96,19 @@ public class ProductService {
 	//删除商品
 	public int deleteProduct(String productId) {
 		int result = 0;
-		if (!StringUtils.isEmpty(productId)) {
-			TbProductDetailExample example = new TbProductDetailExample();
+		TbProductDetailExample example = new TbProductDetailExample();
+		if (productId.contains(",")) {
+			String[] productIdStr = productId.split(",");
+			for(int i = 0;i < productIdStr.length;i++) {
+				if(!StringUtils.isEmpty(productIdStr[i])) {
+					example.createCriteria().andDetailKeyEqualTo(productIdStr[i]);
+					int count = tbProductDetailMapper.deleteByExample(example);
+					if (count > 0) {
+						result = tbProductDao.deleteProduct(productIdStr[i]);
+					}
+				}
+			}
+		}else {
 			example.createCriteria().andDetailKeyEqualTo(productId);
 			int count = tbProductDetailMapper.deleteByExample(example);
 			if (count > 0) {
@@ -179,13 +195,16 @@ public class ProductService {
 	public List<TbProductSurvey> queryProductByItemNo(Integer itemNo) {
 		List<TbProductSurvey> productList = new ArrayList<TbProductSurvey>();
 		List<TbProductItem> tbProductItems = tbProductItemDao.queryItemList(itemNo+"");
+		logger.info("tbProductItems : " + tbProductItems.size());
 		ProductSurveyQueryParam productParam = new ProductSurveyQueryParam();
 		productParam.setActiveState(0);
 		productParam.setActiveState(200);//只查询已上架的商品
 		if(tbProductItems.size() > 0) {
 			for (TbProductItem tbProductItem : tbProductItems) {
+				logger.info("ItemNo : " + tbProductItem.getItemNo());
 				productParam.setItemNo(Integer.parseInt(tbProductItem.getItemNo()));
 				List<TbProductSurvey> productSurveyQuery = tbProductDao.productSurveyQuery(productParam);
+				logger.info("productSurveyQuery : " + productSurveyQuery);
 				for (TbProductSurvey tbProductSurvey : productSurveyQuery) {
 					productList.add(tbProductSurvey);
 				}
