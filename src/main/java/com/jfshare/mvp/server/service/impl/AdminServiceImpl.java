@@ -30,6 +30,7 @@ public class AdminServiceImpl implements AdminService{
 		String token = MD5Util.computeMD5(loginId+pwd+new Date().toString());
 		//生成redis标识
 		JedisClusterUtils.saveNX("MVP:admin:"+token, token, 2*60);
+		admin.setPwd("");
 		map.put("admin", admin);
 		map.put("token", token);
 		return map;
