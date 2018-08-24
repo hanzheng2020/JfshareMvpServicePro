@@ -178,4 +178,17 @@ public class ProductController {
 		}
 		return ResultConstant.ofSuccess(productList);
 	}
+	
+	@ApiOperation(value = "修改商品状态", notes = "设置商品状态  上架  下架")
+	@PostMapping("/changeProductState")
+	public ResultConstant changeProductState(@RequestParam(value = "productId", required = true) String productId,@RequestParam(value = "activeState", required = true) Integer activeState) {
+		logger.info("changeProductState  productId: " + productId+",activeState:" + activeState);
+		try {
+			productService.changeProductState(productId, activeState);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "商品上下架失败！");
+		}
+		return ResultConstant.ofSuccess();
+	}
 }

@@ -38,6 +38,8 @@ public class ProductService {
 	private TbProductDetailMapper tbProductDetailMapper;
 	@Autowired
 	private TbProductItemDao tbProductItemDao;
+	@Autowired
+	private ProductDetailService productDetailService;
 
 	//根据条件搜索商品信息
 	public List<TbProductSurvey> productSurveyQuery(String param,Integer itemNo,Integer activeState, Integer curpage,
@@ -190,7 +192,7 @@ public class ProductService {
 	/**
 	 * 
 	 * 根据类目id来搜索商品
-	 * @param productId
+	 * @param itemNo
 	 * @return
 	 */
 	public List<TbProductSurvey> queryProductByItemNo(Integer itemNo) {
@@ -219,5 +221,30 @@ public class ProductService {
 			}
 		}	
 		return productList;
+	}
+	
+	public int changeProductState(String productId,Integer activeState) {
+		Product product = new Product();
+		int count = 0;
+		TbProduct productOne = getProductOne(productId);
+		if(productOne != null) {
+			product.setProductId(productOne.getProductId());
+			product.setProductName(productOne.getProductName());
+			product.setItemNo(productOne.getItemNo());
+			product.setProductHeader(productOne.getProductHeader());
+			product.setCurPrice(productOne.getCurPrice());
+			product.setOrgPrice(productOne.getOrgPrice());
+			product.setPresentexp(productOne.getPresentexp());
+			product.setProductStock(productOne.getProductStock());
+			product.setActiveState(activeState);
+			product.setImgKey(productOne.getImgKey());
+			List<TbProductDetail> productDetails =  productDetailService.selectByExample(productId);
+			if(productDetails!=null&&productDetails.size()>0) {
+				product.setProductInstructions(productDetails.get(0).getProductInstructions());
+				product.setProductExchange(productDetails.get(0).getProductExchange());
+			}
+			count = updateProduct(product);
+		}
+		return count;
 	}
 }
