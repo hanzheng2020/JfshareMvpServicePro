@@ -1,14 +1,18 @@
 package com.jfshare.mvp.server.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.jfshare.mvp.server.constants.Constant;
+import com.jfshare.mvp.server.controller.ProductController;
 import com.jfshare.mvp.server.dao.TbProductDao;
 import com.jfshare.mvp.server.dao.TbProductItemDao;
 import com.jfshare.mvp.server.mapper.TbProductDetailMapper;
@@ -26,6 +30,8 @@ import com.jfshare.mvp.server.utils.FileOpUtil;
 
 @Service
 public class ProductService {
+	private final static Logger logger = LoggerFactory.getLogger(ProductService.class);
+	
 	@Autowired
 	private TbProductDao tbProductDao;
 	@Autowired
@@ -176,20 +182,30 @@ public class ProductService {
 	 * @return
 	 */
 	public List<TbProductSurvey> queryProductByItemNo(Integer itemNo) {
+		List<TbProductSurvey> productList = new ArrayList<TbProductSurvey>();
 		List<TbProductItem> tbProductItems = tbProductItemDao.queryItemList(itemNo+"");
+		logger.info("tbProductItems : " + tbProductItems.size());
 		ProductSurveyQueryParam productParam = new ProductSurveyQueryParam();
-		if(itemNo >= 0) {
-			productParam.setItemNo(itemNo);
-		}
 		productParam.setActiveState(0);
+		productParam.setActiveState(200);//只查询已上架的商品
+		if(tbProductItems.size() > 0) {
+			for (TbProductItem tbProductItem : tbProductItems) {
+				logger.info("ItemNo : " + tbProductItem.getItemNo());
+				productParam.setItemNo(Integer.parseInt(tbProductItem.getItemNo()));
+				List<TbProductSurvey> productSurveyQuery = tbProductDao.productSurveyQuery(productParam);
+				logger.info("productSurveyQuery : " + productSurveyQuery);
+				for (TbProductSurvey tbProductSurvey : productSurveyQuery) {
+					productList.add(tbProductSurvey);
+				}
+			}
+		}
 		//处理图片  列表只返回一张图片
-		List<TbProductSurvey> productSurveyQuery = tbProductDao.productSurveyQuery(productParam);
-		for (TbProductSurvey tbProductSurvey : productSurveyQuery) {
+		for (TbProductSurvey tbProductSurvey : productList) {
 			String imgKey = tbProductSurvey.getImgKey();
 			if(!StringUtils.isEmpty(imgKey) && imgKey.contains(",")) {
 				tbProductSurvey.setImgKey(imgKey.split(",")[0]);
 			}
 		}	
-		return productSurveyQuery;
+		return productList;
 	}
 }
