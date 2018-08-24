@@ -96,11 +96,11 @@ public class ProductService {
 	//删除商品
 	public int deleteProduct(String productId) {
 		int result = 0;
-		TbProductDetailExample example = new TbProductDetailExample();
 		if (productId.contains(",")) {
 			String[] productIdStr = productId.split(",");
 			for(int i = 0;i < productIdStr.length;i++) {
 				if(!StringUtils.isEmpty(productIdStr[i])) {
+					TbProductDetailExample example = new TbProductDetailExample();
 					example.createCriteria().andDetailKeyEqualTo(productIdStr[i]);
 					int count = tbProductDetailMapper.deleteByExample(example);
 					if (count > 0) {
@@ -109,6 +109,7 @@ public class ProductService {
 				}
 			}
 		}else {
+			TbProductDetailExample example = new TbProductDetailExample();
 			example.createCriteria().andDetailKeyEqualTo(productId);
 			int count = tbProductDetailMapper.deleteByExample(example);
 			if (count > 0) {
