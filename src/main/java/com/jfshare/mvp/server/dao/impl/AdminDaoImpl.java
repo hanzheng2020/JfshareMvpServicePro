@@ -1,5 +1,6 @@
 package com.jfshare.mvp.server.dao.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,10 @@ public class AdminDaoImpl implements AdminDao{
 		if(list==null||list.size()==0){
 			return null;
 		}
+		//登陆成功更新登陆时间
+		TbAdmin tbAdmin = list.get(0);
+		tbAdmin.setLastLoginTime(new Date());
+		tbAdminMapper.updateByPrimaryKeySelective(tbAdmin);
 		return list.get(0);
 	}
 	
