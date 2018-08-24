@@ -19,11 +19,10 @@ import com.jfshare.mvp.server.model.Product;
 import com.jfshare.mvp.server.model.TbProduct;
 import com.jfshare.mvp.server.model.TbProductDetail;
 import com.jfshare.mvp.server.model.TbProductSurvey;
-import com.jfshare.mvp.server.service.ProductDetailService;
 import com.jfshare.mvp.server.service.ProductService;
+
+import com.jfshare.mvp.server.service.ProductDetailService;
 import com.jfshare.mvp.server.utils.ConvertBeanToMapUtils;
-import com.jfshare.mvp.server.service.PromotionSettingService;
-import com.jfshare.mvp.server.task.ProductScheduler;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
