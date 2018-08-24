@@ -47,7 +47,7 @@ public class LevelInfoService {
 		map.put("status", false);//是否是当日第一次赠送  false:否，true：是
 		map.put("amount", 0);//当次赠送的聚金豆数量
 		
-		logger.info(String.format("积分同步赠送聚金豆:userId{}", userId));
+		logger.info("积分同步赠送聚金豆:userId{}", userId);
 		TbLevelInfo levlInfo = levelInfoDao.selectLevelInfoByUserId(userId);
 		//List<TbLevelInfo> levelInfos = levelInfoDao.selectJvjindouRuleByUserId(userId);
 		// 判断当前用户是否有聚金豆， 没有则进行首次添加,有则进行判断今天是否查询过 查询过直接return 没有则按照定义赠送的规则添加聚金豆
@@ -80,7 +80,7 @@ public class LevelInfoService {
 
 			String curentTime = sdf.format(date);
 			if (curentTime.equals(queryTime)) {
-				logger.info(String.format("当日已经赠送不能重复赠送:givingRule{}", givingRule));
+				logger.info("当日已经赠送不能重复赠送:givingRule{}", givingRule);
 				return map;
 			} else {
 				levlInfo.setQueryTime(new Date());
@@ -98,7 +98,7 @@ public class LevelInfoService {
 		map.put("status", true);//是否是当日第一次赠送  false:否，true：是
 		map.put("amount", num);//当次赠送的聚金豆数量
 		StringResult results=scoreClient.incomeScore(userId,num, 1, "");
-		logger.info(String.format("每日积分同步:results{}", results));
+		logger.info("每日积分同步:results{}", results);
 		return map;
 	}
 
