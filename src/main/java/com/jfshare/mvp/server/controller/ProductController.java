@@ -19,6 +19,7 @@ import com.jfshare.mvp.server.finagle.server.ProductClient;
 import com.jfshare.mvp.server.model.Product;
 import com.jfshare.mvp.server.model.TbProduct;
 import com.jfshare.mvp.server.model.TbProductDetail;
+import com.jfshare.mvp.server.model.TbProductDetailWithBLOBs;
 import com.jfshare.mvp.server.model.TbProductSurvey;
 import com.jfshare.mvp.server.service.ProductService;
 
@@ -132,10 +133,10 @@ public class ProductController {
 		TbProduct  product =  productService.getProductOne(productId);
 
 		if(product!=null) {
-			List<TbProductDetail> productDetails =  productDetailService.selectByExample(productId);
+			List<TbProductDetailWithBLOBs> productDetails =  productDetailService.selectByExample(productId);
 			Map productMap = ConvertBeanToMapUtils.convertBeanToMap(product, "");
 			if(productDetails!=null&&productDetails.size()>0) {
-				TbProductDetail productDetail = productDetails.get(0);
+				TbProductDetailWithBLOBs productDetail = productDetails.get(0);
 				productMap.put("productDetail", productDetail.getProductDetail());//商品详情
 				productMap.put("productInstructions", productDetail.getProductInstructions());//商品使用说明
 				productMap.put("productExchange", productDetail.getProductExchange());//商品兑换说明

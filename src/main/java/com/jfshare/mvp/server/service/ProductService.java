@@ -21,6 +21,7 @@ import com.jfshare.mvp.server.model.ProductSurveyQueryParam;
 import com.jfshare.mvp.server.model.TbProduct;
 import com.jfshare.mvp.server.model.TbProductDetail;
 import com.jfshare.mvp.server.model.TbProductDetailExample;
+import com.jfshare.mvp.server.model.TbProductDetailWithBLOBs;
 import com.jfshare.mvp.server.model.TbProductExample;
 import com.jfshare.mvp.server.model.TbProductItem;
 import com.jfshare.mvp.server.model.TbProductSurvey;
@@ -81,7 +82,7 @@ public class ProductService {
 		tbProductWithBLOBs.setImgKey(product.getImgKey());
 		tbProductWithBLOBs.setCreateTime(new Date());
 		// 商品使用说明和商品兑换说明使用product_detail表更新
-		TbProductDetail tbProductDetail = new TbProductDetail();
+		TbProductDetailWithBLOBs tbProductDetail = new TbProductDetailWithBLOBs();
 		tbProductDetail.setDetailKey(product.getProductId());
 		tbProductDetail.setProductInstructions(product.getProductInstructions());
 		tbProductDetail.setProductExchange(product.getProductExchange());
@@ -141,7 +142,7 @@ public class ProductService {
 		}
 		tbProductWithBLOBs.setImgKey(product.getImgKey());
 		// 更新商品详情表
-		TbProductDetail tbProductDetail = new TbProductDetail();
+		TbProductDetailWithBLOBs tbProductDetail = new TbProductDetailWithBLOBs();
 		tbProductDetail.setDetailKey(product.getProductId());
 		tbProductDetail.setProductInstructions(product.getProductInstructions());
 		tbProductDetail.setProductExchange(product.getProductExchange());
@@ -237,7 +238,7 @@ public class ProductService {
 			product.setProductStock(productOne.getProductStock());
 			product.setActiveState(activeState);
 			product.setImgKey(productOne.getImgKey());
-			List<TbProductDetail> productDetails =  productDetailService.selectByExample(productId);
+			List<TbProductDetailWithBLOBs> productDetails =  productDetailService.selectByExample(productId);
 			if(productDetails!=null&&productDetails.size()>0) {
 				product.setProductInstructions(productDetails.get(0).getProductInstructions());
 				product.setProductExchange(productDetails.get(0).getProductExchange());

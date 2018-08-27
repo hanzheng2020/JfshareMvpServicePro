@@ -7,12 +7,6 @@ public class TbProductDetail {
 
     private String detailKey;
 
-    private String productDetail;
-
-    private String productInstructions;
-
-    private String productExchange;
-
     private Date createTime;
 
     private Date updateTime;
@@ -31,30 +25,6 @@ public class TbProductDetail {
 
     public void setDetailKey(String detailKey) {
         this.detailKey = detailKey == null ? null : detailKey.trim();
-    }
-
-    public String getProductDetail() {
-        return productDetail;
-    }
-
-    public void setProductDetail(String productDetail) {
-        this.productDetail = productDetail == null ? null : productDetail.trim();
-    }
-
-    public String getProductInstructions() {
-        return productInstructions;
-    }
-
-    public void setProductInstructions(String productInstructions) {
-        this.productInstructions = productInstructions == null ? null : productInstructions.trim();
-    }
-
-    public String getProductExchange() {
-        return productExchange;
-    }
-
-    public void setProductExchange(String productExchange) {
-        this.productExchange = productExchange == null ? null : productExchange.trim();
     }
 
     public Date getCreateTime() {
