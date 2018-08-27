@@ -203,7 +203,7 @@ public class ProductController {
 	@PostMapping("/getProductCard")
 	public ResultConstant getProductCard(@RequestParam(value = "orderId", required = true) String orderId) {
 		logger.info("getProductCard  orderId: " + orderId);
-		List<ProductCard> productCard = null;
+		List<ProductCard> productCard;
 		try {
 			StringResult result = orderClient.sellerQueryDetail(orderId);
 			JSONObject jsonObj = JSONObject.parseObject(result.getValue());
