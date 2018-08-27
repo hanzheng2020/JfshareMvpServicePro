@@ -70,10 +70,12 @@ public class WeChatPayInterface {
 				resultMap.put("appid", appid);
 				resultMap.put("partnerid", mch_id);
 				resultMap.put("prepayid", prepay_id);
-				resultMap.put("packageValue", "Sign=WXPay");
+				resultMap.put("package", "Sign=WXPay");
 				resultMap.put("noncestr", UUIDutils.getUUID());
 				resultMap.put("timestamp", System.currentTimeMillis());
 				resultMap.put("sign", createSign(resultMap));
+				resultMap.remove("package");
+				resultMap.put("packageValue", "Sign=WXPay");
 			}
 		} catch (DocumentException e) {
 			e.printStackTrace();
