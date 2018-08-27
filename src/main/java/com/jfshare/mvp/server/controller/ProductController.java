@@ -199,7 +199,7 @@ public class ProductController {
 		return ResultConstant.ofSuccess();
 	}
 	
-	@ApiOperation(value = "修改商品状态", notes = "设置商品状态  上架  下架")
+	@ApiOperation(value = "获取商品卡券", notes = "获取商品卡券信息  orderId：订单号")
 	@PostMapping("/getProductCard")
 	public ResultConstant getProductCard(@RequestParam(value = "orderId", required = true) String orderId) {
 		logger.info("getProductCard  orderId: " + orderId);
