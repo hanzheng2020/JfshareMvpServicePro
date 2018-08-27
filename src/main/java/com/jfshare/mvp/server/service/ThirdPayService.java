@@ -135,18 +135,17 @@ public class ThirdPayService {
 		if (StringUtils.isEmpty(checkOrderResult)) {
 			//计算实际需要支付的金额
 			int amt = calcuAmt(orderDetailResult, totalScore);
-			String passbackParams = String.format("userId=%s;orderId=%s;payChannel=%s", userId, orderId, payChannel);
-			
+			// 暂时一个订单只有一个商品
+			String productName = orderDetailResult.getOrder().getProductList().get(0).getProductName();
 			if (PayConstants.Channel_WeChatPay_mvp==payChannel) { //调用微信支付接口
-				Map<String, Object> resultMap = weChatPayInterface.createPrepayId("Test", orderId, amt, clientIp,payId);
+				Map<String, Object> resultMap = weChatPayInterface.createPrepayId(productName, amt, clientIp, payId);
 				if (MapUtils.isEmpty(resultMap)) {
 					return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取微信支付信息串失败！");
 				} 
 				return ResultConstant.ofSuccess(JSON.toJSONString(resultMap));
 			} else if (PayConstants.Channel_AliPay_mvp==payChannel) { //调用支付宝支付接口
-				// 暂时一个订单只有一个商品
-				String productName = orderDetailResult.getOrder().getProductList().get(0).getProductName();
-				String sign = aliPayInterface.createPaySign(orderId, productName, "test", amt, payId, passbackParams);
+				
+				String sign = aliPayInterface.createPaySign(productName, amt, payId);
 				if (StringUtils.isEmpty(sign)) {
 					return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取支付宝支付串失败！");
 				} 
