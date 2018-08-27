@@ -84,7 +84,7 @@ public class LevelInfoService {
 				logger.info("当日已经赠送不能重复赠送:givingRule{}", givingRule);
 				return map;
 			} else {
-				StringResult results=scoreClient.incomeScore(userId,num, 1, "");
+				StringResult results=scoreClient.incomeScore(userId,num, 1, "0");
 				logger.info("每日积分同步:results{}", results);
 				status=results.getResult().code;
 				if(0==results.getResult().code) {
@@ -95,7 +95,7 @@ public class LevelInfoService {
 
 			}
 		} else {
-			StringResult results=scoreClient.incomeScore(userId,num, 1, "");
+			StringResult results=scoreClient.incomeScore(userId,num, 1, "0");
 			logger.info("每日积分同步:results{}", results);
 			status=results.getResult().code;
 			if(0==results.getResult().code) {
