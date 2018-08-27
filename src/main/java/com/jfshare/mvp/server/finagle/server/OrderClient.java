@@ -63,4 +63,16 @@ public class OrderClient {
         }
         return null;
     }
+    
+    //查询订单信息
+    public StringResult sellerQueryDetail(String orderId) {
+        try {
+        	StringResult result = Await.result(service.sellerQueryDetail(115, orderId));
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("调用service.sellerQueryDetail失败！", e);
+        }
+        return null;
+    }
 }

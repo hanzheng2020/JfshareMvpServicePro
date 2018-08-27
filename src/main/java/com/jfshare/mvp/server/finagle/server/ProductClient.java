@@ -1,5 +1,7 @@
 package com.jfshare.mvp.server.finagle.server;
 
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
@@ -9,7 +11,10 @@ import org.springframework.stereotype.Service;
 
 import com.jfshare.finagle.thrift.pagination.Pagination;
 import com.jfshare.finagle.thrift.product.Product;
+import com.jfshare.finagle.thrift.product.ProductCard;
 import com.jfshare.finagle.thrift.product.ProductCardListResult;
+import com.jfshare.finagle.thrift.product.ProductCardParam;
+import com.jfshare.finagle.thrift.product.ProductCardResult;
 import com.jfshare.finagle.thrift.product.ProductCardViewParam;
 import com.jfshare.finagle.thrift.product.ProductResult;
 import com.jfshare.finagle.thrift.product.ProductRetParam;
@@ -90,4 +95,40 @@ public class ProductClient {
 		}
 		return null;
 	}
+	
+    /**
+     * 虚拟商品发货， 获取卡密
+     * @param orderModel
+     * @return
+     */
+    public List<ProductCard> getProductCard(ProductCardParam param) {
+        //ProductCardParam param = new ProductCardParam();
+        /*TbOrderInfoRecord orderInfo = orderModel.getTbOrderInfoList().get(0);
+        param.setProductId(orderInfo.getProductId());
+        param.setSkuNum(orderInfo.getSkuNum());
+        param.setNum(orderInfo.getCount());
+        param.setTransactionId(orderModel.getOrderId());
+        param.setBuyerId(orderModel.getUserId());*/
+        //ConstantUtil.THIRD_SELLER_ID.E_LIAN_MENG_ID.getEnumVal()
+        /*if (orderModel.getSellerId().intValue() == 115) {
+        	 param.setFlag(1);//设置第三方查询
+		}*/
+        
+        ProductCardResult result = null;
+        try {
+			result = Await.result(service.getProductCard(param));
+	        if(result == null || result.getResult().getCode() != 0) {
+	            //throw new BaseException(FailCode.DELIVER_GET_PRODUCTCARD_FAIL);
+	        	return null;
+	        }else{
+	        	logger.info("成功获取卡密[{}]个", result.getCardListSize());
+	        	return result.getCardList();
+	        }
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("获取卡密失败,订单号"+param.getTransactionId());
+			return null;
+		}
+    }
 }
