@@ -12,9 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
+import com.jfshare.finagle.thrift.product.ProductCard;
+import com.jfshare.finagle.thrift.product.ProductCardParam;
+import com.jfshare.finagle.thrift.result.StringResult;
 import com.jfshare.mvp.server.constants.Constant;
 import com.jfshare.mvp.server.constants.ResultConstant;
+import com.jfshare.mvp.server.finagle.server.OrderClient;
 import com.jfshare.mvp.server.finagle.server.ProductClient;
 import com.jfshare.mvp.server.model.Product;
 import com.jfshare.mvp.server.model.TbProduct;
@@ -27,6 +32,7 @@ import com.jfshare.mvp.server.service.ProductDetailService;
 import com.jfshare.mvp.server.utils.ConvertBeanToMapUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import javassist.expr.NewArray;
 
 /**
  * @author fengxiang
@@ -47,6 +53,8 @@ public class ProductController {
 	
 	@Autowired
 	private ProductClient productClient;
+	@Autowired
+	private OrderClient orderClient;
 	
 	@ApiOperation(value = "根据商品id name 获取商品信息", notes = "根据商品id name 获取商品信息  param:商品名称或者商品id   itemNo:类目id activeState：商品状态:100 待上架  200 已上架 300 已下架   itemNo activeState为必传参数 默认传0")
 	@PostMapping("/productSurveyQuery")
@@ -189,5 +197,32 @@ public class ProductController {
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "商品上下架失败！");
 		}
 		return ResultConstant.ofSuccess();
+	}
+	
+	@ApiOperation(value = "获取商品卡券", notes = "获取商品卡券信息  orderId：订单号")
+	@PostMapping("/getProductCard")
+	public ResultConstant getProductCard(@RequestParam(value = "orderId", required = true) String orderId) {
+		logger.info("getProductCard  orderId: " + orderId);
+		List<ProductCard> productCard;
+		try {
+			StringResult result = orderClient.sellerQueryDetail(orderId);
+			JSONObject jsonObj = JSONObject.parseObject(result.getValue());
+			ProductCardParam param = new ProductCardParam();
+	        /*param.setProductId(orderInfo.getProductId());
+	        param.setSkuNum(orderInfo.getSkuNum());
+	        param.setNum(orderInfo.getCount());
+	        param.setTransactionId(orderModel.getOrderId());
+	        param.setBuyerId(orderModel.getUserId());*/
+			param.setProductId(jsonObj.getString("productId"));
+			param.setSkuNum(jsonObj.getString("skuNum"));
+			param.setNum(jsonObj.getInteger("count"));
+			param.setTransactionId(jsonObj.getString("orderId"));
+			param.setBuyerId(jsonObj.getInteger("userId"));
+			productCard = productClient.getProductCard(param);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取商品卡券失败!!");
+		}
+		return ResultConstant.ofSuccess(productCard);
 	}
 }

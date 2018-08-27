@@ -1,11 +1,13 @@
 package com.jfshare.finagle;
 
+import com.alibaba.fastjson.JSONObject;
 import com.jfshare.finagle.thrift.product.ProductSurvey;
 import com.jfshare.finagle.thrift.product.ProductSurveyResult;
 import com.jfshare.finagle.thrift.result.StringResult;
 import com.jfshare.finagle.thrift.score.ScoreResult;
 import com.jfshare.mvp.es.test.TestProductRepository;
 import com.jfshare.mvp.server.constants.Constant;
+import com.jfshare.mvp.server.finagle.server.OrderClient;
 import com.jfshare.mvp.server.finagle.server.ProductClient;
 import com.jfshare.mvp.server.finagle.server.ScoreClient;
 import com.jfshare.mvp.server.model.Product;
@@ -30,6 +32,9 @@ public class test extends TestProductRepository {
     
     @Autowired
     ProductService productService;
+    
+    @Autowired
+    OrderClient orderClient;
 
     @Test
     public void testFinagle(){
@@ -60,10 +65,13 @@ public class test extends TestProductRepository {
     	System.out.println(queryProduct);
     }
 
-    /*@Test
+    @Test
     public void testQueryStock() {
-    	System.out.println(scoreClient.pointIncomeOrExpenses(288108, "1"));
-    }*/
+    	StringResult result = orderClient.sellerQueryDetail("60396265");
+    	String value = result.getValue();
+    	JSONObject parseObject = JSONObject.parseObject(value);
+    	System.out.println(parseObject.getString("productId"));
+    }
 
     
     @Test
