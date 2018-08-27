@@ -70,7 +70,7 @@ public class WeChatPayInterface {
 				resultMap.put("appid", appid);
 				resultMap.put("partnerid", mch_id);
 				resultMap.put("prepayid", prepay_id);
-				resultMap.put("packageInfo", "Sign=WXPay");
+				resultMap.put("packageValue", "Sign=WXPay");
 				resultMap.put("noncestr", UUIDutils.getUUID());
 				resultMap.put("timestamp", System.currentTimeMillis());
 				resultMap.put("sign", createSign(resultMap));
