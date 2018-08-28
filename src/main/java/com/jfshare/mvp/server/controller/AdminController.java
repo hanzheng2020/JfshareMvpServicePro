@@ -80,11 +80,12 @@ public class AdminController {
 	public ResultConstant savePromotionSetting(@RequestBody Map<String, List<Map>> map) {
 		List<Map> productPromotions = map.get("productPromotions");
 		List<Map> productItemShows = map.get("productItemShows");
-		boolean result = promotionSettingService.savePromotionSetting(productPromotions, productItemShows);
-		if (result) {
+		boolean result1 = promotionSettingService.savePromotionSetting(productPromotions, productItemShows);
+		boolean result2 = promotionSettingService.publishPromotionSetting(true);
+		if (result1&&result2) {
 			return ResultConstant.ofSuccess();
 		}
-		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "保存推广微页面设置失败！");
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "保存并发布推广微页面设置失败！");
 	}
 
 	@ApiOperation(value = "发布配置的推广微页面", notes = "publishInd = true时，发布上次保存的推广微页面配置")

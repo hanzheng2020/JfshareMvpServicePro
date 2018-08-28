@@ -158,13 +158,14 @@ public class LevelInfoService {
 			integral+=Integer.parseInt(b.toString());
 		}
 		TbLevelInfo info = levelInfoDao.selectLevelInfoByUserId(userid);
-		if(info!=null) {
+		StringResult results=scoreClient.incomeScore(userid,integral, 1, orderId);
+		logger.info(String.format("积分增加:results{}", results));
+		if(info!=null&&results.getResult().code==0) {
 			info.setRealJvjindou(info.getGrowthPoint()+amont);
 			levelInfoDao.updateLevelInfo(info);
 		}
 		
-		StringResult results=scoreClient.incomeScore(userid,integral, 1, orderId);
-		logger.info(String.format("积分增加:results{}", results));
+
 		return results;
 	}
 	//聚分享平台同步聚金豆(减少)

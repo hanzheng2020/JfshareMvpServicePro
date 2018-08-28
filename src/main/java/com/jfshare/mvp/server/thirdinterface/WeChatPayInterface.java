@@ -33,7 +33,7 @@ public class WeChatPayInterface {
 	
 	@PostConstruct
 	public void init() {
-		notify_url = configManager.getConfigValue("jfx_pay_serv", "weixinpay_notify_url");
+		notify_url = configManager.getConfigValue("jfx_pay_serv", "weixinpay_notify_url_mvp");
 	}
 
 	/**

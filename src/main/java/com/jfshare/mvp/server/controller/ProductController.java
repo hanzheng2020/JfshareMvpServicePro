@@ -22,12 +22,13 @@ import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.finagle.server.OrderClient;
 import com.jfshare.mvp.server.finagle.server.ProductClient;
 import com.jfshare.mvp.server.model.Product;
+import com.jfshare.mvp.server.model.TbLevelInfo;
 import com.jfshare.mvp.server.model.TbProduct;
 import com.jfshare.mvp.server.model.TbProductDetail;
 import com.jfshare.mvp.server.model.TbProductDetailWithBLOBs;
 import com.jfshare.mvp.server.model.TbProductSurvey;
 import com.jfshare.mvp.server.service.ProductService;
-
+import com.jfshare.mvp.server.service.LevelInfoService;
 import com.jfshare.mvp.server.service.ProductDetailService;
 import com.jfshare.mvp.server.utils.ConvertBeanToMapUtils;
 import io.swagger.annotations.Api;
@@ -55,6 +56,8 @@ public class ProductController {
 	private ProductClient productClient;
 	@Autowired
 	private OrderClient orderClient;
+	@Autowired
+	private LevelInfoService levelInfoService;
 	
 	@ApiOperation(value = "根据商品id name 获取商品信息", notes = "根据商品id name 获取商品信息  param:商品名称或者商品id   itemNo:类目id activeState：商品状态:100 待上架  200 已上架 300 已下架   itemNo activeState为必传参数 默认传0")
 	@PostMapping("/productSurveyQuery")
@@ -134,21 +137,52 @@ public class ProductController {
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "导出商品 execl失败");
 	}
 	
-	@ApiOperation(value = "查询商品详情", notes = "根据商品ID查询商品详情，productId")
+	@ApiOperation(value = "查询商品mvp详情", notes = "根据商品ID查询商品详情，productId")
 	@PostMapping("/queryProductInfo")
-	public ResultConstant exportProduct(@RequestParam(value = "productId", required = true) String productId) {
+	public ResultConstant exportProduct(@RequestParam(value = "productId", required = true) String productId,
+			@RequestParam(value = "userId",required=false) Integer userId
+			) {
 		
 		TbProduct  product =  productService.getProductOne(productId);
 
 		if(product!=null) {
+			int presentexp=0;
+			String vipLevle="黄金会员";
 			List<TbProductDetailWithBLOBs> productDetails =  productDetailService.selectByExample(productId);
 			Map productMap = ConvertBeanToMapUtils.convertBeanToMap(product, "");
 			if(productDetails!=null&&productDetails.size()>0) {
 				TbProductDetailWithBLOBs productDetail = productDetails.get(0);
+				if(product.getPresentexp()!=null) {
+					presentexp=product.getPresentexp();
+				}
+				
 				productMap.put("productDetail", productDetail.getProductDetail());//商品详情
 				productMap.put("productInstructions", productDetail.getProductInstructions());//商品使用说明
 				productMap.put("productExchange", productDetail.getProductExchange());//商品兑换说明
 			}
+			if(userId==null) {
+				userId=0;
+			}
+			TbLevelInfo levelInfo  = levelInfoService.queryTbLevelInfo(userId);
+			if(levelInfo!=null) {
+				String  levle=levelInfo.getGrade();
+				if(Constant.PLATIMUM.equals(levle)) {
+					presentexp=new Double(presentexp*0.05).intValue();
+					vipLevle="白金会员";
+				}else if(Constant.BLACK.equals(levle)) {
+					presentexp=new Double(presentexp*0.1).intValue();
+					vipLevle="黑金会员";
+				}else if(Constant.DIAMOND.equals(levle)) {
+					presentexp=new Double(presentexp*0.15).intValue();
+					vipLevle="钻石会员";
+				}else {
+					presentexp=0;
+				}
+			}else {
+				presentexp=0;
+			}
+			productMap.put("levle", vipLevle);
+			productMap.put("sendPresentexp", presentexp);
 			
 			return ResultConstant.ofSuccess(productMap);
 		}
