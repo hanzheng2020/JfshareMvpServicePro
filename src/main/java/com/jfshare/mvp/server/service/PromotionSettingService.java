@@ -116,7 +116,7 @@ public class PromotionSettingService {
 				tbProductItemExample.createCriteria().andItemNoEqualTo(itemNo);
 				List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
 				String itemName = "";
-				if (CollectionUtils.isEmpty(tbProductItems)) {
+				if (!CollectionUtils.isEmpty(tbProductItems)) {
 					itemName = tbProductItems.get(0).getItemName();
 				}
 				tbProductItemShow.setItemName(itemName);
