@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -75,20 +76,31 @@ public class AdminController {
 	}
 	
 	@SuppressWarnings("rawtypes")
-	@ApiOperation(value = "保存推广微页面设置", notes = "保存传入的推广配置和类目商品展示配置")
+	@ApiOperation(value = "保存并发布推广微页面设置", notes = "保存并发布传入的推广配置和类目商品展示配置")
 	@PostMapping("/promotionSetting")
 	public ResultConstant savePromotionSetting(@RequestBody Map<String, List<Map>> map) {
 		List<Map> productPromotions = map.get("productPromotions");
 		List<Map> productItemShows = map.get("productItemShows");
-		boolean result1 = promotionSettingService.savePromotionSetting(productPromotions, productItemShows);
-		boolean result2 = promotionSettingService.publishPromotionSetting(true);
-		if (result1&&result2) {
+		boolean result = promotionSettingService.savePromotionSetting(productPromotions, productItemShows);
+		if (result) {
 			return ResultConstant.ofSuccess();
 		}
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "保存并发布推广微页面设置失败！");
 	}
+	
+	@ApiOperation(value = "获取推广微页面设置", notes = "获取推广配置和类目商品展示配置")
+	@PostMapping("/promotionSetting")
+	public ResultConstant getPromotionSetting() {
+		Map<String, List<Map<String, Object>>> result = promotionSettingService.getPromotionSetting();
+		if (!MapUtils.isEmpty(result)) {
+			return ResultConstant.ofSuccess();
+		}
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取推广微页面设置失败！");
+	}
+	
+	
 
-	@ApiOperation(value = "发布配置的推广微页面", notes = "publishInd = true时，发布上次保存的推广微页面配置")
+	/*@ApiOperation(value = "发布配置的推广微页面", notes = "publishInd = true时，发布上次保存的推广微页面配置")
 	@PostMapping("/publishPromotionSetting")
 	public ResultConstant publishPromotionSetting(@RequestBody Boolean publishInd) {
 		boolean result = promotionSettingService.publishPromotionSetting(publishInd);
@@ -118,7 +130,7 @@ public class AdminController {
 			return ResultConstant.ofSuccess(ConvertBeanToMapUtils.convertBeanListToMap(tbProductItemShows, "products"));
 		}
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取类目商品展示失败！");
-	}
+	}*/
 
 	@ApiOperation(value = "更新商品类目", notes = "根据传入的商品类目配置，重新配置商品类目")
 	@PostMapping("/productItem")

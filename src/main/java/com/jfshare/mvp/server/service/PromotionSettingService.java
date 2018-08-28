@@ -26,6 +26,7 @@ import com.jfshare.mvp.server.model.TbProductItemShowExample;
 import com.jfshare.mvp.server.model.TbProductItemShowExample.Criteria;
 import com.jfshare.mvp.server.model.TbProductPromotion;
 import com.jfshare.mvp.server.model.TbProductPromotionExample;
+import com.jfshare.mvp.server.utils.ConvertBeanToMapUtils;
 
 /**
  * 推广微页面设置
@@ -55,13 +56,13 @@ public class PromotionSettingService {
 										List<Map> productItemShows) {
 		try {
 			TbProductPromotionExample tbProductPromotionExample = new TbProductPromotionExample();
-			tbProductPromotionExample.createCriteria().andPublishIndEqualTo(false);
+			tbProductPromotionExample.createCriteria().andPublishIndEqualTo(true);
 			tbProductPromotionDao.deleteByExample(tbProductPromotionExample);
 			tbProductPromotionExample.clear();
 			for (int i = 0; i < productPromotions.size(); i ++) {
 				Map<String, Object> productPromotion = productPromotions.get(i);
 				TbProductPromotion tbProductPromotion = new TbProductPromotion();
-				tbProductPromotion.setPublishInd(false);
+				tbProductPromotion.setPublishInd(true);
 				tbProductPromotion.setPromotionNo(i);
 				tbProductPromotion.setPromotionPicUrl(productPromotion.get("promotionPicUrl").toString());
 				tbProductPromotion.setPromotionUrl(productPromotion.get("promotionUrl").toString());
@@ -102,7 +103,7 @@ public class PromotionSettingService {
 			}
 			
 			TbProductItemShowExample tbProductItemShowExample = new TbProductItemShowExample();
-			tbProductItemShowExample.createCriteria().andPublishIndEqualTo(false);
+			tbProductItemShowExample.createCriteria().andPublishIndEqualTo(true);
 			tbProductItemShowDao.deleteByExample(tbProductItemShowExample);
 			tbProductItemShowExample.clear();
 			for (int i = 0; i < productItemShows.size(); i ++) {
@@ -120,7 +121,7 @@ public class PromotionSettingService {
 				}
 				tbProductItemShow.setItemName(itemName);
 				tbProductItemShow.setProducts(productPromotion.get("products").toString());
-				tbProductItemShow.setPublishInd(false);
+				tbProductItemShow.setPublishInd(true);
 				tbProductItemShowDao.insert(tbProductItemShow);
 			}
 		} catch (Exception e) {
@@ -129,6 +130,21 @@ public class PromotionSettingService {
 			return false;
 		}
 		return true;
+	}
+	
+	public Map<String, List<Map<String, Object>>> getPromotionSetting() {
+		Map<String, List<Map<String, Object>>> result = new HashMap<>();
+		List<Map<String, Object>> productPromotions = getProductPromotionDetails(true);
+		result.put("productPromotions", productPromotions);
+		List<TbProductItemShow> tbProductItemShows = getProductItemShows(true);
+		List<Map<String, Object>> productItemShows = new ArrayList<>();
+		for (TbProductItemShow tbProductItemShow : tbProductItemShows) {
+			Map<String, Object> productItemShow = ConvertBeanToMapUtils.convertBeanToMap(tbProductItemShow, "products");
+			productItemShow.put("products", getProductShowDetail(tbProductItemShow.getItemShowNo(), true));
+			productItemShows.add(productItemShow);
+		}
+		result.put("productItemShows", productItemShows);
+		return result;
 	}
 	
 	@Transactional
