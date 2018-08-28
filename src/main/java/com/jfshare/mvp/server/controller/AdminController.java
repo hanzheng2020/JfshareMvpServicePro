@@ -89,7 +89,7 @@ public class AdminController {
 	}
 	
 	@ApiOperation(value = "获取推广微页面设置", notes = "获取推广配置和类目商品展示配置")
-	@PostMapping("/promotionSetting")
+	@GetMapping("/promotionSetting")
 	public ResultConstant getPromotionSetting() {
 		Map<String, List<Map<String, Object>>> result = promotionSettingService.getPromotionSetting();
 		if (!MapUtils.isEmpty(result)) {
