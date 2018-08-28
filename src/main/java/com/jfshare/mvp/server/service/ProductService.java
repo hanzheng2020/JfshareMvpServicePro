@@ -72,6 +72,7 @@ public class ProductService {
 		TbProductWithBLOBs tbProductWithBLOBs = new TbProductWithBLOBs();
 		tbProductWithBLOBs.setProductId(product.getProductId());
 		tbProductWithBLOBs.setProductName(product.getProductName());
+		tbProductWithBLOBs.setSellerId(product.getSellerId());
 		tbProductWithBLOBs.setItemNo(product.getItemNo());
 		tbProductWithBLOBs.setProductHeader(product.getProductHeader());
 		tbProductWithBLOBs.setCurPrice(product.getCurPrice());
@@ -127,6 +128,7 @@ public class ProductService {
 		TbProductWithBLOBs tbProductWithBLOBs = new TbProductWithBLOBs();
 		tbProductWithBLOBs.setProductId(product.getProductId());
 		tbProductWithBLOBs.setProductName(product.getProductName());
+		tbProductWithBLOBs.setSellerId(product.getSellerId());
 		tbProductWithBLOBs.setItemNo(product.getItemNo());
 		tbProductWithBLOBs.setProductHeader(product.getProductHeader());
 		tbProductWithBLOBs.setCurPrice(product.getCurPrice());

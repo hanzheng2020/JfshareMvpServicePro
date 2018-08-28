@@ -53,6 +53,7 @@ public class ConvertBeanToMapUtils {
 		tbProduct.setItemNo(product.getSubjectId());
 		tbProduct.setProductId(product.getProductId());
 		tbProduct.setProductName(product.getProductName());
+		tbProduct.setSellerId(product.getSellerId());
 		tbProduct.setProductHeader("");
 		tbProduct.setCurPrice(product.getProductSku().getMinCurPrice());
 		tbProduct.setOrgPrice(product.getProductSku().getMinOrgPrice());
