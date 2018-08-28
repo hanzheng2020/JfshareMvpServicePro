@@ -147,7 +147,7 @@ public class ProductController {
 
 		if(product!=null) {
 			int presentexp=0;
-			String vipLevle="黄金会员";
+			String levle="1";
 			List<TbProductDetailWithBLOBs> productDetails =  productDetailService.selectByExample(productId);
 			Map productMap = ConvertBeanToMapUtils.convertBeanToMap(product, "");
 			if(productDetails!=null&&productDetails.size()>0) {
@@ -165,23 +165,18 @@ public class ProductController {
 			}
 			TbLevelInfo levelInfo  = levelInfoService.queryTbLevelInfo(userId);
 			if(levelInfo!=null) {
-				String  levle=levelInfo.getGrade();
+				 levle=levelInfo.getGrade();
 				if(Constant.PLATIMUM.equals(levle)) {
 					presentexp=new Double(presentexp*0.05).intValue();
-					vipLevle="白金会员";
 				}else if(Constant.BLACK.equals(levle)) {
 					presentexp=new Double(presentexp*0.1).intValue();
-					vipLevle="黑金会员";
 				}else if(Constant.DIAMOND.equals(levle)) {
 					presentexp=new Double(presentexp*0.15).intValue();
-					vipLevle="钻石会员";
 				}else {
 					presentexp=0;
 				}
-			}else {
-				presentexp=0;
 			}
-			productMap.put("levle", vipLevle);
+			productMap.put("levle", levle);
 			productMap.put("sendPresentexp", presentexp);
 			
 			return ResultConstant.ofSuccess(productMap);
