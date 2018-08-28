@@ -84,7 +84,11 @@ public class LevelInfoService {
 				logger.info("当日已经赠送不能重复赠送:givingRule{}", givingRule);
 				return map;
 			} else {
-				StringResult results=scoreClient.incomeScore(userId,num, 1, "0");
+				long nuber1 = new Date().getTime();
+				int  nuber = (int)(Math.random()*1000+1);
+				String tradeid= nuber1+"-"+nuber;
+				logger.info("每日积分同步:tradeid:"+tradeid);
+				StringResult results=scoreClient.incomeScore(userId,num, 1, tradeid);
 				logger.info("每日积分同步:results{}", results);
 				status=results.getResult().code;
 				if(0==results.getResult().code) {
@@ -148,13 +152,16 @@ public class LevelInfoService {
 		String  levle=levelInfo.getGrade();
 		Double b;
 		if(Constant.PLATIMUM.equals(levle)) {
-			 b=integral*0.05;
+			 //b=integral*0.05;
+			b=integral*5.0;//测试
 			integral+=Integer.parseInt(b.toString());
 		}else if(Constant.BLACK.equals(levle)) {
-			 b=integral*0.1;
+			 //b=integral*0.1;
+			b=integral*10.0;//测试
 			integral+=Integer.parseInt(b.toString());
 		}else if(Constant.DIAMOND.equals(levle)) {
-			 b=integral*0.15;
+			 //b=integral*0.15;
+			b=integral*15.0;//测试
 			integral+=Integer.parseInt(b.toString());
 		}
 		TbLevelInfo info = levelInfoDao.selectLevelInfoByUserId(userid);
