@@ -201,18 +201,14 @@ public class ProductController {
 	
 	@ApiOperation(value = "获取商品卡券", notes = "获取商品卡券信息  orderId：订单号")
 	@PostMapping("/getProductCard")
-	public ResultConstant getProductCard(@RequestParam(value = "orderId", required = true) String orderId) {
-		logger.info("getProductCard  orderId: " + orderId);
+	public ResultConstant getProductCard(@RequestParam(value = "orderId", required = true) String orderId,
+			@RequestParam(value = "sellerId", required = true) Integer sellerId) {
+		logger.info("getProductCard  orderId: " + orderId + ", sellerId:" + sellerId);
 		List<ProductCard> productCard;
 		try {
-			StringResult result = orderClient.sellerQueryDetail(orderId);
+			StringResult result = orderClient.sellerQueryDetail(sellerId,orderId);
 			JSONObject jsonObj = JSONObject.parseObject(result.getValue());
 			ProductCardParam param = new ProductCardParam();
-	        /*param.setProductId(orderInfo.getProductId());
-	        param.setSkuNum(orderInfo.getSkuNum());
-	        param.setNum(orderInfo.getCount());
-	        param.setTransactionId(orderModel.getOrderId());
-	        param.setBuyerId(orderModel.getUserId());*/
 			param.setProductId(jsonObj.getString("productId"));
 			param.setSkuNum(jsonObj.getString("skuNum"));
 			param.setNum(jsonObj.getInteger("count"));
