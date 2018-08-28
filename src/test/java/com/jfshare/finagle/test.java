@@ -67,7 +67,7 @@ public class test extends TestProductRepository {
 
     @Test
     public void testQueryStock() {
-    	StringResult result = orderClient.sellerQueryDetail("60396265");
+    	StringResult result = orderClient.sellerQueryDetail(115,"60396265");
     	String value = result.getValue();
     	JSONObject parseObject = JSONObject.parseObject(value);
     	System.out.println(parseObject.getString("productId"));

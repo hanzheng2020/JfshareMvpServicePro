@@ -65,9 +65,9 @@ public class OrderClient {
     }
     
     //查询订单信息
-    public StringResult sellerQueryDetail(String orderId) {
+    public StringResult sellerQueryDetail(Integer sellerId,String orderId) {
         try {
-        	StringResult result = Await.result(service.sellerQueryDetail(115, orderId));
+        	StringResult result = Await.result(service.sellerQueryDetail(sellerId, orderId));
             return result;
         } catch (Exception e) {
             e.printStackTrace();
