@@ -207,6 +207,9 @@ public class ProductController {
 		List<ProductCard> productCard;
 		try {
 			StringResult result = orderClient.sellerQueryDetail(sellerId,orderId);
+			if(StringUtils.isEmpty(result.getValue())) {
+				return ResultConstant.ofSuccess();
+			}
 			JSONObject jsonObj = JSONObject.parseObject(result.getValue());
 			ProductCardParam param = new ProductCardParam();
 			param.setProductId(jsonObj.getString("productId"));
