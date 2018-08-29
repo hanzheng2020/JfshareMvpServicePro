@@ -93,7 +93,7 @@ public class AdminController {
 	public ResultConstant getPromotionSetting() {
 		Map<String, List<Map<String, Object>>> result = promotionSettingService.getPromotionSetting();
 		if (!MapUtils.isEmpty(result)) {
-			return ResultConstant.ofSuccess();
+			return ResultConstant.ofSuccess(result);
 		}
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取推广微页面设置失败！");
 	}
