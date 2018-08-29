@@ -197,6 +197,7 @@ public class PromotionSettingService {
 					dtlMap1.put("productId", tbProductPromotion.getProductOneId());
 					dtlMap1.put("productName", product1.getProductName());
 					dtlMap1.put("productPicUrl", tbProductPromotion.getProductOnePicUrl());
+					dtlMap1.put("activeState", product1.getActiveState());
 					productList.add(dtlMap1);
 				}
 				
@@ -207,6 +208,7 @@ public class PromotionSettingService {
 					dtlMap2.put("productId", tbProductPromotion.getProductTwoId());
 					dtlMap2.put("productName", product2.getProductName());
 					dtlMap2.put("productPicUrl", tbProductPromotion.getProductTwoPicUrl());
+					dtlMap1.put("activeState", product2.getActiveState());
 					productList.add(dtlMap2);
 				}
 				
@@ -217,6 +219,7 @@ public class PromotionSettingService {
 					dtlMap3.put("productId", tbProductPromotion.getProductThreeId());
 					dtlMap3.put("productName", product3.getProductName());
 					dtlMap3.put("productPicUrl", tbProductPromotion.getProductThreePicUrl());
+					dtlMap1.put("activeState", product3.getActiveState());
 					productList.add(dtlMap3);
 				}
 				
@@ -227,6 +230,7 @@ public class PromotionSettingService {
 					dtlMap4.put("productId", tbProductPromotion.getProductFourId());
 					dtlMap4.put("productName", product4.getProductName());
 					dtlMap4.put("productPicUrl", tbProductPromotion.getProductFourPicUrl());
+					dtlMap1.put("activeState", product4.getActiveState());
 					productList.add(dtlMap4);
 				}
 				Map<String, Object> dtlMap5 = new HashMap<>();
@@ -236,6 +240,7 @@ public class PromotionSettingService {
 					dtlMap5.put("productId", tbProductPromotion.getProductFiveId());
 					dtlMap5.put("productName", product5.getProductName());
 					dtlMap5.put("productPicUrl", tbProductPromotion.getProductFivePicUrl());
+					dtlMap1.put("activeState", product5.getActiveState());
 					productList.add(dtlMap5);
 				}
 				Map<String, Object> dtlMap6 = new HashMap<>();
@@ -245,6 +250,7 @@ public class PromotionSettingService {
 					dtlMap6.put("productId", tbProductPromotion.getProductSixId());
 					dtlMap6.put("productName", product6.getProductName());
 					dtlMap6.put("productPicUrl", tbProductPromotion.getProductSixPicUrl());
+					dtlMap1.put("activeState", product6.getActiveState());
 					productList.add(dtlMap6);
 				}
 				
@@ -318,6 +324,7 @@ public class PromotionSettingService {
 							map.put("curPrice", tbProducts.get(0).getCurPrice());
 							map.put("productName", tbProducts.get(0).getProductName());
 							map.put("imgKey", tbProducts.get(0).getImgKey().contains(",") ? tbProducts.get(0).getImgKey().split(",")[0] : tbProducts.get(0).getImgKey());
+							map.put("activeState", tbProducts.get(0).getActiveState());
 						}
 						result.add(map);
 					}
