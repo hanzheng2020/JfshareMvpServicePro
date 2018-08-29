@@ -32,6 +32,8 @@ import com.jfshare.mvp.server.service.JvjindouRuleService;
 import com.jfshare.mvp.server.service.ProductItemService;
 import com.jfshare.mvp.server.service.PromotionSettingService;
 import com.jfshare.mvp.server.service.SystemInformationService;
+import com.jfshare.mvp.server.utils.JedisClusterUtils;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -64,6 +66,8 @@ public class AdminController {
 	
 	@Autowired
 	private AppVerifySettingService appVerifySettingService;
+	
+
 	
 	@ApiOperation(value = "IOS上线审核设置", notes = "保存IOS上线审核设置")
 	@PostMapping("/appVerifySetting")
@@ -325,7 +329,7 @@ public class AdminController {
 		systemInformation.setStatus(1);
 		systemInformation.setContent(cont);
 		systemInformation.setCreateUser(user);
-		systemInformation.setReleaseTime(date);
+		systemInformation.setUpdateTime(date);
 		int result = systemInformationService.saveSystemInformation(systemInformation);
 		if(result>0) {
 			return ResultConstant.ofSuccess();
@@ -366,7 +370,7 @@ public class AdminController {
 		return ResultConstant.ofSuccess(map);
 	}
 	
-	@ApiOperation(value="系统消息查询",notes ="系统消息查询,titleOrContent:标题或者内容，page:当前页，pageSize：每页条数")
+	@ApiOperation(value="系统消息查询（管理中心）",notes ="系统消息查询,titleOrContent:标题或者内容，page:当前页，pageSize：每页条数")
 	@GetMapping("/getInformation")
 	public ResultConstant getInformation(
 			@RequestParam(value="titleOrContent",required=false)String titleOrContent,
@@ -378,9 +382,10 @@ public class AdminController {
 		
 	}
 	
+
 	
 	@ApiOperation(value="系统消息修改",notes="系统消息修改，id:消息id，title:标题，cont:内容")
-	@PutMapping("/updateInformation")
+	@PostMapping("/updateInformation")
 	public ResultConstant updateInformation(
 			@RequestParam(value="id",required=true)Integer id,
 			@RequestParam(value="title",required=true)String title,
@@ -399,9 +404,13 @@ public class AdminController {
 	}
 	
 	@ApiOperation(value="系统消息删除",notes="删除系统消息，id:消息id")
-	@DeleteMapping("/deleteInformation")
-	public ResultConstant deleteInformation(@RequestParam(value="id",required=true)Integer id) {
-		int result = systemInformationService.deleteSystemInformation(id);
+	@PostMapping("/deleteInformation")
+	public ResultConstant deleteInformation(@RequestParam(value="id",required=true)String id) {
+		int result=0;
+		String [] ids = id.split(",");
+		for(int i=0;i<ids.length;i++) {
+			result = systemInformationService.deleteSystemInformation(Integer.parseInt(ids[i]));
+		}
 		if(result>0) {
 			return ResultConstant.ofSuccess();
 		}
@@ -421,7 +430,7 @@ public class AdminController {
 	}
 	
 	@ApiOperation(value="系统消息发布",notes="系统消息发布，id:消息id")
-	@PutMapping("/releaseformation")
+	@PostMapping("/releaseformation")
 	public ResultConstant releaseformation(
 			@RequestParam(value="id",required=true)Integer id) {
 		TbSystemInformation systemInformation = systemInformationService.getInformatinInfo(id);

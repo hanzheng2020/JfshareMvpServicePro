@@ -31,11 +31,9 @@ public class SystemInformationDao {
 	public int updateInformation(TbSystemInformation systemInformation) {
 		return systemInformationMapper.updateByPrimaryKey(systemInformation);
 	} 
-	//删
-	public int deleteInformation(Integer id) {
-		return systemInformationMapper.deleteByPrimaryKey(id);
+	
+	
+	public long countByExample(TbSystemInformationExample example) {
+		return systemInformationMapper.countByExample(example);
 	}
-	
-
-	
 }

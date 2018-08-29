@@ -3,6 +3,8 @@ package com.jfshare.mvp.server.controller;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,14 +14,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.pagehelper.PageInfo;
 import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.model.Captcha;
 import com.jfshare.mvp.server.model.TbJvjindouRule;
 import com.jfshare.mvp.server.model.TbLevelInfo;
+import com.jfshare.mvp.server.model.TbSystemInformationExample;
 import com.jfshare.mvp.server.service.JvjindouRuleService;
 import com.jfshare.mvp.server.service.LevelInfoService;
+import com.jfshare.mvp.server.service.SystemInformationService;
 import com.jfshare.mvp.server.service.UserService;
 import com.jfshare.mvp.server.utils.ConvertBeanToMapUtils;
+import com.jfshare.mvp.server.utils.JedisClusterUtils;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,6 +39,9 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
+	private final static Logger logger = LoggerFactory.getLogger(UserController.class);
+	
 	
 	@Autowired
 	private JvjindouRuleService jvjindouRuleService;
@@ -40,6 +49,10 @@ public class UserController {
 	private UserService userService;
 	@Autowired
 	private LevelInfoService levelInfoService;
+	@Autowired
+	private SystemInformationService systemInformationService;
+	@Autowired
+	private JedisClusterUtils jedisCluster;
 	
 	@ApiOperation(value="查询用户", notes="用id来查询用户")
 	@GetMapping
@@ -123,5 +136,36 @@ public class UserController {
 		return ResultConstant.ofSuccess(amount);
 	}
 	
+	@ApiOperation(value="系统消息查询（移动端）",notes ="系统消息查询,userId:用户id，page:当前页，pageSize：每页条数")
+	@GetMapping("/getInformationApp")
+	public ResultConstant getInformationApp(
+			@RequestParam(value="userId",required=true)Integer userId,
+			@RequestParam(value="page",required=true)Integer page,
+			@RequestParam(value="pageSize",required=true)Integer pageSize
+			) {
+		
+		Long informationNuber = systemInformationService.countByExample();
+		jedisCluster.saveString(userId.toString(), informationNuber.toString());
+		PageInfo pageInfo = systemInformationService.getSystemInformationsApp(userId,page, pageSize);
+		return ResultConstant.ofSuccess(pageInfo);
+		
+	}
+	
+	@ApiOperation(value="未读系统消息数量查询",notes ="userId:用户id")
+	@GetMapping("/getInformationNuber")
+	public ResultConstant getInformationNuber(
+			@RequestParam(value="userId",required=true)Integer userId
+			) {
+		Long informationNuber = systemInformationService.countByExample();
+		String  informationUser = jedisCluster.getString(userId.toString());
+		long nuber =informationNuber;
+		if(informationUser==null|| "".equals(informationUser)) {
+			jedisCluster.saveString(userId.toString(), informationNuber.toString());
+		}else {
+			 nuber = informationNuber-Long.parseLong(informationUser);
+		}
+		return ResultConstant.ofSuccess(nuber);
+		
+	}
 	
 }

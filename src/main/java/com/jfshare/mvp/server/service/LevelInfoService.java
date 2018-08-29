@@ -184,7 +184,7 @@ public class LevelInfoService {
 		}
 		levelInfoDao.updateLevelInfo(info);
 		StringResult results = scoreClient.reduceScore(userid, integral, 1, orderId);
-		logger.info(String.format("积分增加:results{}", results));
+		logger.info(String.format("积分减少:results{}", results));
 		return results;
 	}
 	
