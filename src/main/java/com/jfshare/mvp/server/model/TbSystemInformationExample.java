@@ -615,63 +615,63 @@ public class TbSystemInformationExample {
             return (Criteria) this;
         }
 
-        public Criteria andDeleteIsNull() {
-            addCriterion("delete is null");
+        public Criteria andIsDeleteIsNull() {
+            addCriterion("is_delete is null");
             return (Criteria) this;
         }
 
-        public Criteria andDeleteIsNotNull() {
-            addCriterion("delete is not null");
+        public Criteria andIsDeleteIsNotNull() {
+            addCriterion("is_delete is not null");
             return (Criteria) this;
         }
 
-        public Criteria andDeleteEqualTo(Integer value) {
-            addCriterion("delete =", value, "delete");
+        public Criteria andIsDeleteEqualTo(Integer value) {
+            addCriterion("is_delete =", value, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andDeleteNotEqualTo(Integer value) {
-            addCriterion("delete <>", value, "delete");
+        public Criteria andIsDeleteNotEqualTo(Integer value) {
+            addCriterion("is_delete <>", value, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andDeleteGreaterThan(Integer value) {
-            addCriterion("delete >", value, "delete");
+        public Criteria andIsDeleteGreaterThan(Integer value) {
+            addCriterion("is_delete >", value, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andDeleteGreaterThanOrEqualTo(Integer value) {
-            addCriterion("delete >=", value, "delete");
+        public Criteria andIsDeleteGreaterThanOrEqualTo(Integer value) {
+            addCriterion("is_delete >=", value, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andDeleteLessThan(Integer value) {
-            addCriterion("delete <", value, "delete");
+        public Criteria andIsDeleteLessThan(Integer value) {
+            addCriterion("is_delete <", value, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andDeleteLessThanOrEqualTo(Integer value) {
-            addCriterion("delete <=", value, "delete");
+        public Criteria andIsDeleteLessThanOrEqualTo(Integer value) {
+            addCriterion("is_delete <=", value, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andDeleteIn(List<Integer> values) {
-            addCriterion("delete in", values, "delete");
+        public Criteria andIsDeleteIn(List<Integer> values) {
+            addCriterion("is_delete in", values, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andDeleteNotIn(List<Integer> values) {
-            addCriterion("delete not in", values, "delete");
+        public Criteria andIsDeleteNotIn(List<Integer> values) {
+            addCriterion("is_delete not in", values, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andDeleteBetween(Integer value1, Integer value2) {
-            addCriterion("delete between", value1, value2, "delete");
+        public Criteria andIsDeleteBetween(Integer value1, Integer value2) {
+            addCriterion("is_delete between", value1, value2, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andDeleteNotBetween(Integer value1, Integer value2) {
-            addCriterion("delete not between", value1, value2, "delete");
+        public Criteria andIsDeleteNotBetween(Integer value1, Integer value2) {
+            addCriterion("is_delete not between", value1, value2, "isDelete");
             return (Criteria) this;
         }
     }

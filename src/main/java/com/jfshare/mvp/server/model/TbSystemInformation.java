@@ -19,7 +19,7 @@ public class TbSystemInformation {
 
     private Date updateTime;
 
-    private Integer delete;
+    private Integer isDelete;
 
     public Integer getId() {
         return id;
@@ -85,11 +85,11 @@ public class TbSystemInformation {
         this.updateTime = updateTime;
     }
 
-    public Integer getDelete() {
-        return delete;
+    public Integer getIsDelete() {
+        return isDelete;
     }
 
-    public void setDelete(Integer delete) {
-        this.delete = delete;
+    public void setIsDelete(Integer isDelete) {
+        this.isDelete = isDelete;
     }
 }
