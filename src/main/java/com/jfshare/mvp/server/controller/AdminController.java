@@ -18,14 +18,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageInfo;
-import com.github.pagehelper.StringUtil;
 import com.jfshare.mvp.server.constants.Constant;
 import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.model.TbAppVerifySetting;
 import com.jfshare.mvp.server.model.TbJfRaiders;
 import com.jfshare.mvp.server.model.TbJvjindouRule;
 import com.jfshare.mvp.server.model.TbProductItem;
-import com.jfshare.mvp.server.model.TbProductItemShow;
 import com.jfshare.mvp.server.model.TbSystemInformation;
 import com.jfshare.mvp.server.service.AdminService;
 import com.jfshare.mvp.server.service.AppVerifySettingService;
@@ -34,8 +32,6 @@ import com.jfshare.mvp.server.service.JvjindouRuleService;
 import com.jfshare.mvp.server.service.ProductItemService;
 import com.jfshare.mvp.server.service.PromotionSettingService;
 import com.jfshare.mvp.server.service.SystemInformationService;
-import com.jfshare.mvp.server.utils.ConvertBeanToMapUtils;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 

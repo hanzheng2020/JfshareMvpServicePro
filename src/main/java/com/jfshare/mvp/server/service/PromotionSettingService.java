@@ -19,11 +19,11 @@ import com.jfshare.mvp.server.dao.TbProductItemShowDao;
 import com.jfshare.mvp.server.dao.TbProductPromotionDao;
 import com.jfshare.mvp.server.model.TbProduct;
 import com.jfshare.mvp.server.model.TbProductExample;
+import com.jfshare.mvp.server.model.TbProductExample.Criteria;
 import com.jfshare.mvp.server.model.TbProductItem;
 import com.jfshare.mvp.server.model.TbProductItemExample;
 import com.jfshare.mvp.server.model.TbProductItemShow;
 import com.jfshare.mvp.server.model.TbProductItemShowExample;
-import com.jfshare.mvp.server.model.TbProductItemShowExample.Criteria;
 import com.jfshare.mvp.server.model.TbProductPromotion;
 import com.jfshare.mvp.server.model.TbProductPromotionExample;
 import com.jfshare.mvp.server.utils.ConvertBeanToMapUtils;
@@ -136,7 +136,7 @@ public class PromotionSettingService {
 		Map<String, List<Map<String, Object>>> result = new HashMap<>();
 		List<Map<String, Object>> productPromotions = getProductPromotionDetails(true);
 		result.put("productPromotions", productPromotions);
-		List<TbProductItemShow> tbProductItemShows = getProductItemShows(true);
+		List<TbProductItemShow> tbProductItemShows = getProductItemShows();
 		List<Map<String, Object>> productItemShows = new ArrayList<>();
 		for (TbProductItemShow tbProductItemShow : tbProductItemShows) {
 			Map<String, Object> productItemShow = ConvertBeanToMapUtils.convertBeanToMap(tbProductItemShow, "products");
@@ -177,11 +177,9 @@ public class PromotionSettingService {
 	}
 
 	
-	public List<Map<String, Object>> getProductPromotionDetails(Boolean publishInd) {
+	public List<Map<String, Object>> getProductPromotionDetails(Boolean isAdmin) {
 		TbProductPromotionExample tbProductPromotionExample = new TbProductPromotionExample();
-		if (publishInd != null) {
-			tbProductPromotionExample.createCriteria().andPublishIndEqualTo(publishInd);
-		}
+		
 		List<Map<String, Object>> result = new ArrayList<>();
 		try {
 			List<TbProductPromotion> tbProductPromotions = tbProductPromotionDao.selectByExample(tbProductPromotionExample);
@@ -193,7 +191,7 @@ public class PromotionSettingService {
 				map.put("promotionUrl", tbProductPromotion.getPromotionUrl());
 				
 				Map<String, Object> dtlMap1 = new HashMap<>();
-				TbProduct product1 = this.getProduct(tbProductPromotion.getProductOneId());
+				TbProduct product1 = this.getProduct(tbProductPromotion.getProductOneId(), isAdmin);
 				if (product1 != null) {
 					dtlMap1.put("curPrice", product1.getCurPrice());
 					dtlMap1.put("productId", tbProductPromotion.getProductOneId());
@@ -203,7 +201,7 @@ public class PromotionSettingService {
 				}
 				
 				Map<String, Object> dtlMap2 = new HashMap<>();
-				TbProduct product2 = this.getProduct(tbProductPromotion.getProductOneId());
+				TbProduct product2 = this.getProduct(tbProductPromotion.getProductTwoId(), isAdmin);
 				if (product2 != null) {
 					dtlMap2.put("curPrice", product2.getCurPrice());
 					dtlMap2.put("productId", tbProductPromotion.getProductTwoId());
@@ -213,7 +211,7 @@ public class PromotionSettingService {
 				}
 				
 				Map<String, Object> dtlMap3 = new HashMap<>();
-				TbProduct product3 = this.getProduct(tbProductPromotion.getProductOneId());
+				TbProduct product3 = this.getProduct(tbProductPromotion.getProductThreeId(), isAdmin);
 				if (product3 != null) {
 					dtlMap3.put("curPrice", product3.getCurPrice());
 					dtlMap3.put("productId", tbProductPromotion.getProductThreeId());
@@ -223,7 +221,7 @@ public class PromotionSettingService {
 				}
 				
 				Map<String, Object> dtlMap4 = new HashMap<>();
-				TbProduct product4 = this.getProduct(tbProductPromotion.getProductOneId());
+				TbProduct product4 = this.getProduct(tbProductPromotion.getProductFourId(), isAdmin);
 				if (product4 != null) {
 					dtlMap4.put("curPrice", product4.getCurPrice());
 					dtlMap4.put("productId", tbProductPromotion.getProductFourId());
@@ -232,7 +230,7 @@ public class PromotionSettingService {
 					productList.add(dtlMap4);
 				}
 				Map<String, Object> dtlMap5 = new HashMap<>();
-				TbProduct product5 = this.getProduct(tbProductPromotion.getProductOneId());
+				TbProduct product5 = this.getProduct(tbProductPromotion.getProductFiveId(), isAdmin);
 				if (product5 != null) {
 					dtlMap5.put("curPrice", product5.getCurPrice());
 					dtlMap5.put("productId", tbProductPromotion.getProductFiveId());
@@ -241,7 +239,7 @@ public class PromotionSettingService {
 					productList.add(dtlMap5);
 				}
 				Map<String, Object> dtlMap6 = new HashMap<>();
-				TbProduct product6 = this.getProduct(tbProductPromotion.getProductOneId());
+				TbProduct product6 = this.getProduct(tbProductPromotion.getProductSixId(), isAdmin);
 				if (product6 != null) {
 					dtlMap6.put("curPrice", product6.getCurPrice());
 					dtlMap6.put("productId", tbProductPromotion.getProductSixId());
@@ -261,11 +259,14 @@ public class PromotionSettingService {
 		return result;
 	}
 	
-	private TbProduct getProduct(String productId) {
+	private TbProduct getProduct(String productId, Boolean isAdmin) {
 		TbProductExample tbProductExample = new TbProductExample();
-		tbProductExample.createCriteria()
-						.andProductIdEqualTo(productId)
-						.andActiveStateEqualTo(200);
+		Criteria criteria = tbProductExample.createCriteria()
+				.andProductIdEqualTo(productId);
+		if (!isAdmin) {
+			criteria.andActiveStateEqualTo(200);
+		}
+						
 		List<TbProduct> tbProducts = tbProductDao.selectByExample(tbProductExample);
 		if (!CollectionUtils.isEmpty(tbProducts)) {
 			return tbProducts.get(0);
@@ -273,11 +274,8 @@ public class PromotionSettingService {
 		return null;
 	}
 	
-	public List<TbProductItemShow> getProductItemShows(Boolean publishInd) {
+	public List<TbProductItemShow> getProductItemShows() {
 		TbProductItemShowExample tbProductItemShowExample = new TbProductItemShowExample();
-		if (publishInd != null) {
-			tbProductItemShowExample.createCriteria().andPublishIndEqualTo(publishInd);
-		}
 		List<TbProductItemShow> tbProductItemShows = null;
 		try {
 			tbProductItemShows = tbProductItemShowDao.selectByExample(tbProductItemShowExample);
@@ -288,13 +286,10 @@ public class PromotionSettingService {
 		return tbProductItemShows;
 	}
 	
-	public List<Map<String, Object>> getProductShowDetail(Integer itemShowNo, Boolean publishInd) {
+	public List<Map<String, Object>> getProductShowDetail(Integer itemShowNo, Boolean isAdmin) {
 		TbProductItemShowExample tbProductItemShowExample = new TbProductItemShowExample();
-		Criteria criteria= tbProductItemShowExample.createCriteria()
+		tbProductItemShowExample.createCriteria()
 								.andItemShowNoEqualTo(itemShowNo);
-		if (publishInd != null) {
-			criteria.andPublishIndEqualTo(publishInd);
-		}
 		List<Map<String, Object>> result = new ArrayList<>();
 		try {
 			List<TbProductItemShow> tbProductItemShows = tbProductItemShowDao.selectByExample(tbProductItemShowExample);
@@ -311,9 +306,11 @@ public class PromotionSettingService {
 					for (int i = 0; i < productIds.length; i ++) {
 						String productId = productIds[i];
 						TbProductExample tbProductExample = new TbProductExample();
-						tbProductExample.createCriteria()
-										.andProductIdEqualTo(productId)
-										.andActiveStateEqualTo(200);
+						Criteria criteria = tbProductExample.createCriteria()
+								.andProductIdEqualTo(productId);
+						if (!isAdmin) {
+							criteria.andActiveStateEqualTo(200);
+						}
 						List<TbProduct> tbProducts = tbProductDao.selectByExample(tbProductExample);
 						Map<String, Object> map = new HashMap<>();
 						if (!CollectionUtils.isEmpty(tbProducts)) {

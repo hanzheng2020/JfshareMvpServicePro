@@ -32,8 +32,8 @@ public class ShopController {
 	
 	@ApiOperation(value = "获取前端展示的推广商品", notes = "获取所有目前已经配置的推广商品")
 	@GetMapping("/promotionProducts")
-	public ResultConstant getPromotionProducts(@RequestParam(defaultValue="true", required=false) Boolean publishInd) {
-		List<Map<String, Object>> result = promotionSettingService.getProductPromotionDetails(publishInd);
+	public ResultConstant getPromotionProducts() {
+		List<Map<String, Object>> result = promotionSettingService.getProductPromotionDetails(false);
 		if (!CollectionUtils.isEmpty(result)) {
 			return ResultConstant.ofSuccess(result);
 		}
@@ -43,8 +43,8 @@ public class ShopController {
 	@ApiOperation(value="获取前端展示的商品类目", 
 			notes="获取所有目前已经配置的类目")
 	@GetMapping("/productItemShows")
-	public ResultConstant getProductItemShows(@RequestParam(defaultValue="true", required=false) Boolean publishInd) {
-		List<TbProductItemShow> tbProductItemShows = promotionSettingService.getProductItemShows(publishInd);
+	public ResultConstant getProductItemShows() {
+		List<TbProductItemShow> tbProductItemShows = promotionSettingService.getProductItemShows();
 		if (!CollectionUtils.isEmpty(tbProductItemShows)) {
 			return ResultConstant.ofSuccess(ConvertBeanToMapUtils.convertBeanListToMap(tbProductItemShows, "products", "itemNo", "createTime", "updateTime"));
 		}
@@ -54,8 +54,8 @@ public class ShopController {
 	@ApiOperation(value="获取类目商品详情", 
 			notes="根据itemShowNo获取对应类目下的所有商品详情")
 	@GetMapping("/productShowDetail")
-	public ResultConstant getProductShowDetail(Integer itemShowNo, @RequestParam(defaultValue="true", required=false) Boolean publishInd) {
-		List<Map<String, Object>> result = promotionSettingService.getProductShowDetail(itemShowNo, publishInd);
+	public ResultConstant getProductShowDetail(Integer itemShowNo) {
+		List<Map<String, Object>> result = promotionSettingService.getProductShowDetail(itemShowNo, false);
 		if (!CollectionUtils.isEmpty(result)) {
 			return ResultConstant.ofSuccess(result);
 		}
