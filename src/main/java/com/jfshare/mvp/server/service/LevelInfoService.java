@@ -84,9 +84,8 @@ public class LevelInfoService {
 				logger.info("当日已经赠送不能重复赠送:givingRule{}", givingRule);
 				return map;
 			} else {
-				long nuber1 = new Date().getTime();
-				int  nuber = (int)(Math.random()*1000+1);
-				String tradeid= nuber1+"-"+nuber;
+				long nuber = new Date().getTime();
+				String tradeid= nuber+"-"+userId;
 				logger.info("每日积分同步:tradeid:"+tradeid);
 				StringResult results=scoreClient.incomeScore(userId,num, 1, tradeid);
 				logger.info("每日积分同步:results{}", results);
