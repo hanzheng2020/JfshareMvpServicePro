@@ -154,7 +154,7 @@ public class ThirdPayService {
 				if (amt > 0) {
 					return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "可用积分不足！");
 				} else {
-					ResultConstant.ofSuccess();
+					return ResultConstant.ofSuccess();
 				}
 			}
 		}
