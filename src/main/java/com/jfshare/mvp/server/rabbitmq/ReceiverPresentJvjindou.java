@@ -17,40 +17,27 @@ import com.jfshare.mvp.server.service.LevelInfoService;
  *
  */
 @Component
-@RabbitListener(queues = "queue_score_jvjindou")
+@RabbitListener(queues = "orderMvp")
 public class ReceiverPresentJvjindou {
 	private Logger logger = LoggerFactory.getLogger(ReceiverPresentJvjindou.class);
 	@Autowired
 	private LevelInfoService levelInfoService;
 	@RabbitHandler
 	public void process(String message) throws Exception {
-		if("test".equals(message)) {
-			System.out.println("receiver"+message+System.currentTimeMillis());
-		}
-		logger.info("process() called with: message = [" + message + "]");
-		if(!message.contains("{")){
-			return;
-		}
-		String jsonStr = message.replace("\\\"", "'");
-		//加非空判断 格式判断 如果消息有异常 则return 打印错误信息
-		//{"totalScoreOrMileage":"677","canuseScoreOrMileage":"677","userName":"**斌","accountMoney":"66.90","canUseFlow":"5794.85","memberLevel":"1","memberLevelValidtime":"20180930","ex1":"8.12","channelId":1,"thirdLoginName":"15815542122","userId":288108}
-		JSONObject fromObject = JSONObject.fromObject(jsonStr);
-		logger.info(String.format("同步积分赠送聚金豆json:{}", fromObject));
-		if(StringUtils.isEmpty(fromObject)){
-			logger.info("接收消息异常");
-			return; 
-		}else if(fromObject.containsKey("userId")==false){
-			logger.info("接收消息异常");
-			return; 
-		}
-		// 包含 userId 当前时间对照数据的修改事假  修改数据库时间
-		Integer userId=Integer.parseInt(fromObject.get("userId").toString());
-		try {
-			levelInfoService.presentJvjindouByuserId(userId);
-		} catch (Exception e) {
-			logger.info("同步异常"+userId);
-			e.printStackTrace();
-			return;
+		if(message!=null && !"".equals(message)) {
+			logger.info("下单:"+message);
+			JSONObject obj = JSONObject.fromObject(message);
+			if(obj.get("payScore")==null) {
+				int userid=Integer.parseInt(obj.get("userid").toString());
+				int integral = Integer.parseInt(obj.get("integral").toString());
+				String orderId=obj.get("orderId").toString();
+				int amont = Integer.parseInt(obj.get("amont").toString());
+				if(amont>0&&integral>0) {
+					levelInfoService.addlevelInfo(userid, integral, orderId, amont);
+				}
+			}else {
+				logger.info("取消订单"+message);
+			}
 		}
 	}
 }

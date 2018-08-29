@@ -149,25 +149,24 @@ public class LevelInfoService {
 	public StringResult addlevelInfo(int userid,int integral,String orderId,int amont) {
 		TbLevelInfo levelInfo =levelInfoDao.selectLevelInfoByUserId(userid);
 		String  levle=levelInfo.getGrade();
-		Double b;
+		Double b=0.00;
+		logger.info("赠送积分:"+integral);
 		if(Constant.PLATIMUM.equals(levle)) {
-			 //b=integral*0.05;
-			b=integral*5.0;//测试
-			integral+=Integer.parseInt(b.toString());
+			 b=integral*0.05;
 		}else if(Constant.BLACK.equals(levle)) {
-			 //b=integral*0.1;
-			b=integral*10.0;//测试
-			integral+=Integer.parseInt(b.toString());
+			 b=integral*0.1;
 		}else if(Constant.DIAMOND.equals(levle)) {
-			 //b=integral*0.15;
-			b=integral*15.0;//测试
-			integral+=Integer.parseInt(b.toString());
+			 b=integral*0.15;
 		}
+		integral+=b.intValue();
+		logger.info("赠送总积分:"+integral+",赠送积分"+b);
 		TbLevelInfo info = levelInfoDao.selectLevelInfoByUserId(userid);
 		StringResult results=scoreClient.incomeScore(userid,integral, 1, orderId);
-		logger.info(String.format("积分增加:results{}", results));
+		logger.info("积分增加:results:"+results+"code"+results.getResult().getCode());
 		if(info!=null&&results.getResult().code==0) {
-			info.setRealJvjindou(info.getGrowthPoint()+amont);
+			logger.info("增加成长值:"+amont);
+			info.setGrowthPoint((info.getGrowthPoint()+amont));
+			logger.info("增加成长值:"+info.getGrowthPoint());
 			levelInfoDao.updateLevelInfo(info);
 		}
 		
