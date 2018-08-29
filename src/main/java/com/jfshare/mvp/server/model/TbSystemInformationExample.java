@@ -614,6 +614,66 @@ public class TbSystemInformationExample {
             addCriterion("update_time not between", value1, value2, "updateTime");
             return (Criteria) this;
         }
+
+        public Criteria andDeleteIsNull() {
+            addCriterion("delete is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteIsNotNull() {
+            addCriterion("delete is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteEqualTo(Integer value) {
+            addCriterion("delete =", value, "delete");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteNotEqualTo(Integer value) {
+            addCriterion("delete <>", value, "delete");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteGreaterThan(Integer value) {
+            addCriterion("delete >", value, "delete");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteGreaterThanOrEqualTo(Integer value) {
+            addCriterion("delete >=", value, "delete");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteLessThan(Integer value) {
+            addCriterion("delete <", value, "delete");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteLessThanOrEqualTo(Integer value) {
+            addCriterion("delete <=", value, "delete");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteIn(List<Integer> values) {
+            addCriterion("delete in", values, "delete");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteNotIn(List<Integer> values) {
+            addCriterion("delete not in", values, "delete");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteBetween(Integer value1, Integer value2) {
+            addCriterion("delete between", value1, value2, "delete");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteNotBetween(Integer value1, Integer value2) {
+            addCriterion("delete not between", value1, value2, "delete");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

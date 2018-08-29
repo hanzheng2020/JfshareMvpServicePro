@@ -39,11 +39,8 @@ public class SystemInformation {
 	    PushPayload payload =PushPayload.alertAll(msg);
 
 	    try {
-	       // PushResult result = jpushClient.sendPush(payload);
-	    	Map<String,String>extras = new HashMap<String,String>();
-	        PushResult result =  jpushClient.sendAndroidNotificationWithAlias("222", "222", extras);
+	    	PushResult result = jpushClient.sendPush(payload);
 	        LOG.info("Got result - " + result);
-
 	    } catch (APIConnectionException e1) {
 	        // Connection error, should retry later
 	        LOG.error("Connection error, should retry later", e1);
@@ -77,10 +74,4 @@ public class SystemInformation {
 		}
 	}
 	 
-	    
-	    
-	    public static void main(String[] args) {
-	    	send("1111");
-	    	//buildPushObject_all_alias_alert("22222");
-		}
 }

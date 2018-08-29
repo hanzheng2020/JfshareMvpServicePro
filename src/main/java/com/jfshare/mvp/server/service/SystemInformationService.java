@@ -36,8 +36,8 @@ public class SystemInformationService {
 		TbSystemInformationExample example =  new TbSystemInformationExample();
 		Criteria criteria1= example.createCriteria();
 		Criteria criteria2= example.createCriteria();
-		criteria1.andStatusNotEqualTo(3);//3代表已经删除
-		criteria2.andStatusNotEqualTo(3);//3代表已经删除
+		criteria1.andDeleteNotEqualTo(2);//2代表已经删除
+		criteria2.andDeleteNotEqualTo(2);//2代表已经删除
 		if(titleOrContent!=null && !"".equals(titleOrContent)) {
 			criteria1.andTitleLike("%"+titleOrContent+"%");
 			criteria2.andContentLike("%"+titleOrContent+"%");
@@ -54,7 +54,7 @@ public class SystemInformationService {
 	public  PageInfo<Map<String, Object>> getSystemInformationsApp(Integer userId,int page,int pageSize){
 		TbSystemInformationExample example =  new TbSystemInformationExample();
 		Criteria criteria= example.createCriteria();
-		criteria.andStatusNotEqualTo(3);//3代表已经删除
+		criteria.andDeleteNotEqualTo(2);//2代表已经删除
 		example.setOrderByClause("create_time desc");
 		PageHelper.startPage(page, pageSize);
 		List<TbSystemInformation>  systemInformations=systemInformationDao.selectInformation(example);
@@ -73,7 +73,7 @@ public class SystemInformationService {
 	public int deleteSystemInformation(int id) {
 		TbSystemInformation systemInformation=systemInformationDao.selectInformationInfo(id);
 		if(systemInformation!=null) {
-			systemInformation.setStatus(3);
+			systemInformation.setDelete(2);//2：代表删除
 			return systemInformationDao.updateInformation(systemInformation);
 		}
 		return 0;

@@ -19,6 +19,8 @@ public class TbSystemInformation {
 
     private Date updateTime;
 
+    private Integer delete;
+
     public Integer getId() {
         return id;
     }
@@ -81,5 +83,13 @@ public class TbSystemInformation {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Integer getDelete() {
+        return delete;
+    }
+
+    public void setDelete(Integer delete) {
+        this.delete = delete;
     }
 }
