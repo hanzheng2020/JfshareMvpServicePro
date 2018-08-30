@@ -254,6 +254,13 @@ public class AdminController {
 	@GetMapping("/getjvjindouRule")
 	public ResultConstant getjvjindouRule() {
 		TbJvjindouRule jvjindouRule = jvjindouRuleService.queryTbJvjindouRule();
+		if(jvjindouRule==null) {
+			jvjindouRule=new TbJvjindouRule();
+			jvjindouRule.setFixedGiving(0);
+			jvjindouRule.setGivingRule("");
+			jvjindouRule.setRandomGivingMax(0);
+			jvjindouRule.setRandomGivingMin(0);
+		}
 		return ResultConstant.ofSuccess(jvjindouRule);
 	}
 	@ApiOperation(value = "聚金豆规则信息修改", notes = "修改赠送聚金豆规则,givingRule(赠送规则，2，固定，1随机)，randomGivingMin(随机赠送最小数),randomGivingMax(最大数),fixedGiving(固定赠送值)")
