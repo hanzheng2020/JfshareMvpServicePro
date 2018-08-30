@@ -17,6 +17,8 @@ public class TbJvjindouRule {
 
     private Date updateTime;
 
+    private String restricts;
+
     public Integer getId() {
         return id;
     }
@@ -71,5 +73,13 @@ public class TbJvjindouRule {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getRestricts() {
+        return restricts;
+    }
+
+    public void setRestricts(String restricts) {
+        this.restricts = restricts == null ? null : restricts.trim();
     }
 }

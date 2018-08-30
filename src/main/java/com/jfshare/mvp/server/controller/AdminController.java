@@ -254,6 +254,14 @@ public class AdminController {
 	@GetMapping("/getjvjindouRule")
 	public ResultConstant getjvjindouRule() {
 		TbJvjindouRule jvjindouRule = jvjindouRuleService.queryTbJvjindouRule();
+		if(jvjindouRule==null) {
+			jvjindouRule=new TbJvjindouRule();
+			jvjindouRule.setFixedGiving(null);
+			jvjindouRule.setGivingRule("1");
+			jvjindouRule.setRandomGivingMax(null);
+			jvjindouRule.setRandomGivingMin(null);
+			jvjindouRule.setRestricts("1");
+		}
 		return ResultConstant.ofSuccess(jvjindouRule);
 	}
 	@ApiOperation(value = "聚金豆规则信息修改", notes = "修改赠送聚金豆规则,givingRule(赠送规则，2，固定，1随机)，randomGivingMin(随机赠送最小数),randomGivingMax(最大数),fixedGiving(固定赠送值)")
@@ -288,31 +296,35 @@ public class AdminController {
 	}
 	@ApiOperation(value = "聚金豆规则信息添加", notes = "添加聚金豆规则设定")
 	@PostMapping("/addjvjindouRule")
-	public ResultConstant addjvjindouRule(TbJvjindouRule jvjindouRule ) {
-		if(StringUtils.isEmpty(jvjindouRule)) {
-			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "参数有误");
-		}
-		if(jvjindouRule.getGivingRule().equals(Constant.FIXED_PATTERN)) {
-			if(!StringUtils.isEmpty(jvjindouRule.getFixedGiving())){
-				jvjindouRule.setFixedGiving(jvjindouRule.getFixedGiving());
-			}else {
-				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "参数有误");
-			}
-		}else if(jvjindouRule.getGivingRule().equals(Constant.FIXED_PATTERN)) {
-			if(!StringUtils.isEmpty(jvjindouRule.getRandomGivingMin()) && !StringUtils.isEmpty(jvjindouRule.getRandomGivingMax())){
-				jvjindouRule.setRandomGivingMax(jvjindouRule.getRandomGivingMax());
-				jvjindouRule.setRandomGivingMin(jvjindouRule.getRandomGivingMin());
-			}else {
-				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "参数有误");	
+	public ResultConstant addjvjindouRule(TbJvjindouRule jvjindouRules ) {
+		TbJvjindouRule jvjindouRule = jvjindouRuleService.queryTbJvjindouRule();
+		if(jvjindouRule==null) {
+			int result = jvjindouRuleService.insertJvjindouRule(jvjindouRules);
+			if(result>0) {
+				return ResultConstant.ofSuccess();
 			}
 		}else {
-			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "参数有误");
+			if(jvjindouRules.getGivingRule().equals(Constant.FIXED_PATTERN)) {
+				if(!StringUtils.isEmpty(jvjindouRules.getFixedGiving())){
+					jvjindouRule.setFixedGiving(jvjindouRules.getFixedGiving());
+				}else {
+					return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "参数有误");
+				}
+			}else if(jvjindouRules.getGivingRule().equals(Constant.RANDOUM_PATTERN)) {
+				if(!StringUtils.isEmpty(jvjindouRules.getRandomGivingMin()) && !StringUtils.isEmpty(jvjindouRules.getRandomGivingMax())){
+					jvjindouRule.setRandomGivingMax(jvjindouRules.getRandomGivingMax());
+					jvjindouRule.setRandomGivingMin(jvjindouRules.getRandomGivingMin());
+				}else {
+					return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "参数有误");	
+				}
+			}
+			jvjindouRule.setGivingRule(jvjindouRules.getGivingRule());
+			int result = jvjindouRuleService.updateJvjindouRule(jvjindouRule);
+			if(result>0) {
+				return ResultConstant.ofSuccess();
+			}
 		}
-			
-		int result = jvjindouRuleService.insertJvjindouRule(jvjindouRule);
-		if(result>0) {
-			return ResultConstant.ofSuccess();
-		}
+
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "修改失败");
 	
 	}

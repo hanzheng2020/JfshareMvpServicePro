@@ -43,7 +43,7 @@
 	    </javaClientGenerator>
 
       	<!--这里设置需要生成的表 -->
-        <table tableName="tb_system_information"
+        <table tableName="tb_jvjindou_rule"
         	enableCountByExample="true" enableUpdateByExample="true"  
 	        enableDeleteByExample="true" enableSelectByExample="true"  
 	        selectByExampleQueryId="true" >
