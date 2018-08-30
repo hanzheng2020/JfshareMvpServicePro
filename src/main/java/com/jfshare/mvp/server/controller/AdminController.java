@@ -228,7 +228,7 @@ public class AdminController {
 	}
 
 	@ApiOperation(value = "积分攻略文章发布", notes = "发布积分攻略文章")
-	@PutMapping("/jfRaiderRelease")
+	@PostMapping("/jfRaiderRelease")
 	public ResultConstant updatejfRaiders(@RequestParam(value = "id", required = true) Integer id) {
 		TbJfRaiders jfRaiders = jfRaidersService.queryJfRaidersOne(id);
 		jfRaiders.setStatus(2);
@@ -241,7 +241,7 @@ public class AdminController {
 	}
 
 	@ApiOperation(value = "积分攻略文章删除", notes = "根据传入的文章id，删除文章")
-	@DeleteMapping("/deletejfRaider")
+	@PostMapping("/deletejfRaider")
 	public ResultConstant deletejfRaiders(@RequestParam(value = "id", required = true) Integer id) {
 		int result = jfRaidersService.deletejfRaiders(id);
 		if (result > 0) {
