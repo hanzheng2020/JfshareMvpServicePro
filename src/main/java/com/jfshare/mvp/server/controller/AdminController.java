@@ -296,21 +296,21 @@ public class AdminController {
 				return ResultConstant.ofSuccess();
 			}
 		}else {
-			if(jvjindouRule.getGivingRule().equals(Constant.FIXED_PATTERN)) {
-				if(!StringUtils.isEmpty(jvjindouRule.getFixedGiving())){
-					jvjindouRule.setFixedGiving(jvjindouRule.getFixedGiving());
+			if(jvjindouRules.getGivingRule().equals(Constant.FIXED_PATTERN)) {
+				if(!StringUtils.isEmpty(jvjindouRules.getFixedGiving())){
+					jvjindouRule.setFixedGiving(jvjindouRules.getFixedGiving());
 				}else {
 					return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "参数有误");
 				}
-			}else if(jvjindouRule.getGivingRule().equals(Constant.RANDOUM_PATTERN)) {
-				if(!StringUtils.isEmpty(jvjindouRule.getRandomGivingMin()) && !StringUtils.isEmpty(jvjindouRule.getRandomGivingMax())){
-					jvjindouRule.setRandomGivingMax(jvjindouRule.getRandomGivingMax());
-					jvjindouRule.setRandomGivingMin(jvjindouRule.getRandomGivingMin());
+			}else if(jvjindouRules.getGivingRule().equals(Constant.RANDOUM_PATTERN)) {
+				if(!StringUtils.isEmpty(jvjindouRules.getRandomGivingMin()) && !StringUtils.isEmpty(jvjindouRules.getRandomGivingMax())){
+					jvjindouRule.setRandomGivingMax(jvjindouRules.getRandomGivingMax());
+					jvjindouRule.setRandomGivingMin(jvjindouRules.getRandomGivingMin());
 				}else {
 					return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "参数有误");	
 				}
 			}
-			jvjindouRule.setGivingRule(jvjindouRule.getGivingRule());
+			jvjindouRule.setGivingRule(jvjindouRules.getGivingRule());
 			int result = jvjindouRuleService.updateJvjindouRule(jvjindouRule);
 			if(result>0) {
 				return ResultConstant.ofSuccess();
