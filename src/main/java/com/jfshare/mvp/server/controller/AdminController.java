@@ -256,10 +256,11 @@ public class AdminController {
 		TbJvjindouRule jvjindouRule = jvjindouRuleService.queryTbJvjindouRule();
 		if(jvjindouRule==null) {
 			jvjindouRule=new TbJvjindouRule();
-			jvjindouRule.setFixedGiving(0);
-			jvjindouRule.setGivingRule("");
-			jvjindouRule.setRandomGivingMax(0);
-			jvjindouRule.setRandomGivingMin(0);
+			jvjindouRule.setFixedGiving(null);
+			jvjindouRule.setGivingRule("1");
+			jvjindouRule.setRandomGivingMax(null);
+			jvjindouRule.setRandomGivingMin(null);
+			jvjindouRule.setRestricts("1");
 		}
 		return ResultConstant.ofSuccess(jvjindouRule);
 	}

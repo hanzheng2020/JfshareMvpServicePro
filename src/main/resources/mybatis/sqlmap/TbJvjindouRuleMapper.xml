@@ -9,6 +9,7 @@
     <result column="random_giving_max" jdbcType="INTEGER" property="randomGivingMax" />
     <result column="fixed_giving" jdbcType="INTEGER" property="fixedGiving" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="restricts" jdbcType="VARCHAR" property="restricts" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,7 +71,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, create_time, giving_rule, random_giving_min, random_giving_max, fixed_giving, 
-    update_time
+    update_time, restricts
   </sql>
   <select id="selectByExample" parameterType="com.jfshare.mvp.server.model.TbJvjindouRuleExample" resultMap="BaseResultMap">
     select
@@ -108,11 +109,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into tb_jvjindou_rule (create_time, giving_rule, random_giving_min, 
-      random_giving_max, fixed_giving, update_time
-      )
+      random_giving_max, fixed_giving, update_time, 
+      restricts)
     values (#{createTime,jdbcType=TIMESTAMP}, #{givingRule,jdbcType=CHAR}, #{randomGivingMin,jdbcType=INTEGER}, 
-      #{randomGivingMax,jdbcType=INTEGER}, #{fixedGiving,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}
-      )
+      #{randomGivingMax,jdbcType=INTEGER}, #{fixedGiving,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{restricts,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.jfshare.mvp.server.model.TbJvjindouRule">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -138,6 +139,9 @@
       <if test="updateTime != null">
         update_time,
       </if>
+      <if test="restricts != null">
+        restricts,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="createTime != null">
@@ -157,6 +161,9 @@
       </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="restricts != null">
+        #{restricts,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -190,6 +197,9 @@
       <if test="record.updateTime != null">
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.restricts != null">
+        restricts = #{record.restricts,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -203,7 +213,8 @@
       random_giving_min = #{record.randomGivingMin,jdbcType=INTEGER},
       random_giving_max = #{record.randomGivingMax,jdbcType=INTEGER},
       fixed_giving = #{record.fixedGiving,jdbcType=INTEGER},
-      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      restricts = #{record.restricts,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -229,6 +240,9 @@
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="restricts != null">
+        restricts = #{restricts,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -239,7 +253,8 @@
       random_giving_min = #{randomGivingMin,jdbcType=INTEGER},
       random_giving_max = #{randomGivingMax,jdbcType=INTEGER},
       fixed_giving = #{fixedGiving,jdbcType=INTEGER},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      restricts = #{restricts,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
