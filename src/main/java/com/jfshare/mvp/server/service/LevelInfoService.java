@@ -47,7 +47,7 @@ public class LevelInfoService {
 		map.put("status", false);//是否是当日第一次赠送  false:否，true：是
 		map.put("amount", 0);//当次赠送的聚金豆数量
 		
-		logger.info(String.format("积分同步赠送聚金豆:userId{}", userId));
+		logger.info("积分同步赠送聚金豆:userId{}", userId);
 		TbLevelInfo levlInfo = levelInfoDao.selectLevelInfoByUserId(userId);
 		//List<TbLevelInfo> levelInfos = levelInfoDao.selectJvjindouRuleByUserId(userId);
 		// 判断当前用户是否有聚金豆， 没有则进行首次添加,有则进行判断今天是否查询过 查询过直接return 没有则按照定义赠送的规则添加聚金豆
@@ -62,6 +62,7 @@ public class LevelInfoService {
 			return map;
 		}
 		int num =0;
+		int status=1;
 		String givingRule = jvjindouRule.getGivingRule();
 		if (givingRule.equals(Constant.FIXED_PATTERN)) {
 			num=jvjindouRule.getFixedGiving();
@@ -80,25 +81,43 @@ public class LevelInfoService {
 
 			String curentTime = sdf.format(date);
 			if (curentTime.equals(queryTime)) {
-				logger.info(String.format("当日已经赠送不能重复赠送:givingRule{}", givingRule));
+				logger.info("当日已经赠送不能重复赠送:givingRule{}", givingRule);
 				return map;
 			} else {
-				levlInfo.setQueryTime(new Date());
-				levlInfo.setRealJvjindou(num);
-				levelInfoDao.updateLevelInfo(levlInfo);
+				long nuber = new Date().getTime();
+				String tradeid= nuber+"-"+userId;
+				logger.info("每日积分同步:tradeid:"+tradeid);
+				StringResult results=scoreClient.incomeScore(userId,num, 1, tradeid);
+				logger.info("每日积分同步:results{}", results);
+				status=results.getResult().code;
+				if(0==results.getResult().code) {
+					levlInfo.setQueryTime(new Date());
+					levlInfo.setRealJvjindou(num);
+					levelInfoDao.updateLevelInfo(levlInfo);
+				}
+
 			}
 		} else {
-			TbLevelInfo info = new TbLevelInfo();
-			info.setUserid(userId);
-			info.setGrowthPoint(0);
-			info.setGrade(Constant.GOLD);
-			info.setRealJvjindou(num);
-			levelInfoDao.insertSelective(info);
+			StringResult results=scoreClient.incomeScore(userId,num, 1, "0");
+			logger.info("每日积分同步:results{}", results);
+			status=results.getResult().code;
+			if(0==results.getResult().code) {
+				TbLevelInfo info = new TbLevelInfo();
+				info.setUserid(userId);
+				info.setGrowthPoint(0);
+				info.setGrade(Constant.GOLD);
+				info.setRealJvjindou(num);
+				info.setQueryTime(new Date());
+				levelInfoDao.insertSelective(info);
+			}
 		}
-		map.put("status", true);//是否是当日第一次赠送  false:否，true：是
-		map.put("amount", num);//当次赠送的聚金豆数量
-		StringResult results=scoreClient.incomeScore(userId,num, 1, "");
-		logger.info(String.format("每日积分同步:results{}", results));
+		//同步成功，返回聚金豆
+		if(status==0) {
+			map.put("status", true);//是否是当日第一次赠送  false:否，true：是
+			map.put("amount", num);//当次赠送的聚金豆数量
+		}
+
+
 		return map;
 	}
 
@@ -130,25 +149,28 @@ public class LevelInfoService {
 	public StringResult addlevelInfo(int userid,int integral,String orderId,int amont) {
 		TbLevelInfo levelInfo =levelInfoDao.selectLevelInfoByUserId(userid);
 		String  levle=levelInfo.getGrade();
-		Double b;
+		Double b=0.00;
+		logger.info("赠送积分:"+integral);
 		if(Constant.PLATIMUM.equals(levle)) {
 			 b=integral*0.05;
-			integral+=Integer.parseInt(b.toString());
 		}else if(Constant.BLACK.equals(levle)) {
 			 b=integral*0.1;
-			integral+=Integer.parseInt(b.toString());
 		}else if(Constant.DIAMOND.equals(levle)) {
 			 b=integral*0.15;
-			integral+=Integer.parseInt(b.toString());
 		}
+		integral+=b.intValue();
+		logger.info("赠送总积分:"+integral+",赠送积分"+b);
 		TbLevelInfo info = levelInfoDao.selectLevelInfoByUserId(userid);
-		if(info!=null) {
-			info.setRealJvjindou(info.getGrowthPoint()+amont);
+		StringResult results=scoreClient.incomeScore(userid,integral, 1, orderId);
+		logger.info("积分增加:results:"+results+"code"+results.getResult().getCode());
+		if(info!=null&&results.getResult().code==0) {
+			logger.info("增加成长值:"+amont);
+			info.setGrowthPoint((info.getGrowthPoint()+amont));
+			logger.info("增加成长值:"+info.getGrowthPoint());
 			levelInfoDao.updateLevelInfo(info);
 		}
 		
-		StringResult results=scoreClient.incomeScore(userid,integral, 1, orderId);
-		logger.info(String.format("积分增加:results{}", results));
+
 		return results;
 	}
 	//聚分享平台同步聚金豆(减少)
@@ -162,7 +184,7 @@ public class LevelInfoService {
 		}
 		levelInfoDao.updateLevelInfo(info);
 		StringResult results = scoreClient.reduceScore(userid, integral, 1, orderId);
-		logger.info(String.format("积分增加:results{}", results));
+		logger.info(String.format("积分减少:results{}", results));
 		return results;
 	}
 	

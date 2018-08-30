@@ -56,6 +56,7 @@ public class ProductScheduler {
 					product.setProductId(productId);
 					product.setProductName(productSurvey.getProductName());
 					product.setItemNo(productSurvey.getSubjectId());
+					product.setSellerId(productSurvey.getSellerId());
 					product.setCurPrice(productSurvey.getMinCurPrice());
 					product.setOrgPrice(productSurvey.getMinOrgPrice());
 					product.setPresentexp(0);// 赠送聚金豆默认为0 后台配置

@@ -1,11 +1,13 @@
 package com.jfshare.finagle;
 
+import com.alibaba.fastjson.JSONObject;
 import com.jfshare.finagle.thrift.product.ProductSurvey;
 import com.jfshare.finagle.thrift.product.ProductSurveyResult;
 import com.jfshare.finagle.thrift.result.StringResult;
 import com.jfshare.finagle.thrift.score.ScoreResult;
 import com.jfshare.mvp.es.test.TestProductRepository;
 import com.jfshare.mvp.server.constants.Constant;
+import com.jfshare.mvp.server.finagle.server.OrderClient;
 import com.jfshare.mvp.server.finagle.server.ProductClient;
 import com.jfshare.mvp.server.finagle.server.ScoreClient;
 import com.jfshare.mvp.server.model.Product;
@@ -30,6 +32,9 @@ public class test extends TestProductRepository {
     
     @Autowired
     ProductService productService;
+    
+    @Autowired
+    OrderClient orderClient;
 
     @Test
     public void testFinagle(){
@@ -60,15 +65,18 @@ public class test extends TestProductRepository {
     	System.out.println(queryProduct);
     }
 
-    /*@Test
+    @Test
     public void testQueryStock() {
-    	System.out.println(scoreClient.pointIncomeOrExpenses(288108, "1"));
-    }*/
+    	StringResult result = orderClient.sellerQueryDetail(115,"60396265");
+    	String value = result.getValue();
+    	JSONObject parseObject = JSONObject.parseObject(value);
+    	System.out.println(parseObject.getString("productId"));
+    }
 
     
     @Test
     public void testPoduct() {
-		// 查询聚分享的虚拟商品
+    	// 查询聚分享的虚拟商品
 		ProductSurveyResult jProduct = productClient.queryProduct();
 		if (jProduct != null && jProduct.getProductSurveyList().size() > 0) {
 			List<ProductSurvey> jProductList = jProduct.getProductSurveyList();
@@ -76,28 +84,22 @@ public class test extends TestProductRepository {
 				// 同步聚分享虚拟商品到mvp商品
 				String productId = productSurvey.getProductId();
 				TbProduct productOne = productService.getProductOne(productId);
+
+				Product product = new Product();
 				// 获取聚分享实际库存
 				int count = productClient.getProductCardByState(productId);
-				Product product = new Product();
-				
-				// 获取商品的状态
-				int activeState = productSurvey.getActiveState();
-				// 只有商品状态为300是上架状态
-				if (activeState == Constant.JPRODUCT_SOLT_OUT) {
-					product.setActiveState(Constant.PRODUCT_STATE_ONSELL);
-				} else {
-					// 其他状态都设置成待上架的状态
-					product.setActiveState(Constant.PRODUCT_SOLT_OUT);
-				}
+				product.setProductStock(count);
+				//状态都设置成待上架的状态
+				product.setActiveState(Constant.PRODUCT_SOLT_OUT);
 						
 				if (productOne == null) {
 					product.setProductId(productId);
 					product.setProductName(productSurvey.getProductName());
 					product.setItemNo(productSurvey.getSubjectId());
+					product.setSellerId(productSurvey.getSellerId());
 					product.setCurPrice(productSurvey.getMinCurPrice());
 					product.setOrgPrice(productSurvey.getMinOrgPrice());
 					product.setPresentexp(0);// 赠送聚金豆默认为0 后台配置
-					product.setProductStock(count);
 					product.setImgKey(productSurvey.getImgUrl());
 					// 同步到mvp商品
 					productService.addProduct(product);
@@ -108,7 +110,6 @@ public class test extends TestProductRepository {
 					product.setCurPrice(productOne.getCurPrice());
 					product.setOrgPrice(productOne.getOrgPrice());
 					product.setPresentexp(productOne.getPresentexp());
-					product.setProductStock(count);
 					product.setImgKey(productOne.getImgKey());
 					productService.updateProduct(product);
 				}

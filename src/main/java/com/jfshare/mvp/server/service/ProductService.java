@@ -21,6 +21,7 @@ import com.jfshare.mvp.server.model.ProductSurveyQueryParam;
 import com.jfshare.mvp.server.model.TbProduct;
 import com.jfshare.mvp.server.model.TbProductDetail;
 import com.jfshare.mvp.server.model.TbProductDetailExample;
+import com.jfshare.mvp.server.model.TbProductDetailWithBLOBs;
 import com.jfshare.mvp.server.model.TbProductExample;
 import com.jfshare.mvp.server.model.TbProductItem;
 import com.jfshare.mvp.server.model.TbProductSurvey;
@@ -38,6 +39,8 @@ public class ProductService {
 	private TbProductDetailMapper tbProductDetailMapper;
 	@Autowired
 	private TbProductItemDao tbProductItemDao;
+	@Autowired
+	private ProductDetailService productDetailService;
 
 	//根据条件搜索商品信息
 	public List<TbProductSurvey> productSurveyQuery(String param,Integer itemNo,Integer activeState, Integer curpage,
@@ -69,6 +72,7 @@ public class ProductService {
 		TbProductWithBLOBs tbProductWithBLOBs = new TbProductWithBLOBs();
 		tbProductWithBLOBs.setProductId(product.getProductId());
 		tbProductWithBLOBs.setProductName(product.getProductName());
+		tbProductWithBLOBs.setSellerId(product.getSellerId());
 		tbProductWithBLOBs.setItemNo(product.getItemNo());
 		tbProductWithBLOBs.setProductHeader(product.getProductHeader());
 		tbProductWithBLOBs.setCurPrice(product.getCurPrice());
@@ -79,7 +83,7 @@ public class ProductService {
 		tbProductWithBLOBs.setImgKey(product.getImgKey());
 		tbProductWithBLOBs.setCreateTime(new Date());
 		// 商品使用说明和商品兑换说明使用product_detail表更新
-		TbProductDetail tbProductDetail = new TbProductDetail();
+		TbProductDetailWithBLOBs tbProductDetail = new TbProductDetailWithBLOBs();
 		tbProductDetail.setDetailKey(product.getProductId());
 		tbProductDetail.setProductInstructions(product.getProductInstructions());
 		tbProductDetail.setProductExchange(product.getProductExchange());
@@ -96,11 +100,11 @@ public class ProductService {
 	//删除商品
 	public int deleteProduct(String productId) {
 		int result = 0;
-		TbProductDetailExample example = new TbProductDetailExample();
 		if (productId.contains(",")) {
 			String[] productIdStr = productId.split(",");
 			for(int i = 0;i < productIdStr.length;i++) {
 				if(!StringUtils.isEmpty(productIdStr[i])) {
+					TbProductDetailExample example = new TbProductDetailExample();
 					example.createCriteria().andDetailKeyEqualTo(productIdStr[i]);
 					int count = tbProductDetailMapper.deleteByExample(example);
 					if (count > 0) {
@@ -109,6 +113,7 @@ public class ProductService {
 				}
 			}
 		}else {
+			TbProductDetailExample example = new TbProductDetailExample();
 			example.createCriteria().andDetailKeyEqualTo(productId);
 			int count = tbProductDetailMapper.deleteByExample(example);
 			if (count > 0) {
@@ -123,6 +128,7 @@ public class ProductService {
 		TbProductWithBLOBs tbProductWithBLOBs = new TbProductWithBLOBs();
 		tbProductWithBLOBs.setProductId(product.getProductId());
 		tbProductWithBLOBs.setProductName(product.getProductName());
+		tbProductWithBLOBs.setSellerId(product.getSellerId());
 		tbProductWithBLOBs.setItemNo(product.getItemNo());
 		tbProductWithBLOBs.setProductHeader(product.getProductHeader());
 		tbProductWithBLOBs.setCurPrice(product.getCurPrice());
@@ -138,7 +144,7 @@ public class ProductService {
 		}
 		tbProductWithBLOBs.setImgKey(product.getImgKey());
 		// 更新商品详情表
-		TbProductDetail tbProductDetail = new TbProductDetail();
+		TbProductDetailWithBLOBs tbProductDetail = new TbProductDetailWithBLOBs();
 		tbProductDetail.setDetailKey(product.getProductId());
 		tbProductDetail.setProductInstructions(product.getProductInstructions());
 		tbProductDetail.setProductExchange(product.getProductExchange());
@@ -155,11 +161,10 @@ public class ProductService {
 	}
 	
 	//商品导出execl表格
-	public String exportProduct(String param,Integer itemNo,Integer activeState, Integer curpage,
-			Integer percount) {
+	public String exportProduct(String param,Integer itemNo,Integer activeState) {
 		 String path = "";
 		 try {
-			List<TbProductSurvey> productList = productSurveyQuery(param,itemNo,activeState,curpage,percount);
+			List<TbProductSurvey> productList = productSurveyQuery(param,itemNo,activeState,1,1000);
 			 if(productList != null && productList.size() > 0) {
 				 byte[] files = FileOpUtil.getExportProduct(productList);
 				 path = FileOpUtil.uploadFile(files, DateUtils.dateToStr(new Date(), Constant.FORMAT_DEFAULT_MIN) + ".xls");
@@ -189,7 +194,7 @@ public class ProductService {
 	/**
 	 * 
 	 * 根据类目id来搜索商品
-	 * @param productId
+	 * @param itemNo
 	 * @return
 	 */
 	public List<TbProductSurvey> queryProductByItemNo(Integer itemNo) {
@@ -198,7 +203,7 @@ public class ProductService {
 		logger.info("tbProductItems : " + tbProductItems.size());
 		ProductSurveyQueryParam productParam = new ProductSurveyQueryParam();
 		productParam.setActiveState(0);
-		productParam.setActiveState(200);//只查询已上架的商品
+		productParam.setActiveState(Constant.PRODUCT_STATE_ONSELL);//只查询已上架的商品
 		if(tbProductItems.size() > 0) {
 			for (TbProductItem tbProductItem : tbProductItems) {
 				logger.info("ItemNo : " + tbProductItem.getItemNo());
@@ -218,5 +223,30 @@ public class ProductService {
 			}
 		}	
 		return productList;
+	}
+	
+	public int changeProductState(String productId,Integer activeState) {
+		Product product = new Product();
+		int count = 0;
+		TbProduct productOne = getProductOne(productId);
+		if(productOne != null) {
+			product.setProductId(productOne.getProductId());
+			product.setProductName(productOne.getProductName());
+			product.setItemNo(productOne.getItemNo());
+			product.setProductHeader(productOne.getProductHeader());
+			product.setCurPrice(productOne.getCurPrice());
+			product.setOrgPrice(productOne.getOrgPrice());
+			product.setPresentexp(productOne.getPresentexp());
+			product.setProductStock(productOne.getProductStock());
+			product.setActiveState(activeState);
+			product.setImgKey(productOne.getImgKey());
+			List<TbProductDetailWithBLOBs> productDetails =  productDetailService.selectByExample(productId);
+			if(productDetails!=null&&productDetails.size()>0) {
+				product.setProductInstructions(productDetails.get(0).getProductInstructions());
+				product.setProductExchange(productDetails.get(0).getProductExchange());
+			}
+			count = updateProduct(product);
+		}
+		return count;
 	}
 }

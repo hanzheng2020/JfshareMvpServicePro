@@ -5,6 +5,7 @@ import java.util.Date;
 public class Product {
 	private Integer itemNo;//类目
 	private String productId;//商品id
+	private Integer sellerId;//卖家id
 	private String productName;//商品名称
 	private String productHeader;//商品副标题
 	private String curPrice;//商品价格
@@ -18,6 +19,12 @@ public class Product {
 	private Date lastSoldoutTime;//下架时间
 	private Date lastPutawayTime;//上架时间
 	
+	public Integer getSellerId() {
+		return sellerId;
+	}
+	public void setSellerId(Integer sellerId) {
+		this.sellerId = sellerId;
+	}
 	public String getOrgPrice() {
 		return orgPrice;
 	}

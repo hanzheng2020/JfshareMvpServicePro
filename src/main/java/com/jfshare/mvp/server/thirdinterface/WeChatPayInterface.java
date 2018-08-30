@@ -25,14 +25,14 @@ public class WeChatPayInterface {
 	private ConfigManager configManager;
 	
 	private static String payUrl = "https://api.mch.weixin.qq.com/pay/unifiedorder";
-	private String appid = "wxe71603074adcfb75";
-	private String mch_id = "1330572901";
-	private String key = "ewevqNRrAvhlFmqFiKbOmt4qIM0buotw";
+	private String appid = "wxc93b05e31a57d38c";
+	private String mch_id = "1512993531";
+	private String key = "obAgnUgq9maCq78afz07pyn30HighrdA";
 	private String notify_url = "";
 	
 	@PostConstruct
 	public void init() {
-		notify_url = configManager.getConfigValue("jfx_pay_serv", "weixinpay_notify_url");
+		notify_url = configManager.getConfigValue("jfx_pay_serv", "weixinpay_notify_url_mvp");
 	}
 
 	/**
@@ -44,7 +44,7 @@ public class WeChatPayInterface {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public Map<String, Object> createPrepayId(String productDesc, String orderId, int amount, String userIp,String payId) {
+	public Map<String, Object> createPrepayId(String productDesc, int amount, String userIp,String payId) {
 		Map<String, Object> requestMap = new HashMap<>();
 		Map<String, Object> context = new HashMap<>();
 		context.put("appid", appid);
@@ -70,10 +70,12 @@ public class WeChatPayInterface {
 				resultMap.put("appid", appid);
 				resultMap.put("partnerid", mch_id);
 				resultMap.put("prepayid", prepay_id);
-				resultMap.put("packageInfo", "Sign=WXPay");
+				resultMap.put("package", "Sign=WXPay");
 				resultMap.put("noncestr", UUIDutils.getUUID());
-				resultMap.put("timestamp", System.currentTimeMillis());
+				resultMap.put("timestamp", System.currentTimeMillis()/1000);
 				resultMap.put("sign", createSign(resultMap));
+				resultMap.remove("package");
+				resultMap.put("packageValue", "Sign=WXPay");
 			}
 		} catch (DocumentException e) {
 			e.printStackTrace();

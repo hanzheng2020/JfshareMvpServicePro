@@ -192,7 +192,7 @@
 		<dependency>
 			<groupId>com.jfshare</groupId>
 			<artifactId>jfshare-model</artifactId>
-			<version>1.0.2.boot</version>
+			<version>1.0.3.boot</version>
 		</dependency>
 
 
@@ -262,10 +262,28 @@
 		</dependency>
 
 		<!--finagle end-->
-
-
-
-
+           <!-- 极光推送 -->
+          <dependency>
+            <groupId>cn.jpush.api</groupId>
+            <artifactId>jpush-client</artifactId>
+            <version>3.2.7</version>
+       </dependency>
+       <dependency>
+            <groupId>cn.jpush.api</groupId>
+            <artifactId>jiguang-common</artifactId>
+            <version>1.0.1</version>
+       </dependency>
+       <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.6.Final</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.7</version>
+        </dependency>
 
 	</dependencies>
 

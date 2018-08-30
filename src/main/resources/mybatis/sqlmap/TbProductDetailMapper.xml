@@ -4,11 +4,13 @@
   <resultMap id="BaseResultMap" type="com.jfshare.mvp.server.model.TbProductDetail">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="detail_key" jdbcType="VARCHAR" property="detailKey" />
-    <result column="product_detail" jdbcType="VARCHAR" property="productDetail" />
-    <result column="product_instructions" jdbcType="VARCHAR" property="productInstructions" />
-    <result column="product_exchange" jdbcType="VARCHAR" property="productExchange" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.jfshare.mvp.server.model.TbProductDetailWithBLOBs">
+    <result column="product_detail" jdbcType="LONGVARCHAR" property="productDetail" />
+    <result column="product_instructions" jdbcType="LONGVARCHAR" property="productInstructions" />
+    <result column="product_exchange" jdbcType="LONGVARCHAR" property="productExchange" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,14 +71,34 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, detail_key, product_detail, product_instructions, product_exchange, create_time, 
-    update_time
+    id, detail_key, create_time, update_time
   </sql>
+  <sql id="Blob_Column_List">
+    product_detail, product_instructions, product_exchange
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.jfshare.mvp.server.model.TbProductDetailExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_product_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
   <select id="selectByExample" parameterType="com.jfshare.mvp.server.model.TbProductDetailExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
+    'true' as QUERYID,
     <include refid="Base_Column_List" />
     from tb_product_detail
     <if test="_parameter != null">
@@ -86,9 +108,11 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from tb_product_detail
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -102,22 +126,31 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.jfshare.mvp.server.model.TbProductDetail">
-    insert into tb_product_detail (id, detail_key, product_detail, 
-      product_instructions, product_exchange, create_time, 
-      update_time)
-    values (#{id,jdbcType=INTEGER}, #{detailKey,jdbcType=VARCHAR}, #{productDetail,jdbcType=VARCHAR}, 
-      #{productInstructions,jdbcType=VARCHAR}, #{productExchange,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP})
+  <insert id="insert" parameterType="com.jfshare.mvp.server.model.TbProductDetailWithBLOBs">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_product_detail (detail_key, create_time, update_time, 
+      product_detail, product_instructions, 
+      product_exchange)
+    values (#{detailKey,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{productDetail,jdbcType=LONGVARCHAR}, #{productInstructions,jdbcType=LONGVARCHAR}, 
+      #{productExchange,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.jfshare.mvp.server.model.TbProductDetail">
+  <insert id="insertSelective" parameterType="com.jfshare.mvp.server.model.TbProductDetailWithBLOBs">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into tb_product_detail
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="detailKey != null">
         detail_key,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
       </if>
       <if test="productDetail != null">
         product_detail,
@@ -128,28 +161,10 @@
       <if test="productExchange != null">
         product_exchange,
       </if>
-      <if test="createTime != null">
-        create_time,
-      </if>
-      <if test="updateTime != null">
-        update_time,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="detailKey != null">
         #{detailKey,jdbcType=VARCHAR},
-      </if>
-      <if test="productDetail != null">
-        #{productDetail,jdbcType=VARCHAR},
-      </if>
-      <if test="productInstructions != null">
-        #{productInstructions,jdbcType=VARCHAR},
-      </if>
-      <if test="productExchange != null">
-        #{productExchange,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -157,9 +172,18 @@
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="productDetail != null">
+        #{productDetail,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="productInstructions != null">
+        #{productInstructions,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="productExchange != null">
+        #{productExchange,jdbcType=LONGVARCHAR},
+      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.jfshare.mvp.server.model.TbProductDetailExample" resultType="java.lang.Integer">
+  <select id="countByExample" parameterType="com.jfshare.mvp.server.model.TbProductDetailExample" resultType="java.lang.Long">
     select count(*) from tb_product_detail
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -174,22 +198,35 @@
       <if test="record.detailKey != null">
         detail_key = #{record.detailKey,jdbcType=VARCHAR},
       </if>
-      <if test="record.productDetail != null">
-        product_detail = #{record.productDetail,jdbcType=VARCHAR},
-      </if>
-      <if test="record.productInstructions != null">
-        product_instructions = #{record.productInstructions,jdbcType=VARCHAR},
-      </if>
-      <if test="record.productExchange != null">
-        product_exchange = #{record.productExchange,jdbcType=VARCHAR},
-      </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.updateTime != null">
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.productDetail != null">
+        product_detail = #{record.productDetail,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.productInstructions != null">
+        product_instructions = #{record.productInstructions,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.productExchange != null">
+        product_exchange = #{record.productExchange,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update tb_product_detail
+    set id = #{record.id,jdbcType=INTEGER},
+      detail_key = #{record.detailKey,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      product_detail = #{record.productDetail,jdbcType=LONGVARCHAR},
+      product_instructions = #{record.productInstructions,jdbcType=LONGVARCHAR},
+      product_exchange = #{record.productExchange,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -198,29 +235,17 @@
     update tb_product_detail
     set id = #{record.id,jdbcType=INTEGER},
       detail_key = #{record.detailKey,jdbcType=VARCHAR},
-      product_detail = #{record.productDetail,jdbcType=VARCHAR},
-      product_instructions = #{record.productInstructions,jdbcType=VARCHAR},
-      product_exchange = #{record.productExchange,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.jfshare.mvp.server.model.TbProductDetail">
+  <update id="updateByPrimaryKeySelective" parameterType="com.jfshare.mvp.server.model.TbProductDetailWithBLOBs">
     update tb_product_detail
     <set>
       <if test="detailKey != null">
         detail_key = #{detailKey,jdbcType=VARCHAR},
-      </if>
-      <if test="productDetail != null">
-        product_detail = #{productDetail,jdbcType=VARCHAR},
-      </if>
-      <if test="productInstructions != null">
-        product_instructions = #{productInstructions,jdbcType=VARCHAR},
-      </if>
-      <if test="productExchange != null">
-        product_exchange = #{productExchange,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -228,15 +253,31 @@
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="productDetail != null">
+        product_detail = #{productDetail,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="productInstructions != null">
+        product_instructions = #{productInstructions,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="productExchange != null">
+        product_exchange = #{productExchange,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.jfshare.mvp.server.model.TbProductDetailWithBLOBs">
+    update tb_product_detail
+    set detail_key = #{detailKey,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      product_detail = #{productDetail,jdbcType=LONGVARCHAR},
+      product_instructions = #{productInstructions,jdbcType=LONGVARCHAR},
+      product_exchange = #{productExchange,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.jfshare.mvp.server.model.TbProductDetail">
     update tb_product_detail
     set detail_key = #{detailKey,jdbcType=VARCHAR},
-      product_detail = #{productDetail,jdbcType=VARCHAR},
-      product_instructions = #{productInstructions,jdbcType=VARCHAR},
-      product_exchange = #{productExchange,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}

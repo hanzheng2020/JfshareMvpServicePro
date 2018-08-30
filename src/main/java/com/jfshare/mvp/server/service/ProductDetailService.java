@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.jfshare.mvp.server.dao.ProductDetailDao;
 import com.jfshare.mvp.server.model.TbProductDetail;
 import com.jfshare.mvp.server.model.TbProductDetailExample;
+import com.jfshare.mvp.server.model.TbProductDetailWithBLOBs;
 
 @Service
 public class ProductDetailService {
@@ -16,7 +17,7 @@ public class ProductDetailService {
 	private ProductDetailDao ProductDetailDao;
 	
 	
-	public List<TbProductDetail> selectByExample(String  productId){
+	public List<TbProductDetailWithBLOBs> selectByExample(String  productId){
 		TbProductDetailExample example =  new TbProductDetailExample();
 		example.createCriteria().andDetailKeyEqualTo(productId);
 		return ProductDetailDao.selectByExample(example);

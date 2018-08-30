@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,16 +20,19 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.pagehelper.PageInfo;
 import com.jfshare.mvp.server.constants.Constant;
 import com.jfshare.mvp.server.constants.ResultConstant;
+import com.jfshare.mvp.server.model.TbAppVerifySetting;
 import com.jfshare.mvp.server.model.TbJfRaiders;
 import com.jfshare.mvp.server.model.TbJvjindouRule;
 import com.jfshare.mvp.server.model.TbProductItem;
-import com.jfshare.mvp.server.model.TbProductItemShow;
+import com.jfshare.mvp.server.model.TbSystemInformation;
 import com.jfshare.mvp.server.service.AdminService;
+import com.jfshare.mvp.server.service.AppVerifySettingService;
 import com.jfshare.mvp.server.service.JfRaidersService;
 import com.jfshare.mvp.server.service.JvjindouRuleService;
 import com.jfshare.mvp.server.service.ProductItemService;
 import com.jfshare.mvp.server.service.PromotionSettingService;
-import com.jfshare.mvp.server.utils.ConvertBeanToMapUtils;
+import com.jfshare.mvp.server.service.SystemInformationService;
+import com.jfshare.mvp.server.utils.JedisClusterUtils;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -53,12 +57,26 @@ public class AdminController {
 
 	@Autowired
 	private JfRaidersService jfRaidersService;
+	
+	@Autowired
+	private SystemInformationService systemInformationService;
 
 	@Autowired
 	private AdminService adminService;
 	
+	@Autowired
+	private AppVerifySettingService appVerifySettingService;
+	
+
+	
+	@ApiOperation(value = "IOS上线审核设置", notes = "保存IOS上线审核设置")
+	@PostMapping("/appVerifySetting")
+	public ResultConstant saveAppVerifySetting(@RequestBody TbAppVerifySetting tbAppVerifySetting) {
+		return appVerifySettingService.saveAppVerifyProducts(tbAppVerifySetting);
+	}
+	
 	@SuppressWarnings("rawtypes")
-	@ApiOperation(value = "保存推广微页面设置", notes = "保存传入的推广配置和类目商品展示配置")
+	@ApiOperation(value = "保存并发布推广微页面设置", notes = "保存并发布传入的推广配置和类目商品展示配置")
 	@PostMapping("/promotionSetting")
 	public ResultConstant savePromotionSetting(@RequestBody Map<String, List<Map>> map) {
 		List<Map> productPromotions = map.get("productPromotions");
@@ -67,10 +85,22 @@ public class AdminController {
 		if (result) {
 			return ResultConstant.ofSuccess();
 		}
-		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "保存推广微页面设置失败！");
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "保存并发布推广微页面设置失败！");
 	}
+	
+	@ApiOperation(value = "获取推广微页面设置", notes = "获取推广配置和类目商品展示配置")
+	@GetMapping("/promotionSetting")
+	public ResultConstant getPromotionSetting() {
+		Map<String, List<Map<String, Object>>> result = promotionSettingService.getPromotionSetting();
+		if (!MapUtils.isEmpty(result)) {
+			return ResultConstant.ofSuccess(result);
+		}
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取推广微页面设置失败！");
+	}
+	
+	
 
-	@ApiOperation(value = "发布配置的推广微页面", notes = "publishInd = true时，发布上次保存的推广微页面配置")
+	/*@ApiOperation(value = "发布配置的推广微页面", notes = "publishInd = true时，发布上次保存的推广微页面配置")
 	@PostMapping("/publishPromotionSetting")
 	public ResultConstant publishPromotionSetting(@RequestBody Boolean publishInd) {
 		boolean result = promotionSettingService.publishPromotionSetting(publishInd);
@@ -100,7 +130,7 @@ public class AdminController {
 			return ResultConstant.ofSuccess(ConvertBeanToMapUtils.convertBeanListToMap(tbProductItemShows, "products"));
 		}
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取类目商品展示失败！");
-	}
+	}*/
 
 	@ApiOperation(value = "更新商品类目", notes = "根据传入的商品类目配置，重新配置商品类目")
 	@PostMapping("/productItem")
@@ -198,7 +228,7 @@ public class AdminController {
 	}
 
 	@ApiOperation(value = "积分攻略文章发布", notes = "发布积分攻略文章")
-	@PutMapping("/jfRaiderRelease")
+	@PostMapping("/jfRaiderRelease")
 	public ResultConstant updatejfRaiders(@RequestParam(value = "id", required = true) Integer id) {
 		TbJfRaiders jfRaiders = jfRaidersService.queryJfRaidersOne(id);
 		jfRaiders.setStatus(2);
@@ -211,7 +241,7 @@ public class AdminController {
 	}
 
 	@ApiOperation(value = "积分攻略文章删除", notes = "根据传入的文章id，删除文章")
-	@DeleteMapping("/deletejfRaider")
+	@PostMapping("/deletejfRaider")
 	public ResultConstant deletejfRaiders(@RequestParam(value = "id", required = true) Integer id) {
 		int result = jfRaidersService.deletejfRaiders(id);
 		if (result > 0) {
@@ -287,6 +317,47 @@ public class AdminController {
 	
 	}
 	
+	@ApiOperation(value = "系统消息填加", notes = "添加聚金豆规则设定,title:标题，cont：内容，user：创建用户")
+	@PostMapping("/addInformation")
+	public ResultConstant addInformation(
+			@RequestParam(value="title",required=true)String title,
+			@RequestParam(value="cont",required=true)String cont,
+			@RequestParam(value="user",required=true)String user) {
+		TbSystemInformation systemInformation = new TbSystemInformation();
+		Date date  = new Date();
+		systemInformation.setTitle(title);
+		systemInformation.setStatus(1);
+		systemInformation.setContent(cont);
+		systemInformation.setCreateUser(user);
+		systemInformation.setUpdateTime(date);
+		int result = systemInformationService.saveSystemInformation(systemInformation);
+		if(result>0) {
+			return ResultConstant.ofSuccess();
+		}
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "添加失败");
+	}
+	@ApiOperation(value = "系统消息填加并发布", notes = "添加聚金豆规则设定,title:标题，cont：内容，user：创建用户")
+	@PostMapping("/addAndReleaseInformation")
+	public ResultConstant addAndReleaseInformation(
+			@RequestParam(value="title",required=true)String title,
+			@RequestParam(value="cont",required=true)String cont,
+			@RequestParam(value="user",required=true)String user) {
+		TbSystemInformation systemInformation = new TbSystemInformation();
+		Date date  = new Date();
+		systemInformation.setTitle(title);
+		systemInformation.setStatus(2);
+		systemInformation.setContent(cont);
+		systemInformation.setCreateUser(user);
+		systemInformation.setReleaseTime(date);
+		systemInformation.setUpdateTime(date);
+		int result = systemInformationService.saveSystemInformation(systemInformation);
+		if(result>0) {
+			return ResultConstant.ofSuccess();
+		}
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "添加失败");
+	}
+	
+	
 	@ApiOperation(value = "管理员登陆", notes = "管理员登陆")
 	@PostMapping("/adminLogin")
 	public ResultConstant adminLogin(@RequestParam(value="loginId",required=true)String loginId,
@@ -299,6 +370,80 @@ public class AdminController {
 		return ResultConstant.ofSuccess(map);
 	}
 	
+	@ApiOperation(value="系统消息查询（管理中心）",notes ="系统消息查询,titleOrContent:标题或者内容，page:当前页，pageSize：每页条数")
+	@GetMapping("/getInformation")
+	public ResultConstant getInformation(
+			@RequestParam(value="titleOrContent",required=false)String titleOrContent,
+			@RequestParam(value="page",required=true)Integer page,
+			@RequestParam(value="pageSize",required=true)Integer pageSize
+			) {
+		PageInfo pageInfo = systemInformationService.getSystemInformations(titleOrContent, page, pageSize);
+		return ResultConstant.ofSuccess(pageInfo);
+		
+	}
 	
+
+	
+	@ApiOperation(value="系统消息修改",notes="系统消息修改，id:消息id，title:标题，cont:内容")
+	@PostMapping("/updateInformation")
+	public ResultConstant updateInformation(
+			@RequestParam(value="id",required=true)Integer id,
+			@RequestParam(value="title",required=true)String title,
+			@RequestParam(value="cont",required=true)String cont) {
+		TbSystemInformation systemInformation = systemInformationService.getInformatinInfo(id);
+		int result=0;
+		if(systemInformation!=null) {
+			systemInformation.setTitle(title);
+			systemInformation.setContent(cont);
+			result = systemInformationService.updateSystemInformation(systemInformation);
+		}
+		if(result>0) {
+			return ResultConstant.ofSuccess();
+		}
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "修改失败");
+	}
+	
+	@ApiOperation(value="系统消息删除",notes="删除系统消息，id:消息id")
+	@PostMapping("/deleteInformation")
+	public ResultConstant deleteInformation(@RequestParam(value="id",required=true)String id) {
+		int result=0;
+		String [] ids = id.split(",");
+		for(int i=0;i<ids.length;i++) {
+			result = systemInformationService.deleteSystemInformation(Integer.parseInt(ids[i]));
+		}
+		if(result>0) {
+			return ResultConstant.ofSuccess();
+		}
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "删除失败");
+	}
+
+	
+	@ApiOperation(value="系统消息详情",notes="获取系统详情，id:消息id")
+	@GetMapping("/getInformationInfo")
+	public ResultConstant getInformationInfo(
+			@RequestParam(value="id",required=true)Integer id) {
+		TbSystemInformation systemInformation = systemInformationService.getInformatinInfo(id);
+		if(systemInformation!=null) {
+			return ResultConstant.ofSuccess(systemInformation);
+		}
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "获取失败，请检查id是否正确");
+	}
+	
+	@ApiOperation(value="系统消息发布",notes="系统消息发布，id:消息id")
+	@PostMapping("/releaseformation")
+	public ResultConstant releaseformation(
+			@RequestParam(value="id",required=true)Integer id) {
+		TbSystemInformation systemInformation = systemInformationService.getInformatinInfo(id);
+		int result=0;
+		if(systemInformation!=null && systemInformation.getStatus()==1) {
+			systemInformation.setStatus(2);
+			systemInformation.setReleaseTime(new Date());
+			result = systemInformationService.updateSystemInformation(systemInformation);
+		}
+		if(result>0) {
+			return ResultConstant.ofSuccess();
+		}
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "发布失败");
+	}
 	
 }
