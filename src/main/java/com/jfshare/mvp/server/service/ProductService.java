@@ -91,14 +91,8 @@ public class ProductService {
 	 * @return
 	 */
 	public Page<ESProduct> queryESProduct(String productName, int pageIndex, int pageSize) {
-		BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
-		char[] chars = productName.toCharArray();
-		for (int i=0; i<chars.length; i++) {
-			boolQueryBuilder.must(QueryBuilders.wildcardQuery("productName", "*"+chars[i]+"*"));
-		}
 		
-		return esProductRepository.search(boolQueryBuilder, PageRequest.of(pageIndex, pageSize));
-//		return esProductRepository.findByProductNameLike(productName, PageRequest.of(pageIndex, pageSize));
+		return esProductRepository.search(QueryBuilders.queryStringQuery(productName), PageRequest.of(pageIndex, pageSize));
 	}
 
 	//根据条件搜索商品信息
