@@ -201,7 +201,7 @@ public class AdminController {
 	}
 
 	@ApiOperation(value = "积分攻略文章更新", notes = "根据传入的类型，更新积分攻略文章")
-	@PutMapping("/updatejfRaider")
+	@PostMapping("/updatejfRaider")
 	public ResultConstant updatejfRaiders(TbJfRaiders jfRaider) {
 		TbJfRaiders jfRaiders = jfRaidersService.queryJfRaidersOne(jfRaider.getId());
 		if(jfRaiders==null) {
