@@ -1,25 +1,37 @@
 package com.jfshare.mvp.server.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
+import org.elasticsearch.index.query.BaseTermQueryBuilder;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.PrefixQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.RegexpQueryBuilder;
+import org.elasticsearch.index.query.WildcardQueryBuilder;
+import org.elasticsearch.index.search.MultiMatchQuery.QueryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.jfshare.mvp.server.constants.Constant;
-import com.jfshare.mvp.server.controller.ProductController;
 import com.jfshare.mvp.server.dao.TbProductDao;
 import com.jfshare.mvp.server.dao.TbProductItemDao;
+import com.jfshare.mvp.server.elasticsearch.ESProduct;
+import com.jfshare.mvp.server.elasticsearch.repository.ESProductRepository;
 import com.jfshare.mvp.server.mapper.TbProductDetailMapper;
 import com.jfshare.mvp.server.model.Product;
 import com.jfshare.mvp.server.model.ProductSurveyQueryParam;
 import com.jfshare.mvp.server.model.TbProduct;
-import com.jfshare.mvp.server.model.TbProductDetail;
 import com.jfshare.mvp.server.model.TbProductDetailExample;
 import com.jfshare.mvp.server.model.TbProductDetailWithBLOBs;
 import com.jfshare.mvp.server.model.TbProductExample;
@@ -41,6 +53,53 @@ public class ProductService {
 	private TbProductItemDao tbProductItemDao;
 	@Autowired
 	private ProductDetailService productDetailService;
+	@Autowired
+	private ESProductRepository esProductRepository;
+	
+	/**
+	 * 同步es中的商品信息
+	 * @param syncAll 是否全部同步
+	 * @param productIds 商品ID
+	 */
+	public void syncESProduct(boolean syncAll, String... productIds) {
+		if (syncAll) {
+			esProductRepository.deleteAll();
+		} else {
+			for (String productId : productIds) {
+				esProductRepository.deleteById(productId);
+			}
+		}
+		TbProductExample example = new TbProductExample();
+		example.createCriteria()
+			   .andProductIdIn(Arrays.asList(productIds))
+			   .andActiveStateEqualTo(Constant.PRODUCT_STATE_ONSELL);
+		List<TbProduct> tbproducts =  tbProductDao.selectByExample(example);
+		List<ESProduct> esProducts = new ArrayList<>();
+		for (TbProduct tbProduct : tbproducts) {
+			ESProduct esProduct = new ESProduct(tbProduct.getProductId(), 
+					tbProduct.getProductName(), Double.valueOf(tbProduct.getCurPrice()));
+			esProducts.add(esProduct);
+		}
+		esProductRepository.saveAll(esProducts);
+	}
+	
+	/**
+	 * 查询ES中的商品信息, 模糊查询
+	 * @param productName
+	 * @param pageIndex
+	 * @param pageSize
+	 * @return
+	 */
+	public Page<ESProduct> queryESProduct(String productName, int pageIndex, int pageSize) {
+		BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+		char[] chars = productName.toCharArray();
+		for (int i=0; i<chars.length; i++) {
+			boolQueryBuilder.must(QueryBuilders.wildcardQuery("productName", "*"+chars[i]+"*"));
+		}
+		
+		return esProductRepository.search(boolQueryBuilder, PageRequest.of(pageIndex, pageSize));
+//		return esProductRepository.findByProductNameLike(productName, PageRequest.of(pageIndex, pageSize));
+	}
 
 	//根据条件搜索商品信息
 	public List<TbProductSurvey> productSurveyQuery(String param,Integer itemNo,Integer activeState, Integer curpage,
@@ -157,6 +216,7 @@ public class ProductService {
 		if (count > 0) {
 			result = tbProductDao.updateProduct(tbProductWithBLOBs);
 		}
+		this.syncESProduct(false, product.getProductId());
 		return result;
 	}
 	
@@ -247,6 +307,7 @@ public class ProductService {
 			}
 			count = updateProduct(product);
 		}
+		this.syncESProduct(false, product.getProductId());
 		return count;
 	}
 }

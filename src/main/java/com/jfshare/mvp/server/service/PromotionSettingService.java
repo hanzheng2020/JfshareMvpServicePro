@@ -1,10 +1,14 @@
 package com.jfshare.mvp.server.service;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.ListUtils;
+import org.apache.commons.collections.iterators.ArrayListIterator;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -17,6 +21,8 @@ import com.jfshare.mvp.server.dao.TbProductDao;
 import com.jfshare.mvp.server.dao.TbProductItemDao;
 import com.jfshare.mvp.server.dao.TbProductItemShowDao;
 import com.jfshare.mvp.server.dao.TbProductPromotionDao;
+import com.jfshare.mvp.server.elasticsearch.ESProduct;
+import com.jfshare.mvp.server.elasticsearch.repository.ESProductRepository;
 import com.jfshare.mvp.server.model.TbProduct;
 import com.jfshare.mvp.server.model.TbProductExample;
 import com.jfshare.mvp.server.model.TbProductExample.Criteria;
@@ -50,10 +56,15 @@ public class PromotionSettingService {
 	@Autowired
 	private TbProductItemDao tbProductItemDao;
 	
+	@Autowired
+	private ProductService productService;
+	
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Transactional
 	public boolean savePromotionSetting(List<Map> productPromotions, 
 										List<Map> productItemShows) {
+		List<String> productIds = new ArrayList<>();
 		try {
 			TbProductPromotionExample tbProductPromotionExample = new TbProductPromotionExample();
 			tbProductPromotionExample.createCriteria().andPublishIndEqualTo(true);
@@ -70,6 +81,7 @@ public class PromotionSettingService {
 				for (int index = 0; index < productDetails.size(); index ++) {
 					String productId = productDetails.get(index).get("productId").toString();
 					String productPicUrl = productDetails.get(index).get("productPicUrl").toString();
+					productIds.add(productId);
 					switch (index) {
 					case 0:
 						tbProductPromotion.setProductOneId(productId);
@@ -120,15 +132,21 @@ public class PromotionSettingService {
 					itemName = tbProductItems.get(0).getItemName();
 				}
 				tbProductItemShow.setItemName(itemName);
-				tbProductItemShow.setProducts(productPromotion.get("products").toString());
+				String products = productPromotion.get("products").toString();
+				tbProductItemShow.setProducts(products);
 				tbProductItemShow.setPublishInd(true);
 				tbProductItemShowDao.insert(tbProductItemShow);
+				if (products.contains(",")) 
+					productIds.addAll(Arrays.asList(products.split(",")));
+				else 
+					productIds.add(products);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("保存推广微页面设置失败！", e);
 			return false;
 		}
+		productService.syncESProduct(true, productIds.toArray(new String[] {}));
 		return true;
 	}
 	
@@ -176,7 +194,6 @@ public class PromotionSettingService {
 		return true;
 	}
 
-	
 	public List<Map<String, Object>> getProductPromotionDetails(Boolean isAdmin) {
 		TbProductPromotionExample tbProductPromotionExample = new TbProductPromotionExample();
 		
