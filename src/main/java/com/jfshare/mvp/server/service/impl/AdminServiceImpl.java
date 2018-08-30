@@ -27,7 +27,7 @@ public class AdminServiceImpl implements AdminService{
 		}
 		Map<String, Object> map = new HashMap<>();
 		//限制一处登陆
-		String token = MD5Util.computeMD5(loginId+pwd+new Date().toString());
+		String token = MD5Util.computeMD5(loginId+new Date().toString());
 		//生成redis标识
 		JedisClusterUtils.saveNX("MVP:admin:"+token, token, 2*60);
 		admin.setPwd("");
