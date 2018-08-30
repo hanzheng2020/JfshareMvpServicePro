@@ -325,8 +325,8 @@ public class PromotionSettingService {
 							map.put("productName", tbProducts.get(0).getProductName());
 							map.put("imgKey", tbProducts.get(0).getImgKey().contains(",") ? tbProducts.get(0).getImgKey().split(",")[0] : tbProducts.get(0).getImgKey());
 							map.put("activeState", tbProducts.get(0).getActiveState());
+							result.add(map);
 						}
-						result.add(map);
 					}
 				}
 			}
