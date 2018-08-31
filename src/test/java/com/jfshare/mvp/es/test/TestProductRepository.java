@@ -41,8 +41,8 @@ public class TestProductRepository {
     
     @Test
     public void testProductService() {
-    	productService.syncESProduct(false, "ze170627170852000615");
-    	Page<ESProduct> result = productService.queryESProduct("（特卖）", 0, 5);
+//    	productService.syncESProduct(false, "ze170627170852000615");
+    	Page<ESProduct> result = productService.queryESProduct("（购买", 0, 5);
     	result.stream().forEach(p -> System.out.println(JSON.toJSONString(p)));
 
     }

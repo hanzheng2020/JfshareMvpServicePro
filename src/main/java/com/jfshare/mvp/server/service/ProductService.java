@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.index.query.BaseTermQueryBuilder;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -62,25 +63,37 @@ public class ProductService {
 	 * @param productIds 商品ID
 	 */
 	public void syncESProduct(boolean syncAll, String... productIds) {
+		TbProductExample example = new TbProductExample();
 		if (syncAll) {
 			esProductRepository.deleteAll();
+			example.createCriteria()
+				   .andProductIdIn(Arrays.asList(productIds))
+				   .andActiveStateEqualTo(Constant.PRODUCT_STATE_ONSELL);
+			List<TbProduct> tbproducts =  tbProductDao.selectByExample(example);
+			List<ESProduct> esProducts = new ArrayList<>();
+			for (TbProduct tbProduct : tbproducts) {
+				ESProduct esProduct = new ESProduct(tbProduct.getProductId(), 
+						tbProduct.getProductName(), Double.valueOf(tbProduct.getCurPrice()));
+				esProducts.add(esProduct);
+			}
+			esProductRepository.saveAll(esProducts);
 		} else {
 			for (String productId : productIds) {
-				esProductRepository.deleteById(productId);
+				if (esProductRepository.existsById(productId)) {
+					esProductRepository.deleteById(productId);
+					example.createCriteria()
+						   .andProductIdEqualTo(productId)
+						   .andActiveStateEqualTo(Constant.PRODUCT_STATE_ONSELL);
+					List<TbProduct> tbproducts =  tbProductDao.selectByExample(example);
+					if (!CollectionUtils.isEmpty(tbproducts)) {
+						TbProduct tbProduct = tbproducts.get(0);
+						ESProduct esProduct = new ESProduct(tbProduct.getProductId(), 
+								tbProduct.getProductName(), Double.valueOf(tbProduct.getCurPrice()));
+						esProductRepository.save(esProduct);
+					}
+				}
 			}
 		}
-		TbProductExample example = new TbProductExample();
-		example.createCriteria()
-			   .andProductIdIn(Arrays.asList(productIds))
-			   .andActiveStateEqualTo(Constant.PRODUCT_STATE_ONSELL);
-		List<TbProduct> tbproducts =  tbProductDao.selectByExample(example);
-		List<ESProduct> esProducts = new ArrayList<>();
-		for (TbProduct tbProduct : tbproducts) {
-			ESProduct esProduct = new ESProduct(tbProduct.getProductId(), 
-					tbProduct.getProductName(), Double.valueOf(tbProduct.getCurPrice()));
-			esProducts.add(esProduct);
-		}
-		esProductRepository.saveAll(esProducts);
 	}
 	
 	/**
@@ -92,7 +105,7 @@ public class ProductService {
 	 */
 	public Page<ESProduct> queryESProduct(String productName, int pageIndex, int pageSize) {
 		
-		return esProductRepository.search(QueryBuilders.queryStringQuery(productName), PageRequest.of(pageIndex, pageSize));
+		return esProductRepository.search(QueryBuilders.multiMatchQuery(productName, "productName"), PageRequest.of(pageIndex, pageSize));
 	}
 
 	//根据条件搜索商品信息

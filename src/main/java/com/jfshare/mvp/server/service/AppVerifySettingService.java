@@ -27,10 +27,9 @@ public class AppVerifySettingService {
 	@Autowired
 	private TbProductDao tbProductDao;
 	
-	public List<TbProduct> getAppVerifyProducts(String appVersion) {
+	public List<TbProduct> getAppVerifyProducts() {
 		TbAppVerifySettingExample tbAppVerifySettingExample = new TbAppVerifySettingExample();
 		tbAppVerifySettingExample.createCriteria()
-								 .andAppVersionEqualTo(appVersion)
 								 .andStateEqualTo(true);
 		List<TbAppVerifySetting> tbAppVerifySettings = tbAppVerifySettingDao.selectByExample(tbAppVerifySettingExample);
 		if (CollectionUtils.isEmpty(tbAppVerifySettings)) {
