@@ -1,6 +1,7 @@
 package com.jfshare.mvp.server.config;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,10 +18,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @Configuration
 @EnableSwagger2
+@ConditionalOnExpression("${enableApi}")
 public class Swagger2Config {
-	
-	@Value("${enableApi}")
-	private boolean enableApi;
 
 	/**
 	 * 自动生成swagger api
@@ -39,6 +38,6 @@ public class Swagger2Config {
 				.select()
 				.apis(RequestHandlerSelectors.basePackage("com.jfshare.mvp.server.controller")) 
 				.paths(PathSelectors.any()) 
-				.build().enable(enableApi);
+				.build();
 	}
 }
