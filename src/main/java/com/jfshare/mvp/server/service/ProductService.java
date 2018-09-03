@@ -320,6 +320,7 @@ public class ProductService {
 	
 	public List<TbProduct> queryProduct(){
 		TbProductExample example = new TbProductExample();
+		example.createCriteria().andActiveStateEqualTo(Constant.PRODUCT_STATE_ONSELL);
 		List<TbProduct> productList = tbProductDao.selectByExample(example);
 		if(productList != null && productList.size() > 0) {
 			return productList;
