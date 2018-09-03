@@ -11,7 +11,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,8 +31,6 @@ import com.jfshare.mvp.server.service.JvjindouRuleService;
 import com.jfshare.mvp.server.service.ProductItemService;
 import com.jfshare.mvp.server.service.PromotionSettingService;
 import com.jfshare.mvp.server.service.SystemInformationService;
-import com.jfshare.mvp.server.utils.JedisClusterUtils;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -73,6 +70,16 @@ public class AdminController {
 	@PostMapping("/appVerifySetting")
 	public ResultConstant saveAppVerifySetting(@RequestBody TbAppVerifySetting tbAppVerifySetting) {
 		return appVerifySettingService.saveAppVerifyProducts(tbAppVerifySetting);
+	}
+	
+	@ApiOperation(value = "IOS上线审核设置", notes = "获取IOS上线审核设置")
+	@GetMapping("/appVerifySetting")
+	public ResultConstant getAppVerifySetting() {
+		 Map<String, Object> result = appVerifySettingService.getAppVerifyProducts();
+		if (MapUtils.isEmpty(result)) {
+			return ResultConstant.ofSuccess();
+		}
+		return ResultConstant.ofSuccess(result);
 	}
 	
 	@SuppressWarnings("rawtypes")
