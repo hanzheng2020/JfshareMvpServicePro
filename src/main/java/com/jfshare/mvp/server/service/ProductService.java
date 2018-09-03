@@ -317,4 +317,13 @@ public class ProductService {
 		this.syncESProduct(false, product.getProductId());
 		return count;
 	}
+	
+	public List<TbProduct> queryProduct(){
+		TbProductExample example = new TbProductExample();
+		List<TbProduct> productList = tbProductDao.selectByExample(example);
+		if(productList != null && productList.size() > 0) {
+			return productList;
+		}
+		return null;
+	}
 }

@@ -253,4 +253,17 @@ public class ProductController {
 		}
 		return ResultConstant.ofSuccess(productCard);
 	}
+	
+	@ApiOperation(value = "查询所有商品详情", notes = "查询所有商品详情")
+	@PostMapping("/queryAllProduct")
+	public ResultConstant queryAllProduct() {
+		List<TbProduct> productList = null;
+		try {
+			productList = productService.queryProduct();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取所有商品信息失败");
+		}
+		return ResultConstant.ofSuccess(productList);	
+	}
 }
