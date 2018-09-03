@@ -1,7 +1,10 @@
 package com.jfshare.mvp.server.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -27,7 +30,7 @@ public class AppVerifySettingService {
 	@Autowired
 	private TbProductDao tbProductDao;
 	
-	public List<TbProduct> getAppVerifyProducts() {
+	public Map<String, Object> getAppVerifyProducts() {
 		TbAppVerifySettingExample tbAppVerifySettingExample = new TbAppVerifySettingExample();
 		tbAppVerifySettingExample.createCriteria()
 								 .andStateEqualTo(true);
@@ -40,7 +43,20 @@ public class AppVerifySettingService {
 		TbProductExample tbProductExample = new TbProductExample();
 		tbProductExample.createCriteria()
 						.andProductIdIn(productList);
-		List<TbProduct> result = tbProductDao.selectByExample(tbProductExample);
+		List<TbProduct> resultProduct = tbProductDao.selectByExample(tbProductExample);
+		List<Map<String, Object>> resMap = new ArrayList<Map<String,Object>>();
+		for (TbProduct tbProduct : resultProduct) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("productId", tbProduct.getProductId());
+			map.put("curPrice", tbProduct.getCurPrice());
+			map.put("productName", tbProduct.getProductName());
+			map.put("imgKey", tbProduct.getImgKey().contains(",") ? tbProduct.getImgKey().split(",")[0] : tbProduct.getImgKey());
+			resMap.add(map);
+		}
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("appVersion", tbAppVerifySettings.get(0).getAppVersion());
+		result.put("state", tbAppVerifySettings.get(0).getState());
+		result.put("productNoList", resMap);
 		return result;
 	}
 	
@@ -51,6 +67,7 @@ public class AppVerifySettingService {
 		if (StringUtils.isEmpty(tbAppVerifySetting.getProductNoList())) {
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "参数错误，商品为空");
 		}
+		tbAppVerifySettingDao.deleteByExample(new TbAppVerifySettingExample());
 		tbAppVerifySettingDao.insert(tbAppVerifySetting);
 		return ResultConstant.ofSuccess();
 	}
