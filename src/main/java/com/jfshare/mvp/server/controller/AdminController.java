@@ -217,6 +217,9 @@ public class AdminController {
 			@RequestParam(value = "id", required = true) Integer id
 		) {
 		TbJfRaiders jfRaiders = jfRaidersService.queryJfRaidersOne(id);
+		Map map  = ConvertBeanToMapUtils.convertBeanToMap(jfRaiders, "");
+		byte[] content=jfRaiders.getContent();
+		map.put("content", new String(content));
 		return ResultConstant.ofSuccess(jfRaiders);
 	}
 
