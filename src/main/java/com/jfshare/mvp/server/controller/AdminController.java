@@ -210,6 +210,15 @@ public class AdminController {
 		PageInfo<Object> pageInfo = jfRaidersService.queryJfRaiders(jfRaiders, page, pageSize);
 		return ResultConstant.ofSuccess(pageInfo);
 	}
+	
+	@ApiOperation(value = "积分攻略文章详情查询", notes = "根据传入的id，查询积分攻略文章详情")
+	@GetMapping("/queryjfRaiderInfo")
+	public ResultConstant queryjfRaidersInfo(
+			@RequestParam(value = "id", required = true) Integer id
+		) {
+		TbJfRaiders jfRaiders = jfRaidersService.queryJfRaidersOne(id);
+		return ResultConstant.ofSuccess(jfRaiders);
+	}
 
 	@ApiOperation(value = "积分攻略文章更新", notes = "根据传入的类型，更新积分攻略文章")
 	@PostMapping("/updatejfRaider")
