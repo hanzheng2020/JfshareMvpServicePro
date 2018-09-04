@@ -26,7 +26,7 @@ public class JfRaidersService {
 		return jfRaidersDao.addRaider(jfRaiders);
 	}
 	
-	public List<TbJfRaiders> queryJfRaiders(TbJfRaiders jfRaiders,int page,int pageSize){
+	public PageInfo<Object> queryJfRaiders(TbJfRaiders jfRaiders,int page,int pageSize){
 		TbJfRaidersExample jfRaidersExample = new TbJfRaidersExample();
 		Criteria criteria  = jfRaidersExample.createCriteria();
 		if(jfRaiders.getTitle()!=null && !"".equals(jfRaiders.getTitle())) {
@@ -39,20 +39,21 @@ public class JfRaidersService {
 			criteria.andStatusEqualTo(jfRaiders.getStatus());
 		}
 		jfRaidersExample.setOrderByClause("create_time DESC");
-		//PageHelper.startPage(page, pageSize);
+		PageHelper.startPage(page, pageSize);
 		List<TbJfRaiders> JfRaiders =  jfRaidersDao.selectJfRaiders(jfRaidersExample);
-		return JfRaiders;
-//		Map<String, Object> map;
-//		 byte[] content;
-//		 List<Map<String, Object>> JfRaiderss  = new ArrayList<Map<String, Object>>();
-//		for(TbJfRaiders jfRaider:JfRaiders) {
-//			map  = ConvertBeanToMapUtils.convertBeanToMap(jfRaider, "");
-//			content=jfRaider.getContent();
-//			map.put("content", new String(content));
-//			map.put("id",jfRaider.getId());
-//			JfRaiderss.add(map);
-//		}
-		//return new PageInfo(JfRaiders);
+		PageInfo<Object> pageInfo =new PageInfo(JfRaiders);
+		Map<String, Object> map;
+		 byte[] content;
+		 List<Object> JfRaiderss  = new ArrayList<Object>();
+		for(TbJfRaiders jfRaider:JfRaiders) {
+			map  = ConvertBeanToMapUtils.convertBeanToMap(jfRaider, "");
+			content=jfRaider.getContent();
+			map.put("content", new String(content));
+			map.put("id",jfRaider.getId());
+			JfRaiderss.add(map);
+		}
+		pageInfo.setList(JfRaiderss);
+		return pageInfo;
 	}
 	
 	public int updateJfRaiders(TbJfRaiders jfRaiders) {

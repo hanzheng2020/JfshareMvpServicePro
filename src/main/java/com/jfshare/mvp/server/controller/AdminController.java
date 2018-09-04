@@ -207,23 +207,8 @@ public class AdminController {
 	public ResultConstant queryjfRaiders(TbJfRaiders jfRaiders,
 			@RequestParam(value = "page", required = true) Integer page,
 			@RequestParam(value = "pageSize", required = true) Integer pageSize) {
-		PageHelper.startPage(page, pageSize);
-		List<TbJfRaiders> JfRaiderss = jfRaidersService.queryJfRaiders(jfRaiders, page, pageSize);
-//		PageInfo<Object> pageInfo = new PageInfo(JfRaiderss);
-//		List<Object> JfRaiders = pageInfo.getList();
-//		Map<String, Object> map;
-//		 byte[] content;
-//		 List<Object> JfRaidersss  = new ArrayList<Object>();
-//		for(Object jfRaider:JfRaiders) {
-//			TbJfRaiders jfRaide=(TbJfRaiders)jfRaider;
-//			map  = ConvertBeanToMapUtils.convertBeanToMap(jfRaider, "");
-//			content=jfRaide.getContent();
-//			map.put("content", new String(content));
-//			map.put("id",jfRaide.getId());
-//			JfRaidersss.add(map);
-//		}
-		//pageInfo.setList(JfRaidersss);
-		return ResultConstant.ofSuccess(JfRaiderss);
+		PageInfo<Object> pageInfo = jfRaidersService.queryJfRaiders(jfRaiders, page, pageSize);
+		return ResultConstant.ofSuccess(pageInfo);
 	}
 
 	@ApiOperation(value = "积分攻略文章更新", notes = "根据传入的类型，更新积分攻略文章")
