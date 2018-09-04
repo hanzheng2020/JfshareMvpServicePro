@@ -150,7 +150,7 @@ public class ProductController {
 			@RequestParam(value = "activeState", required = false) Integer activeState) {
 		String path = productService.exportProduct(param, itemNo, activeState);
 		if (!StringUtils.isEmpty(path)) {
-			return ResultConstant.ofSuccess();
+			return ResultConstant.ofSuccess(path);
 		}
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "导出商品 execl失败");
 	}
