@@ -87,7 +87,7 @@ public class ProductController {
 	public ResultConstant productSearch(@RequestParam(value = "param", required = false) String param,
 			@RequestParam(value = "curpage", required = true) Integer curpage,
 			@RequestParam(value = "percount", required = true) Integer percount) {
-		Page<ESProduct> result = productService.queryESProduct(param, curpage+1, percount);
+		Page<ESProduct> result = productService.queryESProduct(param, curpage-1, percount);
 		return ResultConstant.ofSuccess(result);
 	}
 
