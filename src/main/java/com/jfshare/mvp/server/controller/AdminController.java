@@ -394,23 +394,13 @@ public class AdminController {
 			@RequestParam(value="title",required=true)String title,
 			@RequestParam(value="cont",required=true)String cont,
 			@RequestParam(value="user",required=true)String user,
-			@RequestParam(value="token",required=true)String token) {
+			@RequestParam(value="token",required=true)String token,
+			@RequestParam(value="id",required=false)Integer id) {
 		//鉴权校验
 		Map<String, Object> map = adminService.checkToken(token);
 		if(!(boolean) map.get("result")){
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR,map.get("msg").toString());
 		}
-		
-		TbSystemInformation systemInformation = new TbSystemInformation();
-		Date date  = new Date();
-		systemInformation.setTitle(title);
-		systemInformation.setStatus(1);
-		systemInformation.setContent(cont);
-		systemInformation.setCreateUser(user);
-		systemInformation.setUpdateTime(date);
-		int result = systemInformationService.saveSystemInformation(systemInformation);
-			@RequestParam(value="id",required=false)Integer id) {
-		
 		if(StringUtils.isEmpty(id)) {
 			id=0;
 		}
