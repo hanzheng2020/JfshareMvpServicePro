@@ -150,7 +150,7 @@ public class AdminController {
 		if (StringUtils.isEmpty(tbProductItem.getItemNo())) {
 			result = productItemService.addProductItem(tbProductItem.getItemName(), tbProductItem.getItemDesc(), tbProductItem.getParentItemNo());
 		} else {
-			result = productItemService.updateProductItem(tbProductItem.getItemNo(), tbProductItem.getItemName(), tbProductItem.getItemDesc());
+			result = productItemService.updateProductItem(tbProductItem.getItemNo(), tbProductItem.getItemName(), tbProductItem.getItemDesc(), tbProductItem.getParentItemNo());
 		}
 		if (result) {
 			return ResultConstant.ofSuccess();
