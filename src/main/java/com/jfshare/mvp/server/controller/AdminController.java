@@ -220,7 +220,7 @@ public class AdminController {
 		Map map  = ConvertBeanToMapUtils.convertBeanToMap(jfRaiders, "");
 		byte[] content=jfRaiders.getContent();
 		map.put("content", new String(content));
-		return ResultConstant.ofSuccess(jfRaiders);
+		return ResultConstant.ofSuccess(map);
 	}
 
 	@ApiOperation(value = "积分攻略文章更新", notes = "根据传入的类型，更新积分攻略文章")
