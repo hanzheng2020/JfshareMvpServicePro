@@ -38,7 +38,7 @@ public class ProductItemService {
 	@Autowired
 	private SequenceService sequenceService;
 	
-	public boolean updateProductItem(String itemNo, String itemName, String itemDesc) {
+	public boolean updateProductItem(String itemNo, String itemName, String itemDesc, String parentItemNo) {
 		TbProductItemExample tbProductItemExample = new TbProductItemExample();
 		tbProductItemExample.createCriteria()
 							.andItemNoEqualTo(itemNo);
@@ -48,12 +48,9 @@ public class ProductItemService {
 			return false;
 		}
 		TbProductItem tbProductItemt = tbProductItems.get(0);
-		if (!StringUtils.isEmpty(itemName)) {
-			tbProductItemt.setItemName(itemName);
-		}
-		if (!StringUtils.isEmpty(itemDesc)) {
-			tbProductItemt.setItemDesc(itemDesc);
-		}
+		tbProductItemt.setItemName(itemName);
+		tbProductItemt.setItemDesc(itemDesc);
+		tbProductItemt.setParentItemNo(StringUtils.isEmpty(parentItemNo) ? null : parentItemNo);
 		tbProductItemDao.updateByPrimaryKey(tbProductItemt);
 		return true;
 	}
