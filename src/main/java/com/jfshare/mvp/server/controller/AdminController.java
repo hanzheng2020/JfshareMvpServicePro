@@ -1,5 +1,6 @@
 package com.jfshare.mvp.server.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jfshare.mvp.server.constants.Constant;
 import com.jfshare.mvp.server.constants.ResultConstant;
@@ -31,6 +33,8 @@ import com.jfshare.mvp.server.service.JvjindouRuleService;
 import com.jfshare.mvp.server.service.ProductItemService;
 import com.jfshare.mvp.server.service.PromotionSettingService;
 import com.jfshare.mvp.server.service.SystemInformationService;
+import com.jfshare.mvp.server.utils.ConvertBeanToMapUtils;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -203,8 +207,20 @@ public class AdminController {
 	public ResultConstant queryjfRaiders(TbJfRaiders jfRaiders,
 			@RequestParam(value = "page", required = true) Integer page,
 			@RequestParam(value = "pageSize", required = true) Integer pageSize) {
-		PageInfo<Map<String, Object>> pageInfo = jfRaidersService.queryJfRaiders(jfRaiders, page, pageSize);
+		PageInfo<Object> pageInfo = jfRaidersService.queryJfRaiders(jfRaiders, page, pageSize);
 		return ResultConstant.ofSuccess(pageInfo);
+	}
+	
+	@ApiOperation(value = "积分攻略文章详情查询", notes = "根据传入的id，查询积分攻略文章详情")
+	@GetMapping("/queryjfRaiderInfo")
+	public ResultConstant queryjfRaidersInfo(
+			@RequestParam(value = "id", required = true) Integer id
+		) {
+		TbJfRaiders jfRaiders = jfRaidersService.queryJfRaidersOne(id);
+		Map map  = ConvertBeanToMapUtils.convertBeanToMap(jfRaiders, "");
+		byte[] content=jfRaiders.getContent();
+		map.put("content", new String(content));
+		return ResultConstant.ofSuccess(map);
 	}
 
 	@ApiOperation(value = "积分攻略文章更新", notes = "根据传入的类型，更新积分攻略文章")
