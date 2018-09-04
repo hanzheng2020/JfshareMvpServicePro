@@ -10,6 +10,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.index.query.BaseTermQueryBuilder;
 import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.MultiMatchQueryBuilder;
 import org.elasticsearch.index.query.PrefixQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.RegexpQueryBuilder;
@@ -106,8 +107,10 @@ public class ProductService {
 	 * @return
 	 */
 	public Page<ESProduct> queryESProduct(String params, int pageIndex, int pageSize) {
-		
-		return esProductRepository.search(QueryBuilders.multiMatchQuery(params, "productName", "id"), PageRequest.of(pageIndex, pageSize));
+		BoolQueryBuilder queryBuilder = QueryBuilders.boolQuery();
+		queryBuilder.should(QueryBuilders.multiMatchQuery(params, "productName"));
+		queryBuilder.should(QueryBuilders.wildcardQuery("id", "*"+params+"*"));
+		return esProductRepository.search(queryBuilder, PageRequest.of(pageIndex, pageSize));
 	}
 
 	//根据条件搜索商品信息
