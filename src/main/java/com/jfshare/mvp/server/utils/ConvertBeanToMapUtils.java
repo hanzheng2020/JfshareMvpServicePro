@@ -66,10 +66,13 @@ public class ConvertBeanToMapUtils {
 				if(!StringUtils.isEmpty(str[i])) {
 					sb.append(str[i]).append(",");
 				}
-			}		
+			}
+			String strImg = sb.toString().substring(0, sb.toString().length() - 1);
+			tbProduct.setImgKey(strImg);
+		}else {
+			tbProduct.setImgKey(product.getImgKey());
 		}
-		String strImg = sb.toString().substring(0, sb.toString().length() - 1);
-		tbProduct.setImgKey(strImg);
+
 		return tbProduct;
 	}
 }
