@@ -752,4 +752,25 @@ public class JedisClusterUtils {
     	 return cacheUtils.redisTemplate.opsForSet().remove(key, values);
     } 
 
+	/**
+	 * redis保存key-value数据
+	 * 
+	 * @param key
+	 * @param value
+	 * @param seconds  单位/秒
+	 *            大于0表示为给定 key 设置生存时间，小于等于0表示未设置生存时间
+	 * @return
+	 */
+	public static boolean putKV(String key, String value, int seconds) {
+		cacheUtils.redisTemplate.opsForValue().set(key, value,seconds, TimeUnit.SECONDS);
+		return true;
+	}
+	/**
+	 * 根据键获取值
+	 * @param string
+	 * @return
+	 */
+	public static String getKV(String key) {
+		return cacheUtils.redisTemplate.opsForValue().get(key);
+	}
 }  
