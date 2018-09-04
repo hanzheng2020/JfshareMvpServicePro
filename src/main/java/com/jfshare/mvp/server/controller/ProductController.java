@@ -109,9 +109,16 @@ public class ProductController {
 	@PostMapping("/deleteProduct")
 	public ResultConstant deleteProduct(@RequestParam(value = "productId", required = false) String productId) {
 		logger.info("deleteProduct productId:" + productId);
-		TbProduct productOne = productService.getProductOne(productId);
-		if(productOne.getActiveState() == Constant.PRODUCT_STATE_ONSELL) {
-			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "已上架的商品不能被删除！");
+		if(productId.contains(",")) {
+			String[] productIdStr = productId.split(",");
+			for(int i = 0;i < productIdStr.length;i ++) {
+				if(!StringUtils.isEmpty(productIdStr[i])) {
+					TbProduct productOne = productService.getProductOne(productIdStr[i]);
+					if(productOne.getActiveState() == Constant.PRODUCT_STATE_ONSELL) {
+						return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "已上架的商品不能被删除！");
+					}
+				}
+			}
 		}
 		int result;
 		try {
