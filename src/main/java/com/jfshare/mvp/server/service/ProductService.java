@@ -258,7 +258,20 @@ public class ProductService {
 		example.createCriteria().andProductIdEqualTo(productId);
 		List<TbProduct> products =  tbProductDao.selectByExample(example);
 		if(products!=null && products.size()>0) {
-			return products.get(0);
+			TbProduct product = products.get(0);
+			//处理商品图片格式问题
+			StringBuilder sb = new StringBuilder();
+			if(product.getImgKey().contains(",")) {
+				String[] str = product.getImgKey().split(",");
+				for(int i = 0;i < str.length;i ++) {
+					if(!StringUtils.isEmpty(str[i])) {
+						sb.append(str[i]).append(",");
+					}
+				}		
+			}
+			String strImg = sb.toString().substring(0, sb.toString().length() - 1);
+			product.setImgKey(strImg);
+			return product;
 		}
 		return null;
 	}

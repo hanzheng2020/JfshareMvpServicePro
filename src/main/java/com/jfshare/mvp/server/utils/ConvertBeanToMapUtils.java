@@ -59,7 +59,17 @@ public class ConvertBeanToMapUtils {
 		tbProduct.setOrgPrice(product.getProductSku().getMinOrgPrice());
 		tbProduct.setActiveState(Constant.PRODUCT_SOLT_OUT);
 		tbProduct.setPresentexp(0);
-		tbProduct.setImgKey(product.getImgKey());
+		StringBuilder sb = new StringBuilder();
+		if(product.getImgKey().contains(",")) {
+			String[] str = product.getImgKey().split(",");
+			for(int i = 0;i < str.length;i ++) {
+				if(!StringUtils.isEmpty(str[i])) {
+					sb.append(str[i]).append(",");
+				}
+			}		
+		}
+		String strImg = sb.toString().substring(0, sb.toString().length() - 1);
+		tbProduct.setImgKey(strImg);
 		return tbProduct;
 	}
 }
