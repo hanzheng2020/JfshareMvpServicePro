@@ -98,14 +98,14 @@ public class ProductService {
 	
 	/**
 	 * 查询ES中的商品信息, 模糊查询
-	 * @param productName
+	 * @param params
 	 * @param pageIndex
 	 * @param pageSize
 	 * @return
 	 */
-	public Page<ESProduct> queryESProduct(String productName, int pageIndex, int pageSize) {
+	public Page<ESProduct> queryESProduct(String params, int pageIndex, int pageSize) {
 		
-		return esProductRepository.search(QueryBuilders.multiMatchQuery(productName, "productName"), PageRequest.of(pageIndex, pageSize));
+		return esProductRepository.search(QueryBuilders.multiMatchQuery(params, "productName", "id"), PageRequest.of(pageIndex, pageSize));
 	}
 
 	//根据条件搜索商品信息
