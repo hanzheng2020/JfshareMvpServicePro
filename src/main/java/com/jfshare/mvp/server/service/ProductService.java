@@ -73,7 +73,8 @@ public class ProductService {
 			List<ESProduct> esProducts = new ArrayList<>();
 			for (TbProduct tbProduct : tbproducts) {
 				ESProduct esProduct = new ESProduct(tbProduct.getProductId(), 
-						tbProduct.getProductName(), Double.valueOf(tbProduct.getCurPrice()));
+						tbProduct.getProductName(), Double.valueOf(tbProduct.getCurPrice()),
+						tbProduct.getImgKey().contains(",") ? tbProduct.getImgKey().split(",")[0] : tbProduct.getImgKey());
 				esProducts.add(esProduct);
 			}
 			esProductRepository.saveAll(esProducts);
@@ -88,7 +89,8 @@ public class ProductService {
 					if (!CollectionUtils.isEmpty(tbproducts)) {
 						TbProduct tbProduct = tbproducts.get(0);
 						ESProduct esProduct = new ESProduct(tbProduct.getProductId(), 
-								tbProduct.getProductName(), Double.valueOf(tbProduct.getCurPrice()));
+								tbProduct.getProductName(), Double.valueOf(tbProduct.getCurPrice()),
+								tbProduct.getImgKey().contains(",") ? tbProduct.getImgKey().split(",")[0] : tbProduct.getImgKey());
 						esProductRepository.save(esProduct);
 					}
 				}
@@ -98,14 +100,14 @@ public class ProductService {
 	
 	/**
 	 * 查询ES中的商品信息, 模糊查询
-	 * @param productName
+	 * @param params
 	 * @param pageIndex
 	 * @param pageSize
 	 * @return
 	 */
-	public Page<ESProduct> queryESProduct(String productName, int pageIndex, int pageSize) {
+	public Page<ESProduct> queryESProduct(String params, int pageIndex, int pageSize) {
 		
-		return esProductRepository.search(QueryBuilders.multiMatchQuery(productName, "productName"), PageRequest.of(pageIndex, pageSize));
+		return esProductRepository.search(QueryBuilders.multiMatchQuery(params, "productName", "id"), PageRequest.of(pageIndex, pageSize));
 	}
 
 	//根据条件搜索商品信息
@@ -316,5 +318,15 @@ public class ProductService {
 		}
 		this.syncESProduct(false, product.getProductId());
 		return count;
+	}
+	
+	public List<TbProduct> queryProduct(){
+		TbProductExample example = new TbProductExample();
+		example.createCriteria().andActiveStateEqualTo(Constant.PRODUCT_STATE_ONSELL);
+		List<TbProduct> productList = tbProductDao.selectByExample(example);
+		if(productList != null && productList.size() > 0) {
+			return productList;
+		}
+		return null;
 	}
 }

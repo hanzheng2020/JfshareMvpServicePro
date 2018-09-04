@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +20,7 @@ import com.jfshare.finagle.thrift.product.ProductCardParam;
 import com.jfshare.finagle.thrift.result.StringResult;
 import com.jfshare.mvp.server.constants.Constant;
 import com.jfshare.mvp.server.constants.ResultConstant;
+import com.jfshare.mvp.server.elasticsearch.ESProduct;
 import com.jfshare.mvp.server.finagle.server.OrderClient;
 import com.jfshare.mvp.server.finagle.server.ProductClient;
 import com.jfshare.mvp.server.model.Product;
@@ -78,6 +80,15 @@ public class ProductController {
 		PageInfo<TbProductSurvey> pageInfo = new PageInfo<>(productList);
 		return ResultConstant.ofSuccess(pageInfo);
 		  //return ResultConstant.ofSuccess(productList);
+	}
+	
+	@ApiOperation(value = "前端APP商品搜索接口", notes = "供前端APP搜索使用， 只会显示微页面配置了的商品")
+	@PostMapping("/productSearch")
+	public ResultConstant productSearch(@RequestParam(value = "param", required = false) String param,
+			@RequestParam(value = "curpage", required = true) Integer curpage,
+			@RequestParam(value = "percount", required = true) Integer percount) {
+		Page<ESProduct> result = productService.queryESProduct(param, curpage, percount);
+		return ResultConstant.ofSuccess(result);
 	}
 
 	@ApiOperation(value = "新增商品", notes = "新增商品信息")
@@ -252,5 +263,18 @@ public class ProductController {
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取商品卡券失败!!");
 		}
 		return ResultConstant.ofSuccess(productCard);
+	}
+	
+	@ApiOperation(value = "查询所有商品详情", notes = "查询所有商品详情")
+	@PostMapping("/queryAllProduct")
+	public ResultConstant queryAllProduct() {
+		List<TbProduct> productList = null;
+		try {
+			productList = productService.queryProduct();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取所有商品信息失败");
+		}
+		return ResultConstant.ofSuccess(productList);	
 	}
 }
