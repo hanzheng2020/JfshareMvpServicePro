@@ -341,15 +341,29 @@ public class AdminController {
 	public ResultConstant addInformation(
 			@RequestParam(value="title",required=true)String title,
 			@RequestParam(value="cont",required=true)String cont,
-			@RequestParam(value="user",required=true)String user) {
-		TbSystemInformation systemInformation = new TbSystemInformation();
-		Date date  = new Date();
-		systemInformation.setTitle(title);
-		systemInformation.setStatus(1);
-		systemInformation.setContent(cont);
-		systemInformation.setCreateUser(user);
-		systemInformation.setUpdateTime(date);
-		int result = systemInformationService.saveSystemInformation(systemInformation);
+			@RequestParam(value="user",required=true)String user,
+			@RequestParam(value="id",required=false)Integer id) {
+		
+		if(StringUtils.isEmpty(id)) {
+			id=0;
+		}
+		TbSystemInformation systemInformation = systemInformationService.getInformatinInfo(id);
+		int result=0;
+		if(systemInformation!=null) {
+			systemInformation.setTitle(title);
+			systemInformation.setContent(cont);
+			result = systemInformationService.updateSystemInformation(systemInformation);
+		}else {
+			systemInformation = new TbSystemInformation();
+			Date date  = new Date();
+			systemInformation.setTitle(title);
+			systemInformation.setStatus(1);
+			systemInformation.setContent(cont);
+			systemInformation.setCreateUser(user);
+			systemInformation.setUpdateTime(date);
+			result = systemInformationService.saveSystemInformation(systemInformation);
+		}
+
 		if(result>0) {
 			return ResultConstant.ofSuccess();
 		}
