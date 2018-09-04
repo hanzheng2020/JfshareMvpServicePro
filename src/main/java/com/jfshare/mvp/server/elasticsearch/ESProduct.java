@@ -19,10 +19,11 @@ public class ESProduct {
     public ESProduct() {
     }
 
-    public ESProduct(String id, String productName, Double price) {
+    public ESProduct(String id, String productName, Double price, String productPic) {
         this.id = id;
         this.productName = productName;
         this.price = price;
+        this.productPic = productPic;
     }
 
     public String getId() {

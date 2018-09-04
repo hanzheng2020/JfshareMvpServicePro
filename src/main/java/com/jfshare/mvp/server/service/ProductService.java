@@ -73,7 +73,8 @@ public class ProductService {
 			List<ESProduct> esProducts = new ArrayList<>();
 			for (TbProduct tbProduct : tbproducts) {
 				ESProduct esProduct = new ESProduct(tbProduct.getProductId(), 
-						tbProduct.getProductName(), Double.valueOf(tbProduct.getCurPrice()));
+						tbProduct.getProductName(), Double.valueOf(tbProduct.getCurPrice()),
+						tbProduct.getImgKey().contains(",") ? tbProduct.getImgKey().split(",")[0] : tbProduct.getImgKey());
 				esProducts.add(esProduct);
 			}
 			esProductRepository.saveAll(esProducts);
@@ -88,7 +89,8 @@ public class ProductService {
 					if (!CollectionUtils.isEmpty(tbproducts)) {
 						TbProduct tbProduct = tbproducts.get(0);
 						ESProduct esProduct = new ESProduct(tbProduct.getProductId(), 
-								tbProduct.getProductName(), Double.valueOf(tbProduct.getCurPrice()));
+								tbProduct.getProductName(), Double.valueOf(tbProduct.getCurPrice()),
+								tbProduct.getImgKey().contains(",") ? tbProduct.getImgKey().split(",")[0] : tbProduct.getImgKey());
 						esProductRepository.save(esProduct);
 					}
 				}
