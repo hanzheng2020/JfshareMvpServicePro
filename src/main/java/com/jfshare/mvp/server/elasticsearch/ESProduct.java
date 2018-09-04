@@ -6,35 +6,24 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 @Document(indexName = "java-mvp-es", type = "product")
-public class Product {
+public class ESProduct {
 
     @Id
     private String id;
     private String productName;
     private Double price;
-    private String brand;
     private String productDesc;
     @Field(type = FieldType.Text)
     private String productPic;
 
-    public Product() {
+    public ESProduct() {
     }
 
-    public Product(String id, String productName, Double price, String brand) {
+    public ESProduct(String id, String productName, Double price, String productPic) {
         this.id = id;
         this.productName = productName;
         this.price = price;
-        this.brand = brand;
-    }
-
-
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
+        this.productPic = productPic;
     }
 
     public String getId() {
@@ -83,7 +72,6 @@ public class Product {
                 "id='" + id + '\'' +
                 ", productName='" + productName + '\'' +
                 ", price=" + price +
-                ", brand='" + brand + '\'' +
                 ", productDesc='" + productDesc + '\'' +
                 ", productPic='" + productPic + '\'' +
                 '}';

@@ -534,6 +534,76 @@ public class TbJvjindouRuleExample {
             addCriterion("update_time not between", value1, value2, "updateTime");
             return (Criteria) this;
         }
+
+        public Criteria andRestrictsIsNull() {
+            addCriterion("restricts is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRestrictsIsNotNull() {
+            addCriterion("restricts is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRestrictsEqualTo(String value) {
+            addCriterion("restricts =", value, "restricts");
+            return (Criteria) this;
+        }
+
+        public Criteria andRestrictsNotEqualTo(String value) {
+            addCriterion("restricts <>", value, "restricts");
+            return (Criteria) this;
+        }
+
+        public Criteria andRestrictsGreaterThan(String value) {
+            addCriterion("restricts >", value, "restricts");
+            return (Criteria) this;
+        }
+
+        public Criteria andRestrictsGreaterThanOrEqualTo(String value) {
+            addCriterion("restricts >=", value, "restricts");
+            return (Criteria) this;
+        }
+
+        public Criteria andRestrictsLessThan(String value) {
+            addCriterion("restricts <", value, "restricts");
+            return (Criteria) this;
+        }
+
+        public Criteria andRestrictsLessThanOrEqualTo(String value) {
+            addCriterion("restricts <=", value, "restricts");
+            return (Criteria) this;
+        }
+
+        public Criteria andRestrictsLike(String value) {
+            addCriterion("restricts like", value, "restricts");
+            return (Criteria) this;
+        }
+
+        public Criteria andRestrictsNotLike(String value) {
+            addCriterion("restricts not like", value, "restricts");
+            return (Criteria) this;
+        }
+
+        public Criteria andRestrictsIn(List<String> values) {
+            addCriterion("restricts in", values, "restricts");
+            return (Criteria) this;
+        }
+
+        public Criteria andRestrictsNotIn(List<String> values) {
+            addCriterion("restricts not in", values, "restricts");
+            return (Criteria) this;
+        }
+
+        public Criteria andRestrictsBetween(String value1, String value2) {
+            addCriterion("restricts between", value1, value2, "restricts");
+            return (Criteria) this;
+        }
+
+        public Criteria andRestrictsNotBetween(String value1, String value2) {
+            addCriterion("restricts not between", value1, value2, "restricts");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

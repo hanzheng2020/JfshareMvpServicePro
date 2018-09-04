@@ -54,6 +54,7 @@ public class SystemInformationService {
 	public  PageInfo<Map<String, Object>> getSystemInformationsApp(Integer userId,int page,int pageSize){
 		TbSystemInformationExample example =  new TbSystemInformationExample();
 		Criteria criteria= example.createCriteria();
+		criteria.andStatusEqualTo(2);//2//代表已经发布
 		criteria.andIsDeleteNotEqualTo(2);//2代表已经删除
 		example.setOrderByClause("create_time desc");
 		PageHelper.startPage(page, pageSize);

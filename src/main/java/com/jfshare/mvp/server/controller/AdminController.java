@@ -11,7 +11,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,6 +31,7 @@ import com.jfshare.mvp.server.service.JvjindouRuleService;
 import com.jfshare.mvp.server.service.ProductItemService;
 import com.jfshare.mvp.server.service.PromotionSettingService;
 import com.jfshare.mvp.server.service.SystemInformationService;
+import com.jfshare.mvp.server.utils.ConvertBeanToMapUtils;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -78,6 +78,16 @@ public class AdminController {
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR,mapResult.get("msg").toString());
 		}
 		return appVerifySettingService.saveAppVerifyProducts(tbAppVerifySetting);
+	}
+	
+	@ApiOperation(value = "IOS上线审核设置", notes = "获取IOS上线审核设置")
+	@GetMapping("/appVerifySetting")
+	public ResultConstant getAppVerifySetting() {
+		 Map<String, Object> result = appVerifySettingService.getAppVerifyProducts();
+		if (MapUtils.isEmpty(result)) {
+			return ResultConstant.ofSuccess();
+		}
+		return ResultConstant.ofSuccess(result);
 	}
 	
 	@SuppressWarnings("rawtypes")
@@ -157,7 +167,7 @@ public class AdminController {
 		if (StringUtils.isEmpty(tbProductItem.getItemNo())) {
 			result = productItemService.addProductItem(tbProductItem.getItemName(), tbProductItem.getItemDesc(), tbProductItem.getParentItemNo());
 		} else {
-			result = productItemService.updateProductItem(tbProductItem.getItemNo(), tbProductItem.getItemName(), tbProductItem.getItemDesc());
+			result = productItemService.updateProductItem(tbProductItem.getItemNo(), tbProductItem.getItemName(), tbProductItem.getItemDesc(), tbProductItem.getParentItemNo());
 		}
 		if (result) {
 			return ResultConstant.ofSuccess();
@@ -221,12 +231,24 @@ public class AdminController {
 	public ResultConstant queryjfRaiders(TbJfRaiders jfRaiders,
 			@RequestParam(value = "page", required = true) Integer page,
 			@RequestParam(value = "pageSize", required = true) Integer pageSize) {
-		PageInfo<Map<String, Object>> pageInfo = jfRaidersService.queryJfRaiders(jfRaiders, page, pageSize);
+		PageInfo<Object> pageInfo = jfRaidersService.queryJfRaiders(jfRaiders, page, pageSize);
 		return ResultConstant.ofSuccess(pageInfo);
+	}
+	
+	@ApiOperation(value = "积分攻略文章详情查询", notes = "根据传入的id，查询积分攻略文章详情")
+	@GetMapping("/queryjfRaiderInfo")
+	public ResultConstant queryjfRaidersInfo(
+			@RequestParam(value = "id", required = true) Integer id
+		) {
+		TbJfRaiders jfRaiders = jfRaidersService.queryJfRaidersOne(id);
+		Map map  = ConvertBeanToMapUtils.convertBeanToMap(jfRaiders, "");
+		byte[] content=jfRaiders.getContent();
+		map.put("content", new String(content));
+		return ResultConstant.ofSuccess(map);
 	}
 
 	@ApiOperation(value = "积分攻略文章更新", notes = "根据传入的类型，更新积分攻略文章")
-	@PutMapping("/updatejfRaider")
+	@PostMapping("/updatejfRaider")
 	public ResultConstant updatejfRaiders(TbJfRaiders jfRaider) {
 		TbJfRaiders jfRaiders = jfRaidersService.queryJfRaidersOne(jfRaider.getId());
 		if(jfRaiders==null) {
@@ -279,10 +301,18 @@ public class AdminController {
 	@GetMapping("/getjvjindouRule")
 	public ResultConstant getjvjindouRule() {
 		TbJvjindouRule jvjindouRule = jvjindouRuleService.queryTbJvjindouRule();
+		if(jvjindouRule==null) {
+			jvjindouRule=new TbJvjindouRule();
+			jvjindouRule.setFixedGiving(null);
+			jvjindouRule.setGivingRule("1");
+			jvjindouRule.setRandomGivingMax(null);
+			jvjindouRule.setRandomGivingMin(null);
+			jvjindouRule.setRestricts("1");
+		}
 		return ResultConstant.ofSuccess(jvjindouRule);
 	}
 	@ApiOperation(value = "聚金豆规则信息修改", notes = "修改赠送聚金豆规则,givingRule(赠送规则，2，固定，1随机)，randomGivingMin(随机赠送最小数),randomGivingMax(最大数),fixedGiving(固定赠送值)")
-	@PutMapping("/updatejvjindouRule")
+	@PostMapping("/updatejvjindouRule")
 	public ResultConstant updatejvjindouRule(@RequestParam(value="id",required=true)Integer id,
 			@RequestParam(value="givingRule",required=true)String givingRule,
 			@RequestParam(value="randomGivingMin",required=false)Integer randomGivingMin,
@@ -318,38 +348,42 @@ public class AdminController {
 	}
 	@ApiOperation(value = "聚金豆规则信息添加", notes = "添加聚金豆规则设定")
 	@PostMapping("/addjvjindouRule")
-	public ResultConstant addjvjindouRule(TbJvjindouRule jvjindouRule ,
+	public ResultConstant addjvjindouRule(TbJvjindouRule jvjindouRules ,
 			@RequestParam(value="token",required=true)String token) {
+		
 		//鉴权校验
 		Map<String, Object> map = adminService.checkToken(token);
 		if(!(boolean) map.get("result")){
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR,map.get("msg").toString());
 		}
-		
-		if(StringUtils.isEmpty(jvjindouRule)) {
-			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "参数有误");
-		}
-		if(jvjindouRule.getGivingRule().equals(Constant.FIXED_PATTERN)) {
-			if(!StringUtils.isEmpty(jvjindouRule.getFixedGiving())){
-				jvjindouRule.setFixedGiving(jvjindouRule.getFixedGiving());
-			}else {
-				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "参数有误");
-			}
-		}else if(jvjindouRule.getGivingRule().equals(Constant.FIXED_PATTERN)) {
-			if(!StringUtils.isEmpty(jvjindouRule.getRandomGivingMin()) && !StringUtils.isEmpty(jvjindouRule.getRandomGivingMax())){
-				jvjindouRule.setRandomGivingMax(jvjindouRule.getRandomGivingMax());
-				jvjindouRule.setRandomGivingMin(jvjindouRule.getRandomGivingMin());
-			}else {
-				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "参数有误");	
+		TbJvjindouRule jvjindouRule = jvjindouRuleService.queryTbJvjindouRule();
+		if(jvjindouRule==null) {
+			int result = jvjindouRuleService.insertJvjindouRule(jvjindouRules);
+			if(result>0) {
+				return ResultConstant.ofSuccess();
 			}
 		}else {
-			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "参数有误");
+			if(jvjindouRules.getGivingRule().equals(Constant.FIXED_PATTERN)) {
+				if(!StringUtils.isEmpty(jvjindouRules.getFixedGiving())){
+					jvjindouRule.setFixedGiving(jvjindouRules.getFixedGiving());
+				}else {
+					return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "参数有误");
+				}
+			}else if(jvjindouRules.getGivingRule().equals(Constant.RANDOUM_PATTERN)) {
+				if(!StringUtils.isEmpty(jvjindouRules.getRandomGivingMin()) && !StringUtils.isEmpty(jvjindouRules.getRandomGivingMax())){
+					jvjindouRule.setRandomGivingMax(jvjindouRules.getRandomGivingMax());
+					jvjindouRule.setRandomGivingMin(jvjindouRules.getRandomGivingMin());
+				}else {
+					return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "参数有误");	
+				}
+			}
+			jvjindouRule.setGivingRule(jvjindouRules.getGivingRule());
+			int result = jvjindouRuleService.updateJvjindouRule(jvjindouRule);
+			if(result>0) {
+				return ResultConstant.ofSuccess();
+			}
 		}
-			
-		int result = jvjindouRuleService.insertJvjindouRule(jvjindouRule);
-		if(result>0) {
-			return ResultConstant.ofSuccess();
-		}
+
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "修改失败");
 	
 	}
@@ -375,11 +409,35 @@ public class AdminController {
 		systemInformation.setCreateUser(user);
 		systemInformation.setUpdateTime(date);
 		int result = systemInformationService.saveSystemInformation(systemInformation);
+			@RequestParam(value="id",required=false)Integer id) {
+		
+		if(StringUtils.isEmpty(id)) {
+			id=0;
+		}
+		TbSystemInformation systemInformation = systemInformationService.getInformatinInfo(id);
+		int result=0;
+		if(systemInformation!=null) {
+			systemInformation.setTitle(title);
+			systemInformation.setContent(cont);
+			result = systemInformationService.updateSystemInformation(systemInformation);
+		}else {
+			systemInformation = new TbSystemInformation();
+			Date date  = new Date();
+			systemInformation.setTitle(title);
+			systemInformation.setStatus(1);
+			systemInformation.setContent(cont);
+			systemInformation.setCreateUser(user);
+			systemInformation.setUpdateTime(date);
+			result = systemInformationService.saveSystemInformation(systemInformation);
+		}
+
 		if(result>0) {
 			return ResultConstant.ofSuccess();
 		}
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "添加失败");
 	}
+			
+			
 	@ApiOperation(value = "系统消息填加并发布", notes = "添加聚金豆规则设定,title:标题，cont：内容，user：创建用户")
 	@PostMapping("/addAndReleaseInformation")
 	public ResultConstant addAndReleaseInformation(
@@ -495,7 +553,7 @@ public class AdminController {
 	
 	@ApiOperation(value="系统消息发布",notes="系统消息发布，id:消息id")
 	@PostMapping("/releaseformation")
-	public ResultConstant releaseformation(
+	public ResultConstant releaseformation( 
 			@RequestParam(value="id",required=true)Integer id,
 			@RequestParam(value="token",required=true)String token) {
 		//鉴权校验

@@ -1,25 +1,39 @@
 package com.jfshare.mvp.server.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.elasticsearch.index.query.BaseTermQueryBuilder;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.MultiMatchQueryBuilder;
+import org.elasticsearch.index.query.PrefixQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.RegexpQueryBuilder;
+import org.elasticsearch.index.query.WildcardQueryBuilder;
+import org.elasticsearch.index.search.MultiMatchQuery.QueryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.jfshare.mvp.server.constants.Constant;
-import com.jfshare.mvp.server.controller.ProductController;
 import com.jfshare.mvp.server.dao.TbProductDao;
 import com.jfshare.mvp.server.dao.TbProductItemDao;
+import com.jfshare.mvp.server.elasticsearch.ESProduct;
+import com.jfshare.mvp.server.elasticsearch.repository.ESProductRepository;
 import com.jfshare.mvp.server.mapper.TbProductDetailMapper;
 import com.jfshare.mvp.server.model.Product;
 import com.jfshare.mvp.server.model.ProductSurveyQueryParam;
 import com.jfshare.mvp.server.model.TbProduct;
-import com.jfshare.mvp.server.model.TbProductDetail;
 import com.jfshare.mvp.server.model.TbProductDetailExample;
 import com.jfshare.mvp.server.model.TbProductDetailWithBLOBs;
 import com.jfshare.mvp.server.model.TbProductExample;
@@ -41,6 +55,63 @@ public class ProductService {
 	private TbProductItemDao tbProductItemDao;
 	@Autowired
 	private ProductDetailService productDetailService;
+	@Autowired
+	private ESProductRepository esProductRepository;
+	
+	/**
+	 * 同步es中的商品信息
+	 * @param syncAll 是否全部同步
+	 * @param productIds 商品ID
+	 */
+	public void syncESProduct(boolean syncAll, String... productIds) {
+		TbProductExample example = new TbProductExample();
+		if (syncAll) {
+			esProductRepository.deleteAll();
+			example.createCriteria()
+				   .andProductIdIn(Arrays.asList(productIds))
+				   .andActiveStateEqualTo(Constant.PRODUCT_STATE_ONSELL);
+			List<TbProduct> tbproducts =  tbProductDao.selectByExample(example);
+			List<ESProduct> esProducts = new ArrayList<>();
+			for (TbProduct tbProduct : tbproducts) {
+				ESProduct esProduct = new ESProduct(tbProduct.getProductId(), 
+						tbProduct.getProductName(), Double.valueOf(tbProduct.getCurPrice()),
+						tbProduct.getImgKey().contains(",") ? tbProduct.getImgKey().split(",")[0] : tbProduct.getImgKey());
+				esProducts.add(esProduct);
+			}
+			esProductRepository.saveAll(esProducts);
+		} else {
+			for (String productId : productIds) {
+				if (esProductRepository.existsById(productId)) {
+					esProductRepository.deleteById(productId);
+					example.createCriteria()
+						   .andProductIdEqualTo(productId)
+						   .andActiveStateEqualTo(Constant.PRODUCT_STATE_ONSELL);
+					List<TbProduct> tbproducts =  tbProductDao.selectByExample(example);
+					if (!CollectionUtils.isEmpty(tbproducts)) {
+						TbProduct tbProduct = tbproducts.get(0);
+						ESProduct esProduct = new ESProduct(tbProduct.getProductId(), 
+								tbProduct.getProductName(), Double.valueOf(tbProduct.getCurPrice()),
+								tbProduct.getImgKey().contains(",") ? tbProduct.getImgKey().split(",")[0] : tbProduct.getImgKey());
+						esProductRepository.save(esProduct);
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * 查询ES中的商品信息, 模糊查询
+	 * @param params
+	 * @param pageIndex
+	 * @param pageSize
+	 * @return
+	 */
+	public Page<ESProduct> queryESProduct(String params, int pageIndex, int pageSize) {
+		BoolQueryBuilder queryBuilder = QueryBuilders.boolQuery();
+		queryBuilder.should(QueryBuilders.multiMatchQuery(params, "productName"));
+		queryBuilder.should(QueryBuilders.wildcardQuery("id", "*"+params+"*"));
+		return esProductRepository.search(queryBuilder, PageRequest.of(pageIndex, pageSize));
+	}
 
 	//根据条件搜索商品信息
 	public List<TbProductSurvey> productSurveyQuery(String param,Integer itemNo,Integer activeState, Integer curpage,
@@ -157,6 +228,7 @@ public class ProductService {
 		if (count > 0) {
 			result = tbProductDao.updateProduct(tbProductWithBLOBs);
 		}
+		this.syncESProduct(false, product.getProductId());
 		return result;
 	}
 	
@@ -186,7 +258,20 @@ public class ProductService {
 		example.createCriteria().andProductIdEqualTo(productId);
 		List<TbProduct> products =  tbProductDao.selectByExample(example);
 		if(products!=null && products.size()>0) {
-			return products.get(0);
+			TbProduct product = products.get(0);
+			//处理商品图片格式问题
+			StringBuilder sb = new StringBuilder();
+			if(product.getImgKey().contains(",")) {
+				String[] str = product.getImgKey().split(",");
+				for(int i = 0;i < str.length;i ++) {
+					if(!StringUtils.isEmpty(str[i])) {
+						sb.append(str[i]).append(",");
+					}
+				}		
+			}
+			String strImg = sb.toString().substring(0, sb.toString().length() - 1);
+			product.setImgKey(strImg);
+			return product;
 		}
 		return null;
 	}
@@ -247,6 +332,17 @@ public class ProductService {
 			}
 			count = updateProduct(product);
 		}
+		this.syncESProduct(false, product.getProductId());
 		return count;
+	}
+	
+	public List<TbProduct> queryProduct(){
+		TbProductExample example = new TbProductExample();
+		example.createCriteria().andActiveStateEqualTo(Constant.PRODUCT_STATE_ONSELL);
+		List<TbProduct> productList = tbProductDao.selectByExample(example);
+		if(productList != null && productList.size() > 0) {
+			return productList;
+		}
+		return null;
 	}
 }
