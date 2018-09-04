@@ -267,10 +267,10 @@ public class ProductService {
 					if(!StringUtils.isEmpty(str[i])) {
 						sb.append(str[i]).append(",");
 					}
-				}		
+				}
+				String strImg = sb.toString().substring(0, sb.toString().length() - 1);
+				product.setImgKey(strImg);
 			}
-			String strImg = sb.toString().substring(0, sb.toString().length() - 1);
-			product.setImgKey(strImg);
 			return product;
 		}
 		return null;
