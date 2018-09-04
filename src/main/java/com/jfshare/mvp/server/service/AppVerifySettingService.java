@@ -32,8 +32,6 @@ public class AppVerifySettingService {
 	
 	public Map<String, Object> getAppVerifyProducts() {
 		TbAppVerifySettingExample tbAppVerifySettingExample = new TbAppVerifySettingExample();
-		tbAppVerifySettingExample.createCriteria()
-								 .andStateEqualTo(true);
 		List<TbAppVerifySetting> tbAppVerifySettings = tbAppVerifySettingDao.selectByExample(tbAppVerifySettingExample);
 		if (CollectionUtils.isEmpty(tbAppVerifySettings)) {
 			return null;
