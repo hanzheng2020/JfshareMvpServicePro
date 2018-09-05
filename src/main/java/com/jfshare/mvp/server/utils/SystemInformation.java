@@ -11,9 +11,12 @@ import cn.jpush.api.JPushClient;
 import cn.jpush.api.common.resp.APIConnectionException;
 import cn.jpush.api.common.resp.APIRequestException;
 import cn.jpush.api.push.PushResult;
+import cn.jpush.api.push.model.Options;
 import cn.jpush.api.push.model.Platform;
 import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.push.model.audience.Audience;
+import cn.jpush.api.push.model.notification.AndroidNotification;
+import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
 
 public class SystemInformation {
@@ -32,7 +35,8 @@ public class SystemInformation {
 	   //JPushClient jpushClient = new JPushClient(JPUSH_PUSH_MASTER_SECRET, JPUSH_PUSH_APPKEY, 0, null, ClientConfig.getInstance());
 
 	    // For push, all you need do is to build PushPayload object.
-	    PushPayload payload =PushPayload.alertAll(msg);
+	    //PushPayload payload =PushPayload.alertAll(msg);
+		PushPayload payload =PushPayload.alertAll(msg);
 
 	    try {
 	    	PushResult result = jpushClient.sendPush(payload);
@@ -70,9 +74,45 @@ public class SystemInformation {
 		}
 	}
 	
+	
+	public static void  buildPushObject_android_and_iosByAlias(String alias,String title,String alert,String content,String orderId) {
+        Options option=Options.sendno();
+        option.setApnsProduction(true);
+        try {
+			jpushClient.sendPush(PushPayload.newBuilder()
+			        .setPlatform(Platform.android_ios())
+			        .setAudience(Audience.alias(alias)).setOptions(option)
+			        .setNotification(Notification.newBuilder()
+			        		.setAlert(alert)
+			        		.addPlatformNotification(AndroidNotification.newBuilder()
+			        				.setTitle(title)
+			        				.addExtra("orderId", orderId)
+			        				//.addExtra("order_type", orderType)
+			        				.build())
+			        		.addPlatformNotification(IosNotification.newBuilder()
+			        				.incrBadge(1)
+			        				.addExtra("title", title)
+			        				.addExtra("orderId", orderId)
+			        				.setSound("sound.caf")
+			        				.addExtra("content", content)
+			        				//.addExtra("order_type", orderType)
+			        				.build())
+			        		.build())
+			        .build());
+		} catch (APIConnectionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (APIRequestException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+	
 	public static void main(String[] args) {
 		String mobileMd5 = DigestUtils.md5Hex("551952").toUpperCase();
-		SystemInformation.send(mobileMd5,"1433223");
+		//SystemInformation.send("商品购买成功，点击查看订单券码详情>>");
+			//SystemInformation.send(mobileMd5,"218");
+			SystemInformation.buildPushObject_android_and_iosByAlias(mobileMd5,"支付成功提醒","内容","内容","订单id");
 	}
 	 
 }

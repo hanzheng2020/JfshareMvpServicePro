@@ -46,7 +46,7 @@ public class ReceiverPresentJvjindou {
 					if(result.getResult().getCode()==0) {
 						String mobileMd5 = DigestUtils.md5Hex(userid+"").toUpperCase();
 						logger.info("用户:"+mobileMd5);
-						SystemInformation.send(mobileMd5, "商品购买成功，点击查看订单券码详情>>");
+						SystemInformation.buildPushObject_android_and_iosByAlias(mobileMd5,"支付成功提醒","商品购买成功，点击查看订单券码详情>>","商品购买成功，点击查看订单券码详情>>",orderId);
 					}
 				}
 			}else {
