@@ -2,6 +2,7 @@ package com.jfshare.mvp.server.dao;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -19,10 +20,13 @@ public class AppInfoDao {
 	public List<TbAppVerinfo> getAppVerinfo(GetUpgradeParamStr param) {
 		TbAppVerinfoExample example = new TbAppVerinfoExample();
 		TbAppVerinfoExample.Criteria criteria = example.createCriteria();
-		if(param.getAppType() > 0)
+		if(param.getAppType() > 0) {
 			criteria.andAppTypeEqualTo(param.getAppType());
-			
-		example.setOrderByClause("id desc");
+		}
+		if(StringUtils.isEmpty(param.getVersion())) {
+			criteria.andVersionEqualTo(param.getVersion());
+		}
+		//example.setOrderByClause("id desc");
 		return tbAppVerinfoMapper.selectByExample(example);
 	}
 	
