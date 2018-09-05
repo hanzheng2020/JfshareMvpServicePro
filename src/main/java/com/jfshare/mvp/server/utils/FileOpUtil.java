@@ -104,7 +104,7 @@ public class FileOpUtil {
 						cell5.setCellValue(product.getPresentExp() + "");
 
 						HSSFCell cell6 = row.createCell(6, Cell.CELL_TYPE_STRING);
-						cell6.setCellValue(product.getCreateTime());
+						cell6.setCellValue(DateUtils.dateToStr(product.getCreateTime(),"yyyy-MM-dd"));
 
 			}
 		} catch (Exception e) {
