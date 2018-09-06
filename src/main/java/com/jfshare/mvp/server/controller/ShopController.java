@@ -81,9 +81,9 @@ public class ShopController {
 	}
 
 	@ApiOperation(value = "获取app信息", notes = "根据app类型获取对应的app信息   appType: 1 安卓  3 ios")
-	@PostMapping("/getAppVerinfo")
-	public ResultConstant getAppVerinfo(@RequestParam(value = "appType", required = true) Integer appType) {
-		TbAppVerinfo appVerinfo = appInfoServer.getAppVerinfo(appType);
+	@GetMapping("/getAppVerinfo")
+	public ResultConstant getAppVerinfo(Integer appType,String version) {
+		TbAppVerinfo appVerinfo = appInfoServer.getAppVerinfo(appType,version);
 		if (appVerinfo != null) {
 			return ResultConstant.ofSuccess(appVerinfo);
 		}

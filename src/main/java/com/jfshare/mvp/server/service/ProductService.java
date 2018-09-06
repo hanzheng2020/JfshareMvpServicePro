@@ -257,7 +257,7 @@ public class ProductService {
 		TbProductExample example = new TbProductExample();
 		example.createCriteria().andProductIdEqualTo(productId);
 		List<TbProduct> products =  tbProductDao.selectByExample(example);
-		if(products!=null && products.size()>0) {
+		if(products.size()>0) {
 			TbProduct product = products.get(0);
 			//处理商品图片格式问题
 			StringBuilder sb = new StringBuilder();
