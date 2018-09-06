@@ -2,6 +2,9 @@ package com.jfshare.mvp.server.utils;
 
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,11 +80,12 @@ public class SystemInformation {
 	
 	public static void  buildPushObject_android_and_iosByAlias(String alias,String title,String alert,String content,String orderId) {
         Options option=Options.sendno();
-        option.setApnsProduction(true);
+        option.setApnsProduction(false);
         try {
 			jpushClient.sendPush(PushPayload.newBuilder()
 			        .setPlatform(Platform.android_ios())
-			        .setAudience(Audience.alias(alias)).setOptions(option)
+			        .setAudience(Audience.alias(alias))
+			        .setOptions(option)
 			        .setNotification(Notification.newBuilder()
 			        		.setAlert(alert)
 			        		.addPlatformNotification(AndroidNotification.newBuilder()
@@ -107,12 +111,41 @@ public class SystemInformation {
 			e.printStackTrace();
 		}
     }
-	
+	public static void buildPushObject_memberId_alias_alert(String memberId, String title, String id, int type) {
+        // 补充要传递的参数
+        Map<String, String> ex = new HashMap<String, String>();
+        ex.put("id", id);
+        ex.put("type", type + "");
+        PushPayload payload  = PushPayload
+                .newBuilder()
+                .setPlatform(Platform.all())
+                .setAudience(Audience.alias(memberId))
+                .setNotification(
+                        Notification
+                                .newBuilder()
+                                .setAlert(title)
+                                .addPlatformNotification(
+                                        IosNotification.newBuilder().setSound("default").setBadge(1).addExtras(ex)
+                                                .build())
+                                .addPlatformNotification(AndroidNotification.newBuilder().addExtras(ex).build())
+                                .build()).build();
+   	 try {
+			jpushClient.sendPush(payload);
+		} catch (APIConnectionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (APIRequestException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
 	public static void main(String[] args) {
-		String mobileMd5 = DigestUtils.md5Hex("551952").toUpperCase();
+		String mobileMd5 = DigestUtils.md5Hex("218").toUpperCase();
+		//String mobileMd5 = DigestUtils.md5Hex("609132").toUpperCase();
 		//SystemInformation.send("商品购买成功，点击查看订单券码详情>>");
 			//SystemInformation.send(mobileMd5,"218");
-			SystemInformation.buildPushObject_android_and_iosByAlias(mobileMd5,"支付成功提醒","内容","内容","订单id");
+			SystemInformation.buildPushObject_android_and_iosByAlias(mobileMd5,"支付成功提醒","商品购买成功，点击查看订单券码详情>>","商品购买成功，点击查看订单券码详情>>","123432");
+		//SystemInformation.buildPushObject_memberId_alias_alert(mobileMd5,"支付成功提醒", "1222", 1);
 	}
 	 
 }
