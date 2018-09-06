@@ -1,5 +1,6 @@
 package com.jfshare.mvp.server.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -222,13 +223,6 @@ public class AdminController {
 	@ApiOperation(value = "积分攻略文章添加", notes = "根据传入的类型，添加积分攻略文章")
 	@PostMapping("/addjfRaider")
 	public ResultConstant addjfRaiders(TbJfRaiders jfRaiders) {
-        String newUrl=SendRequest.sendPost(url, "title="+jfRaiders.getTitle()+"&content="+new String(jfRaiders.getContent())+"&HTMLFileName=jfgl"+new Date().getTime()+".html");
-        JSONObject obj =  JSONObject.fromObject(newUrl);
-        String code = obj.getString("code");
-        String url=obj.getString("url");
-        if("200".equals(code)) {
-        	jfRaiders.setArricleUrl(url);
-        }
 		int result = jfRaidersService.addjfRaiders(jfRaiders);
 		if (result < 1) {
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "添加失败");
@@ -291,6 +285,20 @@ public class AdminController {
 		TbJfRaiders jfRaiders = jfRaidersService.queryJfRaidersOne(id);
 		jfRaiders.setStatus(2);
 		jfRaiders.setReleaseTime(new Date());
+        String content="<div style=\"text-align: center;\">\r\n" + 
+        		"			 <div ><h1>攻略详情</h1></div>\r\n" + 
+        		"			 <hr style=\"height:1px;border:none;border-top:1px solid #AAAAAA;\" />\r\n" + 
+        		"			 <div><h2>"+jfRaiders.getTitle()+"<h2></div>\r\n" + 
+        		"		</div>\r\n" + 
+        		"		<div style=\"text-align: right;color: #AAAAAA;\">"+new SimpleDateFormat("yyyy-MM-dd HH:mm").format(jfRaiders.getReleaseTime())+"</div>\r\n" + 
+        		"		</br>"+(new String(jfRaiders.getContent()));
+        String newUrl=SendRequest.sendPost(url, "title="+jfRaiders.getTitle()+"&content="+content+"&HTMLFileName=jfgl"+jfRaiders.getReleaseTime().getTime()+".html");
+        JSONObject obj =  JSONObject.fromObject(newUrl);
+        String code = obj.getString("code");
+        String url=obj.getString("url");
+        if("200".equals(code)) {
+        	jfRaiders.setArricleUrl(url);
+        }
 		int result = jfRaidersService.updateJfRaiders(jfRaiders);
 		if (result > 0) {
 			return ResultConstant.ofSuccess();
