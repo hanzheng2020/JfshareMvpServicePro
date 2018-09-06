@@ -82,7 +82,7 @@ public class SendRequest {
         parmas.put("HTMLFileName","23u982u398ru23198u2q.html");
         Gson gson = new Gson();
         String param=gson.toJson(parmas);
-        String newUrl=SendRequest.sendPost(url, "title=222&content=rrrr&HTMLFileName=777");
+        String newUrl=SendRequest.sendPost(url, "title=222&content=rrrr&HTMLFileName=777.html");
         System.out.println("newUrl:"+newUrl);
 	}
 }

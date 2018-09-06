@@ -614,6 +614,76 @@ public class TbJfRaidersExample {
             addCriterion("update_time not between", value1, value2, "updateTime");
             return (Criteria) this;
         }
+
+        public Criteria andArricleUrlIsNull() {
+            addCriterion("arricle_url is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andArricleUrlIsNotNull() {
+            addCriterion("arricle_url is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andArricleUrlEqualTo(String value) {
+            addCriterion("arricle_url =", value, "arricleUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andArricleUrlNotEqualTo(String value) {
+            addCriterion("arricle_url <>", value, "arricleUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andArricleUrlGreaterThan(String value) {
+            addCriterion("arricle_url >", value, "arricleUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andArricleUrlGreaterThanOrEqualTo(String value) {
+            addCriterion("arricle_url >=", value, "arricleUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andArricleUrlLessThan(String value) {
+            addCriterion("arricle_url <", value, "arricleUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andArricleUrlLessThanOrEqualTo(String value) {
+            addCriterion("arricle_url <=", value, "arricleUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andArricleUrlLike(String value) {
+            addCriterion("arricle_url like", value, "arricleUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andArricleUrlNotLike(String value) {
+            addCriterion("arricle_url not like", value, "arricleUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andArricleUrlIn(List<String> values) {
+            addCriterion("arricle_url in", values, "arricleUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andArricleUrlNotIn(List<String> values) {
+            addCriterion("arricle_url not in", values, "arricleUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andArricleUrlBetween(String value1, String value2) {
+            addCriterion("arricle_url between", value1, value2, "arricleUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andArricleUrlNotBetween(String value1, String value2) {
+            addCriterion("arricle_url not between", value1, value2, "arricleUrl");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

@@ -34,9 +34,11 @@ import com.jfshare.mvp.server.service.ProductItemService;
 import com.jfshare.mvp.server.service.PromotionSettingService;
 import com.jfshare.mvp.server.service.SystemInformationService;
 import com.jfshare.mvp.server.utils.ConvertBeanToMapUtils;
+import com.jfshare.mvp.server.utils.SendRequest;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import net.sf.json.JSONObject;
 
 /**
  * @author fengxiang
@@ -68,7 +70,7 @@ public class AdminController {
 	@Autowired
 	private AppVerifySettingService appVerifySettingService;
 	
-
+	private String url="http://39.106.147.35:9191/HtmlTemplatePro/Freemarker/genHtmlFunc";//文本转换成网页接口
 	
 	@ApiOperation(value = "IOS上线审核设置", notes = "保存IOS上线审核设置")
 	@PostMapping("/appVerifySetting")
@@ -220,8 +222,13 @@ public class AdminController {
 	@ApiOperation(value = "积分攻略文章添加", notes = "根据传入的类型，添加积分攻略文章")
 	@PostMapping("/addjfRaider")
 	public ResultConstant addjfRaiders(TbJfRaiders jfRaiders) {
-        
-        
+        String newUrl=SendRequest.sendPost(url, "title="+jfRaiders.getTitle()+"&content="+new String(jfRaiders.getContent())+"&HTMLFileName=jfgl"+new Date().getTime()+".html");
+        JSONObject obj =  JSONObject.fromObject(newUrl);
+        String code = obj.getString("code");
+        String url=obj.getString("url");
+        if("200".equals(code)) {
+        	jfRaiders.setArricleUrl(url);
+        }
 		int result = jfRaidersService.addjfRaiders(jfRaiders);
 		if (result < 1) {
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "添加失败");
