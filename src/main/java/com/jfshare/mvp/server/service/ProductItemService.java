@@ -219,13 +219,13 @@ public class ProductItemService {
 			if (!CollectionUtils.isEmpty(sonProductItems)) {
 				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "存在子节点，请先删除子节点！");
 			}
-			/*TbProductExample tbProductExample = new TbProductExample();
+			TbProductExample tbProductExample = new TbProductExample();
 			tbProductExample.createCriteria()
-							.andItemNoEqualTo(itemNo);
+							.andItemNoEqualTo(Integer.valueOf(itemNo));
 			List<TbProduct> tbProducts = tbProductDao.selectByExample(tbProductExample);
 			if (!CollectionUtils.isEmpty(tbProducts)) {
 				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "该类目中存在商品！");
-			}*/
+			}
 			tbProductItemExample.clear();
 		}
 		
