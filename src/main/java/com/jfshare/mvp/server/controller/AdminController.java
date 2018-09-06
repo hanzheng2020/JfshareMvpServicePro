@@ -76,7 +76,7 @@ public class AdminController {
 	@ApiOperation(value = "IOS上线审核设置", notes = "保存IOS上线审核设置")
 	@PostMapping("/appVerifySetting")
 	public ResultConstant saveAppVerifySetting(@RequestBody TbAppVerifySetting tbAppVerifySetting,
-			@RequestHeader("Cookie") String token) {
+			@RequestHeader("Authorization") String token) {
 		//鉴权校验
 		Map<String, Object> mapResult = adminService.checkToken(token);
 		if(!(boolean) mapResult.get("result")){
@@ -99,7 +99,7 @@ public class AdminController {
 	@ApiOperation(value = "保存并发布推广微页面设置", notes = "保存并发布传入的推广配置和类目商品展示配置")
 	@PostMapping("/promotionSetting")
 	public ResultConstant savePromotionSetting(@RequestBody Map<String, List<Map>> map,
-			@RequestHeader("Cookie") String token	) {
+			@RequestHeader("Authorization") String token	) {
 		//鉴权校验
 		Map<String, Object> mapResult = adminService.checkToken(token);
 		if(!(boolean) mapResult.get("result")){
@@ -161,7 +161,7 @@ public class AdminController {
 	@ApiOperation(value = "更新商品类目", notes = "根据传入的商品类目配置，重新配置商品类目")
 	@PostMapping("/productItem")
 	public ResultConstant updateProductItem(@RequestBody TbProductItem tbProductItem,
-			@RequestHeader("Cookie") String token) {
+			@RequestHeader("Authorization") String token) {
 		
 		//鉴权校验
 		Map<String, Object> map = adminService.checkToken(token);
@@ -204,7 +204,7 @@ public class AdminController {
 	@ApiOperation(value = "删除商品类目", notes = "根据传入的商品类目编号，删除商品类目")
 	@DeleteMapping("/productItem")
 	public ResultConstant deleteProductItem(@RequestBody Map<String, List<String>> itemNos,
-			@RequestHeader("Cookie") String token) {
+			@RequestHeader("Authorization") String token) {
 		//鉴权校验
 		Map<String, Object> map = adminService.checkToken(token);
 		if(!(boolean) map.get("result")){
@@ -337,7 +337,7 @@ public class AdminController {
 			@RequestParam(value="randomGivingMin",required=false)Integer randomGivingMin,
 			@RequestParam(value="randomGivingMax",required=false)Integer randomGivingMax,
 			@RequestParam(value="fixedGiving",required=false)Integer fixedGiving,
-			@RequestHeader("Cookie")String token) {
+			@RequestHeader("Authorization")String token) {
 		//鉴权校验
 		Map<String, Object> map = adminService.checkToken(token);
 		if(!(boolean) map.get("result")){
@@ -368,7 +368,7 @@ public class AdminController {
 	@ApiOperation(value = "聚金豆规则信息添加", notes = "添加聚金豆规则设定")
 	@PostMapping("/addjvjindouRule")
 	public ResultConstant addjvjindouRule(TbJvjindouRule jvjindouRules ,
-			@RequestHeader("Cookie")String token) {
+			@RequestHeader("Authorization")String token) {
 		
 		//鉴权校验
 		Map<String, Object> map = adminService.checkToken(token);
@@ -414,7 +414,7 @@ public class AdminController {
 			@RequestParam(value="cont",required=true)String cont,
 			@RequestParam(value="user",required=true)String user,
 			@RequestParam(value="id",required=false)Integer id,
-			@RequestHeader("Cookie") String token) {
+			@RequestHeader("Authorization") String token) {
 		//鉴权校验
 		Map<String, Object> map = adminService.checkToken(token);
 		if(!(boolean) map.get("result")){
@@ -453,7 +453,7 @@ public class AdminController {
 			@RequestParam(value="title",required=true)String title,
 			@RequestParam(value="cont",required=true)String cont,
 			@RequestParam(value="user",required=true)String user,
-			@RequestHeader("Cookie") String token) {
+			@RequestHeader("Authorization") String token) {
 		
 		//鉴权校验
 		Map<String, Object> map = adminService.checkToken(token);
@@ -509,7 +509,7 @@ public class AdminController {
 			@RequestParam(value="id",required=true)Integer id,
 			@RequestParam(value="title",required=true)String title,
 			@RequestParam(value="cont",required=true)String cont,
-			@RequestHeader("Cookie") String token) {
+			@RequestHeader("Authorization") String token) {
 		//鉴权校验
 		Map<String, Object> map = adminService.checkToken(token);
 		if(!(boolean) map.get("result")){
@@ -531,7 +531,7 @@ public class AdminController {
 	@ApiOperation(value="系统消息删除",notes="删除系统消息，id:消息id")
 	@PostMapping("/deleteInformation")
 	public ResultConstant deleteInformation(@RequestParam(value="id",required=true)String id,
-			@RequestHeader("Cookie") String token) {
+			@RequestHeader("Authorization") String token) {
 		//鉴权校验
 		Map<String, Object> map = adminService.checkToken(token);
 		if(!(boolean) map.get("result")){
@@ -564,7 +564,7 @@ public class AdminController {
 	@PostMapping("/releaseformation")
 	public ResultConstant releaseformation( 
 			@RequestParam(value="id",required=true)Integer id,
-			@RequestHeader("Cookie") String token
+			@RequestHeader("Authorization") String token
 			) {
 		//鉴权校验
 		Map<String, Object> map = adminService.checkToken(token);
