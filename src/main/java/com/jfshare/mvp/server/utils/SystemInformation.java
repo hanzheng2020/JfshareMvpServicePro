@@ -80,7 +80,7 @@ public class SystemInformation {
 	
 	public static void  buildPushObject_android_and_iosByAlias(String alias,String title,String alert,String content,String orderId) {
         Options option=Options.sendno();
-        option.setApnsProduction(false);
+        option.setApnsProduction(true);
         try {
 			jpushClient.sendPush(PushPayload.newBuilder()
 			        .setPlatform(Platform.android_ios())
