@@ -16,6 +16,7 @@ import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;  
 import org.springframework.data.redis.core.SetOperations;  
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;  
@@ -773,4 +774,26 @@ public class JedisClusterUtils {
 	public static String getKV(String key) {
 		return cacheUtils.redisTemplate.opsForValue().get(key);
 	}
+	
+	   /**
+     * zset集合中获取指定范围元素
+     * @param key
+     * @param min 最小得分值
+     * @param max 最大得分值
+     * @return
+     */
+    public  Set<TypedTuple<String>> rangeByScoreWithScores(String key,long min,long max) { 
+    	// System.out.println("rangeByScoreWithScores key = "+key+",minTime = "+min + ",maxTime = "+max);
+    	 return cacheUtils.redisTemplate.opsForZSet().rangeByScoreWithScores(key, min, max);
+    }
+ 
+    
+    /** 有序集合
+     * zset集合中删除元素
+     * @param key 
+     * @param val 
+     */  
+    public  Long zSetRemove(String key,String values) {  
+    	 return cacheUtils.redisTemplate.opsForZSet().remove(key, values);
+    } 
 }  

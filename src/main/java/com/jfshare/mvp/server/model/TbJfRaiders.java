@@ -19,6 +19,8 @@ public class TbJfRaiders {
 
     private Date updateTime;
 
+    private String arricleUrl;
+
     private byte[] content;
 
     public Integer getId() {
@@ -83,6 +85,14 @@ public class TbJfRaiders {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getArricleUrl() {
+        return arricleUrl;
+    }
+
+    public void setArricleUrl(String arricleUrl) {
+        this.arricleUrl = arricleUrl == null ? null : arricleUrl.trim();
     }
 
     public byte[] getContent() {

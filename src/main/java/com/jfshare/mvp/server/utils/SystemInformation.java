@@ -80,7 +80,7 @@ public class SystemInformation {
 	
 	public static void  buildPushObject_android_and_iosByAlias(String alias,String title,String alert,String content,String orderId) {
         Options option=Options.sendno();
-        option.setApnsProduction(false);
+        option.setApnsProduction(true);//推送环境；false：开发环境，true：生成环境
         try {
 			jpushClient.sendPush(PushPayload.newBuilder()
 			        .setPlatform(Platform.android_ios())
@@ -111,40 +111,12 @@ public class SystemInformation {
 			e.printStackTrace();
 		}
     }
-	public static void buildPushObject_memberId_alias_alert(String memberId, String title, String id, int type) {
-        // 补充要传递的参数
-        Map<String, String> ex = new HashMap<String, String>();
-        ex.put("id", id);
-        ex.put("type", type + "");
-        PushPayload payload  = PushPayload
-                .newBuilder()
-                .setPlatform(Platform.all())
-                .setAudience(Audience.alias(memberId))
-                .setNotification(
-                        Notification
-                                .newBuilder()
-                                .setAlert(title)
-                                .addPlatformNotification(
-                                        IosNotification.newBuilder().setSound("default").setBadge(1).addExtras(ex)
-                                                .build())
-                                .addPlatformNotification(AndroidNotification.newBuilder().addExtras(ex).build())
-                                .build()).build();
-   	 try {
-			jpushClient.sendPush(payload);
-		} catch (APIConnectionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (APIRequestException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    }
 	public static void main(String[] args) {
 		String mobileMd5 = DigestUtils.md5Hex("218").toUpperCase();
 		//String mobileMd5 = DigestUtils.md5Hex("609132").toUpperCase();
 		//SystemInformation.send("商品购买成功，点击查看订单券码详情>>");
-			//SystemInformation.send(mobileMd5,"218");
-			SystemInformation.buildPushObject_android_and_iosByAlias(mobileMd5,"支付成功提醒","商品购买成功，点击查看订单券码详情>>","商品购买成功，点击查看订单券码详情>>","123432");
+		//SystemInformation.send(mobileMd5,"218");
+		SystemInformation.buildPushObject_android_and_iosByAlias(mobileMd5,"支付成功提醒","商品购买成功，点击查看订单券码详情>>","商品购买成功，点击查看订单券码详情>>","123432");
 		//SystemInformation.buildPushObject_memberId_alias_alert(mobileMd5,"支付成功提醒", "1222", 1);
 	}
 	 
