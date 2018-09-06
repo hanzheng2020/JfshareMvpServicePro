@@ -52,6 +52,7 @@ public class AdminServiceImpl implements AdminService{
 		//限制一处登陆
 		StringBuilder builder = new StringBuilder().append(loginId).append("&&&&").append(new Date().getTime());
 		String token = TokenUtil.enStr(builder.toString());
+		System.out.println("加密后token = " +token);
 		//生成redis标识
 		JedisClusterUtils.putKV("MVP:admin:"+loginId, token, 30*60);
 		admin.setPwd("");
@@ -64,8 +65,8 @@ public class AdminServiceImpl implements AdminService{
 	public Map<String, Object> checkToken(String token) {
 		String data = TokenUtil.deStr(token);
 		String loginId = data.split("&&&&")[0];
-		
 		String key = "MVP:admin:"+loginId;
+		
 		String string = JedisClusterUtils.getString(key);
 		Map<String, Object> map = new HashMap<>();
 		if(null==string||"".equals(string)||!token.equals(string)){
