@@ -1,6 +1,7 @@
 package com.jfshare.mvp.server.controller;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -218,6 +219,8 @@ public class AdminController {
 	@ApiOperation(value = "积分攻略文章添加", notes = "根据传入的类型，添加积分攻略文章")
 	@PostMapping("/addjfRaider")
 	public ResultConstant addjfRaiders(TbJfRaiders jfRaiders) {
+        
+        
 		int result = jfRaidersService.addjfRaiders(jfRaiders);
 		if (result < 1) {
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "添加失败");
