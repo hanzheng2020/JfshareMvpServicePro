@@ -9,8 +9,6 @@ public class TbProductDetail {
 
     private String productInstructionsUrl;
 
-    private String productExchangeUrl;
-
     private Date createTime;
 
     private Date updateTime;
@@ -37,14 +35,6 @@ public class TbProductDetail {
 
     public void setProductInstructionsUrl(String productInstructionsUrl) {
         this.productInstructionsUrl = productInstructionsUrl == null ? null : productInstructionsUrl.trim();
-    }
-
-    public String getProductExchangeUrl() {
-        return productExchangeUrl;
-    }
-
-    public void setProductExchangeUrl(String productExchangeUrl) {
-        this.productExchangeUrl = productExchangeUrl == null ? null : productExchangeUrl.trim();
     }
 
     public Date getCreateTime() {
