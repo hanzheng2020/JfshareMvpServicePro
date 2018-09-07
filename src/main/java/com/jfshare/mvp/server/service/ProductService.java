@@ -241,6 +241,7 @@ public class ProductService {
 		// tbProductDetail.setCreateTime(new Date());
 		tbProductDetail.setUpdateTime(new Date());
         String exchangeUrl=SendRequest.sendPost(AdminController.url, "title="+product.getProductName()+"&content="+product.getProductExchange()+"&HTMLFileName=productExchange"+product.getProductId()+".html");
+        logger.info("上传exchangeUrlresult:"+exchangeUrl);
         JSONObject objExchange =  JSONObject.fromObject(exchangeUrl);
         String exchangeCode = objExchange.getString("code");
         String exchangeUrls=objExchange.getString("url");
