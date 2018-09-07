@@ -1,7 +1,6 @@
 package com.jfshare.mvp.server.controller;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -79,7 +78,7 @@ public class AdminController {
 		//鉴权校验
 		Map<String, Object> mapResult = adminService.checkToken(token);
 		if(!(boolean) mapResult.get("result")){
-			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR,mapResult.get("msg").toString());
+			return ResultConstant.ofFail(ResultConstant.FAIL_TOKEN_ERROR,mapResult.get("msg").toString());
 		}
 		return appVerifySettingService.saveAppVerifyProducts(tbAppVerifySetting);
 	}
@@ -102,7 +101,7 @@ public class AdminController {
 		//鉴权校验
 		Map<String, Object> mapResult = adminService.checkToken(token);
 		if(!(boolean) mapResult.get("result")){
-			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR,mapResult.get("msg").toString());
+			return ResultConstant.ofFail(ResultConstant.FAIL_TOKEN_ERROR,mapResult.get("msg").toString());
 		}
 		List<Map> productPromotions = map.get("productPromotions");
 		List<Map> productItemShows = map.get("productItemShows");
@@ -165,7 +164,7 @@ public class AdminController {
 		//鉴权校验
 		Map<String, Object> map = adminService.checkToken(token);
 		if(!(boolean) map.get("result")){
-			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR,map.get("msg").toString());
+			return ResultConstant.ofFail(ResultConstant.FAIL_TOKEN_ERROR,map.get("msg").toString());
 		}
 		boolean result = false;
 		if (StringUtils.isEmpty(tbProductItem.getItemNo())) {
@@ -207,7 +206,7 @@ public class AdminController {
 		//鉴权校验
 		Map<String, Object> map = adminService.checkToken(token);
 		if(!(boolean) map.get("result")){
-			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR,map.get("msg").toString());
+			return ResultConstant.ofFail(ResultConstant.FAIL_TOKEN_ERROR,map.get("msg").toString());
 		}
 		
 		ResultConstant result = productItemService.deleteProductItem(itemNos.get("itemNo"));
@@ -333,7 +332,7 @@ public class AdminController {
 		//鉴权校验
 		Map<String, Object> map = adminService.checkToken(token);
 		if(!(boolean) map.get("result")){
-			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR,map.get("msg").toString());
+			return ResultConstant.ofFail(ResultConstant.FAIL_TOKEN_ERROR,map.get("msg").toString());
 		}
 		TbJvjindouRule jvjindouRule =jvjindouRuleService.getJvjindouRule(id);
 		if(givingRule.equals(Constant.FIXED_PATTERN)) {
@@ -365,7 +364,7 @@ public class AdminController {
 		//鉴权校验
 		Map<String, Object> map = adminService.checkToken(token);
 		if(!(boolean) map.get("result")){
-			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR,map.get("msg").toString());
+			return ResultConstant.ofFail(ResultConstant.FAIL_TOKEN_ERROR,map.get("msg").toString());
 		}
 		TbJvjindouRule jvjindouRule = jvjindouRuleService.queryTbJvjindouRule();
 		if(jvjindouRule==null) {
@@ -410,7 +409,7 @@ public class AdminController {
 		//鉴权校验
 		Map<String, Object> map = adminService.checkToken(token);
 		if(!(boolean) map.get("result")){
-			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR,map.get("msg").toString());
+			return ResultConstant.ofFail(ResultConstant.FAIL_TOKEN_ERROR,map.get("msg").toString());
 		}
 		if(StringUtils.isEmpty(id)) {
 			id=0;
@@ -450,7 +449,7 @@ public class AdminController {
 		//鉴权校验
 		Map<String, Object> map = adminService.checkToken(token);
 		if(!(boolean) map.get("result")){
-			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR,map.get("msg").toString());
+			return ResultConstant.ofFail(ResultConstant.FAIL_TOKEN_ERROR,map.get("msg").toString());
 		}
 		
 		TbSystemInformation systemInformation = new TbSystemInformation();
@@ -505,7 +504,7 @@ public class AdminController {
 		//鉴权校验
 		Map<String, Object> map = adminService.checkToken(token);
 		if(!(boolean) map.get("result")){
-			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR,map.get("msg").toString());
+			return ResultConstant.ofFail(ResultConstant.FAIL_TOKEN_ERROR,map.get("msg").toString());
 		}
 		TbSystemInformation systemInformation = systemInformationService.getInformatinInfo(id);
 		int result=0;
@@ -527,7 +526,7 @@ public class AdminController {
 		//鉴权校验
 		Map<String, Object> map = adminService.checkToken(token);
 		if(!(boolean) map.get("result")){
-			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR,map.get("msg").toString());
+			return ResultConstant.ofFail(ResultConstant.FAIL_TOKEN_ERROR,map.get("msg").toString());
 		}
 		int result=0;
 		String [] ids = id.split(",");
@@ -561,7 +560,7 @@ public class AdminController {
 		//鉴权校验
 		Map<String, Object> map = adminService.checkToken(token);
 		if(!(boolean) map.get("result")){
-			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR,map.get("msg").toString());
+			return ResultConstant.ofFail(ResultConstant.FAIL_TOKEN_ERROR,map.get("msg").toString());
 		}
 		TbSystemInformation systemInformation = systemInformationService.getInformatinInfo(id);
 		int result=0;
