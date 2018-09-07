@@ -235,6 +235,146 @@ public class TbProductDetailExample {
             return (Criteria) this;
         }
 
+        public Criteria andProductInstructionsUrlIsNull() {
+            addCriterion("product_instructions_url is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductInstructionsUrlIsNotNull() {
+            addCriterion("product_instructions_url is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductInstructionsUrlEqualTo(String value) {
+            addCriterion("product_instructions_url =", value, "productInstructionsUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductInstructionsUrlNotEqualTo(String value) {
+            addCriterion("product_instructions_url <>", value, "productInstructionsUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductInstructionsUrlGreaterThan(String value) {
+            addCriterion("product_instructions_url >", value, "productInstructionsUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductInstructionsUrlGreaterThanOrEqualTo(String value) {
+            addCriterion("product_instructions_url >=", value, "productInstructionsUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductInstructionsUrlLessThan(String value) {
+            addCriterion("product_instructions_url <", value, "productInstructionsUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductInstructionsUrlLessThanOrEqualTo(String value) {
+            addCriterion("product_instructions_url <=", value, "productInstructionsUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductInstructionsUrlLike(String value) {
+            addCriterion("product_instructions_url like", value, "productInstructionsUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductInstructionsUrlNotLike(String value) {
+            addCriterion("product_instructions_url not like", value, "productInstructionsUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductInstructionsUrlIn(List<String> values) {
+            addCriterion("product_instructions_url in", values, "productInstructionsUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductInstructionsUrlNotIn(List<String> values) {
+            addCriterion("product_instructions_url not in", values, "productInstructionsUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductInstructionsUrlBetween(String value1, String value2) {
+            addCriterion("product_instructions_url between", value1, value2, "productInstructionsUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductInstructionsUrlNotBetween(String value1, String value2) {
+            addCriterion("product_instructions_url not between", value1, value2, "productInstructionsUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductExchangeUrlIsNull() {
+            addCriterion("product_exchange_url is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductExchangeUrlIsNotNull() {
+            addCriterion("product_exchange_url is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductExchangeUrlEqualTo(String value) {
+            addCriterion("product_exchange_url =", value, "productExchangeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductExchangeUrlNotEqualTo(String value) {
+            addCriterion("product_exchange_url <>", value, "productExchangeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductExchangeUrlGreaterThan(String value) {
+            addCriterion("product_exchange_url >", value, "productExchangeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductExchangeUrlGreaterThanOrEqualTo(String value) {
+            addCriterion("product_exchange_url >=", value, "productExchangeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductExchangeUrlLessThan(String value) {
+            addCriterion("product_exchange_url <", value, "productExchangeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductExchangeUrlLessThanOrEqualTo(String value) {
+            addCriterion("product_exchange_url <=", value, "productExchangeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductExchangeUrlLike(String value) {
+            addCriterion("product_exchange_url like", value, "productExchangeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductExchangeUrlNotLike(String value) {
+            addCriterion("product_exchange_url not like", value, "productExchangeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductExchangeUrlIn(List<String> values) {
+            addCriterion("product_exchange_url in", values, "productExchangeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductExchangeUrlNotIn(List<String> values) {
+            addCriterion("product_exchange_url not in", values, "productExchangeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductExchangeUrlBetween(String value1, String value2) {
+            addCriterion("product_exchange_url between", value1, value2, "productExchangeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductExchangeUrlNotBetween(String value1, String value2) {
+            addCriterion("product_exchange_url not between", value1, value2, "productExchangeUrl");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateTimeIsNull() {
             addCriterion("create_time is null");
             return (Criteria) this;

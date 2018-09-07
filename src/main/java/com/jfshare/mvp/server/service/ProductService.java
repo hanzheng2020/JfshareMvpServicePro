@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.jfshare.mvp.server.constants.Constant;
+import com.jfshare.mvp.server.controller.AdminController;
 import com.jfshare.mvp.server.dao.TbProductDao;
 import com.jfshare.mvp.server.dao.TbProductItemDao;
 import com.jfshare.mvp.server.elasticsearch.ESProduct;
@@ -42,6 +43,9 @@ import com.jfshare.mvp.server.model.TbProductSurvey;
 import com.jfshare.mvp.server.model.TbProductWithBLOBs;
 import com.jfshare.mvp.server.utils.DateUtils;
 import com.jfshare.mvp.server.utils.FileOpUtil;
+import com.jfshare.mvp.server.utils.SendRequest;
+
+import net.sf.json.JSONObject;
 
 @Service
 public class ProductService {
@@ -159,6 +163,21 @@ public class ProductService {
 		tbProductDetail.setProductInstructions(product.getProductInstructions());
 		tbProductDetail.setProductExchange(product.getProductExchange());
 		tbProductDetail.setCreateTime(new Date());
+		
+        String exchangeUrl=SendRequest.sendPost(AdminController.url, "title="+product.getProductName()+"&content="+product.getProductExchange()+"&HTMLFileName=productExchange"+product.getProductId()+".html");
+        JSONObject objExchange =  JSONObject.fromObject(exchangeUrl);
+        String exchangeCode = objExchange.getString("code");
+        String exchangeUrls=objExchange.getString("url");
+        if("200".equals(exchangeCode)) {
+        	tbProductDetail.setProductExchangeUrl(exchangeUrls);
+        }
+        String instructions=SendRequest.sendPost(AdminController.url, "title="+product.getProductName()+"&content="+product.getProductInstructions()+"&HTMLFileName=productInstructions"+product.getProductId()+".html");
+        JSONObject objinstructions =  JSONObject.fromObject(instructions);
+        String instructionsCode = objinstructions.getString("code");
+        String instructionsUrl=objinstructions.getString("url");
+        if("200".equals(instructionsCode)) {
+            tbProductDetail.setProductInstructionsUrl(instructionsUrl);
+        }
 		//tbProductDetail.setUpdateTime(new Date());
 		int count = tbProductDetailMapper.insert(tbProductDetail);
 		int result = 0;
@@ -221,6 +240,20 @@ public class ProductService {
 		tbProductDetail.setProductExchange(product.getProductExchange());
 		// tbProductDetail.setCreateTime(new Date());
 		tbProductDetail.setUpdateTime(new Date());
+        String exchangeUrl=SendRequest.sendPost(AdminController.url, "title="+product.getProductName()+"&content="+product.getProductExchange()+"&HTMLFileName=productExchange"+product.getProductId()+".html");
+        JSONObject objExchange =  JSONObject.fromObject(exchangeUrl);
+        String exchangeCode = objExchange.getString("code");
+        String exchangeUrls=objExchange.getString("url");
+        if("200".equals(exchangeCode)) {
+        	tbProductDetail.setProductExchangeUrl(exchangeUrls);
+        }
+        String instructions=SendRequest.sendPost(AdminController.url, "title="+product.getProductName()+"&content="+product.getProductInstructions()+"&HTMLFileName=productInstructions"+product.getProductId()+".html");
+        JSONObject objinstructions =  JSONObject.fromObject(instructions);
+        String instructionsCode = objinstructions.getString("code");
+        String instructionsUrl=objinstructions.getString("url");
+        if("200".equals(instructionsCode)) {
+            tbProductDetail.setProductInstructionsUrl(instructionsUrl);
+        }
 		TbProductDetailExample example = new TbProductDetailExample();
 		example.createCriteria().andDetailKeyEqualTo(product.getProductId());
 		int count = tbProductDetailMapper.updateByExampleSelective(tbProductDetail, example);

@@ -4,6 +4,8 @@
   <resultMap id="BaseResultMap" type="com.jfshare.mvp.server.model.TbProductDetail">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="detail_key" jdbcType="VARCHAR" property="detailKey" />
+    <result column="product_detail_url" jdbcType="VARCHAR" property="productDetailUrl" />
+    <result column="product_exchange_url" jdbcType="VARCHAR" property="productExchangeUrl" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
@@ -71,7 +73,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, detail_key, create_time, update_time
+    id, detail_key, product_detail_url, product_exchange_url, create_time, update_time
   </sql>
   <sql id="Blob_Column_List">
     product_detail, product_instructions, product_exchange
@@ -130,12 +132,14 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into tb_product_detail (detail_key, create_time, update_time, 
-      product_detail, product_instructions, 
-      product_exchange)
-    values (#{detailKey,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{productDetail,jdbcType=LONGVARCHAR}, #{productInstructions,jdbcType=LONGVARCHAR}, 
-      #{productExchange,jdbcType=LONGVARCHAR})
+    insert into tb_product_detail (detail_key, product_detail_url, product_exchange_url, 
+      create_time, update_time, product_detail, 
+      product_instructions, product_exchange
+      )
+    values (#{detailKey,jdbcType=VARCHAR}, #{productDetailUrl,jdbcType=VARCHAR}, #{productExchangeUrl,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{productDetail,jdbcType=LONGVARCHAR}, 
+      #{productInstructions,jdbcType=LONGVARCHAR}, #{productExchange,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.jfshare.mvp.server.model.TbProductDetailWithBLOBs">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -145,6 +149,12 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="detailKey != null">
         detail_key,
+      </if>
+      <if test="productDetailUrl != null">
+        product_detail_url,
+      </if>
+      <if test="productExchangeUrl != null">
+        product_exchange_url,
       </if>
       <if test="createTime != null">
         create_time,
@@ -165,6 +175,12 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="detailKey != null">
         #{detailKey,jdbcType=VARCHAR},
+      </if>
+      <if test="productDetailUrl != null">
+        #{productDetailUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="productExchangeUrl != null">
+        #{productExchangeUrl,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -198,6 +214,12 @@
       <if test="record.detailKey != null">
         detail_key = #{record.detailKey,jdbcType=VARCHAR},
       </if>
+      <if test="record.productDetailUrl != null">
+        product_detail_url = #{record.productDetailUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productExchangeUrl != null">
+        product_exchange_url = #{record.productExchangeUrl,jdbcType=VARCHAR},
+      </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
@@ -222,6 +244,8 @@
     update tb_product_detail
     set id = #{record.id,jdbcType=INTEGER},
       detail_key = #{record.detailKey,jdbcType=VARCHAR},
+      product_detail_url = #{record.productDetailUrl,jdbcType=VARCHAR},
+      product_exchange_url = #{record.productExchangeUrl,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       product_detail = #{record.productDetail,jdbcType=LONGVARCHAR},
@@ -235,6 +259,8 @@
     update tb_product_detail
     set id = #{record.id,jdbcType=INTEGER},
       detail_key = #{record.detailKey,jdbcType=VARCHAR},
+      product_detail_url = #{record.productDetailUrl,jdbcType=VARCHAR},
+      product_exchange_url = #{record.productExchangeUrl,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
@@ -246,6 +272,12 @@
     <set>
       <if test="detailKey != null">
         detail_key = #{detailKey,jdbcType=VARCHAR},
+      </if>
+      <if test="productDetailUrl != null">
+        product_detail_url = #{productDetailUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="productExchangeUrl != null">
+        product_exchange_url = #{productExchangeUrl,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -268,6 +300,8 @@
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.jfshare.mvp.server.model.TbProductDetailWithBLOBs">
     update tb_product_detail
     set detail_key = #{detailKey,jdbcType=VARCHAR},
+      product_detail_url = #{productDetailUrl,jdbcType=VARCHAR},
+      product_exchange_url = #{productExchangeUrl,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       product_detail = #{productDetail,jdbcType=LONGVARCHAR},
@@ -278,6 +312,8 @@
   <update id="updateByPrimaryKey" parameterType="com.jfshare.mvp.server.model.TbProductDetail">
     update tb_product_detail
     set detail_key = #{detailKey,jdbcType=VARCHAR},
+      product_detail_url = #{productDetailUrl,jdbcType=VARCHAR},
+      product_exchange_url = #{productExchangeUrl,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}

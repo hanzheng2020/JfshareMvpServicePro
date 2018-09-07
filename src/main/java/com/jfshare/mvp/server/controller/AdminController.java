@@ -71,7 +71,7 @@ public class AdminController {
 	@Autowired
 	private AppVerifySettingService appVerifySettingService;
 	
-	private String url="http://39.106.147.35:9191/HtmlTemplatePro/Freemarker/genHtmlFunc";//文本转换成网页接口
+	public static String url="http://39.106.147.35:9191/HtmlTemplatePro/Freemarker/genHtmlFunc";//文本转换成网页接口
 	
 	@ApiOperation(value = "IOS上线审核设置", notes = "保存IOS上线审核设置")
 	@PostMapping("/appVerifySetting")
@@ -286,7 +286,6 @@ public class AdminController {
 		jfRaiders.setStatus(2);
 		jfRaiders.setReleaseTime(new Date());
         String content="<div style=\"text-align: center;\">\r\n" + 
-        		"			 <div ><h1>攻略详情</h1></div>\r\n" + 
         		"			 <hr style=\"height:1px;border:none;border-top:1px solid #AAAAAA;\" />\r\n" + 
         		"			 <div><h2>"+jfRaiders.getTitle()+"<h2></div>\r\n" + 
         		"		</div>\r\n" + 

@@ -173,10 +173,9 @@ public class ProductController {
 				if(product.getPresentexp()!=null) {
 					presentexp=product.getPresentexp();
 				}
-				
-				productMap.put("productDetail", productDetail.getProductDetail());//商品详情
-				productMap.put("productInstructions", productDetail.getProductInstructions());//商品使用说明
-				productMap.put("productExchange", productDetail.getProductExchange());//商品兑换说明
+				//productMap.put("productDetail", productDetail.getProductDetail());//商品详情
+				productMap.put("productInstructions", productDetail.getProductInstructionsUrl());//商品使用说明
+				productMap.put("productExchange", productDetail.getProductExchangeUrl());//商品兑换说明
 			}
 			if(userId==null) {
 				userId=0;

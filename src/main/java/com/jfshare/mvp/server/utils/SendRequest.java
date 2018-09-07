@@ -76,13 +76,16 @@ public class SendRequest {
     
     public static void main(String[] args) {
     	String url="http://39.106.147.35:9191/HtmlTemplatePro/Freemarker/genHtmlFunc";
-        Map<String,Object> parmas= new HashMap<String,Object>();
-        parmas.put("title", "www");
-        parmas.put("content", "3333");
-        parmas.put("HTMLFileName","23u982u398ru23198u2q.html");
-        Gson gson = new Gson();
-        String param=gson.toJson(parmas);
-        String newUrl=SendRequest.sendPost(url, "title=222&content=rrrr&HTMLFileName=777.html");
+        String title="";
+        String content="<div style=\"text-align: center;\">\r\n" + 
+        		"			 <div ><h2>攻略详情</h2></div>\r\n" + 
+        		"			 <hr style=\"height:1px;border:none;border-top:1px solid #AAAAAA;\" />\r\n" + 
+        		"			 <div><h3>标题标题<h3></div>\r\n" + 
+        		"		</div>\r\n" + 
+        		"		<div style=\"text-align: right;color: #AAAAAA;\">2018-09-06-16:30:22</div>\r\n" + 
+        		"		</br>";
+        String HTMLFileName="222222";
+        String newUrl=SendRequest.sendPost(url, "title="+title+"&content="+content+"&HTMLFileName="+HTMLFileName+".html");
         System.out.println("newUrl:"+newUrl);
 	}
 }
