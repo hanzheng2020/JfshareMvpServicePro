@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import com.jfshare.finagle.thrift.result.StringResult;
+import com.jfshare.mvp.server.service.InformationService;
 import com.jfshare.mvp.server.service.LevelInfoService;
 import com.jfshare.mvp.server.utils.SystemInformation;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -25,6 +26,10 @@ public class ReceiverPresentJvjindou {
 	private Logger logger = LoggerFactory.getLogger(ReceiverPresentJvjindou.class);
 	@Autowired
 	private LevelInfoService levelInfoService;
+	@Autowired
+	private InformationService informationService;
+	
+	
 	@RabbitHandler
 	public void process(String message) throws Exception {
 		StringResult result;
@@ -44,9 +49,10 @@ public class ReceiverPresentJvjindou {
 					result=levelInfoService.addlevelInfo(userid, integral, orderId, amont);
 					logger.info("返回接口:"+message);
 					if(result.getResult().getCode()==0) {
-						String mobileMd5 = DigestUtils.md5Hex(userid+"").toUpperCase();
-						logger.info("用户:"+mobileMd5);
-						SystemInformation.buildPushObject_android_and_iosByAlias(mobileMd5,"支付成功提醒","商品购买成功，点击查看订单券码详情>>","商品购买成功，点击查看订单券码详情>>",orderId);
+						//String mobileMd5 = DigestUtils.md5Hex(userid+"").toUpperCase();
+						//logger.info("用户:"+mobileMd5);
+						informationService.sendMsg(userid+"", "支付成功提醒", "商品购买成功，点击查看订单券码详情>>", orderId);
+						//SystemInformation.buildPushObject_android_and_iosByAlias(mobileMd5,,"商品购买成功，点击查看订单券码详情>>","商品购买成功，点击查看订单券码详情>>",orderId);
 					}
 				}
 			}else {

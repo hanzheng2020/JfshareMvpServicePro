@@ -49,6 +49,9 @@ public class ThirdPayService {
 	@Autowired
 	private ScoreClient scoreClient;
 	
+	@Autowired
+	private InformationService informationService;
+	
 	
 	public String checkOrder(OrderDetailResult result, Integer orderAmount) {
 		Order order = result.getOrder();
@@ -154,6 +157,7 @@ public class ThirdPayService {
 				if (amt > 0) {
 					return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "可用积分不足！");
 				} else {
+					informationService.sendMsg(userId, "支付成功提醒", "商品购买成功，点击查看订单券码详情>>", orderId);
 					return ResultConstant.ofSuccess();
 				}
 			}
