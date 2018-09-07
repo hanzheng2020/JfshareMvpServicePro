@@ -164,19 +164,17 @@ public class ProductService {
 		tbProductDetail.setProductExchange(product.getProductExchange());
 		tbProductDetail.setCreateTime(new Date());
 		
-        String exchangeUrl=SendRequest.sendPost(AdminController.url, "title="+product.getProductName()+"&content="+product.getProductExchange()+"&HTMLFileName=productExchange"+product.getProductId()+".html");
-        JSONObject objExchange =  JSONObject.fromObject(exchangeUrl);
-        String exchangeCode = objExchange.getString("code");
-        String exchangeUrls=objExchange.getString("url");
-        if("200".equals(exchangeCode)) {
-        	tbProductDetail.setProductExchangeUrl(exchangeUrls);
-        }
-        String instructions=SendRequest.sendPost(AdminController.url, "title="+product.getProductName()+"&content="+product.getProductInstructions()+"&HTMLFileName=productInstructions"+product.getProductId()+".html");
-        JSONObject objinstructions =  JSONObject.fromObject(instructions);
-        String instructionsCode = objinstructions.getString("code");
-        String instructionsUrl=objinstructions.getString("url");
-        if("200".equals(instructionsCode)) {
-            tbProductDetail.setProductInstructionsUrl(instructionsUrl);
+		
+        String  content=product.getProductExchange()+product.getProductInstructions();
+        String instructions=SendRequest.sendPost(AdminController.url, "title="+product.getProductName()+"&content="+content+"&HTMLFileName=productInstructions"+product.getProductId()+".html");
+        logger.info("上传exchangeUrlresult:"+instructions);
+        if(StringUtils.isNotEmpty(instructions)) {
+	        JSONObject objinstructions =  JSONObject.fromObject(instructions);
+	        String instructionsCode = objinstructions.getString("code");
+	        String instructionsUrl=objinstructions.getString("url");
+	        if("200".equals(instructionsCode)) {
+	            tbProductDetail.setProductInstructionsUrl(instructionsUrl);
+	        }
         }
 		//tbProductDetail.setUpdateTime(new Date());
 		int count = tbProductDetailMapper.insert(tbProductDetail);
@@ -240,18 +238,10 @@ public class ProductService {
 		tbProductDetail.setProductExchange(product.getProductExchange());
 		// tbProductDetail.setCreateTime(new Date());
 		tbProductDetail.setUpdateTime(new Date());
-        String exchangeUrl=SendRequest.sendPost(AdminController.url, "title="+product.getProductName()+"&content="+product.getProductExchange()+"&HTMLFileName=productExchange"+product.getProductId()+".html");
-        logger.info("上传exchangeUrlresult:"+exchangeUrl);
-        if(StringUtils.isNotEmpty(exchangeUrl)) {
-            JSONObject objExchange =  JSONObject.fromObject(exchangeUrl);
-            String exchangeCode = objExchange.getString("code");
-            String exchangeUrls=objExchange.getString("url");
-            if("200".equals(exchangeCode)) {
-            	tbProductDetail.setProductExchangeUrl(exchangeUrls);
-            }
-        }
-        
-        String instructions=SendRequest.sendPost(AdminController.url, "title="+product.getProductName()+"&content="+product.getProductInstructions()+"&HTMLFileName=productInstructions"+product.getProductId()+".html");
+
+        String  content=product.getProductExchange()+product.getProductInstructions();
+        String instructions=SendRequest.sendPost(AdminController.url, "title="+product.getProductName()+"&content="+content+"&HTMLFileName=productInstructions"+product.getProductId()+".html");
+        logger.info("上传exchangeUrlresult:"+instructions);
         if(StringUtils.isNotEmpty(instructions)) {
 	        JSONObject objinstructions =  JSONObject.fromObject(instructions);
 	        String instructionsCode = objinstructions.getString("code");
