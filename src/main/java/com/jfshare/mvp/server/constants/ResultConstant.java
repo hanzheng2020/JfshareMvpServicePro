@@ -14,6 +14,7 @@ public class ResultConstant {
 	public final static String FAIL_CODE_SYSTEM_ERROR_DESC = "系统繁忙，请稍后重试 ";
 	// 参数错误
 	public static final int FAIL_CODE_PARAM_ERROR = 502;
+	public static final int FAIL_TOKEN_ERROR = 501;   //鉴权校验失败错误码
 	public static final String FAIL_CODE_PARAM_ERROR_DESC = "参数错误，请检查";
 	
 	private int code;

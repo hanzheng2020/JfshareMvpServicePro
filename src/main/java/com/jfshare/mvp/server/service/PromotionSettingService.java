@@ -64,6 +64,9 @@ public class PromotionSettingService {
 	@Transactional
 	public boolean savePromotionSetting(List<Map> productPromotions, 
 										List<Map> productItemShows) {
+		if (CollectionUtils.isEmpty(productPromotions) || CollectionUtils.isEmpty(productItemShows)) {
+			return false;
+		}
 		List<String> productIds = new ArrayList<>();
 		try {
 			TbProductPromotionExample tbProductPromotionExample = new TbProductPromotionExample();
