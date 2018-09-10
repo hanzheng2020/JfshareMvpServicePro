@@ -87,7 +87,7 @@ public class LevelInfoService {
 				long nuber = new Date().getTime();
 				String tradeid= nuber+"-"+userId;
 				logger.info("每日积分同步:tradeid:"+tradeid);
-				StringResult results=scoreClient.incomeScore(userId,num, 1, tradeid);
+				StringResult results=scoreClient.incomeScore(userId,num, 6, tradeid);
 				logger.info("每日积分同步:results{}", results);
 				status=results.getResult().code;
 				if(0==results.getResult().code) {
@@ -98,7 +98,7 @@ public class LevelInfoService {
 
 			}
 		} else {
-			StringResult results=scoreClient.incomeScore(userId,num, 1, "0");
+			StringResult results=scoreClient.incomeScore(userId,num, 6, "0");
 			logger.info("每日积分同步:results{}", results);
 			status=results.getResult().code;
 			if(0==results.getResult().code) {
@@ -161,7 +161,7 @@ public class LevelInfoService {
 		integral+=b.intValue();
 		logger.info("赠送总积分:"+integral+",赠送积分"+b);
 		TbLevelInfo info = levelInfoDao.selectLevelInfoByUserId(userid);
-		StringResult results=scoreClient.incomeScore(userid,integral, 1, orderId);
+		StringResult results=scoreClient.incomeScore(userid,integral, 5, orderId);
 		logger.info("积分增加:results:"+results+"code"+results.getResult().getCode());
 		if(info!=null&&results.getResult().code==0) {
 			logger.info("增加成长值:"+amont);
