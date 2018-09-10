@@ -23,13 +23,18 @@ public class JfshareMvpServer implements CommandLineRunner{
 	@Autowired
 	private RabbitMQConfig rabbitMQConfig;
 	
+	@Autowired
+	private RedisLazyQueues redisLazyQueues;
+	
     public static void main( String[] args ) {
         SpringApplication.run(JfshareMvpServer.class, args);
     }
 
 	public void run(String... args) throws Exception {
+		redisLazyQueues.afterPropertiesSet();
 		System.out.println("send:"+"test"+System.currentTimeMillis());
 		rabbitTemplate.convertAndSend("my-mq-exchange", "ROUTINGKEY_JINDOU_MSG", "test");
 //		rabbitMQConfig.sendMsg("my-mq-exchange", "ROUTINGKEY_JINDOU_MSG", "test", 5000);
+
 	}
 }
