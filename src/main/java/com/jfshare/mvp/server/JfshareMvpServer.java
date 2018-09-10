@@ -8,6 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.jfshare.mvp.server.config.RabbitMQConfig;
+import com.jfshare.mvp.server.rabbitmq.RedisLazyQueues;
 
 /**
  * @author fengxiang
