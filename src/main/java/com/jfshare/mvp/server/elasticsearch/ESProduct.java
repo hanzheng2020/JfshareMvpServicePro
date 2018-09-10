@@ -9,7 +9,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 public class ESProduct {
 
     @Id
-    private String id;
+    private String productId;
     private String productName;
     private Double price;
     private String productDesc;
@@ -19,22 +19,22 @@ public class ESProduct {
     public ESProduct() {
     }
 
-    public ESProduct(String id, String productName, Double price, String productPic) {
-        this.id = id;
+    public ESProduct(String productId, String productName, Double price, String productPic) {
+        this.productId = productId;
         this.productName = productName;
         this.price = price;
         this.productPic = productPic;
     }
 
-    public String getId() {
-        return id;
-    }
+    public String getProductId() {
+		return productId;
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public void setProductId(String productId) {
+		this.productId = productId;
+	}
 
-    public String getProductName() {
+	public String getProductName() {
         return productName;
     }
 
@@ -69,7 +69,7 @@ public class ESProduct {
     @Override
     public String toString() {
         return "Product{" +
-                "id='" + id + '\'' +
+                "productId='" + productId + '\'' +
                 ", productName='" + productName + '\'' +
                 ", price=" + price +
                 ", productDesc='" + productDesc + '\'' +
