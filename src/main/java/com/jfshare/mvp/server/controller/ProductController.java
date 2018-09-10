@@ -174,9 +174,10 @@ public class ProductController {
 					presentexp=product.getPresentexp();
 				}
 				//productMap.put("productDetail", productDetail.getProductDetail());//商品详情
-				productMap.put("productInstructions", productDetail.getProductInstructions());//商品使用说明
-				productMap.put("productExchange", productDetail.getProductExchange());//商品兑换说明
-				productMap.put("productInstructionsUrl", productDetail.getProductInstructionsUrl());//商品使用说明
+				productMap.put("productInstructions", productDetail.getProductInstructions());//商品详情
+				productMap.put("productInstructionsUrl", productDetail.getProductInstructionsUrl());//商品详情url
+				productMap.put("productExchange", productDetail.getProductExchange());//商品详情
+				productMap.put("productExchangeUrl", productDetail.getProductExchangeUrl());//商品详情url
 			}
 			if(userId==null) {
 				userId=0;
