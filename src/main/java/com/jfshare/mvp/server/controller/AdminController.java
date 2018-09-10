@@ -248,6 +248,7 @@ public class AdminController {
 		Map map  = ConvertBeanToMapUtils.convertBeanToMap(jfRaiders, "");
 		byte[] content=jfRaiders.getContent();
 		map.put("content", new String(content));
+		map.put("id", jfRaiders.getId());
 		return ResultConstant.ofSuccess(map);
 	}
 
