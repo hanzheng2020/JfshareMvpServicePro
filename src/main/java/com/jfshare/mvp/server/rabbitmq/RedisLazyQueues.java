@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
 import org.springframework.stereotype.Component;
 
+import com.jfshare.mvp.server.service.InformationService;
 import com.jfshare.mvp.server.utils.JedisClusterUtils;
 import com.jfshare.mvp.server.utils.SystemInformation;
 import com.jfshare.mvp.server.utils.WeChatMessageSendPlus;
@@ -31,6 +32,8 @@ public class RedisLazyQueues implements InitializingBean{
 
 	@Autowired
 	private JedisClusterUtils redisTemplate;
+	@Autowired
+	private InformationService informationService;
 	
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -61,8 +64,8 @@ public class RedisLazyQueues implements InitializingBean{
 								String data = obj.get("data").toString();
 								JSONObject objData = JSONObject.fromObject(bean);
 								String productName=objData.get("productName").toString();
-								String mobileMd5 = DigestUtils.md5Hex(userId).toUpperCase();
-								SystemInformation.buildPushObject_android_and_iosByAlias(mobileMd5,"订单到期支付提醒","您有一笔待支付订单将于5分钟后失效，请点击付款>>","您有一笔待支付订单将于5分钟后失效，请点击付款>>",orderId);
+								informationService.sendMsg(userId, "订单到期支付提醒", "您有一笔待支付订单将于5分钟后失效，请点击付款>>", orderId);
+								//SystemInformation.buildPushObject_android_and_iosByAlias(mobileMd5,"订单到期支付提醒","您有一笔待支付订单将于5分钟后失效，请点击付款>>","您有一笔待支付订单将于5分钟后失效，请点击付款>>",orderId);
 								//String orderId = obj.get("orderId").toString();
 							}
 							//2.删除键值对缓存
