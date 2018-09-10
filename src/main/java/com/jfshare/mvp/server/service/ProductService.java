@@ -113,7 +113,7 @@ public class ProductService {
 	public Page<ESProduct> queryESProduct(String params, int pageIndex, int pageSize) {
 		BoolQueryBuilder queryBuilder = QueryBuilders.boolQuery();
 		queryBuilder.should(QueryBuilders.multiMatchQuery(params, "productName"));
-		queryBuilder.should(QueryBuilders.wildcardQuery("id", "*"+params+"*"));
+		queryBuilder.should(QueryBuilders.wildcardQuery("productId", "*"+params+"*"));
 		return esProductRepository.search(queryBuilder, PageRequest.of(pageIndex, pageSize));
 	}
 
