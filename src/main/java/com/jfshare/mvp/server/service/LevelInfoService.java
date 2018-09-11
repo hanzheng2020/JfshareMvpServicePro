@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jfshare.finagle.thrift.result.Result;
 import com.jfshare.finagle.thrift.result.StringResult;
 import com.jfshare.finagle.thrift.score.ScoreResult;
 import com.jfshare.mvp.server.constants.Constant;
@@ -173,7 +174,9 @@ public class LevelInfoService {
 				levelInfoDao.updateLevelInfo(info);
 			}
 		}else {
-			results.result.code=1;
+			Result result=new Result();
+			result.code=1;
+			results.setResult(result);
 		}
 
 		
