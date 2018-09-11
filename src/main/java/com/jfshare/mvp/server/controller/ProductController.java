@@ -211,8 +211,12 @@ public class ProductController {
 		TbProduct tbProduct = null;
 		try {
 			product = productClient.getProduct(productId);
-			tbProduct = ConvertBeanToMapUtils.convertBeanToMap(product);
-			tbProduct.setProductStock(productClient.getProductCardByState(productId));
+			if(product.getActiveState() != 101) {
+				tbProduct = ConvertBeanToMapUtils.convertBeanToMap(product);
+				tbProduct.setProductStock(productClient.getProductCardByState(productId));
+			}else {
+				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "该商品已下架！");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取商品信息失败");
