@@ -161,12 +161,17 @@ public class LevelInfoService {
 		}
 		integral+=b.intValue();
 		logger.info("赠送总积分:"+integral+",赠送积分"+b);
-		StringResult results = new StringResult();
+	
 		
+		if(integral>0) {
+			StringResult results=scoreClient.incomeScore(userid,integral, 5, orderId);
+				logger.info("积分增加:results:"+results);
+		}
+		StringResult results = new StringResult();
+		Result result=new Result();
+		result.code=0;
 		if(amont>0) {
 			TbLevelInfo info = levelInfoDao.selectLevelInfoByUserId(userid);
-			 results=scoreClient.incomeScore(userid,integral, 5, orderId);
-			logger.info("积分增加:results:"+results);
 			if(info!=null) {
 				logger.info("增加成长值:"+amont);
 				info.setGrowthPoint((info.getGrowthPoint()+amont));
@@ -174,7 +179,7 @@ public class LevelInfoService {
 				levelInfoDao.updateLevelInfo(info);
 			}
 		}else {
-			Result result=new Result();
+		
 			result.code=1;
 			results.setResult(result);
 		}
