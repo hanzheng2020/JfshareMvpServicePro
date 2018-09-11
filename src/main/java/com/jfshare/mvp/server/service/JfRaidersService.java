@@ -38,7 +38,7 @@ public class JfRaidersService {
 		if(jfRaiders.getStatus()!=null&&!"".equals(jfRaiders.getStatus())) {
 			criteria.andStatusEqualTo(jfRaiders.getStatus());
 		}
-		jfRaidersExample.setOrderByClause("create_time DESC");
+		jfRaidersExample.setOrderByClause("release_time DESC");
 		PageHelper.startPage(page, pageSize);
 		List<TbJfRaiders> JfRaiders =  jfRaidersDao.selectJfRaiders(jfRaidersExample);
 		PageInfo<Object> pageInfo =new PageInfo(JfRaiders);
