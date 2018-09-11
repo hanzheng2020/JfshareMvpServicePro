@@ -165,10 +165,12 @@ public class ThirdPayService {
 					return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "可用积分不足！");
 				} else {
 					String productId = orderDetailResult.getOrder().getProductList().get(0).getProductId();
-					logger.info("积分支付成功》》》推送系统通知，订单id:"+productId);
+					logger.info("积分支付成功》》》推送系统通知，订单id:"+productId+",userId:"+userId+",amt:"+amt);
 					
 					TbProduct product = productService.getProductOne(productId);
 					int integral=product.getPresentexp();
+					logger.info("积分支付成功》》》推送系统通知，订单id:"+productId+",userId:"+userId+",integral:"+integral+",amt:"+amt);
+					
 					StringResult result=levelInfoService.addlevelInfo(Integer.parseInt(userId), integral, orderId, amt);
 					logger.info("返回接口:"+result);
 					if(result.getResult().getCode()==0) {
