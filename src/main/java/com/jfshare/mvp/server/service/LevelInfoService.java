@@ -129,7 +129,7 @@ public class LevelInfoService {
 		if(levelInfo!=null) {
 			ScoreResult result =scoreClient.getScore(userId);
 			logger.info(String.format("积分查询:result{}", result));
-			if(result.getSroce()!=null) {
+			if(result!=null && result.getSroce()!=null) {
 				levelInfo.setRealJvjindou(result.getSroce().getAmount());
 			}else {
 				levelInfo.setRealJvjindou(0);

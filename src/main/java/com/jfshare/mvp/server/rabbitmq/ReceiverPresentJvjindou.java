@@ -41,10 +41,6 @@ public class ReceiverPresentJvjindou {
 				int integral = Integer.parseInt(obj.get("integral").toString());
 				String orderId=obj.get("orderId").toString();
 				int amont = Integer.parseInt(obj.get("amont").toString());
-				if(amont<=0) {
-					amont=10;
-					integral=10;
-				}
 				if(amont>0&&integral>0) {
 					result=levelInfoService.addlevelInfo(userid, integral, orderId, amont);
 					logger.info("返回接口:"+message);

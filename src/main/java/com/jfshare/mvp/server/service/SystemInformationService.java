@@ -56,7 +56,7 @@ public class SystemInformationService {
 		Criteria criteria= example.createCriteria();
 		criteria.andStatusEqualTo(2);//2//代表已经发布
 		criteria.andIsDeleteNotEqualTo(2);//2代表已经删除
-		example.setOrderByClause("create_time desc");
+		example.setOrderByClause("release_time DESC");
 		PageHelper.startPage(page, pageSize);
 		List<TbSystemInformation>  systemInformations=systemInformationDao.selectInformation(example);
 		return new PageInfo(systemInformations);

@@ -113,7 +113,7 @@ public class ProductService {
 	public Page<ESProduct> queryESProduct(String params, int pageIndex, int pageSize) {
 		BoolQueryBuilder queryBuilder = QueryBuilders.boolQuery();
 		queryBuilder.should(QueryBuilders.multiMatchQuery(params, "productName"));
-		queryBuilder.should(QueryBuilders.wildcardQuery("id", "*"+params+"*"));
+		queryBuilder.should(QueryBuilders.wildcardQuery("productId", "*"+params+"*"));
 		return esProductRepository.search(queryBuilder, PageRequest.of(pageIndex, pageSize));
 	}
 
@@ -176,6 +176,18 @@ public class ProductService {
 	            tbProductDetail.setProductInstructionsUrl(instructionsUrl);
 	        }
         }
+        
+        String instructionsProductExchange=SendRequest.sendPost(AdminController.url, "title="+product.getProductName()+"&content="+content+"&HTMLFileName=ProductExchange"+product.getProductId()+".html");
+        logger.info("上传exchangeUrlresult:"+instructionsProductExchange);
+        if(StringUtils.isNotEmpty(instructionsProductExchange)) {
+	        JSONObject productExchanges =  JSONObject.fromObject(instructionsProductExchange);
+	        String productExchangeCode = productExchanges.getString("code");
+	        String productExchangeUrl=productExchanges.getString("url");
+	        if("200".equals(productExchangeCode)) {
+	            tbProductDetail.setProductInstructionsUrl(productExchangeUrl);
+	        }
+        }
+        
 		//tbProductDetail.setUpdateTime(new Date());
 		int count = tbProductDetailMapper.insert(tbProductDetail);
 		int result = 0;
@@ -250,7 +262,16 @@ public class ProductService {
 	            tbProductDetail.setProductInstructionsUrl(instructionsUrl);
 	        }
         }
-        
+        String instructionsProductExchange=SendRequest.sendPost(AdminController.url, "title="+product.getProductName()+"&content="+content+"&HTMLFileName=ProductExchange"+product.getProductId()+".html");
+        logger.info("上传exchangeUrlresult:"+instructionsProductExchange);
+        if(StringUtils.isNotEmpty(instructionsProductExchange)) {
+	        JSONObject productExchanges =  JSONObject.fromObject(instructionsProductExchange);
+	        String productExchangeCode = productExchanges.getString("code");
+	        String productExchangeUrl=productExchanges.getString("url");
+	        if("200".equals(productExchangeCode)) {
+	            tbProductDetail.setProductInstructionsUrl(productExchangeUrl);
+	        }
+        }
 		TbProductDetailExample example = new TbProductDetailExample();
 		example.createCriteria().andDetailKeyEqualTo(product.getProductId());
 		int count = tbProductDetailMapper.updateByExampleSelective(tbProductDetail, example);
