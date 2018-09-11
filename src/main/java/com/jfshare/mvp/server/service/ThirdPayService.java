@@ -12,6 +12,7 @@ import com.jfshare.finagle.thrift.result.StringResult;
 import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.finagle.server.OrderClient;
 import com.jfshare.mvp.server.finagle.server.ScoreClient;
+import com.jfshare.mvp.server.model.TbProduct;
 import com.jfshare.mvp.server.thirdinterface.AliPayInterface;
 import com.jfshare.mvp.server.thirdinterface.WeChatPayInterface;
 import com.jfshare.mvp.server.utils.ConstantUtil;
@@ -51,6 +52,12 @@ public class ThirdPayService {
 	
 	@Autowired
 	private InformationService informationService;
+	
+	@Autowired
+	private ProductService productService;
+	
+	@Autowired
+	private LevelInfoService levelInfoService;
 	
 	
 	public String checkOrder(OrderDetailResult result, Integer orderAmount) {
@@ -157,8 +164,16 @@ public class ThirdPayService {
 				if (amt > 0) {
 					return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "可用积分不足！");
 				} else {
-					logger.info("积分支付成功》》》推送系统通知");
-					informationService.sendMsg(userId, "支付成功提醒", "商品购买成功，点击查看订单券码详情>>", orderId);
+					String productId = orderDetailResult.getOrder().getProductList().get(0).getProductId();
+					logger.info("积分支付成功》》》推送系统通知，订单id:"+productId);
+					
+					TbProduct product = productService.getProductOne(productId);
+					int integral=product.getPresentexp();
+					StringResult result=levelInfoService.addlevelInfo(Integer.parseInt(userId), integral, orderId, amt);
+					logger.info("返回接口:"+result);
+					if(result.getResult().getCode()==0) {
+							informationService.sendMsg(userId, "支付成功提醒", "商品购买成功，点击查看订单券码详情>>", orderId);
+					}
 					return ResultConstant.ofSuccess();
 				}
 			}
