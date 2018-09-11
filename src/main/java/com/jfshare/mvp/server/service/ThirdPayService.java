@@ -172,7 +172,7 @@ public class ThirdPayService {
 					}
 					logger.info("积分支付成功》》》推送系统通知，订单id:"+productId+",userId:"+userId+",integral:"+integral+",amt:"+orderAmount);
 					
-					StringResult result=levelInfoService.addlevelInfo(Integer.parseInt(userId), integral, orderId, (orderAmount%100));
+					StringResult result=levelInfoService.addlevelInfo(Integer.parseInt(userId), integral, orderId, (orderAmount/100));
 					logger.info("返回接口:"+result);
 					if(result.getResult().getCode()==0) {
 							informationService.sendMsg(userId, "支付成功提醒", "商品购买成功，点击查看订单券码详情>>", orderId);
