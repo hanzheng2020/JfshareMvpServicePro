@@ -166,8 +166,8 @@ public class LevelInfoService {
 		if(amont>0) {
 			TbLevelInfo info = levelInfoDao.selectLevelInfoByUserId(userid);
 			 results=scoreClient.incomeScore(userid,integral, 5, orderId);
-			logger.info("积分增加:results:"+results+"code"+results.getResult().getCode());
-			if(info!=null&&results.getResult().code==0) {
+			logger.info("积分增加:results:"+results);
+			if(info!=null) {
 				logger.info("增加成长值:"+amont);
 				info.setGrowthPoint((info.getGrowthPoint()+amont));
 				logger.info("增加成长值:"+info.getGrowthPoint());
