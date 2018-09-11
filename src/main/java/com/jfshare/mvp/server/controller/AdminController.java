@@ -262,9 +262,11 @@ public class AdminController {
 		if (!StringUtils.isEmpty(jfRaider.getTitle())) {
 			jfRaiders.setTitle(jfRaider.getTitle());
 		}
+		System.out.println("content:"+new String(jfRaider.getContent()));
 		if (!StringUtils.isEmpty(jfRaider.getContent())) {
 			jfRaiders.setContent(jfRaider.getContent());
 		}
+		System.out.println("content2:"+new String(jfRaiders.getContent()));
 		if (!StringUtils.isEmpty(jfRaider.getImgUrl())) {
 			jfRaiders.setImgUrl(jfRaider.getImgUrl());
 		}
