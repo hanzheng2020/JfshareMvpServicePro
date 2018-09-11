@@ -236,4 +236,7 @@ public class ThirdPayService {
 
 
 	}
+	public static void main(String[] args) {
+		System.out.println(1139/100);
+	}
 }
