@@ -31,7 +31,9 @@ public class JfRaidersDao {
 	
 	public int updateJfRaiders(TbJfRaiders jfRaiders) {
 		jfRaiders.setUpdateTime(new Date());
-		return tbJfRaidersMapper.updateByPrimaryKey(jfRaiders);
+		TbJfRaidersExample jfRaidersExample =new TbJfRaidersExample();
+		jfRaidersExample.createCriteria().andIdEqualTo(jfRaiders.getId());
+		return tbJfRaidersMapper.updateByExampleSelective(jfRaiders,jfRaidersExample);
 	}
 	
 	public List<TbJfRaiders> selectJfRaiders(TbJfRaidersExample example){

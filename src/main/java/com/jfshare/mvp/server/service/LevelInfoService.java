@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jfshare.finagle.thrift.result.Result;
 import com.jfshare.finagle.thrift.result.StringResult;
 import com.jfshare.finagle.thrift.score.ScoreResult;
 import com.jfshare.mvp.server.constants.Constant;
@@ -160,15 +161,30 @@ public class LevelInfoService {
 		}
 		integral+=b.intValue();
 		logger.info("赠送总积分:"+integral+",赠送积分"+b);
-		TbLevelInfo info = levelInfoDao.selectLevelInfoByUserId(userid);
-		StringResult results=scoreClient.incomeScore(userid,integral, 5, orderId);
-		logger.info("积分增加:results:"+results+"code"+results.getResult().getCode());
-		if(info!=null&&results.getResult().code==0) {
-			logger.info("增加成长值:"+amont);
-			info.setGrowthPoint((info.getGrowthPoint()+amont));
-			logger.info("增加成长值:"+info.getGrowthPoint());
-			levelInfoDao.updateLevelInfo(info);
+	
+		
+		if(integral>0) {
+			StringResult results=scoreClient.incomeScore(userid,integral, 5, orderId);
+				logger.info("积分增加:results:"+results);
 		}
+		StringResult results = new StringResult();
+		Result result=new Result();
+		result.code=0;
+		results.setResult(result);
+		if(amont>0) {
+			TbLevelInfo info = levelInfoDao.selectLevelInfoByUserId(userid);
+			if(info!=null) {
+				logger.info("增加成长值:"+amont);
+				info.setGrowthPoint((info.getGrowthPoint()+amont));
+				logger.info("增加成长值:"+info.getGrowthPoint());
+				levelInfoDao.updateLevelInfo(info);
+			}
+		}else {
+		
+			result.code=1;
+			results.setResult(result);
+		}
+
 		
 
 		return results;
