@@ -16,8 +16,11 @@ public class InformationService {
 	
 	
 	public void sendMsg(String userId,String title,String content,String orderId) {
-		String mobileMd5 = DigestUtils.md5Hex(userId).toUpperCase();
-		SystemInformation.buildPushObject_android_and_iosByAlias(mobileMd5,title,content,content,orderId);
-	
+		try {
+			String mobileMd5 = DigestUtils.md5Hex(userId).toUpperCase();
+			SystemInformation.buildPushObject_android_and_iosByAlias(mobileMd5,title,content,content,orderId);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
