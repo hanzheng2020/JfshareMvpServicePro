@@ -170,6 +170,7 @@ public class LevelInfoService {
 		StringResult results = new StringResult();
 		Result result=new Result();
 		result.code=0;
+		results.setResult(result);
 		if(amont>0) {
 			TbLevelInfo info = levelInfoDao.selectLevelInfoByUserId(userid);
 			if(info!=null) {
