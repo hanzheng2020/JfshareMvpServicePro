@@ -322,6 +322,7 @@ public class PromotionSettingService {
 			if (!CollectionUtils.isEmpty(tbProductItemShows)) {
 				TbProductItemShow tbProductItemShow = tbProductItemShows.get(0);
 				String products = tbProductItemShow.getProducts();
+				
 				if (!StringUtils.isEmpty(products)) {
 					String[] productIds = null;
 					if (products.contains(",")) {
@@ -349,6 +350,26 @@ public class PromotionSettingService {
 						}
 					}
 				}
+				
+				TbProductExample tbProductExample = new TbProductExample();
+				tbProductExample.createCriteria()
+								.andItemNoEqualTo(Integer.valueOf(tbProductItemShow.getItemNo()))
+								.andActiveStateEqualTo(200);
+				List<TbProduct> tbProducts = tbProductDao.selectByExample(tbProductExample);
+				tbProducts.forEach(tbProduct -> {
+					String productId = tbProduct.getProductId();
+					if (products == null || !products.contains(productId)) {
+						Map<String, Object> map = new HashMap<>();
+						if (!CollectionUtils.isEmpty(tbProducts)) {
+							map.put("productId", tbProduct.getProductId());
+							map.put("curPrice", tbProduct.getCurPrice());
+							map.put("productName", tbProduct.getProductName());
+							map.put("imgKey", tbProduct.getImgKey().contains(",") ? tbProducts.get(0).getImgKey().split(",")[0] : tbProducts.get(0).getImgKey());
+							map.put("activeState", tbProduct.getActiveState());
+							result.add(map);
+						}
+					}
+				});
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
