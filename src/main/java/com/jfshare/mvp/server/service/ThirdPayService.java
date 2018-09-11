@@ -170,7 +170,7 @@ public class ThirdPayService {
 					if(product.getPresentexp()!=null) {
 						integral=product.getPresentexp();
 					}
-					logger.info("积分支付成功》》》推送系统通知，订单id:"+productId+",userId:"+userId+",integral:"+integral+",amt:"+(orderAmount%100));
+					logger.info("积分支付成功》》》推送系统通知，订单id:"+productId+",userId:"+userId+",integral:"+integral+",amt:"+orderAmount);
 					
 					StringResult result=levelInfoService.addlevelInfo(Integer.parseInt(userId), integral, orderId, (orderAmount%100));
 					logger.info("返回接口:"+result);
