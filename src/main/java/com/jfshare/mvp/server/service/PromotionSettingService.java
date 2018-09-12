@@ -82,6 +82,9 @@ public class PromotionSettingService {
 			tbProductPromotion.setPromotionUrl(productPromotion.get("promotionUrl").toString());
 			List<Map> productDetails = (List<Map>) productPromotion.get("productDetails");
 			for (int index = 0; index < productDetails.size(); index++) {
+				if (productDetails.get(index) == null) {
+					continue;
+				}
 				String productId = productDetails.get(index).get("productId").toString();
 				String productPicUrl = productDetails.get(index).get("productPicUrl").toString();
 				productIds.add(productId);
