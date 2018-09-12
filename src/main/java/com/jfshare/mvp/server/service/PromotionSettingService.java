@@ -68,87 +68,86 @@ public class PromotionSettingService {
 			return false;
 		}
 		List<String> productIds = new ArrayList<>();
-		try {
-			TbProductPromotionExample tbProductPromotionExample = new TbProductPromotionExample();
-			tbProductPromotionExample.createCriteria().andPublishIndEqualTo(true);
-			tbProductPromotionDao.deleteByExample(tbProductPromotionExample);
-			tbProductPromotionExample.clear();
-			for (int i = 0; i < productPromotions.size(); i ++) {
-				Map<String, Object> productPromotion = productPromotions.get(i);
-				TbProductPromotion tbProductPromotion = new TbProductPromotion();
-				tbProductPromotion.setPublishInd(true);
-				tbProductPromotion.setPromotionNo(i);
-				tbProductPromotion.setPromotionPicUrl(productPromotion.get("promotionPicUrl").toString());
-				tbProductPromotion.setPromotionUrl(productPromotion.get("promotionUrl").toString());
-				List<Map> productDetails = (List<Map>) productPromotion.get("productDetails");
-				for (int index = 0; index < productDetails.size(); index ++) {
-					String productId = productDetails.get(index).get("productId").toString();
-					String productPicUrl = productDetails.get(index).get("productPicUrl").toString();
-					productIds.add(productId);
-					switch (index) {
-					case 0:
-						tbProductPromotion.setProductOneId(productId);
-						tbProductPromotion.setProductOnePicUrl(productPicUrl);
-						break;
-					case 1:
-						tbProductPromotion.setProductTwoId(productId);
-						tbProductPromotion.setProductTwoPicUrl(productPicUrl);
-						break;
-					case 2:
-						tbProductPromotion.setProductThreeId(productId);
-						tbProductPromotion.setProductThreePicUrl(productPicUrl);
-						break;
-					case 3:
-						tbProductPromotion.setProductFourId(productId);
-						tbProductPromotion.setProductFourPicUrl(productPicUrl);
-						break;
-					case 4:
-						tbProductPromotion.setProductFiveId(productId);
-						tbProductPromotion.setProductFivePicUrl(productPicUrl);
-						break;
-					case 5:
-						tbProductPromotion.setProductSixId(productId);
-						tbProductPromotion.setProductSixPicUrl(productPicUrl);
-						break;
-					default:
-						break;
-					}
+		
+		TbProductPromotionExample tbProductPromotionExample = new TbProductPromotionExample();
+		tbProductPromotionExample.createCriteria().andPublishIndEqualTo(true);
+		tbProductPromotionDao.deleteByExample(tbProductPromotionExample);
+		tbProductPromotionExample.clear();
+		for (int i = 0; i < productPromotions.size(); i++) {
+			Map<String, Object> productPromotion = productPromotions.get(i);
+			TbProductPromotion tbProductPromotion = new TbProductPromotion();
+			tbProductPromotion.setPublishInd(true);
+			tbProductPromotion.setPromotionNo(i);
+			tbProductPromotion.setPromotionPicUrl(productPromotion.get("promotionPicUrl").toString());
+			tbProductPromotion.setPromotionUrl(productPromotion.get("promotionUrl").toString());
+			List<Map> productDetails = (List<Map>) productPromotion.get("productDetails");
+			for (int index = 0; index < productDetails.size(); index++) {
+				if (productDetails.get(index) == null) {
+					continue;
 				}
-				tbProductPromotionDao.insert(tbProductPromotion);
-			}
-			
-			TbProductItemShowExample tbProductItemShowExample = new TbProductItemShowExample();
-			tbProductItemShowExample.createCriteria().andPublishIndEqualTo(true);
-			tbProductItemShowDao.deleteByExample(tbProductItemShowExample);
-			tbProductItemShowExample.clear();
-			for (int i = 0; i < productItemShows.size(); i ++) {
-				Map<String, Object> productPromotion = productItemShows.get(i);
-				TbProductItemShow tbProductItemShow = new TbProductItemShow();
-				tbProductItemShow.setItemShowNo(i);
-				String itemNo = productPromotion.get("itemNo").toString();
-				tbProductItemShow.setItemNo(itemNo);
-				TbProductItemExample tbProductItemExample = new TbProductItemExample();
-				tbProductItemExample.createCriteria().andItemNoEqualTo(itemNo);
-				List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
-				String itemName = "";
-				if (!CollectionUtils.isEmpty(tbProductItems)) {
-					itemName = tbProductItems.get(0).getItemName();
+				String productId = productDetails.get(index).get("productId").toString();
+				String productPicUrl = productDetails.get(index).get("productPicUrl").toString();
+				productIds.add(productId);
+				switch (index) {
+				case 0:
+					tbProductPromotion.setProductOneId(productId);
+					tbProductPromotion.setProductOnePicUrl(productPicUrl);
+					break;
+				case 1:
+					tbProductPromotion.setProductTwoId(productId);
+					tbProductPromotion.setProductTwoPicUrl(productPicUrl);
+					break;
+				case 2:
+					tbProductPromotion.setProductThreeId(productId);
+					tbProductPromotion.setProductThreePicUrl(productPicUrl);
+					break;
+				case 3:
+					tbProductPromotion.setProductFourId(productId);
+					tbProductPromotion.setProductFourPicUrl(productPicUrl);
+					break;
+				case 4:
+					tbProductPromotion.setProductFiveId(productId);
+					tbProductPromotion.setProductFivePicUrl(productPicUrl);
+					break;
+				case 5:
+					tbProductPromotion.setProductSixId(productId);
+					tbProductPromotion.setProductSixPicUrl(productPicUrl);
+					break;
+				default:
+					break;
 				}
-				tbProductItemShow.setItemName(itemName);
-				String products = productPromotion.get("products").toString();
-				tbProductItemShow.setProducts(products);
-				tbProductItemShow.setPublishInd(true);
-				tbProductItemShowDao.insert(tbProductItemShow);
-				if (products.contains(",")) 
-					productIds.addAll(Arrays.asList(products.split(",")));
-				else 
-					productIds.add(products);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("保存推广微页面设置失败！", e);
-			return false;
+			tbProductPromotionDao.insert(tbProductPromotion);
 		}
+
+		TbProductItemShowExample tbProductItemShowExample = new TbProductItemShowExample();
+		tbProductItemShowExample.createCriteria().andPublishIndEqualTo(true);
+		tbProductItemShowDao.deleteByExample(tbProductItemShowExample);
+		tbProductItemShowExample.clear();
+		for (int i = 0; i < productItemShows.size(); i++) {
+			Map<String, Object> productPromotion = productItemShows.get(i);
+			TbProductItemShow tbProductItemShow = new TbProductItemShow();
+			tbProductItemShow.setItemShowNo(i);
+			String itemNo = productPromotion.get("itemNo").toString();
+			tbProductItemShow.setItemNo(itemNo);
+			TbProductItemExample tbProductItemExample = new TbProductItemExample();
+			tbProductItemExample.createCriteria().andItemNoEqualTo(itemNo);
+			List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
+			String itemName = "";
+			if (!CollectionUtils.isEmpty(tbProductItems)) {
+				itemName = tbProductItems.get(0).getItemName();
+			}
+			tbProductItemShow.setItemName(itemName);
+			String products = productPromotion.get("products").toString();
+			tbProductItemShow.setProducts(products);
+			tbProductItemShow.setPublishInd(true);
+			tbProductItemShowDao.insert(tbProductItemShow);
+			if (products.contains(","))
+				productIds.addAll(Arrays.asList(products.split(",")));
+			else
+				productIds.add(products);
+		}
+		
 		productService.syncESProduct(true, productIds.toArray(new String[] {}));
 		return true;
 	}
@@ -170,29 +169,23 @@ public class PromotionSettingService {
 	
 	@Transactional
 	public boolean publishPromotionSetting(Boolean publishInd) {
-		try {
-			if (publishInd) {
-				TbProductPromotionExample tbProductPromotionExample = new TbProductPromotionExample();
-				tbProductPromotionExample.createCriteria().andPublishIndEqualTo(true);
-				tbProductPromotionDao.deleteByExample(tbProductPromotionExample);
-				tbProductPromotionExample.clear();
-				TbProductPromotion tbProductPromotion = new TbProductPromotion();
-				tbProductPromotion.setPublishInd(true);
-				tbProductPromotionDao.updateByExampleSelective(tbProductPromotion, tbProductPromotionExample);
-				
-				
-				TbProductItemShowExample tbProductItemShowExample = new TbProductItemShowExample();
-				tbProductItemShowExample.createCriteria().andPublishIndEqualTo(true);
-				tbProductItemShowDao.deleteByExample(tbProductItemShowExample);
-				tbProductItemShowExample.clear();
-				TbProductItemShow tbProductItemShow = new TbProductItemShow();
-				tbProductItemShow.setPublishInd(true);
-				tbProductItemShowDao.updateByExampleSelective(tbProductItemShow, tbProductItemShowExample);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("发布推广微页面设置失败！", e);
-			return false;
+		
+		if (publishInd) {
+			TbProductPromotionExample tbProductPromotionExample = new TbProductPromotionExample();
+			tbProductPromotionExample.createCriteria().andPublishIndEqualTo(true);
+			tbProductPromotionDao.deleteByExample(tbProductPromotionExample);
+			tbProductPromotionExample.clear();
+			TbProductPromotion tbProductPromotion = new TbProductPromotion();
+			tbProductPromotion.setPublishInd(true);
+			tbProductPromotionDao.updateByExampleSelective(tbProductPromotion, tbProductPromotionExample);
+
+			TbProductItemShowExample tbProductItemShowExample = new TbProductItemShowExample();
+			tbProductItemShowExample.createCriteria().andPublishIndEqualTo(true);
+			tbProductItemShowDao.deleteByExample(tbProductItemShowExample);
+			tbProductItemShowExample.clear();
+			TbProductItemShow tbProductItemShow = new TbProductItemShow();
+			tbProductItemShow.setPublishInd(true);
+			tbProductItemShowDao.updateByExampleSelective(tbProductItemShow, tbProductItemShowExample);
 		}
 		return true;
 	}
