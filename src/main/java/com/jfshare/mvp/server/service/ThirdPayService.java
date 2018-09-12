@@ -227,7 +227,7 @@ public class ThirdPayService {
 		BigDecimal b2 = new BigDecimal(100);
 		String cashStr = b1.divide(b2, 2, BigDecimal.ROUND_HALF_UP).toPlainString();
 		payParams.setExchangeCash(cashStr);
-
+		payParams.setState(1);
 		// 订单的业务逻辑处理；返回payId
 		StringResult stringResult = orderClient.beforePayDoSomeStuff(payParams);
 
