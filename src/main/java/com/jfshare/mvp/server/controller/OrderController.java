@@ -1,6 +1,7 @@
 package com.jfshare.mvp.server.controller;
 
 import com.jfshare.mvp.server.constants.ResultConstant;
+import com.jfshare.mvp.server.dao.JedisClusterDao;
 import com.jfshare.mvp.server.service.ThirdPayService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -26,6 +29,9 @@ import java.util.Map;
 public class OrderController {
 	@Autowired
 	private ThirdPayService thirdPayService;
+	
+	@Autowired
+	private JedisClusterDao jedisClusterDao;
 
 	@Autowired
 	private HttpServletRequest request;
@@ -41,6 +47,7 @@ public class OrderController {
 		int orderAmount = Integer.valueOf(map.get("orderAmount"));
 		int jfScore = Integer.valueOf(map.get("jfScore"));
 		int fenXiangScore = Integer.valueOf(map.get("fenXiangScore"));
+		String formId = map.get("formId");
 		String userId = map.get("userId");
 		String orderId = map.get("orderId");
 		String clientIp = "127.0.0.1";
@@ -48,7 +55,12 @@ public class OrderController {
 		if (!StringUtils.isEmpty(realIp)) {
 			clientIp = realIp;
 		}
-
+		if (!StringUtils.isEmpty(formId)) {
+			Map<String, String> formMap = new HashMap<String, String>();
+			formMap.put("formId", formId);
+			formMap.put("userId", userId);
+			jedisClusterDao.saveBean(orderId, formMap, 60 * 30);
+		}
 		return thirdPayService.thirdPay(userId, orderId, orderAmount, jfScore, fenXiangScore, payChannel, clientIp);
 
 	}
