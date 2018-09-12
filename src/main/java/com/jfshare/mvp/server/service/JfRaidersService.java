@@ -37,9 +37,30 @@ public class JfRaidersService {
 		}
 		if(jfRaiders.getStatus()!=null&&!"".equals(jfRaiders.getStatus())) {
 			criteria.andStatusEqualTo(jfRaiders.getStatus());
-		}else {
-			criteria.andStatusEqualTo(2);//默认查询以及发布的
 		}
+		
+		jfRaidersExample.setOrderByClause("create_time DESC");
+		PageHelper.startPage(page, pageSize);
+		List<TbJfRaiders> JfRaiders =  jfRaidersDao.selectJfRaiders(jfRaidersExample);
+		PageInfo<Object> pageInfo =new PageInfo(JfRaiders);
+		Map<String, Object> map;
+		 byte[] content;
+		 List<Object> JfRaiderss  = new ArrayList<Object>();
+		for(TbJfRaiders jfRaider:JfRaiders) {
+			map  = ConvertBeanToMapUtils.convertBeanToMap(jfRaider, "");
+			content=jfRaider.getContent();
+			map.put("content", new String(content));
+			map.put("id",jfRaider.getId());
+			JfRaiderss.add(map);
+		}
+		pageInfo.setList(JfRaiderss);
+		return pageInfo;
+	}
+	
+	public PageInfo<Object> queryJfRaidersApp(int page,int pageSize){
+		TbJfRaidersExample jfRaidersExample = new TbJfRaidersExample();
+		Criteria criteria  = jfRaidersExample.createCriteria();
+		criteria.andStatusEqualTo(2);//移动端默认查询以及发布的数据
 		jfRaidersExample.setOrderByClause("release_time DESC");
 		PageHelper.startPage(page, pageSize);
 		List<TbJfRaiders> JfRaiders =  jfRaidersDao.selectJfRaiders(jfRaidersExample);
@@ -57,6 +78,8 @@ public class JfRaidersService {
 		pageInfo.setList(JfRaiderss);
 		return pageInfo;
 	}
+	
+	
 	
 	public int updateJfRaiders(TbJfRaiders jfRaiders) {
 		return jfRaidersDao.updateJfRaiders(jfRaiders);

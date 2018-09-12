@@ -238,6 +238,16 @@ public class AdminController {
 		PageInfo<Object> pageInfo = jfRaidersService.queryJfRaiders(jfRaiders, page, pageSize);
 		return ResultConstant.ofSuccess(pageInfo);
 	}
+	@ApiOperation(value = "积分攻略文章查询App", notes = "根据传入的类型，查询积分攻略文章")
+	@GetMapping("/queryjfRaiderApp")
+	public ResultConstant queryjfRaiders(
+			@RequestParam(value = "page", required = true) Integer page,
+			@RequestParam(value = "pageSize", required = true) Integer pageSize) {
+		PageInfo<Object> pageInfo = jfRaidersService.queryJfRaidersApp(page, pageSize);
+		return ResultConstant.ofSuccess(pageInfo);
+	}
+	
+	
 	
 	@ApiOperation(value = "积分攻略文章详情查询", notes = "根据传入的id，查询积分攻略文章详情")
 	@GetMapping("/queryjfRaiderInfo")
@@ -264,6 +274,19 @@ public class AdminController {
 		}
 		System.out.println("content:"+new String(jfRaider.getContent()));
 		if (!StringUtils.isEmpty(jfRaider.getContent())) {
+		     String content="<div style=\"text-align: center;\">\r\n" + 
+		        		"			 <hr style=\"height:1px;border:none;border-top:1px solid #AAAAAA;\" />\r\n" + 
+		        		"			 <div><h2>"+jfRaiders.getTitle()+"<h2></div>\r\n" + 
+		        		"		</div>\r\n" + 
+		        		"		<div style=\"text-align: right;color: #AAAAAA;\">"+new SimpleDateFormat("yyyy-MM-dd HH:mm").format(jfRaiders.getReleaseTime())+"</div>\r\n" + 
+		        		"		</br>"+(new String(jfRaider.getContent()));
+		        String newUrl=SendRequest.sendPost(url, "title="+jfRaiders.getTitle()+"&content="+content+"&HTMLFileName=jfgl"+jfRaiders.getReleaseTime().getTime()+".html");
+		        JSONObject obj =  JSONObject.fromObject(newUrl);
+		        String code = obj.getString("code");
+		        String url=obj.getString("url");
+		        if("200".equals(code)) {
+		        	jfRaiders.setArricleUrl(url);
+		        }
 			jfRaiders.setContent(jfRaider.getContent());
 		}
 		System.out.println("content2:"+new String(jfRaiders.getContent()));
