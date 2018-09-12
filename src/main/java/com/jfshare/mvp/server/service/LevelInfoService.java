@@ -165,7 +165,7 @@ public class LevelInfoService {
 		
 		if(integral>0) {
 			StringResult results=scoreClient.incomeScore(userid,integral, 5, orderId);
-				logger.info("积分增加:results:"+results);
+			logger.info("积分增加:results:"+results);
 		}
 		StringResult results = new StringResult();
 		Result result=new Result();
