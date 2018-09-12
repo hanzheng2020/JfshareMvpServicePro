@@ -264,6 +264,19 @@ public class AdminController {
 		}
 		System.out.println("content:"+new String(jfRaider.getContent()));
 		if (!StringUtils.isEmpty(jfRaider.getContent())) {
+		     String content="<div style=\"text-align: center;\">\r\n" + 
+		        		"			 <hr style=\"height:1px;border:none;border-top:1px solid #AAAAAA;\" />\r\n" + 
+		        		"			 <div><h2>"+jfRaiders.getTitle()+"<h2></div>\r\n" + 
+		        		"		</div>\r\n" + 
+		        		"		<div style=\"text-align: right;color: #AAAAAA;\">"+new SimpleDateFormat("yyyy-MM-dd HH:mm").format(jfRaiders.getReleaseTime())+"</div>\r\n" + 
+		        		"		</br>"+(new String(jfRaiders.getContent()));
+		        String newUrl=SendRequest.sendPost(url, "title="+jfRaiders.getTitle()+"&content="+content+"&HTMLFileName=jfgl"+jfRaiders.getReleaseTime().getTime()+".html");
+		        JSONObject obj =  JSONObject.fromObject(newUrl);
+		        String code = obj.getString("code");
+		        String url=obj.getString("url");
+		        if("200".equals(code)) {
+		        	jfRaiders.setArricleUrl(url);
+		        }
 			jfRaiders.setContent(jfRaider.getContent());
 		}
 		System.out.println("content2:"+new String(jfRaiders.getContent()));
