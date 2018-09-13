@@ -42,11 +42,15 @@ public class ReceiverPresentJvjindou {
 			JSONObject obj = JSONObject.fromObject(message);
 			if(obj.get("payScore")==null) {
 				int userid=Integer.parseInt(obj.get("userid").toString());
-				String productId = obj.get("productId").toString();
+				Object productId = obj.get("productId").toString();
 				String orderId=obj.get("orderId").toString();
 				int amont = Integer.parseInt(obj.get("amont").toString());
 				if(amont>0) {
-					TbProduct product = productService.getProductOne(productId);
+					if(productId==null) {
+						logger.info("商品id为空！");
+						return;
+					}
+					TbProduct product = productService.getProductOne(productId.toString());
 					int integral=product.getPresentexp();
 					result=levelInfoService.addlevelInfo(userid, integral, orderId, amont);
 					logger.info("返回接口:"+message);
