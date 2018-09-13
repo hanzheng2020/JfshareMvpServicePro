@@ -23,7 +23,7 @@ import org.apache.commons.codec.digest.DigestUtils;
  *
  */
 @Component
-@RabbitListener(queues = "orderMvp")
+//@RabbitListener(queues = "orderMvp")
 public class ReceiverPresentJvjindou {
 	private Logger logger = LoggerFactory.getLogger(ReceiverPresentJvjindou.class);
 	@Autowired
