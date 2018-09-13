@@ -23,7 +23,7 @@ import org.apache.commons.codec.digest.DigestUtils;
  *
  */
 @Component
-//@RabbitListener(queues = "orderMvp")
+@RabbitListener(queues = "orderMvp")
 public class ReceiverPresentJvjindou {
 	private Logger logger = LoggerFactory.getLogger(ReceiverPresentJvjindou.class);
 	@Autowired
@@ -40,9 +40,9 @@ public class ReceiverPresentJvjindou {
 			logger.info("下单:"+message);
 			//{"amont":1,"productId":"ze180911110631000381","orderId":"70491952","userid":551952}
 			JSONObject obj = JSONObject.fromObject(message);
-			/*if(obj.get("payScore")==null) {
+			if(obj.get("payScore")==null) {
 				int userid=Integer.parseInt(obj.get("userid").toString());
-				Object productId = obj.get("productId").toString();
+				Object productId = obj.get("productId");
 				String orderId=obj.get("orderId").toString();
 				int amont = Integer.parseInt(obj.get("amont").toString());
 				if(amont>0) {
@@ -60,7 +60,7 @@ public class ReceiverPresentJvjindou {
 				}
 			}else {
 				logger.info("取消订单"+message);
-			}*/
+			}
 		}
 	}
 }
