@@ -151,7 +151,11 @@ public class ProductItemService {
 	            	page.setEndRow(tbProductItemsPage.getStartRow() - 1 + tbProductItemsPage.size());
 	            }
 	            List<Map<String, Object>> list = ConvertBeanToMapUtils.convertBeanListToMap(tbProductItems, "createTime", "updateTime");
+	            Map<String, Object> remMap = null;
 	            for (Map<String, Object> map : list) {
+	            	if ("0".equals(map.get("itemNo"))) {
+	            		remMap = map;
+	            	}
 	            	if (map.containsKey("parentItemNo") && map.get("parentItemNo") != null) {
 						String parentItemNo = map.get("parentItemNo").toString();
 						if (!StringUtils.isEmpty(parentItemNo)) {
@@ -159,19 +163,25 @@ public class ProductItemService {
 						}
 					}
 				}
+	            list.remove(remMap);
 	            page.addAll(list);
 				return page;
 			} else {
 				List<TbProductItem> tbProductItems = tbProductItemDao.queryItemList(itemNo);
 				List<Map<String, Object>> list = ConvertBeanToMapUtils.convertBeanListToMap(tbProductItems, "createTime", "updateTime");
-				for (Map<String, Object> map : list) {
-					if (map.containsKey("parentItemNo") && map.get("parentItemNo") != null) {
+				Map<String, Object> remMap = null;
+	            for (Map<String, Object> map : list) {
+	            	if ("0".equals(map.get("itemNo"))) {
+	            		remMap = map;
+	            	}
+	            	if (map.containsKey("parentItemNo") && map.get("parentItemNo") != null) {
 						String parentItemNo = map.get("parentItemNo").toString();
 						if (!StringUtils.isEmpty(parentItemNo)) {
 							map.put("parentItemName", getParentItemName(parentItemNo));
 						}
 					}
 				}
+	            list.remove(remMap);
 				return list;
 			}
 		}
