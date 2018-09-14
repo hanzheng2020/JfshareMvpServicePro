@@ -80,7 +80,7 @@ public class AppVerifySettingService {
 				int newVer = Integer.valueOf(newVerStrs[i]);
 				int oriVer = Integer.valueOf(oriVerStrs[i]);
 				if (newVer <= oriVer) {
-					return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "参数错误，版本号格式错误");
+					return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "参数错误，版本号必须大于现行版本号");
 				}
 			}
 		} catch (Exception e) {
