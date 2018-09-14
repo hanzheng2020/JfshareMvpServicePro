@@ -110,7 +110,7 @@ public class AdminController {
 		if (result) {
 			return ResultConstant.ofSuccess();
 		}
-		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "保存并发布推广微页面设置失败！");
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "微页面配置错误，数据为空或者类目添加重复");
 	}
 	
 	@ApiOperation(value = "获取推广微页面设置", notes = "获取推广配置和类目商品展示配置")
