@@ -71,8 +71,8 @@ public class AppVerifySettingService {
 		}
 		try {
 			TbAppVerinfo tbAppVerinfo = appInfoServer.getCurAppVersion(3);
-			String[] oriVerStrs = tbAppVerinfo.getVersion().split(".");
-			String[] newVerStrs = tbAppVerifySetting.getAppVersion().split(".");
+			String[] oriVerStrs = tbAppVerinfo.getVersion().split("\\.");
+			String[] newVerStrs = tbAppVerifySetting.getAppVersion().split("\\.");
 			if (oriVerStrs.length != newVerStrs.length) {
 				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "参数错误，版本号格式错误");
 			}
