@@ -50,7 +50,7 @@ public class ProductItemService {
 		TbProductItem tbProductItemt = tbProductItems.get(0);
 		tbProductItemt.setItemName(itemName);
 		tbProductItemt.setItemDesc(itemDesc);
-		tbProductItemt.setParentItemNo(StringUtils.isEmpty(parentItemNo) ? null : parentItemNo);
+		tbProductItemt.setParentItemNo(StringUtils.isEmpty(parentItemNo) ? "0" : parentItemNo);
 		tbProductItemDao.updateByPrimaryKey(tbProductItemt);
 		return true;
 	}
@@ -60,7 +60,9 @@ public class ProductItemService {
 		TbProductItem tbProductItem = new TbProductItem();
 		tbProductItem.setItemDesc(itemDesc);
 		tbProductItem.setItemName(itemName);
-		if (!StringUtils.isEmpty(parentItemNo)) {
+		if (StringUtils.isEmpty(parentItemNo)) {
+			tbProductItem.setParentItemNo("0");
+		} else {
 			tbProductItem.setParentItemNo(parentItemNo);
 		}
 		tbProductItem.setItemNo(sequenceService.generalItemNo());
