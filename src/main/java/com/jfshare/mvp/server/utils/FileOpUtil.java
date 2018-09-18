@@ -2,12 +2,15 @@ package com.jfshare.mvp.server.utils;
 
 import com.jfshare.mvp.server.constants.Constant;
 import com.jfshare.mvp.server.model.TbProductSurvey;
+import com.jfshare.mvp.server.service.ProductService;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
@@ -22,7 +25,7 @@ import java.util.*;
  */
 @Component
 public class FileOpUtil {
-
+	private static final org.slf4j.Logger logger = LoggerFactory.getLogger(FileOpUtil.class);
 	public static byte[] getExportProduct(List<TbProductSurvey> list) {
 
 		String exportTitle = "商品列表";
@@ -101,6 +104,7 @@ public class FileOpUtil {
 						}
 
 						HSSFCell cell5 = row.createCell(5, Cell.CELL_TYPE_STRING);
+						logger.info("presentExp:" + product.getPresentExp());
 						cell5.setCellValue(product.getPresentExp() + "");
 
 						HSSFCell cell6 = row.createCell(6, Cell.CELL_TYPE_STRING);
