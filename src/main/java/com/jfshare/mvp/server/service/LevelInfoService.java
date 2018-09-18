@@ -161,16 +161,16 @@ public class LevelInfoService {
 		}
 		integral+=b.intValue();
 		logger.info("赠送总积分:"+integral+",赠送积分"+b);
-	
-		
-		if(integral>0) {
-			StringResult results=scoreClient.incomeScore(userid,integral, 5, orderId);
-			logger.info("积分增加:results:"+results);
-		}
 		StringResult results = new StringResult();
 		Result result=new Result();
-		result.code=0;
+		result.code=1;
 		results.setResult(result);
+		
+		if(integral>0) {
+			results=scoreClient.incomeScore(userid,integral, 5, orderId);
+			logger.info("积分增加:results:"+results);
+		}
+
 		if(amont>0) {
 			TbLevelInfo info = levelInfoDao.selectLevelInfoByUserId(userid);
 			if(info!=null) {
@@ -179,14 +179,7 @@ public class LevelInfoService {
 				logger.info("增加成长值:"+info.getGrowthPoint());
 				levelInfoDao.updateLevelInfo(info);
 			}
-		}else {
-		
-			result.code=1;
-			results.setResult(result);
 		}
-
-		
-
 		return results;
 	}
 	//聚分享平台同步聚金豆(减少)

@@ -67,6 +67,15 @@ public class PromotionSettingService {
 		if (CollectionUtils.isEmpty(productPromotions) || CollectionUtils.isEmpty(productItemShows)) {
 			return false;
 		}
+		List<String> itemNos = new ArrayList<>();
+		for (int i = 0; i < productItemShows.size(); i++) {
+			Map<String, Object> productPromotion = productItemShows.get(i);
+			String itemNo = productPromotion.get("itemNo").toString();
+			if (itemNos.contains(itemNo)) {
+				return false;
+			}
+			itemNos.add(itemNo);
+		}
 		List<String> productIds = new ArrayList<>();
 		
 		TbProductPromotionExample tbProductPromotionExample = new TbProductPromotionExample();

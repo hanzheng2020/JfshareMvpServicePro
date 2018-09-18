@@ -16,6 +16,10 @@ public class AppInfoDao {
 	@Autowired
 	private TbAppVerinfoMapper tbAppVerinfoMapper;
 	
+	public List<TbAppVerinfo> selectByExample(TbAppVerinfoExample example) {
+		return tbAppVerinfoMapper.selectByExample(example);
+	}
+	
 	//获取版本号对应的当前信息
 	public List<TbAppVerinfo> getAppVerinfo(GetUpgradeParamStr param) {
 		TbAppVerinfoExample example = new TbAppVerinfoExample();

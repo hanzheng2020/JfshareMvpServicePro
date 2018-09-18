@@ -3,6 +3,7 @@ package com.jfshare.mvp.server.service;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,7 @@ import com.jfshare.mvp.server.constants.Constant;
 import com.jfshare.mvp.server.dao.AppInfoDao;
 import com.jfshare.mvp.server.model.GetUpgradeParamStr;
 import com.jfshare.mvp.server.model.TbAppVerinfo;
+import com.jfshare.mvp.server.model.TbAppVerinfoExample;
 import com.jfshare.mvp.server.utils.MessageUtil;
 
 @Service
@@ -93,5 +95,21 @@ public class AppInfoServer {
 			return info;
 	}
 		return null;
+	}
+	
+	/**
+	 * 获取当前的版本信息
+	 * @param appType
+	 * @return
+	 */
+	public TbAppVerinfo getCurAppVersion(int appType) {
+		TbAppVerinfoExample example = new TbAppVerinfoExample();
+		example.createCriteria().andAppTypeEqualTo(appType);
+		example.setOrderByClause("id desc");
+		List<TbAppVerinfo> tbAppVerinfos = appInfoDao.selectByExample(example);
+		if (CollectionUtils.isEmpty(tbAppVerinfos)) {
+			return null;
+		}
+		return tbAppVerinfos.get(0);
 	}
 }
