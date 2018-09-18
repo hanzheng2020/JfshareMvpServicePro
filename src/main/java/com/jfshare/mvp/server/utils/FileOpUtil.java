@@ -101,7 +101,7 @@ public class FileOpUtil {
 
 						HSSFCell cell5 = row.createCell(5, Cell.CELL_TYPE_STRING);
 						if(StringUtils.isEmpty(product.getPresentExp() + "")) {
-							cell5.setCellValue("0");
+							cell5.setCellValue(0);
 						}else {
 							cell5.setCellValue(product.getPresentExp() + "");
 						}
