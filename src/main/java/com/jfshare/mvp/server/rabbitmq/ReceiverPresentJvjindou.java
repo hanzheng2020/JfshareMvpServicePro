@@ -1,5 +1,10 @@
 package com.jfshare.mvp.server.rabbitmq;
 
+import com.jfshare.finagle.thrift.result.StringResult;
+import com.jfshare.mvp.server.model.TbProduct;
+import com.jfshare.mvp.server.service.InformationService;
+import com.jfshare.mvp.server.service.LevelInfoService;
+import com.jfshare.mvp.server.service.ProductService;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,15 +12,6 @@ import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
-
-import com.jfshare.finagle.thrift.result.StringResult;
-import com.jfshare.mvp.server.model.TbProduct;
-import com.jfshare.mvp.server.service.InformationService;
-import com.jfshare.mvp.server.service.LevelInfoService;
-import com.jfshare.mvp.server.service.ProductService;
-import com.jfshare.mvp.server.utils.SystemInformation;
-import org.apache.commons.codec.digest.DigestUtils;
 
 /**
  * 同步积分赠送聚金豆
@@ -51,6 +47,10 @@ public class ReceiverPresentJvjindou {
 						return;
 					}
 					TbProduct product = productService.getProductOne(productId.toString());
+					if(null == product){
+						logger.error("未找到商品id为 {}",productId);
+						return;
+					}
 					int integral=product.getPresentexp();
 					result=levelInfoService.addlevelInfo(userid, integral, orderId, amont);
 					logger.info("返回接口:"+message);
