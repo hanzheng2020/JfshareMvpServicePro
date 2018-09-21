@@ -79,7 +79,10 @@ public class AppVerifySettingService {
 			for (int i = 0; i < oriVerStrs.length; i++) {
 				int newVer = Integer.valueOf(newVerStrs[i]);
 				int oriVer = Integer.valueOf(oriVerStrs[i]);
-				if (newVer < oriVer) {
+				if (newVer > oriVer) {
+					tbAppVerifySettingDao.deleteByExample(new TbAppVerifySettingExample());
+					tbAppVerifySettingDao.insert(tbAppVerifySetting);
+				}else {
 					return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "参数错误，版本号必须大于现行版本号");
 				}
 			}
@@ -87,8 +90,6 @@ public class AppVerifySettingService {
 			e.printStackTrace();
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "参数错误，版本号格式错误");
 		}
-		tbAppVerifySettingDao.deleteByExample(new TbAppVerifySettingExample());
-		tbAppVerifySettingDao.insert(tbAppVerifySetting);
 		return ResultConstant.ofSuccess();
 	}
 }
