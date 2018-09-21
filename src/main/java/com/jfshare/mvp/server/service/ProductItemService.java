@@ -5,11 +5,14 @@ import com.github.pagehelper.PageHelper;
 import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.dao.TbProductDao;
 import com.jfshare.mvp.server.dao.TbProductItemDao;
+import com.jfshare.mvp.server.dao.TbProductItemShowDao;
 import com.jfshare.mvp.server.model.TbProduct;
 import com.jfshare.mvp.server.model.TbProductExample;
 import com.jfshare.mvp.server.model.TbProductItem;
 import com.jfshare.mvp.server.model.TbProductItemExample;
+import com.jfshare.mvp.server.model.TbProductItemShowExample;
 import com.jfshare.mvp.server.model.TbProductItemExample.Criteria;
+import com.jfshare.mvp.server.model.TbProductItemShow;
 import com.jfshare.mvp.server.utils.ConvertBeanToMapUtils;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -37,6 +40,9 @@ public class ProductItemService {
 	
 	@Autowired
 	private SequenceService sequenceService;
+	
+	@Autowired
+	private TbProductItemShowDao tbProductItemShowDao;
 	
 	public boolean updateProductItem(String itemNo, String itemName, String itemDesc, String parentItemNo) {
 		TbProductItemExample tbProductItemExample = new TbProductItemExample();
@@ -127,7 +133,12 @@ public class ProductItemService {
 			List<TbProductItem> tbProductItems = tbProductItemDao.selectByExample(tbProductItemExample);
 			List<Map<String, Object>> result = new ArrayList<>();
 			for (TbProductItem tbProductItem : tbProductItems) {
-				result.add(createItemTree(tbProductItem));
+				TbProductItemShowExample example = new TbProductItemShowExample();
+				example.createCriteria().andItemShowNoEqualTo(Integer.valueOf(tbProductItem.getItemNo()));
+				List<TbProductItemShow> tbProductItemShow = tbProductItemShowDao.selectByExample(example);
+				if(tbProductItemShow.size() > 0) {
+					result.add(createItemTree(tbProductItem));
+				}
 			}
 			return result;
 		} else {
