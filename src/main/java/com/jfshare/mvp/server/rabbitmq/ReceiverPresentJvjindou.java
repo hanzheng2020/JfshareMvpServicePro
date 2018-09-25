@@ -8,8 +8,7 @@ import com.jfshare.mvp.server.service.ProductService;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.rabbit.annotation.RabbitHandler;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +18,11 @@ import org.springframework.stereotype.Component;
  *
  */
 @Component
-@RabbitListener(queues = "orderMvp")
+@RabbitListener(bindings = @QueueBinding(
+		exchange = @Exchange("exchangeTest"),
+		key = "routingkey_orderMvp",
+		value = @Queue("orderMvp")
+))
 public class ReceiverPresentJvjindou {
 	private Logger logger = LoggerFactory.getLogger(ReceiverPresentJvjindou.class);
 	@Autowired

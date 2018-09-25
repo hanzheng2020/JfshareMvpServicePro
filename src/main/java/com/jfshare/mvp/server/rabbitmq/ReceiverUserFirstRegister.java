@@ -4,6 +4,7 @@ import net.sf.json.JSONObject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import com.jfshare.mvp.server.service.LevelInfoService;
  *用户首次注册设置默认为黄金等级
  */
 @Component
-@RabbitListener(queues = "queue_first_register")
+@RabbitListener(queuesToDeclare = @Queue("queue_first_register"))
 public class ReceiverUserFirstRegister {
 	private Logger logger = LoggerFactory.getLogger(ReceiverUserFirstRegister.class);
 	@Autowired
