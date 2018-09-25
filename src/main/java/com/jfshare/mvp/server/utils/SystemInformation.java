@@ -112,8 +112,8 @@ public class SystemInformation {
 		}
     }
 	public static void main(String[] args) {
-		String mobileMd5 = DigestUtils.md5Hex("218").toUpperCase();
-		//String mobileMd5 = DigestUtils.md5Hex("609132").toUpperCase();
+		//String mobileMd5 = DigestUtils.md5Hex("218").toUpperCase();
+		String mobileMd5 = DigestUtils.md5Hex("551952").toUpperCase();
 		//SystemInformation.send("商品购买成功，点击查看订单券码详情>>");
 		//SystemInformation.send(mobileMd5,"218");
 		SystemInformation.buildPushObject_android_and_iosByAlias(mobileMd5,"支付成功提醒","商品购买成功，点击查看订单券码详情>>","商品购买成功，点击查看订单券码详情>>","123432");

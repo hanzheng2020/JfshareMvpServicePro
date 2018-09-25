@@ -251,7 +251,7 @@ public class ProductService {
 		// tbProductDetail.setCreateTime(new Date());
 		tbProductDetail.setUpdateTime(new Date());
 
-        String  content=product.getProductExchange()+product.getProductInstructions();
+        String  content=product.getProductInstructions();
         String instructions=SendRequest.sendPost(AdminController.url, "title="+product.getProductName()+"&content="+content+"&HTMLFileName=productInstructions"+product.getProductId()+".html");
         logger.info("上传exchangeUrlresult:"+instructions);
         if(StringUtils.isNotEmpty(instructions)) {
@@ -262,6 +262,7 @@ public class ProductService {
 	            tbProductDetail.setProductInstructionsUrl(instructionsUrl);
 	        }
         }
+        content=product.getProductExchange();
         String instructionsProductExchange=SendRequest.sendPost(AdminController.url, "title="+product.getProductName()+"&content="+content+"&HTMLFileName=ProductExchange"+product.getProductId()+".html");
         logger.info("上传exchangeUrlresult:"+instructionsProductExchange);
         if(StringUtils.isNotEmpty(instructionsProductExchange)) {
@@ -269,7 +270,7 @@ public class ProductService {
 	        String productExchangeCode = productExchanges.getString("code");
 	        String productExchangeUrl=productExchanges.getString("url");
 	        if("200".equals(productExchangeCode)) {
-	            tbProductDetail.setProductInstructionsUrl(productExchangeUrl);
+	            tbProductDetail.setProductExchangeUrl(productExchangeUrl);
 	        }
         }
 		TbProductDetailExample example = new TbProductDetailExample();
