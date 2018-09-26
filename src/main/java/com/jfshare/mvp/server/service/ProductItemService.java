@@ -183,7 +183,11 @@ public class ProductItemService {
 					TbProductItemShowExample example = new TbProductItemShowExample();
 					example.createCriteria().andItemNoEqualTo(productItem.getItemNo());
 					List<TbProductItemShow> tbProductItemShow = tbProductItemShowDao.selectByExample(example);
-					if (tbProductItemShow.size() > 0) {
+					
+						TbProductExample exampleP = new TbProductExample();
+						exampleP.createCriteria().andItemNoEqualTo(Integer.parseInt(productItem.getItemNo()));
+						List<TbProduct> tbProduct = tbProductDao.selectByExample(exampleP);				
+					if (tbProductItemShow.size() < 1 && tbProduct.size() > 0 && !productItem.getItemNo().equals("0")) {
 						productItems.add(productItem);
 					}
 				}
