@@ -187,7 +187,7 @@ public class ProductItemService {
 						TbProductExample exampleP = new TbProductExample();
 						exampleP.createCriteria().andItemNoEqualTo(Integer.parseInt(productItem.getItemNo()));
 						List<TbProduct> tbProduct = tbProductDao.selectByExample(exampleP);				
-					if (tbProductItemShow.size() < 1 && tbProduct.size() > 0) {
+					if (tbProduct.size() > 0) {
 						productItems.add(productItem);
 					}
 				}
