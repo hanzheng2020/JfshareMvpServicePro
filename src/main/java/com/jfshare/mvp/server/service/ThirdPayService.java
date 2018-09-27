@@ -168,7 +168,7 @@ public class ThirdPayService {
 					String productId = orderDetailResult.getOrder().getProductList().get(0).getProductId();
 					int integral=0;
 					TbProduct product = productService.getProductOne(productId);
-					if(product.getPresentexp()!=null) {
+					if(product != null && product.getPresentexp()!=null) {
 						integral=product.getPresentexp();
 					}
 					logger.info("积分支付成功》》》推送系统通知，订单id:"+productId+",userId:"+userId+",integral:"+integral+",amt:"+orderAmount);
