@@ -1,16 +1,24 @@
 package com.jfshare.mvp.server.thirdinterface;
 
-import com.jfshare.mvp.server.config.ConfigManager;
-import com.jfshare.mvp.server.utils.EncryptUtils;
-import com.jfshare.mvp.server.utils.UUIDutils;
-import com.jfshare.mvp.server.utils.XmlUtils;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
+
 import org.dom4j.DocumentException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.PostConstruct;
-import java.util.*;
+import com.jfshare.mvp.server.config.ConfigManager;
+import com.jfshare.mvp.server.utils.EncryptUtils;
+import com.jfshare.mvp.server.utils.UUIDutils;
+import com.jfshare.mvp.server.utils.XmlUtils;
 
 /**
  * @author fengxiang
@@ -18,7 +26,8 @@ import java.util.*;
  */
 @Component
 public class WeChatPayInterface {
-	
+	private static final transient Logger LOGGER = LoggerFactory.getLogger(WeChatPayInterface.class);
+
 	@Autowired
 	private RestTemplate restTemplate;
 	@Autowired
@@ -59,8 +68,9 @@ public class WeChatPayInterface {
 		context.put("sign", createSign(context));
 		requestMap.put("xml", context);
 		String requestXml = XmlUtils.mapToXml(requestMap);
+		LOGGER.info("生成支付信息串请求："+requestXml);
 		String responseXml = restTemplate.postForObject(payUrl, requestXml, String.class);
-		
+		LOGGER.info("生成支付信息串响应："+responseXml);
 		Map<String, Object> resultMap = new HashMap<>();
 		try {
 			Map<String, Object> responseMap = (Map<String, Object>) XmlUtils.xmlToMap(responseXml).get("xml");

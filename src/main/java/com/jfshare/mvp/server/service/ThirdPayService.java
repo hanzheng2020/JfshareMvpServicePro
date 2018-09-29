@@ -1,5 +1,16 @@
 package com.jfshare.mvp.server.service;
 
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Map;
+
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.alibaba.fastjson.JSON;
 import com.jfshare.common.PayConstants;
 import com.jfshare.finagle.thrift.order.Order;
@@ -16,18 +27,6 @@ import com.jfshare.mvp.server.model.TbProduct;
 import com.jfshare.mvp.server.thirdinterface.AliPayInterface;
 import com.jfshare.mvp.server.thirdinterface.WeChatPayInterface;
 import com.jfshare.mvp.server.utils.ConstantUtil;
-import org.apache.commons.collections.MapUtils;
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
-import java.net.URLEncoder;
-import java.util.Arrays;
-import java.util.Map;
 
 /**
  * @author fengxiang
