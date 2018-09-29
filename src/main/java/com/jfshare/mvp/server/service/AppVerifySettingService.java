@@ -20,6 +20,7 @@ import com.jfshare.mvp.server.model.TbAppVerifySettingExample;
 import com.jfshare.mvp.server.model.TbAppVerinfo;
 import com.jfshare.mvp.server.model.TbProduct;
 import com.jfshare.mvp.server.model.TbProductExample;
+import com.jfshare.mvp.server.utils.MessageUtil;
 
 /**
  * @author fengxiang
@@ -33,7 +34,7 @@ public class AppVerifySettingService {
 	private TbProductDao tbProductDao;
 	@Autowired
 	private AppInfoServer appInfoServer;
-	
+
 	public Map<String, Object> getAppVerifyProducts() {
 		TbAppVerifySettingExample tbAppVerifySettingExample = new TbAppVerifySettingExample();
 		List<TbAppVerifySetting> tbAppVerifySettings = tbAppVerifySettingDao.selectByExample(tbAppVerifySettingExample);
@@ -41,18 +42,19 @@ public class AppVerifySettingService {
 			return null;
 		}
 		final String products = tbAppVerifySettings.get(0).getProductNoList();
-		List<String> productList = products.contains(",") ? Arrays.asList(products.split(",")) : Arrays.asList(products);
+		List<String> productList = products.contains(",") ? Arrays.asList(products.split(","))
+				: Arrays.asList(products);
 		TbProductExample tbProductExample = new TbProductExample();
-		tbProductExample.createCriteria()
-						.andProductIdIn(productList);
+		tbProductExample.createCriteria().andProductIdIn(productList);
 		List<TbProduct> resultProduct = tbProductDao.selectByExample(tbProductExample);
-		List<Map<String, Object>> resMap = new ArrayList<Map<String,Object>>();
+		List<Map<String, Object>> resMap = new ArrayList<Map<String, Object>>();
 		for (TbProduct tbProduct : resultProduct) {
 			Map<String, Object> map = new HashMap<>();
 			map.put("productId", tbProduct.getProductId());
 			map.put("curPrice", tbProduct.getCurPrice());
 			map.put("productName", tbProduct.getProductName());
-			map.put("imgKey", tbProduct.getImgKey().contains(",") ? tbProduct.getImgKey().split(",")[0] : tbProduct.getImgKey());
+			map.put("imgKey",
+					tbProduct.getImgKey().contains(",") ? tbProduct.getImgKey().split(",")[0] : tbProduct.getImgKey());
 			resMap.add(map);
 		}
 		Map<String, Object> result = new HashMap<String, Object>();
@@ -61,7 +63,7 @@ public class AppVerifySettingService {
 		result.put("productNoList", resMap);
 		return result;
 	}
-	
+
 	public ResultConstant saveAppVerifyProducts(TbAppVerifySetting tbAppVerifySetting) {
 		if (StringUtils.isEmpty(tbAppVerifySetting.getAppVersion())) {
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "参数错误，版本号为空");
@@ -76,19 +78,25 @@ public class AppVerifySettingService {
 			if (oriVerStrs.length != newVerStrs.length) {
 				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "参数错误，版本号格式错误");
 			}
-			for (int i = 0; i < oriVerStrs.length; i++) {
-				int newVer = Integer.valueOf(newVerStrs[i]);
-				int oriVer = Integer.valueOf(oriVerStrs[i]);
-				if (newVer <= oriVer) {
-					return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "参数错误，版本号必须大于现行版本号");
-				}
+			/*
+			 * for (int i = 0; i < oriVerStrs.length; i++) { int newVer =
+			 * Integer.valueOf(newVerStrs[i]); int oriVer = Integer.valueOf(oriVerStrs[i]);
+			 * if (newVer > oriVer) { tbAppVerifySettingDao.deleteByExample(new
+			 * TbAppVerifySettingExample());
+			 * tbAppVerifySettingDao.insert(tbAppVerifySetting); }else { return
+			 * ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR,
+			 * "参数错误，版本号必须大于现行版本号"); } }
+			 */
+			if (MessageUtil.compareVersion(tbAppVerinfo.getVersion(), tbAppVerifySetting.getAppVersion()) < 0) {
+				tbAppVerifySettingDao.deleteByExample(new TbAppVerifySettingExample());
+				tbAppVerifySettingDao.insert(tbAppVerifySetting);
+			} else {
+				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "参数错误，版本号必须大于现行版本号");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_PARAM_ERROR, "参数错误，版本号格式错误");
 		}
-		tbAppVerifySettingDao.deleteByExample(new TbAppVerifySettingExample());
-		tbAppVerifySettingDao.insert(tbAppVerifySetting);
 		return ResultConstant.ofSuccess();
 	}
 }

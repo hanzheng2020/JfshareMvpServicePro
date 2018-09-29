@@ -45,12 +45,14 @@ public class RedisLazyQueues implements InitializingBean{
 		@Override
 		public void run() {
 			 logger.info("开始监听队列，订单延迟推送");
+			  long minTime;
 			  while(true){
-				  long minTime = new Date().getTime();
+				  minTime = new Date().getTime();
 				  //取出5分钟范围内的消息
 				  Set<TypedTuple<String>> set = redisTemplate.rangeByScoreWithScores("MVP:ORDER_APP_LIST" , minTime, minTime+1000*60*5);
 		          if(set!=null&&set.size()>0){
 		        	  for (TypedTuple<String> tuple : set) {
+		        		 logger.info("tuple.getScore()："+tuple.getScore()+"minTime:"+minTime);
 						logger.info("获取的值：{},剩余生存时间{}",tuple.getValue(),tuple.getScore()-minTime/1000+"秒");
 						String orderId =  tuple.getValue();
 						WeChatMessageSendPlus bean = redisTemplate.getBean("MVP:ORDER:"+orderId, WeChatMessageSendPlus.class);
@@ -61,12 +63,10 @@ public class RedisLazyQueues implements InitializingBean{
 							JSONObject obj = JSONObject.fromObject(bean);
 							if(obj.get("payScore")==null) {
 								String userId=obj.get("userId").toString();
-								String data = obj.get("data").toString();
-								JSONObject objData = JSONObject.fromObject(bean);
-								String productName=objData.get("productName").toString();
+								//String data = obj.get("data").toString();
+								//JSONObject objData = JSONObject.fromObject(bean);
+								//String productName=objData.get("productName").toString();
 								informationService.sendMsg(userId, "订单到期支付提醒", "您有一笔待支付订单将于5分钟后失效，请点击付款>>", orderId);
-								//SystemInformation.buildPushObject_android_and_iosByAlias(mobileMd5,"订单到期支付提醒","您有一笔待支付订单将于5分钟后失效，请点击付款>>","您有一笔待支付订单将于5分钟后失效，请点击付款>>",orderId);
-								//String orderId = obj.get("orderId").toString();
 							}
 							//2.删除键值对缓存
 							redisTemplate.delKey("MVP:ORDER:"+orderId);

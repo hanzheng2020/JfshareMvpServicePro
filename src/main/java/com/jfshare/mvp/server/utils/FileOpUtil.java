@@ -3,6 +3,7 @@ package com.jfshare.mvp.server.utils;
 import com.jfshare.mvp.server.constants.Constant;
 import com.jfshare.mvp.server.model.TbProductSurvey;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Cell;
@@ -14,7 +15,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -22,7 +22,6 @@ import java.util.*;
  */
 @Component
 public class FileOpUtil {
-
 	public static byte[] getExportProduct(List<TbProductSurvey> list) {
 
 		String exportTitle = "商品列表";
