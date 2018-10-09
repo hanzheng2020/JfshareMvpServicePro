@@ -59,7 +59,7 @@ public class ProductClient {
 		try {
 			ProductCardViewParam param = new ProductCardViewParam();
 			param.setProductId(productId);
-			param.setState(1);
+			//param.setState(1);
 			ProductCardListResult result = Await.result(service.getProductCardByState(param));
 			if (result.getResult().getCode() == 0) {
 				return result.getCardList().size();
