@@ -18,11 +18,13 @@ import com.github.pagehelper.PageInfo;
 import com.jfshare.finagle.thrift.product.ProductCard;
 import com.jfshare.finagle.thrift.product.ProductCardParam;
 import com.jfshare.finagle.thrift.result.StringResult;
+import com.jfshare.finagle.thrift.stock.BatchStockResult;
 import com.jfshare.mvp.server.constants.Constant;
 import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.elasticsearch.ESProduct;
 import com.jfshare.mvp.server.finagle.server.OrderClient;
 import com.jfshare.mvp.server.finagle.server.ProductClient;
+import com.jfshare.mvp.server.finagle.server.StockClient;
 import com.jfshare.mvp.server.model.Product;
 import com.jfshare.mvp.server.model.TbLevelInfo;
 import com.jfshare.mvp.server.model.TbProduct;
@@ -56,6 +58,8 @@ public class ProductController {
 	
 	@Autowired
 	private ProductClient productClient;
+	@Autowired
+	private StockClient stockClient;
 	@Autowired
 	private OrderClient orderClient;
 	@Autowired
@@ -213,7 +217,9 @@ public class ProductController {
 			product = productClient.getProduct(productId);
 			if(product.getActiveState() != 101) {
 				tbProduct = ConvertBeanToMapUtils.convertBeanToMap(product);
-				tbProduct.setProductStock(productClient.getProductCardByState(productId));
+				BatchStockResult batchQueryStock = stockClient.batchQueryStock(productId);
+				tbProduct.setProductStock(batchQueryStock.getStockInfos().get(0).getTotal());
+				//tbProduct.setProductStock(productClient.getProductCardByState(productId));
 			}else {
 				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "该商品已下架！");
 			}
