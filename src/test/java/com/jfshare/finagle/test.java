@@ -10,6 +10,7 @@ import com.jfshare.mvp.server.constants.Constant;
 import com.jfshare.mvp.server.finagle.server.OrderClient;
 import com.jfshare.mvp.server.finagle.server.ProductClient;
 import com.jfshare.mvp.server.finagle.server.ScoreClient;
+import com.jfshare.mvp.server.finagle.server.StockClient;
 import com.jfshare.mvp.server.model.Product;
 import com.jfshare.mvp.server.model.TbProduct;
 import com.jfshare.mvp.server.service.ProductService;
@@ -35,6 +36,9 @@ public class test extends TestProductRepository {
     
     @Autowired
     OrderClient orderClient;
+    
+	@Autowired
+	private StockClient stockClient;
 
     @Test
     public void testFinagle(){
@@ -73,6 +77,10 @@ public class test extends TestProductRepository {
     	System.out.println(parseObject.getString("productId"));
     }
 
+    @Test
+    public void testqueryStock() throws Exception {
+    	System.out.println(stockClient.batchQueryStock("ze180910152429000219"));
+    }
     
     @Test
     public void testPoduct() {

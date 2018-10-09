@@ -30,9 +30,10 @@ public class StockClient {
 	
 	public BatchStockResult batchQueryStock(String productId) throws Exception{
 		BatchQueryParam param = new BatchQueryParam();
-		param.setQueryType("tatal");
+		param.setQueryType("total");
 		List<String> list = new ArrayList<String>();
 		list.add(productId);
+		param.setQueryContents(list);
 		BatchStockResult result = Await.result(service.batchQueryStock(param));
 		return result;
 	}
