@@ -17,9 +17,9 @@
 	<select id="queryItemList"
 		parameterType="string"
 		resultMap="BaseResultMap">
-		SELECT * FROM TB_PRODUCT_ITEM 
+		SELECT * FROM TB_PRODUCT_ITEM WHERE ITEM_NO != '0'
 		<if test="_parameter != null and _parameter != ''">
-         	WHERE FIND_IN_SET(ITEM_NO,FCGETCHILDRENITEM('${value}'))
+         	AND FIND_IN_SET(ITEM_NO,FCGETCHILDRENITEM('${value}'))
       	</if>
       	ORDER BY UPDATE_TIME DESC
 	</select>

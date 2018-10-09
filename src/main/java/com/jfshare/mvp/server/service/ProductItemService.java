@@ -160,11 +160,7 @@ public class ProductItemService {
 				}
 				List<Map<String, Object>> list = ConvertBeanToMapUtils.convertBeanListToMap(tbProductItems,
 						"createTime", "updateTime");
-				Map<String, Object> remMap = null;
 				for (Map<String, Object> map : list) {
-					if ("0".equals(map.get("itemNo"))) {
-						remMap = map;
-					}
 					if (map.containsKey("parentItemNo") && map.get("parentItemNo") != null) {
 						String parentItemNo = map.get("parentItemNo").toString();
 						if (!StringUtils.isEmpty(parentItemNo)) {
@@ -172,7 +168,6 @@ public class ProductItemService {
 						}
 					}
 				}
-				list.remove(remMap);
 				page.addAll(list);
 				return page;
 			} else {
@@ -193,11 +188,7 @@ public class ProductItemService {
 				}
 				List<Map<String, Object>> list = ConvertBeanToMapUtils.convertBeanListToMap(productItems, "createTime",
 						"updateTime");
-				Map<String, Object> remMap = null;
 				for (Map<String, Object> map : list) {
-					if ("0".equals(map.get("itemNo"))) {
-						remMap = map;
-					}
 					if (map.containsKey("parentItemNo") && map.get("parentItemNo") != null) {
 						String parentItemNo = map.get("parentItemNo").toString();
 						if (!StringUtils.isEmpty(parentItemNo)) {
@@ -205,7 +196,6 @@ public class ProductItemService {
 						}
 					}
 				}
-				list.remove(remMap);
 				return list;
 			}
 		}
