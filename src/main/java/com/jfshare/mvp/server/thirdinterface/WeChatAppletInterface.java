@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -19,18 +20,18 @@ import com.alibaba.fastjson.JSON;
  * @author fengxiang
  * @date 2018-08-15
  */
-//@Component
+@Component
 public class WeChatAppletInterface {
 	private final static Logger logger = LoggerFactory.getLogger(WeChatAppletInterface.class);
 	
 	@Autowired
 	private RestTemplate restTemplate;
 	
-	@Value("${wxApplet.appId}")
-	private String appId ;
+//	@Value("${wxApplet.appId}")
+	private String appId = "wx4f18b6d1ac07e907";
 	
-	@Value("${wxApplet.appSecret}")
-	private String appSecret;
+//	@Value("${wxApplet.appSecret}")
+	private String appSecret = "d3411329c6cf685941d413cc015040a4";
 	
 	
 	private String accessToken;
@@ -48,13 +49,13 @@ public class WeChatAppletInterface {
 	 * @return
 	 */
 	public String getAccessToken() {
-		if (expiryTime == null || expiryTime.before(new Date())) {
+//		if (expiryTime == null || expiryTime.before(new Date())) {
 			String url = String.format(getWeChatAccessTokenFormat, appId, appSecret);
 			String result = restTemplate.getForObject(url, String.class);
 			accessToken = JSON.parseObject(result).getString("access_token");
 			expiryTime = DateUtils.addMinutes(new Date(), 100);
 			logger.info("刷新Access Token result:{}", result);
-		}
+//		}
 		return accessToken;
 	}
 	
@@ -62,11 +63,11 @@ public class WeChatAppletInterface {
 		accessToken = getAccessToken();
 		Map<String, Object> multiValueMap = new HashMap<String, Object>();
 		multiValueMap.put("scene", productId);
-		multiValueMap.put("page", "pages/shop/product/product");
+		multiValueMap.put("page", "pages/index/index");//pages/index/index
 		multiValueMap.put("is_hyaline", true);
-//		restTemplate.pos
-		ResponseEntity<Byte> result = restTemplate.postForEntity(getWXACodeUnlimitUrl + accessToken, multiValueMap, Byte.class);
-		logger.info("模板消息结果:{}", result);
-		return null;
+		ResponseEntity<ByteArrayResource> result = restTemplate.postForEntity(getWXACodeUnlimitUrl + accessToken, multiValueMap, ByteArrayResource.class);
+		
+		return result.getBody().getByteArray();
 	}
+	
 }

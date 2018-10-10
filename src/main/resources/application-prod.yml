@@ -1,4 +1,9 @@
-enableApi: false
+enableApi: true
+server: 
+  port: 18888
+  address: 0.0.0.0
+  servlet:
+    context-path: /mvp
 spring: 
   liquibase: 
     enabled: true 
@@ -7,12 +12,12 @@ spring:
     date-format: "yyyy-MM-dd HH:mm:ss" 
     time-zone: GMT+8
   application: 
-    name: EUnionPayDirectServer
+    name: JfshareMvpServerPro
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://rm-2zemlbv21u27044s3xo.mysql.rds.aliyuncs.com:3306/db_jfshare_mvp_dev?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&autoReconnect=true
-    username: jfshare_off_dev
-    password: Jfshare123
+    url: jdbc:mysql://rm-2ze8z3gekcb1o0ci48o.mysql.rds.aliyuncs.com:3306/db_jfshare_mvp?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&autoReconnect=true
+    username: jfshare_root_mvp
+    password: Jfshare123456
     type: com.alibaba.druid.pool.DruidDataSource
     filters: stat
     maxActive: 20
@@ -37,9 +42,14 @@ spring:
       min-idle:  0
       max-active:  8
       max-wait:  -1
+  rabbitmq:
+    host: 39.106.147.35
+    port: 5672
+    username: admin
+    password: admin
   data:
     elasticsearch:
-      cluster-nodes: 39.106.208.144:9300
+      cluster-nodes: 39.107.230.91:9300
       repositories:
         enabled: true
 mybatis:

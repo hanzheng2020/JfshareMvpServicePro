@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.jfshare.mvp.server.thirdinterface.AliPayInterface;
+import com.jfshare.mvp.server.thirdinterface.WeChatAppletInterface;
 import com.jfshare.mvp.server.thirdinterface.WeChatPayInterface;
 
 @RunWith(SpringRunner.class)
@@ -17,6 +18,9 @@ public class AppTest {
     
     @Autowired
     AliPayInterface alipay;
+    
+    @Autowired
+    WeChatAppletInterface weChatAppletInterface;
     
 	@Test
 	public void testUtils() {
@@ -29,6 +33,8 @@ public class AppTest {
 		
 //		wxpay.createPrepayId("test", "123", 1, "127.0.0.1");
 //		alipay.createPaySign();
+		
+		weChatAppletInterface.createProductQRCode("test");
 		
 	}
 }
