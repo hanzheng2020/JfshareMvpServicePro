@@ -49,14 +49,13 @@ public class RedisLazyQueues implements InitializingBean{
 			  while(true){
 				  minTime = new Date().getTime();
 				  //取出5分钟范围内的消息
-				  Set<TypedTuple<String>> set = redisTemplate.rangeByScoreWithScores("MVP:ORDER_APP_LIST" , minTime, minTime+1000*60*30);
-				  //logger.info("待支付订单数量>>>>>:"+set);
+				  Set<TypedTuple<String>> set = redisTemplate.rangeByScoreWithScores("MVP:ORDER_APP_LIST" , minTime, minTime+1000*60*6);
+
+				//  logger.info("待支付订单数量>>>>>:"+set);
 		          if(set!=null&&set.size()>0){
-		        	  logger.info("待支付订单数量>>>>>>>>>>>>>>>:"+set.size());
 		        	  for (TypedTuple<String> tuple : set) {
-		        		 logger.info("tuple.getScore()："+tuple.getScore()+"minTime:"+minTime);
-						logger.info("获取的值：{},剩余生存时间{}",tuple.getValue(),tuple.getScore()-minTime/1000+"秒");
-						String orderId =  tuple.getValue();
+						logger.info("获取的值：{},剩余生存时间{},当前时间{}",tuple.getValue(),tuple.getScore().longValue(),minTime);
+						String orderId =  tuple.getValue(); 
 						WeChatMessageSendPlus bean = redisTemplate.getBean("MVP:ORDER:"+orderId, WeChatMessageSendPlus.class);
 						if(bean!=null){
 							System.out.println("获取到消息数据："+bean);
