@@ -87,17 +87,17 @@ public class ProductService {
 			for (String productId : productIds) {
 				if (esProductRepository.existsById(productId)) {
 					esProductRepository.deleteById(productId);
-					example.createCriteria()
-						   .andProductIdEqualTo(productId)
-						   .andActiveStateEqualTo(Constant.PRODUCT_STATE_ONSELL);
-					List<TbProduct> tbproducts =  tbProductDao.selectByExample(example);
-					if (!CollectionUtils.isEmpty(tbproducts)) {
-						TbProduct tbProduct = tbproducts.get(0);
-						ESProduct esProduct = new ESProduct(tbProduct.getProductId(), 
-								tbProduct.getProductName(), Double.valueOf(tbProduct.getCurPrice()),
-								tbProduct.getImgKey().contains(",") ? tbProduct.getImgKey().split(",")[0] : tbProduct.getImgKey());
-						esProductRepository.save(esProduct);
-					}
+				}
+				example.createCriteria()
+				   .andProductIdEqualTo(productId)
+				   .andActiveStateEqualTo(Constant.PRODUCT_STATE_ONSELL);
+				List<TbProduct> tbproducts =  tbProductDao.selectByExample(example);
+				if (!CollectionUtils.isEmpty(tbproducts)) {
+					TbProduct tbProduct = tbproducts.get(0);
+					ESProduct esProduct = new ESProduct(tbProduct.getProductId(), 
+							tbProduct.getProductName(), Double.valueOf(tbProduct.getCurPrice()),
+							tbProduct.getImgKey().contains(",") ? tbProduct.getImgKey().split(",")[0] : tbProduct.getImgKey());
+					esProductRepository.save(esProduct);
 				}
 			}
 		}
