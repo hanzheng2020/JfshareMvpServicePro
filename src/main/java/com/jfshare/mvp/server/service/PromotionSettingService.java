@@ -366,7 +366,7 @@ public class PromotionSettingService {
 							map.put("productId", tbProduct.getProductId());
 							map.put("curPrice", tbProduct.getCurPrice());
 							map.put("productName", tbProduct.getProductName());
-							map.put("imgKey", tbProduct.getImgKey().contains(",") ? tbProducts.get(0).getImgKey().split(",")[0] : tbProducts.get(0).getImgKey());
+							map.put("imgKey", tbProduct.getImgKey().contains(",") ? tbProduct.getImgKey().split(",")[0] : tbProduct.getImgKey());
 							map.put("activeState", tbProduct.getActiveState());
 							result.add(map);
 						}
