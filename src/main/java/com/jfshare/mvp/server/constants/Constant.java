@@ -29,10 +29,11 @@ public class Constant {
    //app强制升级
    public static final int  UPGRADE_TYPE_QZ=2;
    
-   //商品状态  100 待上架  200 已上架 300 已下架
+   //商品状态  100 待上架  200 已上架 300 已下架   400 已删除
    public static final int  PRODUCT_STATE_NOT_ONSELL=100;
    public static final int  PRODUCT_STATE_ONSELL=200;
    public static final int  PRODUCT_SOLT_OUT=300;
+   public static final int  PRODUCT_DEL=400;
    
    //聚分享商品状态  300 为销售中
    public static final int  JPRODUCT_SOLT_OUT=300;
