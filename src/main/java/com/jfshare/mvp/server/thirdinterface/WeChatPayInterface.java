@@ -53,7 +53,7 @@ public class WeChatPayInterface {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public Map<String, Object> createPrepayId(String productDesc, int amount, String userIp,String payId) {
+	public Map<String, Object> createPrepayId(String productDesc, int amount, String userIp,String payId, String client) {
 		Map<String, Object> requestMap = new HashMap<>();
 		Map<String, Object> context = new HashMap<>();
 		context.put("appid", appid);
@@ -64,7 +64,12 @@ public class WeChatPayInterface {
 		context.put("total_fee", amount);
 		context.put("spbill_create_ip", userIp);
 		context.put("notify_url", notify_url);
-		context.put("trade_type", "APP");
+		if ("wxApplet".equals(client)) {
+			context.put("trade_type", "JSAPI");
+		} else {
+			context.put("trade_type", "APP");
+		}
+		
 		context.put("sign", createSign(context));
 		requestMap.put("xml", context);
 		String requestXml = XmlUtils.mapToXml(requestMap);
