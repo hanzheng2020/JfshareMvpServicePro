@@ -388,6 +388,32 @@ public class ProductService {
 		return count;
 	}
 	
+	public int changeProductPrice(String productId, String price) {
+		Product product = new Product();
+		int count = 0;
+		TbProduct productOne = getProductOne(productId);
+		if(productOne != null) {
+			product.setProductId(productOne.getProductId());
+			product.setProductName(productOne.getProductName());
+			product.setItemNo(productOne.getItemNo());
+			product.setProductHeader(productOne.getProductHeader());
+			product.setCurPrice(price);
+			product.setOrgPrice(productOne.getOrgPrice());
+			product.setPresentexp(productOne.getPresentexp());
+			product.setProductStock(productOne.getProductStock());
+			product.setActiveState(productOne.getActiveState());
+			product.setImgKey(productOne.getImgKey());
+			List<TbProductDetailWithBLOBs> productDetails =  productDetailService.selectByExample(productId);
+			if(productDetails!=null&&productDetails.size()>0) {
+				product.setProductInstructions(productDetails.get(0).getProductInstructions());
+				product.setProductExchange(productDetails.get(0).getProductExchange());
+			}
+			count = updateProduct(product);
+		}
+		this.syncESProduct(false, product.getProductId());
+		return count;
+	}
+	
 	public List<TbProduct> queryProduct(){
 		TbProductExample example = new TbProductExample();
 		example.createCriteria().andActiveStateEqualTo(Constant.PRODUCT_STATE_ONSELL);
