@@ -49,9 +49,9 @@ public class RedisLazyQueues implements InitializingBean{
 			  while(true){
 				  minTime = new Date().getTime();
 				  //取出5分钟范围内的消息
-				  Set<TypedTuple<String>> set = redisTemplate.rangeByScoreWithScores("MVP:ORDER_APP_LIST" , minTime, minTime+1000*60*28);
+				  Set<TypedTuple<String>> set = redisTemplate.rangeByScoreWithScores("MVP:ORDER_APP_LIST" , minTime, minTime+1000*60*29);
 
-				
+				  logger.info("待支付订单数量>>>>>:"+set.size());
 		          if(set!=null&&set.size()>0){
 		        	 logger.info("待支付订单数量>>>>>:"+set.size());
 		        	  for (TypedTuple<String> tuple : set) {
