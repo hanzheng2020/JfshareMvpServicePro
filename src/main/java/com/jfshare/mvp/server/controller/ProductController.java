@@ -215,7 +215,7 @@ public class ProductController {
 		TbProduct tbProduct = null;
 		try {
 			product = productClient.getProduct(productId);
-			if(product.getActiveState() != 101) {
+			if(product.getActiveState() == 300) {
 				tbProduct = ConvertBeanToMapUtils.convertBeanToMap(product);
 				BatchStockResult batchQueryStock = stockClient.batchQueryStock(productId);
 				tbProduct.setProductStock(batchQueryStock.getStockInfos().get(0).getTotal());
