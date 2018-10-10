@@ -1,5 +1,6 @@
 package com.jfshare.mvp.server.utils;
 
+import net.sf.json.JSONObject;
 
 /**
  * Created by hanzheng on 2018/7/24.
@@ -31,13 +32,14 @@ public class MessageUtil {
 	}
 	
 	public static void main(String[] args) {
-		try {
-			int i = compareVersion("2.7.5.0124", "2.7.4.0124");
-			System.out.println(i);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			int i = compareVersion("2.7.5.0124", "2.7.4.0124");
+//			System.out.println(i);
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		int orderAmount = Integer.valueOf(null);
 	}
 	
 }
