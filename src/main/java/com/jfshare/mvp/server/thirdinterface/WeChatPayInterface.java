@@ -38,6 +38,9 @@ public class WeChatPayInterface {
 	private String appletId = "wxe71603074adcfb75";
 	private String mch_id = "1512993531";
 	private String key = "obAgnUgq9maCq78afz07pyn30HighrdA";
+	private String applt_mch_id = "10011931";
+	private String appletKey = "esvlhExwkEjICItRmHJqwP65ohRrFeJR";
+	
 	private String notify_url = "";
 	
 	@PostConstruct
@@ -60,11 +63,12 @@ public class WeChatPayInterface {
 		if ("wxApplet".equals(client)) {
 			context.put("appid", appletId);
 			context.put("trade_type", "JSAPI");
+			context.put("mch_id", applt_mch_id);
 		} else {
 			context.put("appid", appid);
 			context.put("trade_type", "APP");
+			context.put("mch_id", mch_id);
 		}
-		context.put("mch_id", mch_id);
 		context.put("nonce_str", UUIDutils.getUUID());
 		context.put("body", productDesc);
 		context.put("out_trade_no", payId);
@@ -73,7 +77,7 @@ public class WeChatPayInterface {
 		context.put("notify_url", notify_url);
 		
 		
-		context.put("sign", createSign(context));
+		context.put("sign", createSign(context, client));
 		requestMap.put("xml", context);
 		String requestXml = XmlUtils.mapToXml(requestMap);
 		LOGGER.info("生成支付信息串请求："+requestXml);
@@ -91,7 +95,7 @@ public class WeChatPayInterface {
 				resultMap.put("package", "Sign=WXPay");
 				resultMap.put("noncestr", UUIDutils.getUUID());
 				resultMap.put("timestamp", System.currentTimeMillis()/1000);
-				resultMap.put("sign", createSign(resultMap));
+				resultMap.put("sign", createSign(resultMap, client));
 				resultMap.remove("package");
 				resultMap.put("packageValue", "Sign=WXPay");
 			}
@@ -102,7 +106,7 @@ public class WeChatPayInterface {
 		return resultMap;
 	}
 	
-	private String createSign(Map<String, Object> context) {
+	private String createSign(Map<String, Object> context, String client) {
 		List<String> keyList = new ArrayList<>(context.keySet());
 		Collections.sort(keyList);
 		StringBuffer sb = new StringBuffer();
@@ -112,7 +116,12 @@ public class WeChatPayInterface {
 			}
 			sb.append(keyList.get(i) + "=" + context.get(keyList.get(i)));
 		}
-		sb.append("&key=" + key);
+		if ("wxApplet".equals(client)) {
+			sb.append("&key=" + appletKey);
+		} else {
+			sb.append("&key=" + key);
+		}
+		
 		String sign = EncryptUtils.md5Encrypt(sb.toString()).toUpperCase();
 		return sign;
 	}
