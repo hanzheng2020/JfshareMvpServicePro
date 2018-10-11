@@ -35,8 +35,14 @@ public class AppVerifySettingService {
 	@Autowired
 	private AppInfoServer appInfoServer;
 
-	public Map<String, Object> getAppVerifyProducts() {
+	public Map<String, Object> getAppVerifyProducts(Boolean state, String appVersion) {
 		TbAppVerifySettingExample tbAppVerifySettingExample = new TbAppVerifySettingExample();
+		if (state != null) {
+			tbAppVerifySettingExample.createCriteria().andStateEqualTo(state);
+		}
+		if (!StringUtils.isEmpty(appVersion)) {
+			tbAppVerifySettingExample.createCriteria().andAppVersionEqualTo(appVersion);
+		}
 		List<TbAppVerifySetting> tbAppVerifySettings = tbAppVerifySettingDao.selectByExample(tbAppVerifySettingExample);
 		if (CollectionUtils.isEmpty(tbAppVerifySettings)) {
 			return null;
