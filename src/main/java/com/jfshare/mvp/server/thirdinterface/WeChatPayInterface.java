@@ -112,7 +112,7 @@ public class WeChatPayInterface {
 	}
 	
 	private String getOpenId(String customCode) {
-		String inStr = jedisClusterDao.getFromSet(customCode);
+		String inStr = jedisClusterDao.getFromSet("MVP_sessionKey:" + customCode);
 		logger.info("获取的inStr："+inStr);
 		return inStr.split("&&")[1];
 	}
