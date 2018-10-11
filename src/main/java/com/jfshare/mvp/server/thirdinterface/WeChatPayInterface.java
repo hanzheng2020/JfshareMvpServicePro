@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import com.jfshare.mvp.server.config.ConfigManager;
+import com.jfshare.mvp.server.dao.JedisClusterDao;
 import com.jfshare.mvp.server.utils.EncryptUtils;
 import com.jfshare.mvp.server.utils.UUIDutils;
 import com.jfshare.mvp.server.utils.XmlUtils;
@@ -26,12 +27,14 @@ import com.jfshare.mvp.server.utils.XmlUtils;
  */
 @Component
 public class WeChatPayInterface {
-	private static final transient Logger LOGGER = LoggerFactory.getLogger(WeChatPayInterface.class);
+	private static final transient Logger logger = LoggerFactory.getLogger(WeChatPayInterface.class);
 
 	@Autowired
 	private RestTemplate restTemplate;
 	@Autowired
 	private ConfigManager configManager;
+	@Autowired
+	private JedisClusterDao jedisClusterDao;
 	
 	private static String payUrl = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 	private String appid = "wxc93b05e31a57d38c";
@@ -40,6 +43,7 @@ public class WeChatPayInterface {
 	private String key = "obAgnUgq9maCq78afz07pyn30HighrdA";
 	private String applt_mch_id = "10011931";
 	private String appletKey = "esvlhExwkEjICItRmHJqwP65ohRrFeJR";
+	
 	
 	private String notify_url = "";
 	
@@ -57,13 +61,14 @@ public class WeChatPayInterface {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public Map<String, Object> createPrepayId(String productDesc, int amount, String userIp,String payId, String client) {
+	public Map<String, Object> createPrepayId(String productDesc, int amount, String userIp,String payId, String client, String customCode) {
 		Map<String, Object> requestMap = new HashMap<>();
 		Map<String, Object> context = new HashMap<>();
 		if ("wxApplet".equals(client)) {
 			context.put("appid", appletId);
 			context.put("trade_type", "JSAPI");
 			context.put("mch_id", applt_mch_id);
+			context.put("openid", getOpenId(customCode));
 		} else {
 			context.put("appid", appid);
 			context.put("trade_type", "APP");
@@ -80,9 +85,9 @@ public class WeChatPayInterface {
 		context.put("sign", createSign(context, client));
 		requestMap.put("xml", context);
 		String requestXml = XmlUtils.mapToXml(requestMap);
-		LOGGER.info("生成支付信息串请求："+requestXml);
+		logger.info("生成支付信息串请求："+requestXml);
 		String responseXml = restTemplate.postForObject(payUrl, requestXml, String.class);
-		LOGGER.info("生成支付信息串响应："+responseXml);
+		logger.info("生成支付信息串响应："+responseXml);
 		Map<String, Object> resultMap = new HashMap<>();
 		try {
 			Map<String, Object> responseMap = (Map<String, Object>) XmlUtils.xmlToMap(responseXml).get("xml");
@@ -104,6 +109,12 @@ public class WeChatPayInterface {
 		}
 		
 		return resultMap;
+	}
+	
+	private String getOpenId(String customCode) {
+		String inStr = jedisClusterDao.getFromSet(customCode);
+		logger.info("获取的inStr："+inStr);
+		return inStr.split("&&")[1];
 	}
 	
 	private String createSign(Map<String, Object> context, String client) {

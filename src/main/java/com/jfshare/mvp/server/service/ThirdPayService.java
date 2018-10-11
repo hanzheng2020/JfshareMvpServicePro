@@ -113,7 +113,7 @@ public class ThirdPayService {
 	 * @param payChannel
 	 * @return
 	 */
-	public ResultConstant thirdPay(String userId, String orderId, Integer orderAmount, Integer jfScore, Integer fenXiangScore, Integer payChannel, String clientIp, String client) {
+	public ResultConstant thirdPay(String userId, String orderId, Integer orderAmount, Integer jfScore, Integer fenXiangScore, Integer payChannel, String clientIp, String client, String customCode) {
 		OrderDetailResult orderDetailResult = orderClient.queryOrderDetail(userId, orderId);
 		String checkOrderResult = checkOrder(orderDetailResult, orderAmount);
 		
@@ -148,7 +148,7 @@ public class ThirdPayService {
 			// 暂时一个订单只有一个商品
 			String productName = orderDetailResult.getOrder().getProductList().get(0).getProductName();
 			if (PayConstants.Channel_WeChatPay_mvp==payChannel) { //调用微信支付接口
-				Map<String, Object> resultMap = weChatPayInterface.createPrepayId(productName, amt, clientIp, payId, client);
+				Map<String, Object> resultMap = weChatPayInterface.createPrepayId(productName, amt, clientIp, payId, client, customCode);
 				if (MapUtils.isEmpty(resultMap)) {
 					return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取微信支付信息串失败！");
 				} 
