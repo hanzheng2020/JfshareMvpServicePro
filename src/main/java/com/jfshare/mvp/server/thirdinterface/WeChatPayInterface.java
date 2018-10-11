@@ -38,11 +38,9 @@ public class WeChatPayInterface {
 	
 	private static String payUrl = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 	private String appid = "wxc93b05e31a57d38c";
-	private String appletId = "wxe71603074adcfb75";
 	private String mch_id = "1512993531";
 	private String key = "obAgnUgq9maCq78afz07pyn30HighrdA";
 	private String applt_mch_id = "10011931";
-	private String appletKey = "esvlhExwkEjICItRmHJqwP65ohRrFeJR";
 	
 	
 	private String notify_url = "";
@@ -65,7 +63,7 @@ public class WeChatPayInterface {
 		Map<String, Object> requestMap = new HashMap<>();
 		Map<String, Object> context = new HashMap<>();
 		if ("wxApplet".equals(client)) {
-			context.put("appid", appletId);
+			context.put("appid", WeChatAppletInterface.appId);
 			context.put("trade_type", "JSAPI");
 			context.put("mch_id", applt_mch_id);
 			context.put("openid", getOpenId(customCode));
@@ -128,7 +126,7 @@ public class WeChatPayInterface {
 			sb.append(keyList.get(i) + "=" + context.get(keyList.get(i)));
 		}
 		if ("wxApplet".equals(client)) {
-			sb.append("&key=" + appletKey);
+			sb.append("&key=" + WeChatAppletInterface.appSecret);
 		} else {
 			sb.append("&key=" + key);
 		}

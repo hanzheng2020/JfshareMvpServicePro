@@ -27,11 +27,9 @@ public class WeChatAppletInterface {
 	@Autowired
 	private RestTemplate restTemplate;
 	
-//	@Value("${wxApplet.appId}")
-	private String appId = "wx4f18b6d1ac07e907";
+	static String appId = "wxe71603074adcfb75";
 	
-//	@Value("${wxApplet.appSecret}")
-	private String appSecret = "d3411329c6cf685941d413cc015040a4";
+	static String appSecret = "esvlhExwkEjICItRmHJqwP65ohRrFeJR";
 	
 	
 	private String accessToken;
@@ -49,13 +47,13 @@ public class WeChatAppletInterface {
 	 * @return
 	 */
 	public String getAccessToken() {
-//		if (expiryTime == null || expiryTime.before(new Date())) {
+		if (expiryTime == null || expiryTime.before(new Date())) {
 			String url = String.format(getWeChatAccessTokenFormat, appId, appSecret);
 			String result = restTemplate.getForObject(url, String.class);
 			accessToken = JSON.parseObject(result).getString("access_token");
 			expiryTime = DateUtils.addMinutes(new Date(), 100);
 			logger.info("刷新Access Token result:{}", result);
-//		}
+		}
 		return accessToken;
 	}
 	
