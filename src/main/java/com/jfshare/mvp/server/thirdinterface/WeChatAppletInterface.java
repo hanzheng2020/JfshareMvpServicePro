@@ -246,8 +246,8 @@ public class WeChatAppletInterface {
 			// 生成图片
 			ImageIO.write(buffImg, "JPG", os);
 			InputStream is = new ByteArrayInputStream(os.toByteArray());
-			OSSUtils.uploadFile2OssForTemp(is,"123.jpg");
-			URL imgUrl = OSSUtils.getUrlFromTempDir("123.jpg");
+			OSSUtils.uploadFile2OssForTemp(is,productId + ".jpg");
+			URL imgUrl = OSSUtils.getUrlFromTempDir(productId + ".jpg");
 			
 			//保存数据库
 			productService.addProductUrl(productId, imgUrl.toString());

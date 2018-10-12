@@ -13,6 +13,7 @@ import com.jfshare.mvp.server.model.TbProduct;
 import com.jfshare.mvp.server.model.TbProductExample;
 import com.jfshare.mvp.server.model.TbProductSurvey;
 import com.jfshare.mvp.server.model.TbProductUrl;
+import com.jfshare.mvp.server.model.TbProductUrlExample;
 import com.jfshare.mvp.server.model.TbProductWithBLOBs;
 
 @Repository
@@ -53,5 +54,16 @@ public class TbProductDao {
 	
 	public int addProductUrl(TbProductUrl tbProductUrl) {
 		return tbProductUrlMapper.insert(tbProductUrl);
+	}
+	
+	public int updateProductUrl(TbProductUrl productUrl) {
+		return tbProductUrlMapper.updateByPrimaryKey(productUrl);
+	}
+	
+	public List<TbProductUrl> querytProductUrl(String productId) {
+		TbProductUrlExample example = new TbProductUrlExample();
+		example.createCriteria().andProductIdEqualTo(productId);
+		List<TbProductUrl> selectByExample = tbProductUrlMapper.selectByExample(example);
+		return selectByExample;
 	}
 }
