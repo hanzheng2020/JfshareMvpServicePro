@@ -42,7 +42,7 @@ public class WeChatAppletInterface {
 	private RestTemplate restTemplate;
 
 	final static String appId = "wxe71603074adcfb75";
-	private String appSecret = "062e3f5f092c1339950edb1838d7818c";
+	private String appSecret = "a7f64bee0e512efa895949eee3bc3a22";
 	
 	private String accessToken;
 
