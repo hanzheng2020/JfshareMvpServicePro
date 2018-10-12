@@ -626,8 +626,8 @@ public class ProductService {
 
 			// 生成图片
 			ImageIO.write(buffImg, "JPG", os);
-			//InputStream is = new ByteArrayInputStream(os.toByteArray());
-			InputStream is = new ByteArrayInputStream(os.toString().getBytes("UTF-8"));
+			InputStream is = new ByteArrayInputStream(os.toByteArray());
+			//InputStream is = new ByteArrayInputStream(os.toString().getBytes("UTF-8"));
 			OSSUtils.uploadFile2OssForTemp(is,productId + ".jpg");
 			URL imgUrl = OSSUtils.getUrlFromTempDir(productId + ".jpg");
 			
