@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import com.alibaba.fastjson.JSON;
 import com.jfshare.mvp.server.config.ConfigManager;
 import com.jfshare.mvp.server.dao.JedisClusterDao;
 import com.jfshare.mvp.server.utils.EncryptUtils;
@@ -94,11 +95,11 @@ public class WeChatPayInterface {
 					&& "OK".equals(responseMap.get("return_msg"))) {
 				String prepay_id = (String) responseMap.get("prepay_id");
 				if ("wxApplet".equals(client)) {
-					resultMap.put("appid", WeChatAppletInterface.appId);
-					resultMap.put("timestamp", System.currentTimeMillis()/1000);
-					resultMap.put("noncestr", UUIDutils.getUUID());
+					resultMap.put("appId", WeChatAppletInterface.appId);
+					resultMap.put("nonceStr", UUIDutils.getUUID());
 					resultMap.put("package", "prepay_id=" + prepay_id);
 					resultMap.put("signType", "MD5");
+					resultMap.put("timeStamp", System.currentTimeMillis()/1000);
 					resultMap.put("paySign", createSign(resultMap, client));
 				} else {
 					resultMap.put("appid", appid);
@@ -140,7 +141,7 @@ public class WeChatPayInterface {
 		} else {
 			sb.append("&key=" + key);
 		}
-		
+		System.out.println(sb.toString());
 		String sign = EncryptUtils.md5Encrypt(sb.toString()).toUpperCase();
 		return sign;
 	}
