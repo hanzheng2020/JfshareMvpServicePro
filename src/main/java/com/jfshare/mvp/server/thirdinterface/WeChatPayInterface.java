@@ -41,6 +41,7 @@ public class WeChatPayInterface {
 	private String mch_id = "1512993531";
 	private String key = "obAgnUgq9maCq78afz07pyn30HighrdA";
 	private String applt_mch_id = "10011931";
+	private String appletKey = "esvlhExwkEjICItRmHJqwP65ohRrFeJR";
 	
 	
 	private String notify_url = "";
@@ -135,7 +136,7 @@ public class WeChatPayInterface {
 			sb.append(keyList.get(i) + "=" + context.get(keyList.get(i)));
 		}
 		if ("wxApplet".equals(client)) {
-			sb.append("&key=" + WeChatAppletInterface.appSecret);
+			sb.append("&key=" + appletKey);
 		} else {
 			sb.append("&key=" + key);
 		}
