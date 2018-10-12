@@ -96,7 +96,7 @@ public class AppTest {
 			Image srcImg_2 = weChatAppletInterface.resizeByUrl(url, 1334, 750, true);
 			int width_2 = srcImg_2.getWidth(null);
 			int height_2 = srcImg_2.getHeight(null);
-			Image srcImg = ImageIO.read(new File("D:\\hz\\222.jpg"));
+			Image srcImg = ImageIO.read(new File("C:\\test.jpg"));
 
 			int width = srcImg.getWidth(null);
 			int height = srcImg.getHeight(null);

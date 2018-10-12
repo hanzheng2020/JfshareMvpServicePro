@@ -83,7 +83,7 @@ public class WeChatAppletInterface {
 		accessToken = getAccessToken();
 		Map<String, Object> multiValueMap = new HashMap<String, Object>();
 		multiValueMap.put("scene", productId);
-		multiValueMap.put("page", "pages/index/index");// pages/index/index
+//		multiValueMap.put("page", "pages/index/index");// pages/index/index
 		multiValueMap.put("is_hyaline", true);
 		ResponseEntity<ByteArrayResource> result = restTemplate.postForEntity(getWXACodeUnlimitUrl + accessToken,
 				multiValueMap, ByteArrayResource.class);
