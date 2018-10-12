@@ -1,13 +1,18 @@
 package com.jfshare.mvp.server.thirdinterface;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -29,6 +34,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSON;
+import com.jfshare.mvp.server.model.TbProduct;
+import com.jfshare.mvp.server.service.ProductService;
+import com.jfshare.mvp.server.utils.OSSUtils;
 
 /**
  * @author fengxiang
@@ -40,6 +48,9 @@ public class WeChatAppletInterface {
 
 	@Autowired
 	private RestTemplate restTemplate;
+	
+	@Autowired
+	private ProductService productService;
 
 	static String appId = "wxe71603074adcfb75";
 	
@@ -84,7 +95,7 @@ public class WeChatAppletInterface {
 
 	 /**
      * 图片缩放
-     * @param filePath 图片路径
+     * @param bytes 字节流
      * @param height 高度
      * @param width 宽度
      * @param bb 比例不对时是否需要补白
@@ -120,13 +131,19 @@ public class WeChatAppletInterface {
 				g.dispose();
 				itemp = image;
 			}
-			//ImageIO.write((BufferedImage) itemp, "jpg", f);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return itemp;
 	}
 	
+	 /**
+     * 图片缩放
+     * @param url 图片路径
+     * @param height 高度
+     * @param width 宽度
+     * @param bb 比例不对时是否需要补白
+     */
 	public Image resizeByUrl(URL url, int height, int width, boolean bb) {
 		Image itemp = null;
 		try {
@@ -158,11 +175,95 @@ public class WeChatAppletInterface {
 				g.dispose();
 				itemp = image;
 			}
-			//ImageIO.write((BufferedImage) itemp, "jpg", f);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return itemp;
 	}
+	
+	//生成并保存图片水印到数据库
+	public void markImageByIcon(String productId) {
+		ByteArrayOutputStream os = new ByteArrayOutputStream();
+		try {
+			TbProduct product = productService.getProductOne(productId);
+			String proImgStr = null;
+			if(product.getImgKey().contains(",")) {
+				String[] imgStr = product.getImgKey().split(",");
+				proImgStr = imgStr[0];
+			}else {
+				proImgStr = product.getImgKey();
+			}
+			//获取图片水印的相关信息
+			String productName = product.getProductName();
+			String price = product.getCurPrice();
+			URL url = new URL(proImgStr);
+			Image srcImg_2 = this.resizeByUrl(url, 1334, 750, true);
+			int width_2 = srcImg_2.getWidth(null);
+			int height_2 = srcImg_2.getHeight(null);
+			//获取原图片的信息
+			Image srcImg = ImageIO.read(new File("D:\\hz\\222.jpg"));
 
+			int width = srcImg.getWidth(null);
+			int height = srcImg.getHeight(null);
+
+			BufferedImage buffImg = new BufferedImage(srcImg.getWidth(null), srcImg.getHeight(null),
+					BufferedImage.TYPE_INT_RGB);
+
+			// 得到画笔对象
+			Graphics2D g = buffImg.createGraphics();
+
+			// 设置对线段的锯齿状边缘处理
+			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+
+			g.drawImage(srcImg.getScaledInstance(srcImg.getWidth(null), srcImg.getHeight(null), Image.SCALE_SMOOTH), 0,
+					0, null);
+
+			byte[] bytes = this.createProductQRCode(productId);
+			
+			//设置水印大小
+			Image img = this.resize(bytes, 150, 150, true);
+
+			int width_1 = img.getWidth(null);
+			int height_1 = img.getHeight(null);
+
+			float alpha = 1f; // 透明度  1 表示不透明
+			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, alpha));
+			g.setColor(new Color(220,20,60));
+			Font font = new Font("微软雅黑", Font.PLAIN, 35);
+			g.setFont(font);
+			int x = width - width_1;
+			int y = height - height_1;
+			
+			// 设置水印图片的位置
+			g.drawImage(srcImg_2, width - width_2, 0,width_2, 667,null);
+			g.drawImage(img, x, y, width_1, height_1, null);
+			// 设置文字水印的位置
+			g.drawString(productName,150,height/2+100);
+			g.drawString("价格：" + price + "元",150,height/2+180);
+			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
+
+			g.dispose();
+
+
+			// 生成图片
+			ImageIO.write(buffImg, "JPG", os);
+			InputStream is = new ByteArrayInputStream(os.toByteArray());
+			OSSUtils.uploadFile2OssForTemp(is,"123.jpg");
+			URL imgUrl = OSSUtils.getUrlFromTempDir("123.jpg");
+			
+			//保存数据库
+			productService.addProductUrl(productId, imgUrl.toString());
+			System.out.println(imgUrl);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (null != os) {
+					os.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }
