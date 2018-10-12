@@ -194,7 +194,7 @@ public class AdminController {
 			result = productItemService.getProductItem(itemNo, asTree, pageNum, pageSize);
 		}
 		if (CollectionUtils.isEmpty(result)) {
-			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取商品类目失败！");
+			return ResultConstant.ofSuccess(null);
 		}
 		
 		PageInfo<Map<String, Object>> pageResult = new PageInfo<Map<String, Object>>(result);
