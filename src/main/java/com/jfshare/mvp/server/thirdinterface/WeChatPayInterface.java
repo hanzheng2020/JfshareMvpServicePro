@@ -92,15 +92,24 @@ public class WeChatPayInterface {
 			if ("SUCCESS".equals(responseMap.get("return_code")) 
 					&& "OK".equals(responseMap.get("return_msg"))) {
 				String prepay_id = (String) responseMap.get("prepay_id");
-				resultMap.put("appid", appid);
-				resultMap.put("partnerid", mch_id);
-				resultMap.put("prepayid", prepay_id);
-				resultMap.put("package", "Sign=WXPay");
-				resultMap.put("noncestr", UUIDutils.getUUID());
-				resultMap.put("timestamp", System.currentTimeMillis()/1000);
-				resultMap.put("sign", createSign(resultMap, client));
-				resultMap.remove("package");
-				resultMap.put("packageValue", "Sign=WXPay");
+				if ("wxApplet".equals(client)) {
+					resultMap.put("appid", WeChatAppletInterface.appId);
+					resultMap.put("timestamp", System.currentTimeMillis()/1000);
+					resultMap.put("noncestr", UUIDutils.getUUID());
+					resultMap.put("package", "prepay_id=" + prepay_id);
+					resultMap.put("signType", "MD5");
+					resultMap.put("paySign", createSign(resultMap, client));
+				} else {
+					resultMap.put("appid", appid);
+					resultMap.put("partnerid", mch_id);
+					resultMap.put("prepayid", prepay_id);
+					resultMap.put("package", "Sign=WXPay");
+					resultMap.put("noncestr", UUIDutils.getUUID());
+					resultMap.put("timestamp", System.currentTimeMillis()/1000);
+					resultMap.put("sign", createSign(resultMap, client));
+					resultMap.remove("package");
+					resultMap.put("packageValue", "Sign=WXPay");
+				}
 			}
 		} catch (DocumentException e) {
 			e.printStackTrace();
