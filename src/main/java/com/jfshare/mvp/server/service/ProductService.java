@@ -40,6 +40,7 @@ import com.jfshare.mvp.server.model.TbProductDetailWithBLOBs;
 import com.jfshare.mvp.server.model.TbProductExample;
 import com.jfshare.mvp.server.model.TbProductItem;
 import com.jfshare.mvp.server.model.TbProductSurvey;
+import com.jfshare.mvp.server.model.TbProductUrl;
 import com.jfshare.mvp.server.model.TbProductWithBLOBs;
 import com.jfshare.mvp.server.utils.DateUtils;
 import com.jfshare.mvp.server.utils.FileOpUtil;
@@ -422,5 +423,14 @@ public class ProductService {
 			return productList;
 		}
 		return null;
+	}
+	
+	public int addProductUrl(String productId,String imgUrl) {
+		TbProductUrl tbProductUrl = new TbProductUrl();
+		tbProductUrl.setProductId(productId);
+		tbProductUrl.setImgUrl(imgUrl);
+		tbProductUrl.setCreateTime(new Date());
+		int rows = tbProductDao.addProductUrl(tbProductUrl);
+		return rows;
 	}
 }
