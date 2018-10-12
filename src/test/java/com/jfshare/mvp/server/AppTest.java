@@ -115,7 +115,7 @@ public class AppTest {
 
 
 
-			byte[] bytes = weChatAppletInterface.createProductQRCode("ze181009151659000991");
+			byte[] bytes = weChatAppletInterface.createProductQRCode("ze171113182605000723");
 
 			/*ImageIcon imgIcon = new ImageIcon(bytes);
 
