@@ -1,23 +1,22 @@
 package com.jfshare.mvp.server.rabbitmq;
 
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.amqp.rabbit.annotation.RabbitHandler;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import com.alibaba.fastjson.JSON;
 import com.jfshare.mvp.server.constants.Constant;
 import com.jfshare.mvp.server.service.ProductService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.Map;
 
 /**
  * @author fengxiang
  * @date 2018-10-09
  */
 @Component
-@RabbitListener(queues = "Product_State_Mvp")
+@RabbitListener(queuesToDeclare = @Queue("Product_State_Mvp")) // 自动创建队列，如果不存在
 public class SyncProductStateMQ {
 	private static Logger logger = LoggerFactory.getLogger(SyncProductStateMQ.class);
 	@Autowired
