@@ -2,6 +2,7 @@ package com.jfshare.mvp.server.utils;
 
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.model.ObjectMetadata;
+import com.aliyun.oss.model.PutObjectResult;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
@@ -26,7 +27,8 @@ public class OSSUtils {
 	public static final  String HOST = "https://imgs.jfshare.com/";
 	public static final OSSClient client = new OSSClient(OSS_ENDPOINT, ACCESS_ID, ACCESS_KEY);
 	
-	public static final String filedir = "temp/";
+	//public static final String filedir = "temp/";
+	public static final String filedir = "A/";
 	/**
 	   * 上传到OSS服务器  如果同名文件会覆盖服务器上的
 	   *
@@ -44,9 +46,12 @@ public class OSSUtils {
 			objectMetadata.setContentDisposition("inline;filename=" + fileName);
 
 			// 上传文件
-			client.putObject(bucket, filedir + fileName, instream, objectMetadata);
+			/*client.putObject(bucket, filedir + fileName, instream, objectMetadata);
 			URL url = client.generatePresignedUrl(bucket, filedir + fileName, DateUtils.addDays(new Date(), 100));
-			ret = url.getProtocol() + "://" + url.getHost() + url.getPath();
+			ret = url.getProtocol() + "://" + url.getHost() + url.getPath();*/
+			// 上传文件
+			PutObjectResult putResult = client.putObject(bucket, filedir + fileName, instream, objectMetadata);
+			ret = putResult.getETag();
 		} catch (IOException e) {
 			e.printStackTrace();
 			logger.error("向OSS上传文件失败！", e);
