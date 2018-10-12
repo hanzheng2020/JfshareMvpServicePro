@@ -156,6 +156,9 @@ public class AppTest {
 			InputStream is = new ByteArrayInputStream(os.toByteArray());
 			OSSUtils.uploadFile2OssForTemp(is,"123.jpg");
 			URL imgUrl = OSSUtils.getUrlFromTempDir("123.jpg");
+			
+			//保存数据库
+			productService.addProductUrl("ze171113182605000723", imgUrl.toString());
 			System.out.println(imgUrl);
 		} catch (Exception e) {
 			e.printStackTrace();
