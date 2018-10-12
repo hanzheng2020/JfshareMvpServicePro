@@ -46,10 +46,10 @@ spring:
     host: 192.168.3.224
     port: 5672
     username: admin
-    password: admin
+    password: jfshare888
   data:
     elasticsearch:
-      cluster-nodes: 39.107.230.91:9300
+      cluster-nodes: 192.168.3.225:9300
       repositories:
         enabled: true
 mybatis:
