@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import com.jfshare.mvp.server.config.ConfigManager;
+import com.jfshare.mvp.server.dao.JedisClusterDao;
 import com.jfshare.mvp.server.utils.EncryptUtils;
 import com.jfshare.mvp.server.utils.UUIDutils;
 import com.jfshare.mvp.server.utils.XmlUtils;
@@ -26,17 +27,22 @@ import com.jfshare.mvp.server.utils.XmlUtils;
  */
 @Component
 public class WeChatPayInterface {
-	private static final transient Logger LOGGER = LoggerFactory.getLogger(WeChatPayInterface.class);
+	private static final transient Logger logger = LoggerFactory.getLogger(WeChatPayInterface.class);
 
 	@Autowired
 	private RestTemplate restTemplate;
 	@Autowired
 	private ConfigManager configManager;
+	@Autowired
+	private JedisClusterDao jedisClusterDao;
 	
 	private static String payUrl = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 	private String appid = "wxc93b05e31a57d38c";
 	private String mch_id = "1512993531";
 	private String key = "obAgnUgq9maCq78afz07pyn30HighrdA";
+	private String applt_mch_id = "10011931";
+	
+	
 	private String notify_url = "";
 	
 	@PostConstruct
@@ -53,29 +59,33 @@ public class WeChatPayInterface {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public Map<String, Object> createPrepayId(String productDesc, int amount, String userIp,String payId, String client) {
+	public Map<String, Object> createPrepayId(String productDesc, int amount, String userIp,String payId, String client, String customCode) {
 		Map<String, Object> requestMap = new HashMap<>();
 		Map<String, Object> context = new HashMap<>();
-		context.put("appid", appid);
-		context.put("mch_id", mch_id);
+		if ("wxApplet".equals(client)) {
+			context.put("appid", WeChatAppletInterface.appId);
+			context.put("trade_type", "JSAPI");
+			context.put("mch_id", applt_mch_id);
+			context.put("openid", getOpenId(customCode));
+		} else {
+			context.put("appid", appid);
+			context.put("trade_type", "APP");
+			context.put("mch_id", mch_id);
+		}
 		context.put("nonce_str", UUIDutils.getUUID());
 		context.put("body", productDesc);
 		context.put("out_trade_no", payId);
 		context.put("total_fee", amount);
 		context.put("spbill_create_ip", userIp);
 		context.put("notify_url", notify_url);
-		if ("wxApplet".equals(client)) {
-			context.put("trade_type", "JSAPI");
-		} else {
-			context.put("trade_type", "APP");
-		}
 		
-		context.put("sign", createSign(context));
+		
+		context.put("sign", createSign(context, client));
 		requestMap.put("xml", context);
 		String requestXml = XmlUtils.mapToXml(requestMap);
-		LOGGER.info("生成支付信息串请求："+requestXml);
+		logger.info("生成支付信息串请求："+requestXml);
 		String responseXml = restTemplate.postForObject(payUrl, requestXml, String.class);
-		LOGGER.info("生成支付信息串响应："+responseXml);
+		logger.info("生成支付信息串响应："+responseXml);
 		Map<String, Object> resultMap = new HashMap<>();
 		try {
 			Map<String, Object> responseMap = (Map<String, Object>) XmlUtils.xmlToMap(responseXml).get("xml");
@@ -88,7 +98,7 @@ public class WeChatPayInterface {
 				resultMap.put("package", "Sign=WXPay");
 				resultMap.put("noncestr", UUIDutils.getUUID());
 				resultMap.put("timestamp", System.currentTimeMillis()/1000);
-				resultMap.put("sign", createSign(resultMap));
+				resultMap.put("sign", createSign(resultMap, client));
 				resultMap.remove("package");
 				resultMap.put("packageValue", "Sign=WXPay");
 			}
@@ -99,7 +109,13 @@ public class WeChatPayInterface {
 		return resultMap;
 	}
 	
-	private String createSign(Map<String, Object> context) {
+	private String getOpenId(String customCode) {
+		String inStr = jedisClusterDao.getString("MVP_sessionKey:" + customCode);
+		logger.info("获取的inStr："+inStr);
+		return inStr.split("&&")[1];
+	}
+	
+	private String createSign(Map<String, Object> context, String client) {
 		List<String> keyList = new ArrayList<>(context.keySet());
 		Collections.sort(keyList);
 		StringBuffer sb = new StringBuffer();
@@ -109,7 +125,12 @@ public class WeChatPayInterface {
 			}
 			sb.append(keyList.get(i) + "=" + context.get(keyList.get(i)));
 		}
-		sb.append("&key=" + key);
+		if ("wxApplet".equals(client)) {
+			sb.append("&key=" + WeChatAppletInterface.appSecret);
+		} else {
+			sb.append("&key=" + key);
+		}
+		
 		String sign = EncryptUtils.md5Encrypt(sb.toString()).toUpperCase();
 		return sign;
 	}

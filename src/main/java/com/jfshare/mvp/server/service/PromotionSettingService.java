@@ -1,14 +1,11 @@
 package com.jfshare.mvp.server.service;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.ListUtils;
-import org.apache.commons.collections.iterators.ArrayListIterator;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -21,8 +18,6 @@ import com.jfshare.mvp.server.dao.TbProductDao;
 import com.jfshare.mvp.server.dao.TbProductItemDao;
 import com.jfshare.mvp.server.dao.TbProductItemShowDao;
 import com.jfshare.mvp.server.dao.TbProductPromotionDao;
-import com.jfshare.mvp.server.elasticsearch.ESProduct;
-import com.jfshare.mvp.server.elasticsearch.repository.ESProductRepository;
 import com.jfshare.mvp.server.model.TbProduct;
 import com.jfshare.mvp.server.model.TbProductExample;
 import com.jfshare.mvp.server.model.TbProductExample.Criteria;
@@ -159,6 +154,33 @@ public class PromotionSettingService {
 		
 		productService.syncESProduct(true, productIds.toArray(new String[] {}));
 		return true;
+	}
+	
+	public void updateProductPromotionImg(String productId, String img) {
+		TbProductPromotionExample tbProductPromotionExample = new TbProductPromotionExample();
+		tbProductPromotionExample.createCriteria().andPublishIndEqualTo(true);
+		List<TbProductPromotion> tbProductPromotions = tbProductPromotionDao.selectByExample(tbProductPromotionExample);
+		for (TbProductPromotion tbProductPromotion : tbProductPromotions) {
+			if (productId.equals(tbProductPromotion.getProductOneId())) {
+				tbProductPromotion.setProductOnePicUrl(img);
+			}
+			if (productId.equals(tbProductPromotion.getProductTwoId())) {
+				tbProductPromotion.setProductTwoPicUrl(img);
+			}
+			if (productId.equals(tbProductPromotion.getProductThreeId())) {
+				tbProductPromotion.setProductThreePicUrl(img);
+			}
+			if (productId.equals(tbProductPromotion.getProductFourId())) {
+				tbProductPromotion.setProductFourPicUrl(img);
+			}
+			if (productId.equals(tbProductPromotion.getProductFiveId())) {
+				tbProductPromotion.setProductFivePicUrl(img);
+			}
+			if (productId.equals(tbProductPromotion.getProductSixId())) {
+				tbProductPromotion.setProductSixPicUrl(img);
+			}
+			tbProductPromotionDao.updateByPrimaryKey(tbProductPromotion);
+		}
 	}
 	
 	public Map<String, List<Map<String, Object>>> getPromotionSetting() {

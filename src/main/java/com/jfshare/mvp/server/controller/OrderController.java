@@ -53,8 +53,12 @@ public class OrderController {
 		String clientIp = "127.0.0.1";
 		String realIp = request.getHeader("X-Real-IP");
 		String client = "";
+		String customCode = "";
 		if (map.containsKey("client")) {
 			client = map.get("client");
+		}
+		if (map.containsKey("customCode")) {
+			customCode = map.get("customCode");
 		}
 		if (!StringUtils.isEmpty(realIp)) {
 			clientIp = realIp;
@@ -65,7 +69,7 @@ public class OrderController {
 			formMap.put("userId", userId);
 			jedisClusterDao.saveBean(orderId, formMap, 60 * 30);
 		}
-		return thirdPayService.thirdPay(userId, orderId, orderAmount, jfScore, fenXiangScore, payChannel, clientIp, client);
+		return thirdPayService.thirdPay(userId, orderId, orderAmount, jfScore, fenXiangScore, payChannel, clientIp, client, customCode);
 
 	}
 }

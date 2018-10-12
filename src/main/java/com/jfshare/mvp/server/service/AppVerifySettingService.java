@@ -17,6 +17,7 @@ import com.jfshare.mvp.server.dao.TbAppVerifySettingDao;
 import com.jfshare.mvp.server.dao.TbProductDao;
 import com.jfshare.mvp.server.model.TbAppVerifySetting;
 import com.jfshare.mvp.server.model.TbAppVerifySettingExample;
+import com.jfshare.mvp.server.model.TbAppVerifySettingExample.Criteria;
 import com.jfshare.mvp.server.model.TbAppVerinfo;
 import com.jfshare.mvp.server.model.TbProduct;
 import com.jfshare.mvp.server.model.TbProductExample;
@@ -35,8 +36,15 @@ public class AppVerifySettingService {
 	@Autowired
 	private AppInfoServer appInfoServer;
 
-	public Map<String, Object> getAppVerifyProducts() {
+	public Map<String, Object> getAppVerifyProducts(Boolean state, String appVersion) {
 		TbAppVerifySettingExample tbAppVerifySettingExample = new TbAppVerifySettingExample();
+		Criteria criteria = tbAppVerifySettingExample.createCriteria();
+		if (state != null) {
+			criteria.andStateEqualTo(state);
+		}
+		if (!StringUtils.isEmpty(appVersion)) {
+			criteria.andAppVersionEqualTo(appVersion);
+		}
 		List<TbAppVerifySetting> tbAppVerifySettings = tbAppVerifySettingDao.selectByExample(tbAppVerifySettingExample);
 		if (CollectionUtils.isEmpty(tbAppVerifySettings)) {
 			return null;

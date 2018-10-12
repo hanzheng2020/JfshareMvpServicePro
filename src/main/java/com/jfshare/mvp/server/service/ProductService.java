@@ -23,6 +23,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.github.pagehelper.PageHelper;
 import com.jfshare.mvp.server.constants.Constant;
@@ -62,6 +63,8 @@ public class ProductService {
 	private ProductDetailService productDetailService;
 	@Autowired
 	private ESProductRepository esProductRepository;
+	@Autowired
+	private PromotionSettingService promotionSettingService;
 	
 	/**
 	 * 同步es中的商品信息
@@ -225,6 +228,7 @@ public class ProductService {
 	}
 
 	//更新商品
+	@Transactional
 	public int updateProduct(Product product) {
 		TbProductWithBLOBs tbProductWithBLOBs = new TbProductWithBLOBs();
 		tbProductWithBLOBs.setProductId(product.getProductId());
@@ -282,6 +286,7 @@ public class ProductService {
 			result = tbProductDao.updateProduct(tbProductWithBLOBs);
 		}
 		this.syncESProduct(false, product.getProductId());
+		promotionSettingService.updateProductPromotionImg(product.getProductId(), product.getImgKey().contains(",") ? product.getImgKey().split(",")[0] : product.getImgKey());
 		return result;
 	}
 	

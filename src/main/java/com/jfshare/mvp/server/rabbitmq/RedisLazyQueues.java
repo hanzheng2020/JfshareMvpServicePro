@@ -47,11 +47,17 @@ public class RedisLazyQueues implements InitializingBean{
 			 logger.info("开始监听队列，订单延迟推送");
 			  long minTime;
 			  while(true){
+		          try {
+						Thread.sleep(3000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				  minTime = new Date().getTime();
 				  //取出5分钟范围内的消息
-				  Set<TypedTuple<String>> set = redisTemplate.rangeByScoreWithScores("MVP:ORDER_APP_LIST" , minTime, minTime+1000*60*29);
+				  Set<TypedTuple<String>> set = redisTemplate.rangeByScoreWithScores("MVP:ORDER_APP_LIST" , minTime, minTime+1000*60*5);//订单有效时间为30分钟，获取当前时间到未来5分钟内到期未支付的订单
 
-				  logger.info("待支付订单数量>>>>>:"+set.size());
+				 // logger.info("待支付订单数量>>>>>:"+set.size());
 		          if(set!=null&&set.size()>0){
 		        	 logger.info("待支付订单数量>>>>>:"+set.size());
 		        	  for (TypedTuple<String> tuple : set) {
@@ -69,19 +75,15 @@ public class RedisLazyQueues implements InitializingBean{
 								//2.删除键值对缓存
 								redisTemplate.delKey("MVP:ORDER:"+orderId);
 								//处理完删除队列中的消息
-								redisTemplate.zSetRemove("MVP:ORDER_APP_LIST", orderId);
+
 							}
 
-						}
+						}redisTemplate.zSetRemove("MVP:ORDER_APP_LIST", orderId);
 
 					}
+
 		         }
-		          try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+
 			 }
 		}
 	}	

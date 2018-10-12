@@ -32,7 +32,6 @@ public class JfshareMvpServer implements CommandLineRunner{
     }
 
 	public void run(String... args) throws Exception {
-		redisLazyQueues.afterPropertiesSet();
 		System.out.println("send:"+"test"+System.currentTimeMillis());
 		rabbitTemplate.convertAndSend("my-mq-exchange", "ROUTINGKEY_JINDOU_MSG", "test");
 //		rabbitMQConfig.sendMsg("my-mq-exchange", "ROUTINGKEY_JINDOU_MSG", "test", 5000);

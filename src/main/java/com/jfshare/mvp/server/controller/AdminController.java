@@ -86,8 +86,9 @@ public class AdminController {
 	
 	@ApiOperation(value = "IOS上线审核设置", notes = "获取IOS上线审核设置")
 	@GetMapping("/appVerifySetting")
-	public ResultConstant getAppVerifySetting() {
-		 Map<String, Object> result = appVerifySettingService.getAppVerifyProducts();
+	public ResultConstant getAppVerifySetting(@RequestParam(required=false) Boolean state, 
+												@RequestParam(required=false) String appVersion) {
+		 Map<String, Object> result = appVerifySettingService.getAppVerifyProducts(state, appVersion);
 		if (MapUtils.isEmpty(result)) {
 			return ResultConstant.ofSuccess();
 		}
