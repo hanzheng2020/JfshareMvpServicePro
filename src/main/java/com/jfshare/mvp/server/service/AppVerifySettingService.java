@@ -48,7 +48,7 @@ public class AppVerifySettingService {
 		}
 		List<TbAppVerifySetting> tbAppVerifySettings = tbAppVerifySettingDao.selectByExample(tbAppVerifySettingExample);
 		if (CollectionUtils.isEmpty(tbAppVerifySettings)) {
-			return null;
+			return new HashMap<String, Object>();
 		}
 		final String products = tbAppVerifySettings.get(0).getProductNoList();
 		List<String> productList = products.contains(",") ? Arrays.asList(products.split(","))
