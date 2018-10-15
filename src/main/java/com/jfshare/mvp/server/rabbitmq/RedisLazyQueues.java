@@ -48,14 +48,14 @@ public class RedisLazyQueues implements InitializingBean{
 			  long minTime;
 			  while(true){
 		          try {
-						Thread.sleep(3000);
+						Thread.sleep(5000);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				  minTime = new Date().getTime();
 				  //取出5分钟范围内的消息
-				  Set<TypedTuple<String>> set = redisTemplate.rangeByScoreWithScores("MVP:ORDER_APP_LIST" , minTime, minTime+1000*60*5);//订单有效时间为30分钟，获取当前时间到未来5分钟内到期未支付的订单
+				  Set<TypedTuple<String>> set = redisTemplate.rangeByScoreWithScores("MVP:ORDER_APP_LIST" , minTime, minTime+1000*60*29);//订单有效时间为30分钟，获取当前时间到未来5分钟内到期未支付的订单
 
 				 // logger.info("待支付订单数量>>>>>:"+set.size());
 		          if(set!=null&&set.size()>0){
