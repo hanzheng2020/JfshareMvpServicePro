@@ -47,9 +47,12 @@ public class WeChatPayInterface {
 	
 	private String notify_url = "";
 	
+	private String applet_notify_url = "";
+	
 	@PostConstruct
 	public void init() {
 		notify_url = configManager.getConfigValue("jfx_pay_serv", "weixinpay_notify_url_mvp");
+		applet_notify_url = configManager.getConfigValue("jfx_pay_serv", "weixinpay_notify_url_mvp_applet");
 	}
 
 	/**
@@ -69,17 +72,19 @@ public class WeChatPayInterface {
 			context.put("trade_type", "JSAPI");
 			context.put("mch_id", applt_mch_id);
 			context.put("openid", getOpenId(customCode));
+			context.put("notify_url", applet_notify_url);
 		} else {
 			context.put("appid", appid);
 			context.put("trade_type", "APP");
 			context.put("mch_id", mch_id);
+			context.put("notify_url", notify_url);
 		}
 		context.put("nonce_str", UUIDutils.getUUID());
 		context.put("body", productDesc);
 		context.put("out_trade_no", payId);
 		context.put("total_fee", amount);
 		context.put("spbill_create_ip", userIp);
-		context.put("notify_url", notify_url);
+		
 		
 		
 		context.put("sign", createSign(context, client));
