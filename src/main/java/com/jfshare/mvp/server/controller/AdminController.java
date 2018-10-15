@@ -89,9 +89,7 @@ public class AdminController {
 	@GetMapping("/appVerifySetting")
 	public ResultConstant getAppVerifySetting(@RequestParam(required=false) Boolean state, 
 												@RequestParam(required=false) String appVersion) {
-		Map<String, Object> result = new HashMap<String, Object>();
-		
-		result = appVerifySettingService.getAppVerifyProducts(state, appVersion);
+		Map<String, Object> result = appVerifySettingService.getAppVerifyProducts(state, appVersion);
 		if (MapUtils.isEmpty(result) && state != null && appVersion != null) {
 			return ResultConstant.ofSuccess();
 		}
