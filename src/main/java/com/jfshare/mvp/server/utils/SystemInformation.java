@@ -113,7 +113,7 @@ public class SystemInformation {
     }
 	public static void main(String[] args) {
 		//String mobileMd5 = DigestUtils.md5Hex("218").toUpperCase();
-		String mobileMd5 = DigestUtils.md5Hex("551952").toUpperCase();
+		String mobileMd5 = DigestUtils.md5Hex("580859").toUpperCase();
 		System.out.println(mobileMd5);
 		//SystemInformation.send("商品购买成功，点击查看订单券码详情>>");
 		SystemInformation.send(mobileMd5,"218");

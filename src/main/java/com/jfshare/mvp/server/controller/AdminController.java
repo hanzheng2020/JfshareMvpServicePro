@@ -274,7 +274,7 @@ public class AdminController {
 			jfRaiders.setTitle(jfRaider.getTitle());
 		}
 		System.out.println("content:"+new String(jfRaider.getContent()));
-		if (!StringUtils.isEmpty(jfRaider.getContent())) {
+		if (!StringUtils.isEmpty(jfRaider.getContent()) && !StringUtils.isEmpty(jfRaiders.getReleaseTime())) {
 		     String content="<div style=\"text-align: center;\">\r\n" + 
 		        		"			 <div><h2>"+jfRaiders.getTitle()+"<h2></div>\r\n" + 
 		        		"		</div>\r\n" + 
