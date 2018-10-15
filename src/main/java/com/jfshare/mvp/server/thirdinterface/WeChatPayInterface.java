@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import com.alibaba.fastjson.JSON;
 import com.jfshare.mvp.server.config.ConfigManager;
 import com.jfshare.mvp.server.dao.JedisClusterDao;
 import com.jfshare.mvp.server.utils.EncryptUtils;
@@ -41,13 +42,17 @@ public class WeChatPayInterface {
 	private String mch_id = "1512993531";
 	private String key = "obAgnUgq9maCq78afz07pyn30HighrdA";
 	private String applt_mch_id = "10011931";
+	private String appletKey = "esvlhExwkEjICItRmHJqwP65ohRrFeJR";
 	
 	
 	private String notify_url = "";
 	
+	private String applet_notify_url = "";
+	
 	@PostConstruct
 	public void init() {
 		notify_url = configManager.getConfigValue("jfx_pay_serv", "weixinpay_notify_url_mvp");
+		applet_notify_url = configManager.getConfigValue("jfx_pay_serv", "weixinpay_notify_url_mvp_applet");
 	}
 
 	/**
@@ -67,17 +72,19 @@ public class WeChatPayInterface {
 			context.put("trade_type", "JSAPI");
 			context.put("mch_id", applt_mch_id);
 			context.put("openid", getOpenId(customCode));
+			context.put("notify_url", applet_notify_url);
 		} else {
 			context.put("appid", appid);
 			context.put("trade_type", "APP");
 			context.put("mch_id", mch_id);
+			context.put("notify_url", notify_url);
 		}
 		context.put("nonce_str", UUIDutils.getUUID());
 		context.put("body", productDesc);
 		context.put("out_trade_no", payId);
 		context.put("total_fee", amount);
 		context.put("spbill_create_ip", userIp);
-		context.put("notify_url", notify_url);
+		
 		
 		
 		context.put("sign", createSign(context, client));
@@ -92,15 +99,24 @@ public class WeChatPayInterface {
 			if ("SUCCESS".equals(responseMap.get("return_code")) 
 					&& "OK".equals(responseMap.get("return_msg"))) {
 				String prepay_id = (String) responseMap.get("prepay_id");
-				resultMap.put("appid", appid);
-				resultMap.put("partnerid", mch_id);
-				resultMap.put("prepayid", prepay_id);
-				resultMap.put("package", "Sign=WXPay");
-				resultMap.put("noncestr", UUIDutils.getUUID());
-				resultMap.put("timestamp", System.currentTimeMillis()/1000);
-				resultMap.put("sign", createSign(resultMap, client));
-				resultMap.remove("package");
-				resultMap.put("packageValue", "Sign=WXPay");
+				if ("wxApplet".equals(client)) {
+					resultMap.put("appId", WeChatAppletInterface.appId);
+					resultMap.put("nonceStr", UUIDutils.getUUID());
+					resultMap.put("package", "prepay_id=" + prepay_id);
+					resultMap.put("signType", "MD5");
+					resultMap.put("timeStamp", System.currentTimeMillis()/1000);
+					resultMap.put("paySign", createSign(resultMap, client));
+				} else {
+					resultMap.put("appid", appid);
+					resultMap.put("partnerid", mch_id);
+					resultMap.put("prepayid", prepay_id);
+					resultMap.put("package", "Sign=WXPay");
+					resultMap.put("noncestr", UUIDutils.getUUID());
+					resultMap.put("timestamp", System.currentTimeMillis()/1000);
+					resultMap.put("sign", createSign(resultMap, client));
+					resultMap.remove("package");
+					resultMap.put("packageValue", "Sign=WXPay");
+				}
 			}
 		} catch (DocumentException e) {
 			e.printStackTrace();
@@ -126,11 +142,11 @@ public class WeChatPayInterface {
 			sb.append(keyList.get(i) + "=" + context.get(keyList.get(i)));
 		}
 		if ("wxApplet".equals(client)) {
-			sb.append("&key=" + WeChatAppletInterface.appSecret);
+			sb.append("&key=" + appletKey);
 		} else {
 			sb.append("&key=" + key);
 		}
-		
+		System.out.println(sb.toString());
 		String sign = EncryptUtils.md5Encrypt(sb.toString()).toUpperCase();
 		return sign;
 	}

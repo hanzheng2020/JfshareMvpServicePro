@@ -11,6 +11,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.jfshare.mvp.server.constants.Constant;
 import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.dao.AppInfoDao;
 import com.jfshare.mvp.server.dao.TbAppVerifySettingDao;
@@ -47,7 +48,7 @@ public class AppVerifySettingService {
 		}
 		List<TbAppVerifySetting> tbAppVerifySettings = tbAppVerifySettingDao.selectByExample(tbAppVerifySettingExample);
 		if (CollectionUtils.isEmpty(tbAppVerifySettings)) {
-			return null;
+			return new HashMap<String, Object>();
 		}
 		final String products = tbAppVerifySettings.get(0).getProductNoList();
 		List<String> productList = products.contains(",") ? Arrays.asList(products.split(","))
@@ -57,13 +58,15 @@ public class AppVerifySettingService {
 		List<TbProduct> resultProduct = tbProductDao.selectByExample(tbProductExample);
 		List<Map<String, Object>> resMap = new ArrayList<Map<String, Object>>();
 		for (TbProduct tbProduct : resultProduct) {
-			Map<String, Object> map = new HashMap<>();
-			map.put("productId", tbProduct.getProductId());
-			map.put("curPrice", tbProduct.getCurPrice());
-			map.put("productName", tbProduct.getProductName());
-			map.put("imgKey",
-					tbProduct.getImgKey().contains(",") ? tbProduct.getImgKey().split(",")[0] : tbProduct.getImgKey());
-			resMap.add(map);
+			if (Constant.PRODUCT_STATE_ONSELL == tbProduct.getActiveState()) {
+				Map<String, Object> map = new HashMap<>();
+				map.put("productId", tbProduct.getProductId());
+				map.put("curPrice", tbProduct.getCurPrice());
+				map.put("productName", tbProduct.getProductName());
+				map.put("imgKey",
+						tbProduct.getImgKey().contains(",") ? tbProduct.getImgKey().split(",")[0] : tbProduct.getImgKey());
+				resMap.add(map);
+			}
 		}
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("appVersion", tbAppVerifySettings.get(0).getAppVersion());

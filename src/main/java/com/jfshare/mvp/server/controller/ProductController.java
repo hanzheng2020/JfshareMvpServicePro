@@ -32,6 +32,8 @@ import com.jfshare.mvp.server.model.TbProductDetail;
 import com.jfshare.mvp.server.model.TbProductDetailWithBLOBs;
 import com.jfshare.mvp.server.model.TbProductSurvey;
 import com.jfshare.mvp.server.service.ProductService;
+import com.jfshare.mvp.server.thirdinterface.WeChatAppletInterface;
+import com.jfshare.mvp.server.thirdinterface.WeChatPayInterface;
 import com.jfshare.mvp.server.service.LevelInfoService;
 import com.jfshare.mvp.server.service.ProductDetailService;
 import com.jfshare.mvp.server.utils.ConvertBeanToMapUtils;
@@ -104,6 +106,8 @@ public class ProductController {
 		}
 		int result = productService.addProduct(product);
 		if (result > 0) {
+			//生成商品水印图片
+			productService.markImageByIcon(product.getProductId());
 			return ResultConstant.ofSuccess();
 		}
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "新增商品失败");
@@ -142,6 +146,8 @@ public class ProductController {
 	public ResultConstant updateProduct(Product product) {
 		int result = productService.updateProduct(product);
 		if (result > 0) {
+			//生成商品水印图片
+			productService.markImageByIcon(product.getProductId());
 			return ResultConstant.ofSuccess();
 		}
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "更新商品失败");
@@ -182,6 +188,8 @@ public class ProductController {
 				productMap.put("productInstructionsUrl", productDetail.getProductInstructionsUrl());//商品详情url
 				productMap.put("productExchange", productDetail.getProductExchange());//商品详情
 				productMap.put("productExchangeUrl", productDetail.getProductExchangeUrl());//商品详情url
+				String productUrl = productService.querytProductUrl(productId);
+				productMap.put("productUrl", productUrl);//商品图片水印
 			}
 			if(userId==null) {
 				userId=0;

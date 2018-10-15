@@ -2,6 +2,7 @@ package com.jfshare.mvp.server.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -88,8 +89,8 @@ public class AdminController {
 	@GetMapping("/appVerifySetting")
 	public ResultConstant getAppVerifySetting(@RequestParam(required=false) Boolean state, 
 												@RequestParam(required=false) String appVersion) {
-		 Map<String, Object> result = appVerifySettingService.getAppVerifyProducts(state, appVersion);
-		if (MapUtils.isEmpty(result)) {
+		Map<String, Object> result = appVerifySettingService.getAppVerifyProducts(state, appVersion);
+		if (MapUtils.isEmpty(result) && state != null && appVersion != null) {
 			return ResultConstant.ofSuccess();
 		}
 		return ResultConstant.ofSuccess(result);
@@ -194,7 +195,7 @@ public class AdminController {
 			result = productItemService.getProductItem(itemNo, asTree, pageNum, pageSize);
 		}
 		if (CollectionUtils.isEmpty(result)) {
-			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取商品类目失败！");
+			return ResultConstant.ofSuccess(null);
 		}
 		
 		PageInfo<Map<String, Object>> pageResult = new PageInfo<Map<String, Object>>(result);

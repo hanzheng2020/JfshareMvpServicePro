@@ -172,7 +172,7 @@ public class ProductItemService {
 				return page;
 			} else {
 				List<TbProductItem> tbProductItems = tbProductItemDao.queryItemList(itemNo);
-				// 过滤掉类目下商品为0的类目
+				/*// 过滤掉类目下商品为0的类目
 				List<TbProductItem> productItems = new ArrayList<TbProductItem>();
 				for (TbProductItem productItem : tbProductItems) {
 					TbProductItemShowExample example = new TbProductItemShowExample();
@@ -185,8 +185,8 @@ public class ProductItemService {
 					if (tbProduct.size() > 0) {
 						productItems.add(productItem);
 					}
-				}
-				List<Map<String, Object>> list = ConvertBeanToMapUtils.convertBeanListToMap(productItems, "createTime",
+				}*/
+				List<Map<String, Object>> list = ConvertBeanToMapUtils.convertBeanListToMap(tbProductItems, "createTime",
 						"updateTime");
 				for (Map<String, Object> map : list) {
 					if (map.containsKey("parentItemNo") && map.get("parentItemNo") != null) {

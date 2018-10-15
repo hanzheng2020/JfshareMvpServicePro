@@ -46,7 +46,10 @@ public class OrderController {
 		int payChannel = Integer.valueOf(map.get("payChannel"));
 		int orderAmount = Integer.valueOf(map.get("orderAmount"));
 		int jfScore = Integer.valueOf(map.get("jfScore"));
-		int fenXiangScore = Integer.valueOf(map.get("fenXiangScore"));
+		int fenXiangScore = 0;
+		if (!StringUtils.isEmpty(map.get("fenXiangScore"))) {
+			fenXiangScore = Integer.valueOf(map.get("fenXiangScore"));
+		}
 		String formId = map.get("formId");
 		String userId = map.get("userId");
 		String orderId = map.get("orderId");
