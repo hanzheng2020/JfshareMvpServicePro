@@ -448,7 +448,7 @@ public class ProductService {
 		if(productList != null && productList.size() > 0) {
 			return productList;
 		}
-		return null;
+		return new ArrayList<>();
 	}
 	
 	public int addProductUrl(String productId,String imgUrl) {
