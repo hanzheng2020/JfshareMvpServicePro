@@ -78,7 +78,10 @@ public class RedisLazyQueues implements InitializingBean{
 
 							}
 
-						}redisTemplate.zSetRemove("MVP:ORDER_APP_LIST", orderId);
+						}
+						Long nuber = redisTemplate.zSetRemove("MVP:ORDER_APP_LIST", orderId);
+						logger.info("移除MVP:ORDER_APP_LIST数量》》》》》》》："+nuber);
+						
 
 					}
 
