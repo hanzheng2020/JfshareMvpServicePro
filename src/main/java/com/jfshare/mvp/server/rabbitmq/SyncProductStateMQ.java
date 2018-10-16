@@ -16,7 +16,11 @@ import java.util.Map;
  * @date 2018-10-09
  */
 @Component
-@RabbitListener(queuesToDeclare = @Queue("Product_State_Mvp")) // 自动创建队列，如果不存在
+@RabbitListener(bindings = @QueueBinding(
+		exchange = @Exchange("exchangeTest"),
+		key = "routingkey_product_state",
+		value = @Queue("Product_State_Mvp")
+))
 public class SyncProductStateMQ {
 	private static Logger logger = LoggerFactory.getLogger(SyncProductStateMQ.class);
 	@Autowired
