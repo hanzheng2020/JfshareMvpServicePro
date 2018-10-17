@@ -280,7 +280,7 @@ public class AdminController {
 		        		"			 <div style=\'font-size:14px;color: #333333;'>"+jfRaiders.getTitle()+"</div>\r\n" + 
 		        		"		</div><div style='height:13px;'></div>" + 
 		        		"		<div style=\"text-align: right;color: #999999;font-size:12px;\">"+new SimpleDateFormat("yyyy-MM-dd HH:mm").format(jfRaiders.getReleaseTime())+"</div>\r\n" + 
-		        		"		<div style='height:13px;'></div><div style='font-size:12px;'>"+(new String(jfRaider.getContent()))+"</div>";
+		        		"		<div style='font-size:12px;'>"+(new String(jfRaider.getContent()))+"</div>";
 		        String newUrl=SendRequest.sendPost(url, "title="+jfRaiders.getTitle()+"&content="+content+"&HTMLFileName=jfgl"+jfRaiders.getReleaseTime().getTime()+".html");
 		        JSONObject obj =  JSONObject.fromObject(newUrl);
 		        System.out.println("obj>>>>>>>>>>>>>:"+obj);
@@ -316,7 +316,7 @@ public class AdminController {
         		"			 <div style='font-size:14px;color: #333333;'>"+jfRaiders.getTitle()+"</div>\r\n" + 
         		"		</div><div style='height:13px;'></div>" + 
         		"		<div style=\"text-align: right;color: #999999;style='font-size:12px;'\">"+new SimpleDateFormat("yyyy-MM-dd HH:mm").format(jfRaiders.getReleaseTime())+"</div>\r\n" + 
-        		"		<div style='height:13px;'></div><div style='font-size:12px;'>"+(new String(jfRaiders.getContent()))+"</div>";
+        		"		<div style='font-size:12px;'>"+(new String(jfRaiders.getContent()))+"</div>";
         String newUrl=SendRequest.sendPost(url, "title="+jfRaiders.getTitle()+"&content="+content+"&HTMLFileName=jfgl"+jfRaiders.getReleaseTime().getTime()+".html");
         JSONObject obj =  JSONObject.fromObject(newUrl);
         String code = obj.getString("code");
