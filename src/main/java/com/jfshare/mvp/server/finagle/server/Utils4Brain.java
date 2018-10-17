@@ -47,7 +47,7 @@ public final class Utils4Brain {
      *  是否临时将 所有的 客户端ip 变成测试ip
      */
 //    public static final String  changeAllClientAddr2TestIp=null;
-    public static final String  changeAllClientAddr2TestIp="";// 35的内网ip  39.106.147.35
+    public static final String  changeAllClientAddr2TestIp="39.106.147.35";// 35的内网ip  39.106.147.35
 
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Utils4Brain.class);
