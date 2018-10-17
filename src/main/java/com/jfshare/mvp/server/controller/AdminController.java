@@ -277,7 +277,7 @@ public class AdminController {
 		System.out.println("content:"+new String(jfRaider.getContent()));
 		if (!StringUtils.isEmpty(jfRaider.getContent()) && !StringUtils.isEmpty(jfRaiders.getReleaseTime())) {
 		     String content="<div style=\"text-align: center;\">\r\n" + 
-		        		"			 <div><h2>"+jfRaiders.getTitle()+"<h2></div>\r\n" + 
+		        		"			 <div style=\"font-size:14px;>"+jfRaiders.getTitle()+"</div>\r\n" + 
 		        		"		</div>\r\n" + 
 		        		"		<div style=\"text-align: right;color: #AAAAAA;\">"+new SimpleDateFormat("yyyy-MM-dd HH:mm").format(jfRaiders.getReleaseTime())+"</div>\r\n" + 
 		        		"		</br>"+(new String(jfRaider.getContent()));
