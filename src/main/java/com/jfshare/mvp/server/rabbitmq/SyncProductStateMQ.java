@@ -45,7 +45,8 @@ public class SyncProductStateMQ {
 				
 			}
 			
-		} catch (NumberFormatException e) {
+		} catch (Exception e) {
+			logger.error("商品信息同步失败，{}", e.getMessage());
 			e.printStackTrace();
 		}
 	}
