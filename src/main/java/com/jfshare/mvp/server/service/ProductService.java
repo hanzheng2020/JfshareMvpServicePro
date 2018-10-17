@@ -177,7 +177,11 @@ public class ProductService {
 		tbProductWithBLOBs.setProductHeader(product.getProductHeader());
 		tbProductWithBLOBs.setCurPrice(product.getCurPrice());
 		tbProductWithBLOBs.setOrgPrice(product.getOrgPrice());
-		tbProductWithBLOBs.setPresentexp(product.getPresentexp());
+		if(StringUtils.isEmpty(product.getPresentexp()+"")) {
+			tbProductWithBLOBs.setPresentexp(0);
+		}else {
+			tbProductWithBLOBs.setPresentexp(product.getPresentexp());
+		}
 		tbProductWithBLOBs.setProductStock(product.getProductStock());
 		tbProductWithBLOBs.setActiveState(product.getActiveState());
 		tbProductWithBLOBs.setImgKey(product.getImgKey());
