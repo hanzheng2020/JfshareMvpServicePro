@@ -157,7 +157,7 @@ public class UserController {
 			@RequestParam(value="userId",required=true)Integer userId
 			) {
 		Long informationNuber = systemInformationService.countByExample();
-		String  informationUser = JedisClusterUtils.getString(userId.toString());
+		String  informationUser = JedisClusterUtils.getString(SYSMESSGE+userId.toString());
 		long nuber =informationNuber;
 		if(informationUser==null|| "".equals(informationUser)) {
 			JedisClusterUtils.saveString(SYSMESSGE+userId.toString(), informationNuber.toString());
