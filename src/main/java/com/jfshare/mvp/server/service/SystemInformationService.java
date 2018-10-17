@@ -85,7 +85,7 @@ public class SystemInformationService {
 		TbSystemInformationExample example =  new TbSystemInformationExample();
 		Criteria criteria= example.createCriteria();
 		criteria.andStatusEqualTo(2);//2代表已经发布
-		criteria.andIsDeleteNotEqualTo(2);//2代表已经删除
+		//criteria.andIsDeleteNotEqualTo(2);//2代表已经删除
 		//criteria.andIsDeleteEqualTo(2);//2代表已经删除
 		long informationNuber = systemInformationDao.countByExample(example);
 		logger.info("系统消息长度："+informationNuber);
