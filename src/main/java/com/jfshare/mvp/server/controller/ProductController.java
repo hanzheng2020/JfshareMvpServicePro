@@ -261,11 +261,15 @@ public class ProductController {
 		logger.info("changeProductState  productId: " + productId+",activeState:" + activeState);
 		com.jfshare.finagle.thrift.product.Product product = null;
 		try {
-			product = productClient.getProduct(productId);
-			if(product.getActiveState() == 300) {//只有聚分享商城  商品状态为上架状态的才能进行上架
-				productService.changeProductState(productId, activeState);
+			if(activeState == 200) {//申请上架的情况
+				product = productClient.getProduct(productId);
+				if(product.getActiveState() == 300) {//只有聚分享商城  商品状态为上架状态的才能进行上架
+					productService.changeProductState(productId, activeState);
+				}else {
+					return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "该商品已下架！");
+				}
 			}else {
-				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "该商品已下架！");
+				productService.changeProductState(productId, activeState);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
