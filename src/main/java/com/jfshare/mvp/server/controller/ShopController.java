@@ -89,4 +89,14 @@ public class ShopController {
 		}
 		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取app版本信息失败！");
 	}
+	
+	@ApiOperation(value = "获取app信息", notes = "根据app类型获取对应的app信息   appType: 1 安卓  3 ios")
+	@PostMapping("/queryAppVerinfo")
+	public ResultConstant queryAppVerinfo(@RequestParam(value = "appType", required = true) Integer appType) {
+		TbAppVerinfo appVerinfo = appInfoServer.getCurAppVersion(appType);
+		if (appVerinfo != null) {
+			return ResultConstant.ofSuccess(appVerinfo);
+		}
+		return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取app版本信息失败！");
+	}
 }
