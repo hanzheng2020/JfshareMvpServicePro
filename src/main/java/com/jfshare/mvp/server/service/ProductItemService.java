@@ -2,6 +2,7 @@ package com.jfshare.mvp.server.service;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.jfshare.mvp.server.constants.Constant;
 import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.dao.TbProductDao;
 import com.jfshare.mvp.server.dao.TbProductItemDao;
@@ -178,7 +179,9 @@ public class ProductItemService {
 				for (TbProductItem productItem : tbProductItems) {
 					if (filterNull != null && filterNull == true) {
 						TbProductExample exampleP = new TbProductExample();
-						exampleP.createCriteria().andItemNoEqualTo(Integer.parseInt(productItem.getItemNo()));
+						exampleP.createCriteria()
+						.andItemNoEqualTo(Integer.parseInt(productItem.getItemNo()))
+						.andActiveStateEqualTo(Constant.PRODUCT_STATE_ONSELL);
 						List<TbProduct> tbProduct = tbProductDao.selectByExample(exampleP);
 						if (tbProduct.size() > 0) {
 							productItems.add(productItem);
