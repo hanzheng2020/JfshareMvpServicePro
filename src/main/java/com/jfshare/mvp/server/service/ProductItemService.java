@@ -126,7 +126,7 @@ public class ProductItemService {
 	}
 
 	@SuppressWarnings("rawtypes")
-	public List<Map<String, Object>> getProductItem(String itemNo, boolean asTree, Integer pageNum, Integer pageSize) {
+	public List<Map<String, Object>> getProductItem(String itemNo, boolean asTree, Integer pageNum, Integer pageSize, Boolean filterNull) {
 		TbProductItemExample tbProductItemExample = new TbProductItemExample();
 		Criteria criteria = tbProductItemExample.createCriteria();
 		if (asTree) {
@@ -172,21 +172,24 @@ public class ProductItemService {
 				return page;
 			} else {
 				List<TbProductItem> tbProductItems = tbProductItemDao.queryItemList(itemNo);
-				/*// 过滤掉类目下商品为0的类目
+				
+				// 过滤掉类目下商品为0的类目
 				List<TbProductItem> productItems = new ArrayList<TbProductItem>();
 				for (TbProductItem productItem : tbProductItems) {
-					TbProductItemShowExample example = new TbProductItemShowExample();
-					example.createCriteria().andItemNoEqualTo(productItem.getItemNo());
-					List<TbProductItemShow> tbProductItemShow = tbProductItemShowDao.selectByExample(example);
-					
+					if (filterNull != null && filterNull == true) {
 						TbProductExample exampleP = new TbProductExample();
 						exampleP.createCriteria().andItemNoEqualTo(Integer.parseInt(productItem.getItemNo()));
-						List<TbProduct> tbProduct = tbProductDao.selectByExample(exampleP);				
-					if (tbProduct.size() > 0) {
+						List<TbProduct> tbProduct = tbProductDao.selectByExample(exampleP);
+						if (tbProduct.size() > 0) {
+							productItems.add(productItem);
+						}
+					} else {
 						productItems.add(productItem);
 					}
-				}*/
-				List<Map<String, Object>> list = ConvertBeanToMapUtils.convertBeanListToMap(tbProductItems, "createTime",
+					
+				}
+				
+				List<Map<String, Object>> list = ConvertBeanToMapUtils.convertBeanListToMap(productItems, "createTime",
 						"updateTime");
 				for (Map<String, Object> map : list) {
 					if (map.containsKey("parentItemNo") && map.get("parentItemNo") != null) {

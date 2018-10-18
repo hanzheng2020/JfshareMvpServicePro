@@ -187,12 +187,13 @@ public class AdminController {
 										@RequestParam(required = false) String itemName, 
 										Boolean asTree,
 										@RequestParam(required = false) Integer pageNum,
-										@RequestParam(required = false) Integer pageSize) {
+										@RequestParam(required = false) Integer pageSize,
+										@RequestParam(required = false) Boolean filterNull) {
 		List<Map<String, Object>> result = null;
 		if (!StringUtils.isEmpty(itemName)) {
 			result = productItemService.getProductItem(itemName, true, asTree, pageNum, pageSize);
 		} else {
-			result = productItemService.getProductItem(itemNo, asTree, pageNum, pageSize);
+			result = productItemService.getProductItem(itemNo, asTree, pageNum, pageSize, filterNull);
 		}
 		if (CollectionUtils.isEmpty(result)) {
 			return ResultConstant.ofSuccess(null);
