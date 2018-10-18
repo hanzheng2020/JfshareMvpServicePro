@@ -1,5 +1,6 @@
 package com.jfshare.mvp.server.service;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -159,7 +160,8 @@ public class LevelInfoService {
 		}else if(Constant.DIAMOND.equals(levle)) {
 			 b=integral*0.15;
 		}
-		integral+=b.intValue();
+		//integral+=b.intValue();1111111
+		integral+= getInt(b);
 		logger.info("赠送总积分:"+integral+",赠送积分"+b);
 		StringResult results = new StringResult();
 		Result result=new Result();
@@ -217,5 +219,12 @@ public class LevelInfoService {
 		num = (random.nextInt(y+1-x)+x);
 		return num;
 	}
+	
+	
+	public static int getInt(double number){
+	    BigDecimal bd=new BigDecimal(number).setScale(0, BigDecimal.ROUND_HALF_UP);
+	    return Integer.parseInt(bd.toString()); 
+	    } 
+	
 	
 }

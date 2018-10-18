@@ -41,7 +41,7 @@ import io.swagger.annotations.ApiOperation;
 public class UserController {
 
 	private final static Logger logger = LoggerFactory.getLogger(UserController.class);
-	
+	private static String SYSMESSGE =  "MVP:SYSMESSGE:";
 	
 	@Autowired
 	private JvjindouRuleService jvjindouRuleService;
@@ -51,8 +51,8 @@ public class UserController {
 	private LevelInfoService levelInfoService;
 	@Autowired
 	private SystemInformationService systemInformationService;
-	@Autowired
-	private JedisClusterUtils jedisCluster;
+	//@Autowired
+	//private JedisClusterUtils jedisCluster;
 	
 	@ApiOperation(value="查询用户", notes="用id来查询用户")
 	@GetMapping
@@ -145,7 +145,7 @@ public class UserController {
 			) {
 		
 		Long informationNuber = systemInformationService.countByExample();
-		jedisCluster.saveString(userId.toString(), informationNuber.toString());
+		JedisClusterUtils.saveString(SYSMESSGE+userId.toString(), informationNuber.toString());
 		PageInfo pageInfo = systemInformationService.getSystemInformationsApp(userId,page, pageSize);
 		return ResultConstant.ofSuccess(pageInfo);
 		
@@ -157,10 +157,10 @@ public class UserController {
 			@RequestParam(value="userId",required=true)Integer userId
 			) {
 		Long informationNuber = systemInformationService.countByExample();
-		String  informationUser = jedisCluster.getString(userId.toString());
+		String  informationUser = JedisClusterUtils.getString(SYSMESSGE+userId.toString());
 		long nuber =informationNuber;
 		if(informationUser==null|| "".equals(informationUser)) {
-			jedisCluster.saveString(userId.toString(), informationNuber.toString());
+			JedisClusterUtils.saveString(SYSMESSGE+userId.toString(), informationNuber.toString());
 		}else {
 			 nuber = informationNuber-Long.parseLong(informationUser);
 		}

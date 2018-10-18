@@ -198,11 +198,14 @@ public class ProductController {
 			if(levelInfo!=null) {
 				 levle=levelInfo.getGrade();
 				if(Constant.PLATIMUM.equals(levle)) {
-					presentexp=new Double(presentexp*0.05).intValue();
+					//presentexp=new Double(presentexp*0.05).intValue();
+					presentexp=LevelInfoService.getInt(new Double(presentexp*0.05));
 				}else if(Constant.BLACK.equals(levle)) {
-					presentexp=new Double(presentexp*0.1).intValue();
+					//presentexp=new Double(presentexp*0.1).intValue();
+					presentexp=LevelInfoService.getInt(new Double(presentexp*0.1));
 				}else if(Constant.DIAMOND.equals(levle)) {
-					presentexp=new Double(presentexp*0.15).intValue();
+					//presentexp=new Double(presentexp*0.15).intValue();
+					presentexp=LevelInfoService.getInt(new Double(presentexp*0.15));
 				}else {
 					presentexp=0;
 				}
@@ -256,8 +259,18 @@ public class ProductController {
 	@PostMapping("/changeProductState")
 	public ResultConstant changeProductState(@RequestParam(value = "productId", required = true) String productId,@RequestParam(value = "activeState", required = true) Integer activeState) {
 		logger.info("changeProductState  productId: " + productId+",activeState:" + activeState);
+		com.jfshare.finagle.thrift.product.Product product = null;
 		try {
-			productService.changeProductState(productId, activeState);
+			if(activeState == 200) {//申请上架的情况
+				product = productClient.getProduct(productId);
+				if(product.getActiveState() == 300) {//只有聚分享商城  商品状态为上架状态的才能进行上架
+					productService.changeProductState(productId, activeState);
+				}else {
+					return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "该商品已下架！");
+				}
+			}else {
+				productService.changeProductState(productId, activeState);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "商品上下架失败！");

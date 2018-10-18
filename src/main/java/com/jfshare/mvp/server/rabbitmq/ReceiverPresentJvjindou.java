@@ -44,7 +44,7 @@ public class ReceiverPresentJvjindou {
 				Object productId = obj.get("productId");
 				String orderId=obj.get("orderId").toString();
 				int amont = Integer.parseInt(obj.get("amont").toString());
-				if(amont>0) {
+				//if(amont>0) {
 					if(productId==null) {
 						logger.info("商品id为空！");
 						return;
@@ -60,7 +60,7 @@ public class ReceiverPresentJvjindou {
 					if(result.getResult().getCode()==0) {
 							informationService.sendMsg(userid+"", "支付成功提醒", "商品购买成功，点击查看订单券码详情>>", orderId);
 					}
-				}
+				//}
 			}else {
 				logger.info("取消订单"+message);
 			}
