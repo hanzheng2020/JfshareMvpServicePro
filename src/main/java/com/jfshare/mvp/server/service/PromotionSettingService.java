@@ -359,9 +359,9 @@ public class PromotionSettingService {
 						TbProductExample tbProductExample = new TbProductExample();
 						Criteria criteria = tbProductExample.createCriteria()
 								.andProductIdEqualTo(productId);
-						if (!isAdmin) {
+//						if (!isAdmin) {
 							criteria.andActiveStateEqualTo(200);
-						}
+//						}
 						List<TbProduct> tbProducts = tbProductDao.selectByExample(tbProductExample);
 						Map<String, Object> map = new HashMap<>();
 						if (!CollectionUtils.isEmpty(tbProducts)) {

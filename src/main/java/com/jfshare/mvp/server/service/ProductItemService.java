@@ -127,7 +127,7 @@ public class ProductItemService {
 	}
 
 	@SuppressWarnings("rawtypes")
-	public List<Map<String, Object>> getProductItem(String itemNo, boolean asTree, Integer pageNum, Integer pageSize, Boolean filterNull) {
+	public List<Map<String, Object>> getProductItem(String itemNo, boolean asTree, Integer pageNum, Integer pageSize) {
 		TbProductItemExample tbProductItemExample = new TbProductItemExample();
 		Criteria criteria = tbProductItemExample.createCriteria();
 		if (asTree) {
@@ -174,7 +174,7 @@ public class ProductItemService {
 			} else {
 				List<TbProductItem> tbProductItems = tbProductItemDao.queryItemList(itemNo);
 				
-				// 过滤掉类目下商品为0的类目
+				/*// 过滤掉类目下商品为0的类目
 				List<TbProductItem> productItems = new ArrayList<TbProductItem>();
 				for (TbProductItem productItem : tbProductItems) {
 					if (filterNull != null && filterNull == true) {
@@ -190,9 +190,9 @@ public class ProductItemService {
 						productItems.add(productItem);
 					}
 					
-				}
+				}*/
 				
-				List<Map<String, Object>> list = ConvertBeanToMapUtils.convertBeanListToMap(productItems, "createTime",
+				List<Map<String, Object>> list = ConvertBeanToMapUtils.convertBeanListToMap(tbProductItems, "createTime",
 						"updateTime");
 				for (Map<String, Object> map : list) {
 					if (map.containsKey("parentItemNo") && map.get("parentItemNo") != null) {
