@@ -211,7 +211,7 @@ public class ProductController {
 				}
 			}
 			productMap.put("levle", levle);
-			productMap.put("sendPresentexp", presentexp+product.getPresentexp());
+			productMap.put("sendPresentexp", presentexp);
 			
 			return ResultConstant.ofSuccess(productMap);
 		}
