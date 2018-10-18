@@ -256,8 +256,14 @@ public class ProductController {
 	@PostMapping("/changeProductState")
 	public ResultConstant changeProductState(@RequestParam(value = "productId", required = true) String productId,@RequestParam(value = "activeState", required = true) Integer activeState) {
 		logger.info("changeProductState  productId: " + productId+",activeState:" + activeState);
+		com.jfshare.finagle.thrift.product.Product product = null;
 		try {
-			productService.changeProductState(productId, activeState);
+			product = productClient.getProduct(productId);
+			if(product.getActiveState() == 300) {//只有聚分享商城  商品状态为上架状态的才能进行上架
+				productService.changeProductState(productId, activeState);
+			}else {
+				return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "该商品已下架！");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "商品上下架失败！");
