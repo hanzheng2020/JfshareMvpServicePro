@@ -2,6 +2,7 @@ package com.jfshare.mvp.server.service;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.jfshare.mvp.server.constants.Constant;
 import com.jfshare.mvp.server.constants.ResultConstant;
 import com.jfshare.mvp.server.dao.TbProductDao;
 import com.jfshare.mvp.server.dao.TbProductItemDao;
@@ -172,20 +173,25 @@ public class ProductItemService {
 				return page;
 			} else {
 				List<TbProductItem> tbProductItems = tbProductItemDao.queryItemList(itemNo);
+				
 				/*// 过滤掉类目下商品为0的类目
 				List<TbProductItem> productItems = new ArrayList<TbProductItem>();
 				for (TbProductItem productItem : tbProductItems) {
-					TbProductItemShowExample example = new TbProductItemShowExample();
-					example.createCriteria().andItemNoEqualTo(productItem.getItemNo());
-					List<TbProductItemShow> tbProductItemShow = tbProductItemShowDao.selectByExample(example);
-					
+					if (filterNull != null && filterNull == true) {
 						TbProductExample exampleP = new TbProductExample();
-						exampleP.createCriteria().andItemNoEqualTo(Integer.parseInt(productItem.getItemNo()));
-						List<TbProduct> tbProduct = tbProductDao.selectByExample(exampleP);				
-					if (tbProduct.size() > 0) {
+						exampleP.createCriteria()
+						.andItemNoEqualTo(Integer.parseInt(productItem.getItemNo()))
+						.andActiveStateEqualTo(Constant.PRODUCT_STATE_ONSELL);
+						List<TbProduct> tbProduct = tbProductDao.selectByExample(exampleP);
+						if (tbProduct.size() > 0) {
+							productItems.add(productItem);
+						}
+					} else {
 						productItems.add(productItem);
 					}
+					
 				}*/
+				
 				List<Map<String, Object>> list = ConvertBeanToMapUtils.convertBeanListToMap(tbProductItems, "createTime",
 						"updateTime");
 				for (Map<String, Object> map : list) {

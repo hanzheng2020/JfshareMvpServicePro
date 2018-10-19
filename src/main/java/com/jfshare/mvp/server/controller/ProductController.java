@@ -200,17 +200,20 @@ public class ProductController {
 			if(levelInfo!=null) {
 				 levle=levelInfo.getGrade();
 				if(Constant.PLATIMUM.equals(levle)) {
-					presentexp=new Double(presentexp*0.05).intValue();
+					//presentexp=new Double(presentexp*0.05).intValue();
+					presentexp=LevelInfoService.getInt(new Double(presentexp*0.05));
 				}else if(Constant.BLACK.equals(levle)) {
-					presentexp=new Double(presentexp*0.1).intValue();
+					//presentexp=new Double(presentexp*0.1).intValue();
+					presentexp=LevelInfoService.getInt(new Double(presentexp*0.1));
 				}else if(Constant.DIAMOND.equals(levle)) {
-					presentexp=new Double(presentexp*0.15).intValue();
+					//presentexp=new Double(presentexp*0.15).intValue();
+					presentexp=LevelInfoService.getInt(new Double(presentexp*0.15));
 				}else {
 					presentexp=0;
 				}
 			}
 			productMap.put("levle", levle);
-			productMap.put("sendPresentexp", presentexp+product.getPresentexp());
+			productMap.put("sendPresentexp", presentexp);
 			
 			return ResultConstant.ofSuccess(productMap);
 		}
