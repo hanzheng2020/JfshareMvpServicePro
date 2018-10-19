@@ -28,13 +28,18 @@ public class StockClient {
 				StockServ.ServiceIface.class);
 	}
 	
-	public BatchStockResult batchQueryStock(String productId) throws Exception{
+	public BatchStockResult batchQueryStock(String productId){
 		BatchQueryParam param = new BatchQueryParam();
 		param.setQueryType("total");
 		List<String> list = new ArrayList<String>();
 		list.add(productId);
 		param.setQueryContents(list);
-		BatchStockResult result = Await.result(service.batchQueryStock(param));
+		BatchStockResult result = null;
+		try {
+			result = Await.result(service.batchQueryStock(param));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return result;
 	}
 }
