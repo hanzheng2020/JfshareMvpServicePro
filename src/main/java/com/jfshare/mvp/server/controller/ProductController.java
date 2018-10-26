@@ -176,6 +176,8 @@ public class ProductController {
 		if(product!=null) {
 			int presentexp=0;
 			String levle="1";
+			BatchStockResult batchQueryStock = stockClient.batchQueryStock(productId);
+			product.setProductStock(batchQueryStock.getStockInfos().get(0).getTotal());
 			List<TbProductDetailWithBLOBs> productDetails =  productDetailService.selectByExample(productId);
 			Map productMap = ConvertBeanToMapUtils.convertBeanToMap(product, "");
 			if(productDetails!=null&&productDetails.size()>0) {
