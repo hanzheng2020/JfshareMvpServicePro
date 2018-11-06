@@ -357,11 +357,10 @@ public class PromotionSettingService {
 					for (int i = 0; i < productIds.length; i ++) {
 						String productId = productIds[i];
 						TbProductExample tbProductExample = new TbProductExample();
-						Criteria criteria = tbProductExample.createCriteria()
-								.andProductIdEqualTo(productId);
-//						if (!isAdmin) {
-							criteria.andActiveStateEqualTo(200);
-//						}
+						tbProductExample.createCriteria()
+								.andProductIdEqualTo(productId)
+							    .andActiveStateEqualTo(200)
+							    .andItemNoEqualTo(Integer.valueOf(tbProductItemShow.getItemNo()));
 						List<TbProduct> tbProducts = tbProductDao.selectByExample(tbProductExample);
 						Map<String, Object> map = new HashMap<>();
 						if (!CollectionUtils.isEmpty(tbProducts)) {
@@ -378,7 +377,8 @@ public class PromotionSettingService {
 				TbProductExample tbProductExample = new TbProductExample();
 				tbProductExample.createCriteria()
 								.andItemNoEqualTo(Integer.valueOf(tbProductItemShow.getItemNo()))
-								.andActiveStateEqualTo(200);
+								.andActiveStateEqualTo(200)
+								.andItemNoEqualTo(Integer.valueOf(tbProductItemShow.getItemNo()));
 				List<TbProduct> tbProducts = tbProductDao.selectByExample(tbProductExample);
 				tbProducts.forEach(tbProduct -> {
 					String productId = tbProduct.getProductId();
