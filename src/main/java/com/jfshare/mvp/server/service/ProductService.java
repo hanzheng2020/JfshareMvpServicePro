@@ -579,7 +579,7 @@ public class ProductService {
 			int height_2 = srcImg_2.getHeight(null);
 			//获取原图片的信息
 			//Image srcImg = ImageIO.read(new File("D:\\hz\\222.jpg"));
-			URL url_1 = new URL("https://jfsharebucket.oss-cn-beijing.aliyuncs.com/A/222.jpg");
+			URL url_1 = new URL("https://jfsharebucket.oss-cn-beijing.aliyuncs.com/A/222.png");
 			Image srcImg = ImageIO.read(url_1);
 
 			int width = srcImg.getWidth(null);
@@ -600,7 +600,7 @@ public class ProductService {
 			byte[] bytes = weChatAppletInterface.createProductQRCode(productId);
 			
 			//设置水印大小
-			Image img = this.resize(bytes, 150, 150, true);
+			Image img = this.resize(bytes, 190, 190, true);
 
 			int width_1 = img.getWidth(null);
 			int height_1 = img.getHeight(null);
@@ -608,17 +608,24 @@ public class ProductService {
 			float alpha = 1f; // 透明度  1 表示不透明
 			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, alpha));
 			g.setColor(new Color(220,20,60));
-			Font font = new Font("微软雅黑", Font.PLAIN, 35);
+			Font font = new Font("微软雅黑", Font.PLAIN, 30);
 			g.setFont(font);
 			int x = width - width_1;
 			int y = height - height_1;
 			
 			// 设置水印图片的位置
 			g.drawImage(srcImg_2, width - width_2, 0,width_2, 667,null);
-			g.drawImage(img, x, y, width_1, height_1, null);
+			g.drawImage(img, x-60, y-40, width_1, height_1, null);
 			// 设置文字水印的位置
-			g.drawString(productName,150,height/2+100);
-			g.drawString("价格：" + price + "元",150,height/2+180);
+			g.drawString(productName,30,height/2+140);
+			g.setColor(new Color(255,69,0));
+			Font font2 = new Font("微软雅黑", Font.PLAIN, 35);
+			g.setFont(font2);
+			g.drawString("￥" + price + "元",150,height/2+210);
+			g.setColor(new Color(245,245,245));
+			Font font1 = new Font("微软雅黑", Font.PLAIN, 30);
+			g.setFont(font1);
+			g.drawString("信息来自聚分享",40,height/2+600);
 			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
 
 			g.dispose();
