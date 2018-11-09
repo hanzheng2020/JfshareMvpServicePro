@@ -607,7 +607,7 @@ public class ProductService {
 
 			float alpha = 1f; // 透明度  1 表示不透明
 			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, alpha));
-			g.setColor(new Color(220,20,60));
+			g.setColor(new Color(0,0,0));
 			Font font = new Font("微软雅黑", Font.PLAIN, 30);
 			g.setFont(font);
 			int x = width - width_1;
