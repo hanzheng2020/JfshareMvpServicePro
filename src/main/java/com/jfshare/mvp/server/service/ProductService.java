@@ -642,7 +642,7 @@ public class ProductService {
 			List<TbProductUrl> tProductUrlList = tbProductDao.querytProductUrl(productId);
 			if(tProductUrlList.size() > 0) {
 				TbProductUrl tbProductUrl = tProductUrlList.get(0);
-				tbProductUrl.setImgUrl(imgUrl.toString());
+				tbProductUrl.setImgUrl(imgUrl.toString().replace("http://jfsharebucket.oss-cn-beijing.aliyuncs.com", "https://imgs.jfshare.com"));
 				tbProductUrl.setCreateTime(new Date());
 				tbProductDao.updateProductUrl(tbProductUrl);
 			}else {
