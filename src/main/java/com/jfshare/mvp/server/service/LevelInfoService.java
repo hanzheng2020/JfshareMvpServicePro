@@ -40,6 +40,7 @@ public class LevelInfoService {
 	@Autowired
 	private com.jfshare.mvp.server.finagle.server.ScoreClient scoreClient;
 
+	private  int type=16;//同步赠送积分类型（积分查询赠送）
 	
 	
 	// 用户每日查询通过赠送规则赠送积分
@@ -89,7 +90,7 @@ public class LevelInfoService {
 				long nuber = new Date().getTime();
 				String tradeid= nuber+"-"+userId;
 				logger.info("每日积分同步:tradeid:"+tradeid);
-				StringResult results=scoreClient.incomeScore(userId,num, 6, tradeid);
+				StringResult results=scoreClient.incomeScore(userId,num,type, tradeid);
 				logger.info("每日积分同步:results{}", results);
 				status=results.getResult().code;
 				if(0==results.getResult().code) {
@@ -100,7 +101,7 @@ public class LevelInfoService {
 
 			}
 		} else {
-			StringResult results=scoreClient.incomeScore(userId,num, 6, "0");
+			StringResult results=scoreClient.incomeScore(userId,num, type, "0");
 			logger.info("每日积分同步:results{}", results);
 			status=results.getResult().code;
 			if(0==results.getResult().code) {
