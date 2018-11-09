@@ -621,7 +621,7 @@ public class ProductService {
 			g.setColor(new Color(255,69,0));
 			Font font2 = new Font("微软雅黑", Font.PLAIN, 35);
 			g.setFont(font2);
-			g.drawString("￥" + price + "元",150,height/2+210);
+			g.drawString("￥" + price + "元",30,height/2+210);
 			g.setColor(new Color(245,245,245));
 			Font font1 = new Font("微软雅黑", Font.PLAIN, 30);
 			g.setFont(font1);
