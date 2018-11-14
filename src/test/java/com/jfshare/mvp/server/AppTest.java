@@ -14,6 +14,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -26,6 +27,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.alipay.api.domain.ClaimProgress;
 import com.jfshare.mvp.server.model.TbProduct;
+import com.jfshare.mvp.server.model.TbProductSurvey;
 import com.jfshare.mvp.server.service.ProductService;
 import com.jfshare.mvp.server.thirdinterface.AliPayInterface;
 import com.jfshare.mvp.server.thirdinterface.WeChatAppletInterface;
@@ -96,7 +98,7 @@ public class AppTest {
 			Image srcImg_2 = weChatAppletInterface.resizeByUrl(url, 1334, 750, true);
 			int width_2 = srcImg_2.getWidth(null);
 			int height_2 = srcImg_2.getHeight(null);
-			Image srcImg = ImageIO.read(new File("D:\\hz\\222.jpg"));
+			Image srcImg = ImageIO.read(new File("D:\\hz\\222.png"));
 
 			int width = srcImg.getWidth(null);
 			int height = srcImg.getHeight(null);
@@ -123,15 +125,16 @@ public class AppTest {
 			Image img = imgIcon.getImage();*/
 			
 			//设置水印大小
-			Image img = weChatAppletInterface.resize(bytes, 150, 150, true);
+			Image img = weChatAppletInterface.resize(bytes, 190, 190, true);
 
 			int width_1 = img.getWidth(null);
 			int height_1 = img.getHeight(null);
 
 			float alpha = 1f; // 透明度
 			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, alpha));
-			g.setColor(new Color(220,20,60));
-			Font font = new Font("微软雅黑", Font.PLAIN, 35);
+			//g.setColor(new Color(220,20,60));
+			g.setColor(new Color(0,0,0));
+			Font font = new Font("微软雅黑", Font.PLAIN, 30);
 			g.setFont(font);
 			int x = width - width_1;
 			int y = height - height_1;
@@ -139,12 +142,19 @@ public class AppTest {
 			//设置文字水印文字
 			// 表示水印图片的位置
 			g.drawImage(srcImg_2, width - width_2, 0,width_2, 667,null);
-			g.drawImage(img, x, y, width_1, height_1, null);
+			g.drawImage(img, x-60, y-40, width_1, height_1, null);
 			System.out.println(height/2+100);
 			System.out.println(height/2+100);
 			System.out.println(height/2+100);
-			g.drawString(productName,150,height/2+100);
-			g.drawString("价格：" + price + "元",150,height/2+180);
+			g.drawString(productName,30,height/2+140);
+			g.setColor(new Color(255,69,0));
+			Font font2 = new Font("微软雅黑", Font.PLAIN, 35);
+			g.setFont(font2);
+			g.drawString("￥" + price + "元",30,height/2+210);
+			g.setColor(new Color(245,245,245));
+			Font font1 = new Font("微软雅黑", Font.PLAIN, 30);
+			g.setFont(font1);
+			g.drawString("信息来自聚分享",40,height/2+600);
 			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
 
 			g.dispose();

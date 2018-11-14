@@ -28,7 +28,7 @@ public class OSSUtils {
 	public static final OSSClient client = new OSSClient(OSS_ENDPOINT, ACCESS_ID, ACCESS_KEY);
 	
 	//public static final String filedir = "temp/";
-	public static final String filedir = "A/";
+	public static final String filedir = "online_pics/";
 	/**
 	   * 上传到OSS服务器  如果同名文件会覆盖服务器上的
 	   *
