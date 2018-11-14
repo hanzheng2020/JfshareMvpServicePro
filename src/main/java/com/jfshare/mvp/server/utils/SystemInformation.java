@@ -2,6 +2,8 @@ package com.jfshare.mvp.server.utils;
 
 
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -113,11 +115,11 @@ public class SystemInformation {
     }
 	public static void main(String[] args) {
 		//String mobileMd5 = DigestUtils.md5Hex("218").toUpperCase();
-		String mobileMd5 = DigestUtils.md5Hex("580859").toUpperCase();
+		String mobileMd5 = DigestUtils.md5Hex("551952").toUpperCase();
 		System.out.println(mobileMd5);
 		//SystemInformation.send("商品购买成功，点击查看订单券码详情>>");
-		SystemInformation.send(mobileMd5,"218");
-		//SystemInformation.buildPushObject_android_and_iosByAlias(mobileMd5,"支付成功提醒","商品购买成功，点击查看订单券码详情>>","商品购买成功，点击查看订单券码详情>>","123432");
+		//SystemInformation.send(mobileMd5,"551952");
+		SystemInformation.buildPushObject_android_and_iosByAlias(mobileMd5,"积分到期提醒","你的积分快到期，点击查看详情>>","你的积分快到期，点击查看详情>>","0");
 	}
 	 
 }
