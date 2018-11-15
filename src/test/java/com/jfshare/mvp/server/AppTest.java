@@ -130,7 +130,7 @@ public class AppTest {
 			int width_1 = img.getWidth(null);
 			int height_1 = img.getHeight(null);
 
-			float alpha = 1f; // 透明度
+			float alpha = 0.9f; // 透明度
 			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, alpha));
 			//g.setColor(new Color(220,20,60));
 			g.setColor(new Color(0,0,0));

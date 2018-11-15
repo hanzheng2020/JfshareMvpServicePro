@@ -86,7 +86,11 @@ public class AppInfoServer {
 			info.setAppType(up.getAppType());
 			info.setMaxVersion(up.getMaxVersion());
 			info.setMinVersion(up.getMinVersion());
-			info.setUpgradeType(up.getUpgradeType());
+			if(version.equals(up.getVersion())) {
+				info.setUpgradeType(0);
+			}else {
+				info.setUpgradeType(1);
+			}
 			info.setUpgradeDesc(up.getUpgradeDesc());
 			info.setUrl(up.getUrl());
 			info.setVersion(up.getVersion());
