@@ -36,7 +36,8 @@ public class ReceiverPresentJvjindou {
 	public void process(String message) throws Exception {
 		StringResult result;
 		if(message!=null && !"".equals(message)) {
-			logger.info("下单:"+message);
+			
+		logger.info("下单:"+message);
 			//{"amont":1,"productId":"ze180911110631000381","orderId":"70491952","userid":551952}
 			JSONObject obj = JSONObject.fromObject(message);
 			if(obj.get("payScore")==null) {
