@@ -192,7 +192,7 @@
 		<dependency>
 			<groupId>com.jfshare</groupId>
 			<artifactId>jfshare-model</artifactId>
-			<version>1.0.3.boot</version>
+			<version>1.0.4</version>
 		</dependency>
 
 
