@@ -3,11 +3,13 @@ package com.jfshare.mvp.server.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -317,5 +319,14 @@ public class ProductController {
 			return ResultConstant.ofFail(ResultConstant.FAIL_CODE_SYSTEM_ERROR, "获取所有商品信息失败");
 		}
 		return ResultConstant.ofSuccess(productList);	
+	}
+	
+	@ApiOperation(value = "IOS上线审核设置", notes = "获取IOS上线审核设置")
+	@GetMapping("/getTest")
+	public ResultConstant getTest() {
+		ResultConstant result = new ResultConstant();
+		result.setCode(200);
+		result.setDesc("1");
+		return result;
 	}
 }
