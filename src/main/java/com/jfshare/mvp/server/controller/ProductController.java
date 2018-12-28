@@ -326,7 +326,7 @@ public class ProductController {
 	public ResultConstant getTest() {
 		ResultConstant result = new ResultConstant();
 		result.setCode(200);
-		result.setDesc("1");
+		result.setDesc("2");
 		return result;
 	}
 }
