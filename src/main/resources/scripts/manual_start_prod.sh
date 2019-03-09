@@ -12,7 +12,7 @@ APP_NAME=com.jfshare.JfshareMvpServerPro
 
 ########################下面不需要修改######################################
 
-SERVICE_DIR=./log
+SERVICE_DIR=../log
 
 JAR_NAME=$SERVICE_NAME.jar
 PID=$SERVICE_NAME\.pid
@@ -22,7 +22,7 @@ PID=$SERVICE_NAME\.pid
 case "$1" in
 
     start)
-	nohup java -Xmx512M -Xms256M -Dspring.profiles.active=prod -jar  $SERVICE_NAME.jar >> nohup_$SERVICE_NAME.out 2>&1 &
+	nohup java -Xmx512M -Xms256M -Dspring.profiles.active=prod -jar  $SERVICE_NAME.jar >> $SERVICE_DIR/nohup_$SERVICE_NAME.out 2>&1 &
         echo $! > $SERVICE_DIR/$PID
         echo "=== start $SERVICE_NAME"
         echo $SERVICE_DIR/$PID
