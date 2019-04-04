@@ -13,4 +13,4 @@ APP_NAME=com.jfshare.JfshareMvpServerPro
 ########################下面不需要修改######################################
 SERVICE_DIR=./log
 
-tail -f nohup_$SERVICE_NAME.out
+tail -f -n150 nohup_$SERVICE_NAME.out
