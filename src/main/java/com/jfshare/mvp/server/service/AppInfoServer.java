@@ -74,7 +74,7 @@ public class AppInfoServer {
 	 * 根据app_type获取表tb_app_verinfo的数据 
 	 * appType 范围1 2 3
 	 */
-	public TbAppVerinfo getAppVerinfo(int appType,String version) {
+	public TbAppVerinfo getAppVerinfo(int appType,String version) throws Exception {
 		GetUpgradeParamStr param = new GetUpgradeParamStr();
 		param.setAppType(appType);
 		param.setVersion(version);
@@ -86,9 +86,9 @@ public class AppInfoServer {
 			info.setAppType(up.getAppType());
 			info.setMaxVersion(up.getMaxVersion());
 			info.setMinVersion(up.getMinVersion());
-			if(version.equals(up.getVersion())) {
+			if(version.equals(up.getVersion()) || MessageUtil.compareVersion(version,up.getVersion()) > 0) {
 				info.setUpgradeType(0);
-			}else {
+			}else{
 				info.setUpgradeType(1);
 			}
 			info.setUpgradeDesc(up.getUpgradeDesc());

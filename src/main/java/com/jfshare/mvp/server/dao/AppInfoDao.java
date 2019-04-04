@@ -27,9 +27,9 @@ public class AppInfoDao {
 		if(param.getAppType() > 0) {
 			criteria.andAppTypeEqualTo(param.getAppType());
 		}
-		if(!StringUtils.isEmpty(param.getVersion())) {
+		/*if(!StringUtils.isEmpty(param.getVersion())) {
 			criteria.andVersionEqualTo(param.getVersion());
-		}
+		}*/
 		//example.setOrderByClause("id desc");
 		return tbAppVerinfoMapper.selectByExample(example);
 	}
