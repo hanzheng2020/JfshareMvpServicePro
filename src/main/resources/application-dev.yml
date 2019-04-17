@@ -33,7 +33,7 @@ spring:
     poolPreparedStatements: true
     maxOpenPreparedStatements: 20
   redis:
-    host: 120.24.153.155
+    host: 47.94.245.67
     port: 16379
     database: 0
     password: Jfshare888
