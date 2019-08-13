@@ -29,12 +29,12 @@ case "$1" in
 
        start)
             echo "=== start $SERVICE_NAME"
-            supervisorctl start bonus-points-wechat
+            supervisorctl start JfshareMvpServerPro
             ;;
 
         stop)
             echo "=== stop $SERVICE_NAME"
-            supervisorctl stop bonus-points-wechat
+            supervisorctl stop JfshareMvpServerPro
             ;;
 
         restart)
