@@ -40,6 +40,17 @@ public class test extends TestProductRepository {
 	@Autowired
 	private StockClient stockClient;
 
+
+	@Test
+	public void testGson(){
+
+
+
+
+	}
+
+
+
     @Test
     public void testFinagle(){
 

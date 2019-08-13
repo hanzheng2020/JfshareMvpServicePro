@@ -22,42 +22,34 @@ PID=$SERVICE_NAME\.pid
 
 case "$1" in
 
-    start)
-	nohup java -Xmx512M -Xms256M -Dspring.profiles.active=prod -jar  $SERVICE_NAME.jar >> nohup_$SERVICE_NAME.out 2>&1 &
-        echo $! > $SERVICE_DIR/$PID
-        echo "=== start $SERVICE_NAME"
-        echo $SERVICE_DIR/$PID
-        ;;
+    startShell)
+            echo "=== start shell $SERVICE_NAME"
+            java -Xmx512M -Xms256M -Dspring.profiles.active=prod -jar  $SERVICE_NAME.jar
+            ;;
 
-    stop)
-        kill `cat $SERVICE_DIR/$PID`
-        rm -rf $SERVICE_DIR/$PID
-        echo "=== stop $SERVICE_NAME"
+       start)
+            echo "=== start $SERVICE_NAME"
+            supervisorctl start bonus-points-wechat
+            ;;
 
-        sleep 2
-        P_ID=`ps -ef | grep -w "$SERVICE_NAME" | grep -v "grep" | awk '{print $2}'`
-        if [ "$P_ID" == "" ]; then
-            echo "=== $SERVICE_NAME process not exists or stop success"
-        else
-            echo "=== $SERVICE_NAME process pid is:$P_ID"
-            echo "=== begin kill $SERVICE_NAME process, pid is:$P_ID"
-            kill -9 $P_ID
-        fi
-        ;;
+        stop)
+            echo "=== stop $SERVICE_NAME"
+            supervisorctl stop bonus-points-wechat
+            ;;
 
-    restart)
-        $0 stop
-        sleep 2
-        $0 start
-        echo "=== restart $SERVICE_NAME"
-        ;;
+        restart)
+            $0 stop
+            sleep 3
+            $0 start
+            echo "=== restart $SERVICE_NAME"
+            ;;
 
-    *)
-        ## restart
-        $0 stop
-        sleep 2
-        $0 start
-        ;;
+        *)
+            ## restart
+            $0 stop
+            sleep 3
+            $0 start
+            ;;
 esac
 exit 0
 
