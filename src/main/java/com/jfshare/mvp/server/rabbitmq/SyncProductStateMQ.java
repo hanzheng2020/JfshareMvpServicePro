@@ -17,9 +17,9 @@ import java.util.Map;
  */
 @Component
 @RabbitListener(bindings = @QueueBinding(
-		exchange = @Exchange("exchangeTest"),
+		exchange = @Exchange(value = "exchangeTest",durable = "true"),
 		key = "routingkey_product_state",
-		value = @Queue("Product_State_Mvp")
+		value = @Queue(value = "Product_State_Mvp",durable = "true")
 ))
 public class SyncProductStateMQ {
 	private static Logger logger = LoggerFactory.getLogger(SyncProductStateMQ.class);

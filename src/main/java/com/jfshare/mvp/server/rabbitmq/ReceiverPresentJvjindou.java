@@ -19,9 +19,9 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @RabbitListener(bindings = @QueueBinding(
-		exchange = @Exchange("exchangeTest"),
+		exchange = @Exchange(value = "exchangeTest",durable = "true"),
 		key = "routingkey_orderMvp",
-		value = @Queue("orderMvp")
+		value = @Queue(value = "orderMvp",durable = "true")
 ))
 public class ReceiverPresentJvjindou {
 	private Logger logger = LoggerFactory.getLogger(ReceiverPresentJvjindou.class);

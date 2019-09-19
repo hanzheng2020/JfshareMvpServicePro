@@ -18,9 +18,9 @@ import net.sf.json.JSONObject;
 
 @Component
 @RabbitListener(bindings = @QueueBinding(
-		exchange = @Exchange("exchangeTest"),
+		exchange = @Exchange(value = "exchangeTest",durable = "true"),
 		key = "routingkey_core_maturity_mesasge",
-		value = @Queue("coreMaturity")
+		value = @Queue(value = "coreMaturity",durable = "true")
 ))
 public class CoreMaturityMesasge {
 	
