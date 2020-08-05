@@ -151,7 +151,7 @@ public final class Utils4Brain {
 //                .withSessionPool().maxSize(90)
 //                .withSessionPool().maxWaiters(100)
 //                .withLoadBalancer().apply(loadBalancerFactory)
-                .withRequestTimeout(Duration.apply(3*60,TimeUnit.SECONDS))
+//                .withRequestTimeout(Duration.apply(3*60,TimeUnit.SECONDS))
                 .withLabel(serviceName)
                 .build(str, clazz);
         LOGGER.info("create client success --->  !!! " +client);
@@ -180,7 +180,7 @@ public final class Utils4Brain {
 
         TProtocolFactory protocolFactory = new TBinaryProtocol.Factory();
         T client = Thrift.client()
-                .withRequestTimeout(Duration.apply(1*60, TimeUnit.SECONDS))
+//                .withRequestTimeout(Duration.apply(1*60, TimeUnit.SECONDS))
                 .withProtocolFactory(protocolFactory)
                 .withLoadBalancer().apply(loadBalancerFactory)
                 .withLabel(serviceName)

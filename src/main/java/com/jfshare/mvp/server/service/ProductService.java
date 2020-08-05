@@ -22,7 +22,7 @@ import java.util.Optional;
 
 import javax.imageio.ImageIO;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.index.query.BaseTermQueryBuilder;
 import org.elasticsearch.index.query.BoolQueryBuilder;
